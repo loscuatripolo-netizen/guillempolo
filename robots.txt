@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://guillempolo.vercel.app/sitemap.xml

@@ -313,6 +313,10 @@
     background:var(--tint-2); border-bottom:1px solid var(--rule);
   }
   .frame .bar i{ width:9px; height:9px; border-radius:50%; background:var(--rule-strong); display:block; }
+  .frame .bar .ficticio{
+    font-family:var(--sans); font-size:0.64rem; letter-spacing:.08em; text-transform:uppercase; font-weight:700;
+    color:var(--accent); border:1px solid var(--accent); border-radius:99px; padding:3px 9px; white-space:nowrap; opacity:.8;
+  }
   .frame .url{
     flex:1; margin-left:8px; font-size:0.7rem; color:var(--ink-3); background:var(--paper);
     border:1px solid var(--rule); border-radius:3px; padding:4px 10px; white-space:nowrap; overflow:hidden;
@@ -447,6 +451,7 @@
     transition:background .2s ease, border-color .2s ease;
   }
   .nw .btn2:hover{ background:rgba(255,255,255,.11); border-color:rgba(255,255,255,.4); }
+
 
   .nw .floaters{ display:flex; gap:10px; margin-top:24px; flex-wrap:wrap; position:relative; z-index:2; }
   .nw .fcard{
@@ -592,6 +597,94 @@
     .nw .rv{ opacity:1; transform:none; transition:none; }
   }
 
+  /* ===================================================================
+     AJUSTE PROFESIONAL — paleta sobria, sin efectos de escaparate
+     =================================================================== */
+  .nw{ --ink0:#0F1D2A; --acc:#A9522C; --acc-soft:#F3ECE6; --line:#E4E1DA; --soft:#F7F5F1; }
+  .nw .hero{ background:linear-gradient(180deg,#0F1D2A 0%, #16283A 100%); }
+  .nw .hero .blob{ display:none; }
+  .nw .hero .grid{ opacity:.16; }
+  .nw .hero .h1{ letter-spacing:-0.02em; font-size:31px; }
+  .nw .hero .h1 .grad{ background:none; -webkit-background-clip:border-box; background-clip:border-box; color:#D9C3AE; }
+  .nw .hero p.sub{ color:#b3bdc8; }
+  .nw .pill{ background:rgba(255,255,255,.06); border-color:rgba(255,255,255,.16); color:#cdd6df; }
+  .nw .pill .dot{ background:var(--acc); box-shadow:none; }
+  .nw .logo .mark{ background:var(--acc); border-radius:4px; box-shadow:none; }
+  .nw .nav{ background:rgba(15,29,42,.92); border-bottom:1px solid rgba(255,255,255,.08); }
+  .nw .nav .links span::after{ background:var(--acc); }
+  .nw .callbtn{
+    background:var(--acc); color:#fff; border-radius:4px; box-shadow:none; font-weight:600; letter-spacing:.01em;
+  }
+  .nw .callbtn:hover{ transform:none; box-shadow:none; background:#954826; }
+  .nw .callbtn .live{ background:#fff; animation:none; opacity:.85; }
+  .nw .btn1{
+    background:var(--acc); border-radius:4px; box-shadow:none; font-weight:600; padding:12px 20px;
+  }
+  .nw .btn1:hover{ transform:none; box-shadow:none; background:#954826; }
+  .nw .btn1::after{ display:none; }
+  .nw .btn2{ border-radius:4px; background:transparent; border-color:rgba(255,255,255,.28); }
+  .nw .btn2:hover{ background:rgba(255,255,255,.08); }
+  .nw .fcard{ border-radius:4px; animation:none; background:rgba(255,255,255,.05); border-color:rgba(255,255,255,.12); }
+  .nw .fcard .star{ color:#D9A441; }
+  .nw .sec-h .kicker{ color:var(--acc); letter-spacing:.16em; }
+  .nw .sec-h h2{ letter-spacing:-0.015em; }
+  .nw .card{ border-radius:6px; }
+  .nw .card::before{ display:none; }
+  .nw .card:hover{ transform:none; box-shadow:none; border-color:#cfc9bf; }
+  .nw .card .ico{ background:var(--acc-soft); border-radius:4px; box-shadow:none; }
+  .nw .card .ico svg{ stroke:var(--acc); }
+  .nw .card .price{ color:var(--ink0); }
+  .nw .stats{ border-radius:6px; }
+  .nw .st b{ background:none; -webkit-background-clip:border-box; background-clip:border-box; color:var(--ink0); font-weight:700; }
+  .nw .fl{ border-radius:6px; border-style:solid; }
+  .nw .fl .n{ border-radius:4px; background:var(--ink0); }
+  .nw .plan{ border-radius:6px; }
+  .nw .plan:hover{ transform:none; box-shadow:none; border-color:#cfc9bf; }
+  .nw .plan.top{ background:var(--ink0); border-radius:6px; box-shadow:none; }
+  .nw .cta{ background:var(--ink0); }
+  .nw .cta .glow{ display:none; }
+  .nw .foot{ background:var(--ink0); }
+
+  /* --- formulario de presupuesto en el hero --- */
+  .nw .pres{
+    position:absolute; right:26px; top:50%; transform:translateY(-50%); width:288px; z-index:2;
+    background:#fff; border:1px solid rgba(255,255,255,.16); border-radius:6px; padding:18px 17px 16px;
+    box-shadow:0 24px 50px -30px rgba(0,0,0,.85);
+  }
+  .nw .pres h4{ font-size:13.5px; color:var(--ink0); margin-bottom:3px; }
+  .nw .pres .ay{ font-size:11px; color:var(--ink2); margin-bottom:13px; }
+  .nw .pres label{ display:block; font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; font-weight:700; color:var(--ink2); margin-bottom:4px; }
+  .nw .pres .f{ margin-bottom:10px; }
+  .nw .pres .inp{
+    display:flex; align-items:center; justify-content:space-between; height:31px; padding:0 10px;
+    border:1px solid var(--line); border-radius:4px; font-size:11.5px; color:var(--ink2); background:#fff;
+  }
+  .nw .pres .inp.ph{ color:#a7a49d; }
+  .nw .pres .inp .car{ font-size:8px; color:var(--ink2); }
+  .nw .pres .env{
+    display:block; text-align:center; background:var(--acc); color:#fff; border-radius:4px;
+    padding:10px; font-size:12px; font-weight:600; margin-top:12px;
+  }
+  .nw .pres .leg{ font-size:9.5px; color:#8c8981; margin-top:9px; text-align:center; }
+  [data-view="movil"] .nw .pres{ display:none; }
+
+  .nw .plan.top::before{ display:none; }
+  .nw .plan .badge{ background:var(--acc); color:#fff; border-radius:3px; letter-spacing:.1em; font-weight:700; }
+  .nw .plan li::before{ color:var(--acc); }
+  .nw .plan.top li::before{ color:#D9A441; }
+  .nw .plan .pbtn{ border-radius:4px; }
+  .nw .plan.top .pbtn{ background:var(--acc); box-shadow:none; border:0; }
+  .nw .card .price{ color:var(--acc); font-weight:700; }
+
+  /* --- conmutador antes / después en la misma ventana --- */
+  #frames[data-estado="despues"] #screen-old{ display:none; }
+  #frames[data-estado="antes"] #screen-new{ display:none; }
+  .old-wrap{ max-width:780px; margin:0 auto; border-inline:1px solid #d8d8d8; min-height:100%; }
+  #screen-old{ background:#f0f0f0; }
+  .notas-row{ display:grid; grid-template-columns:1fr 1fr; gap:34px; margin-top:26px; }
+  @media (max-width:820px){ .notas-row{ grid-template-columns:1fr; gap:24px; } }
+  #estado-toggle button[aria-pressed="true"]{ background:var(--accent); color:#fff; }
+
 </style>
 
 <div class="sheet">
@@ -618,128 +711,141 @@
   <section class="band" style="padding-top:10px;">
     <div class="band-label"><span class="marker">i. El ejemplo</span><span class="rule"></span></div>
     <h2>Una web como la que entregaría, funcionando aquí mismo</h2>
-    <p class="band-intro">Es una maqueta real, no una foto: se desplaza, las tarjetas responden al ratón y con el botón puedes verla como se vería en un móvil. Debajo, la web que este mismo taller tiene hoy.</p>
+    <p class="band-intro">Es una maqueta real, no una foto: se desplaza, las tarjetas responden al ratón y con el botón puedes verla como se vería en un móvil. Debajo, la web que esta misma empresa de reformas tiene hoy.</p>
     <div class="demo-ctl" id="demo" data-view="ordenador">
+      <div class="segmented" id="estado-toggle">
+        <button type="button" data-e="despues" aria-pressed="true">Después</button>
+        <button type="button" data-e="antes" aria-pressed="false">Antes</button>
+      </div>
       <div class="segmented" id="view-toggle">
         <button type="button" data-v="ordenador" aria-pressed="true">Ver en ordenador</button>
         <button type="button" data-v="movil" aria-pressed="false">Ver en móvil</button>
       </div>
-      <span class="demo-hint">Es una maqueta navegable de un negocio ficticio: pasa el ratón por las tarjetas y baja dentro de la ventana.</span>
+      <span class="demo-hint">Cambia entre las dos en la misma ventana. El negocio no existe: nombre, precios y reseñas están inventados para el ejemplo.</span>
     </div>
 
-    <div id="frames" data-view="ordenador">
+    <div id="frames" data-view="ordenador" data-estado="despues">
       <div class="frame big">
-        <div class="bar"><i></i><i></i><i></i><span class="url">talleresbravo.es</span></div>
+        <div class="bar"><i></i><i></i><i></i><span class="url" id="url-demo">reformas-ejemplo.es</span><span class="ficticio">Ejemplo inventado</span></div>
         <div class="screen screen-big" id="screen-new">
             <div class="nw">
               <div class="nav">
-                <span class="logo"><span class="mark">TB</span><b>Talleres Bravo</b></span>
-                <span class="links"><span>Servicios</span><span>Precios</span><span>Cómo trabajamos</span><span>Dónde estamos</span></span>
-                <span class="callbtn"><span class="live"></span>947 00 00 00</span>
+                <span class="logo"><span class="mark">RE</span><b>Reformas Ejemplo</b></span>
+                <span class="links"><span>Reformas</span><span>Obras hechas</span><span>Precios</span><span>Presupuesto</span></span>
+                <span class="callbtn"><span class="live"></span>688 00 00 00</span>
               </div>
 
               <div class="hero">
                 <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span>
                 <span class="grid"></span>
                 <div class="inner">
-                  <span class="pill"><span class="dot"></span>Taller multimarca en Aranda de Duero · abierto ahora</span>
-                  <p class="h1">Tu coche listo <span class="grad">hoy mismo</span>, con el precio cerrado antes de empezar.</p>
-                  <p class="sub">Mecánica, pre-ITV y chapa con presupuesto por escrito y coche de sustitución si la reparación pasa de un día.</p>
+                  <span class="pill"><span class="dot"></span>Reformas en Getxo, Leioa y Las Arenas · presupuesto en 48 h</span>
+                  <p class="h1">Tu baño nuevo <span class="grad">en tres semanas</span>, con la fecha de entrega por escrito.</p>
+                  <p class="sub">Baños, cocinas y viviendas completas. Precio cerrado antes de empezar, una sola persona al mando de la obra y los gremios coordinados por nosotros.</p>
                   <div class="acts">
-                    <span class="btn1">Pedir cita en 2 minutos</span>
-                    <span class="btn2">Ver precios cerrados</span>
+                    <span class="btn1">Pedir presupuesto</span>
+                    <span class="btn2">Ver obras terminadas</span>
                   </div>
                   <div class="floaters">
-                    <span class="fcard"><b>4,8</b><span><span class="star">★★★★★</span> 214 reseñas</span></span>
-                    <span class="fcard"><b>25</b><span>años en el barrio</span></span>
-                    <span class="fcard"><b>48 h</b><span>plazo medio de entrega</span></span>
+                    <span class="fcard"><b>4,9</b><span><span class="star">★★★★★</span> 87 reseñas</span></span>
+                    <span class="fcard"><b>15</b><span>años reformando en la zona</span></span>
+                    <span class="fcard"><b>48 h</b><span>para tener el presupuesto</span></span>
                   </div>
+                </div>
+                <div class="pres">
+                  <h4>Pide tu presupuesto</h4>
+                  <p class="ay">Te contestamos en menos de 48 horas.</p>
+                  <div class="f"><label>Qué quieres reformar</label><span class="inp">Baño completo<span class="car">▼</span></span></div>
+                  <div class="f"><label>Teléfono</label><span class="inp ph">Para llamarte y concretar</span></div>
+                  <div class="f"><label>Cuándo te gustaría empezar</label><span class="inp">Este mes<span class="car">▼</span></span></div>
+                  <span class="env">Pedir presupuesto</span>
+                  <p class="leg">Sin compromiso. La visita y la medición no se cobran.</p>
                 </div>
               </div>
 
               <div class="ticker">
                 <div class="run">
-                  <span>Mecánica general</span><span>·</span><span>Pre-ITV</span><span>·</span><span>Chapa y pintura</span><span>·</span>
-                  <span>Neumáticos</span><span>·</span><span>Diagnosis electrónica</span><span>·</span><span>Aire acondicionado</span><span>·</span>
-                  <span>Mecánica general</span><span>·</span><span>Pre-ITV</span><span>·</span><span>Chapa y pintura</span><span>·</span>
-                  <span>Neumáticos</span><span>·</span><span>Diagnosis electrónica</span><span>·</span><span>Aire acondicionado</span><span>·</span>
+                  <span>Baños completos</span><span>·</span><span>Cocinas</span><span>·</span><span>Viviendas enteras</span><span>·</span>
+                  <span>Fontanería</span><span>·</span><span>Electricidad</span><span>·</span><span>Pladur</span><span>·</span><span>Suelos y tarima</span><span>·</span>
+                  <span>Baños completos</span><span>·</span><span>Cocinas</span><span>·</span><span>Viviendas enteras</span><span>·</span>
+                  <span>Fontanería</span><span>·</span><span>Electricidad</span><span>·</span><span>Pladur</span><span>·</span><span>Suelos y tarima</span><span>·</span>
                 </div>
               </div>
 
               <div class="sec">
                 <div class="sec-h rv">
                   <span class="kicker">Lo que hacemos</span>
-                  <h2>Tres cosas, y las tres bien</h2>
-                  <p>Sin listas interminables de servicios: lo que de verdad resolvemos cada semana, con su precio de partida.</p>
+                  <h2>Tres reformas, y las tres de principio a fin</h2>
+                  <p>No subcontratamos la obra a nadie de fuera: fontanero, electricista y alicatador son de casa, y por eso podemos dar fecha.</p>
                 </div>
                 <div class="cards">
                   <div class="card rv">
-                    <span class="ico"><svg viewBox="0 0 24 24"><path d="M12 2.5 20 6v6c0 4.5-3.3 8.5-8 9.5-4.7-1-8-5-8-9.5V6l8-3.5Z"/><path d="m8.6 12.2 2.3 2.3 4.5-4.6"/></svg></span>
-                    <h3>Pre-ITV en el día</h3>
-                    <p>Revisamos los 18 puntos que más suspenden y te decimos qué hay que arreglar y qué puede esperar.</p>
-                    <p class="price">Desde 89 €</p>
+                    <span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.6"/><path d="M12 7.2V12l3.2 2"/></svg></span>
+                    <h3>Baño completo en 3 semanas</h3>
+                    <p>Demolición, fontanería y electricidad nuevas, alicatado, mampara, mueble y sanitarios. Te damos la fecha de entrega por escrito.</p>
+                    <p class="price">Desde 6.900 €</p>
                   </div>
                   <div class="card rv">
                     <span class="ico"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a4.5 4.5 0 1 0-4.2 7.5L4 20.3V22h1.7l6.5-6.5a4.5 4.5 0 0 0 2.5-9.2Z"/><circle cx="16.5" cy="5.5" r="1.2" fill="#fff" stroke="none"/></svg></span>
-                    <h3>Mecánica con precio cerrado</h3>
-                    <p>Te llamamos con el presupuesto antes de tocar nada. Lo que no esté aprobado, no se hace.</p>
-                    <p class="price">Diagnóstico 35 €</p>
+                    <h3>Cocina con todo incluido</h3>
+                    <p>Muebles, encimera, electrodomésticos, instalación de gas y electricidad al día. Vienes a elegir acabados una sola tarde.</p>
+                    <p class="price">Desde 8.500 €</p>
                   </div>
                   <div class="card rv">
-                    <span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.6"/><path d="M12 7.2V12l3.2 2"/></svg></span>
-                    <h3>Chapa sin quedarte a pie</h3>
-                    <p>Coche de sustitución incluido si la reparación pasa de un día. Gestionamos el parte con tu seguro.</p>
-                    <p class="price">Presupuesto gratis</p>
+                    <span class="ico"><svg viewBox="0 0 24 24"><path d="M12 2.5 20 6v6c0 4.5-3.3 8.5-8 9.5-4.7-1-8-5-8-9.5V6l8-3.5Z"/><path d="m8.6 12.2 2.3 2.3 4.5-4.6"/></svg></span>
+                    <h3>Vivienda entera, llave en mano</h3>
+                    <p>Proyecto, licencias del ayuntamiento, todos los gremios y dirección de obra. Un interlocutor para todo.</p>
+                    <p class="price">Presupuesto en 48 h</p>
                   </div>
                 </div>
               </div>
 
               <div class="sec soft">
                 <div class="stats rv">
-                  <div class="st"><b data-n="25">0</b><span>años abiertos</span></div>
-                  <div class="st"><b data-n="4800" data-suf="+">0</b><span>coches al año</span></div>
-                  <div class="st"><b data-n="4.8" data-dec="1">0</b><span>estrellas en Google</span></div>
-                  <div class="st"><b data-n="48" data-suf=" h">0</b><span>plazo medio</span></div>
+                  <div class="st"><b data-n="15">0</b><span>años en la zona</span></div>
+                  <div class="st"><b data-n="320" data-suf="+">0</b><span>obras terminadas</span></div>
+                  <div class="st"><b data-n="4.9" data-dec="1">0</b><span>estrellas en Google</span></div>
+                  <div class="st"><b data-n="48" data-suf=" h">0</b><span>para el presupuesto</span></div>
                 </div>
               </div>
 
               <div class="sec">
                 <div class="sec-h rv">
                   <span class="kicker">Cómo trabajamos</span>
-                  <h2>Sin sorpresas en la factura</h2>
+                  <h2>Ni un euro más de lo presupuestado</h2>
                 </div>
                 <div class="flow">
-                  <div class="fl rv"><span class="n">1</span><h4>Pides cita</h4><p>Por teléfono, WhatsApp o desde aquí. Te damos hora el mismo día si hay hueco.</p></div>
-                  <div class="fl rv"><span class="n">2</span><h4>Te llamamos con el precio</h4><p>Revisamos el coche y te decimos qué tiene y cuánto cuesta antes de empezar.</p></div>
-                  <div class="fl rv"><span class="n">3</span><h4>Lo recoges</h4><p>Te avisamos cuando está listo, con la factura desglosada y sin extras.</p></div>
+                  <div class="fl rv"><span class="n">1</span><h4>Vamos a verlo</h4><p>Visita y medición sin coste, en tu casa y a la hora que te venga bien, también por la tarde.</p></div>
+                  <div class="fl rv"><span class="n">2</span><h4>Presupuesto cerrado</h4><p>Por escrito y partida por partida, en 48 horas. Lo que no esté en el papel no se cobra.</p></div>
+                  <div class="fl rv"><span class="n">3</span><h4>Obra con fecha</h4><p>Empezamos y acabamos el día acordado. Fotos del avance cada viernes por WhatsApp.</p></div>
                 </div>
               </div>
 
               <div class="sec soft">
                 <div class="sec-h rv">
                   <span class="kicker">Precios</span>
-                  <h2>Lo que cuesta, dicho de frente</h2>
-                  <p>Precios de partida para un turismo. Si tu coche necesita algo más, te llamamos antes.</p>
+                  <h2>Lo que cuesta una reforma aquí</h2>
+                  <p>Precios de partida, IVA incluido, para medidas normales de piso en la zona. Tu presupuesto sale de la visita, no de una tabla.</p>
                 </div>
                 <div class="plans">
                   <div class="plan rv">
-                    <h4>Revisión básica</h4>
-                    <p class="amount">59 €<small> /iva incl.</small></p>
-                    <ul><li>Aceite y filtro</li><li>Niveles y presiones</li><li>Informe del estado</li></ul>
-                    <span class="pbtn">Pedir cita</span>
+                    <h4>Baño completo</h4>
+                    <p class="amount">6.900 €<small> /iva incl.</small></p>
+                    <ul><li>Hasta 5 m²</li><li>Fontanería y electricidad nuevas</li><li>Plato de ducha y mampara</li><li>3 semanas de obra</li></ul>
+                    <span class="pbtn">Pedir presupuesto</span>
                   </div>
                   <div class="plan top rv">
-                    <span class="badge">El más pedido</span>
-                    <h4>Revisión completa</h4>
-                    <p class="amount">89 €<small> /iva incl.</small></p>
-                    <ul><li>Todo lo anterior</li><li>Frenos y suspensión</li><li>20 puntos de seguridad</li><li>Pre-ITV incluida</li></ul>
-                    <span class="pbtn">Pedir cita</span>
+                    <span class="badge">La más pedida</span>
+                    <h4>Cocina completa</h4>
+                    <p class="amount">8.500 €<small> /iva incl.</small></p>
+                    <ul><li>Hasta 10 m²</li><li>Muebles y encimera incluidos</li><li>Gas y electricidad al día</li><li>4 semanas de obra</li></ul>
+                    <span class="pbtn">Pedir presupuesto</span>
                   </div>
                   <div class="plan rv">
-                    <h4>Puesta a punto</h4>
-                    <p class="amount">149 €<small> /iva incl.</small></p>
-                    <ul><li>Revisión completa</li><li>Filtros y bujías</li><li>Aire acondicionado</li></ul>
-                    <span class="pbtn">Pedir cita</span>
+                    <h4>Vivienda entera</h4>
+                    <p class="amount">890 €<small> /m²</small></p>
+                    <ul><li>Proyecto y licencias</li><li>Todos los gremios coordinados</li><li>Dirección de obra</li><li>Fecha de entrega firmada</li></ul>
+                    <span class="pbtn">Pedir presupuesto</span>
                   </div>
                 </div>
               </div>
@@ -747,82 +853,78 @@
               <div class="cta">
                 <span class="glow"></span>
                 <div class="in">
-                  <h2>¿Te lo miramos esta semana?</h2>
-                  <p>Dinos la matrícula y el problema, y te decimos qué puede ser antes de que traigas el coche.</p>
-                  <span class="btn1">Pedir cita ahora</span>
+                  <h2>¿Te lo presupuestamos esta semana?</h2>
+                  <p>Mándanos una foto del baño o de la cocina por WhatsApp y te damos una horquilla de precio antes incluso de ir a verlo.</p>
+                  <span class="btn1">Pedir presupuesto</span>
                 </div>
               </div>
 
               <div class="foot">
                 <div class="cols">
-                  <span><b>Talleres Bravo</b>C/ del Río 14 · Aranda de Duero</span>
-                  <span><b>Horario</b>L–V 9:00–13:30 · 16:00–19:30<br>Sábados 9:00–13:00</span>
-                  <span><b>Contacto</b>947 00 00 00 · WhatsApp</span>
+                  <span><b>Reformas Ejemplo</b>C/ del Ejemplo 1 · Bizkaia</span>
+                  <span><b>Horario</b>L–V 8:00–18:00<br>Visitas también por la tarde</span>
+                  <span><b>Contacto</b>688 00 00 00 · WhatsApp</span>
                 </div>
                 <div class="line"></div>
-                <span>© 2026 Talleres Bravo · Aviso legal · Política de privacidad · Cookies</span>
+                <span>© 2026 Reformas Ejemplo · Aviso legal · Política de privacidad · Cookies</span>
               </div>
             </div>
         </div>
-      </div>
-      <p class="frame-cap">Así se entrega una web hoy: se desplaza dentro de la ventana, responde al ratón y se adapta al móvil.</p>
-
-      <div class="before-row">
-        <div>
-          <p class="frame-tag">Y esto es lo que suele haber</p>
-          <div class="frame small">
-            <div class="bar"><i></i><i></i><i></i><span class="url">talleresbravo.es/index.html</span></div>
-            <div class="screen screen-small">
+        <div class="screen screen-big" id="screen-old">
+          <div class="old-wrap">
               <div class="old">
                 <div class="top">
-                  <p class="rotulo">TALLERES BRAVO S.L.</p>
+                  <p class="rotulo">REFORMAS EJEMPLO S.L.</p>
                   <p>Bienvenidos a nuestra página web</p>
                 </div>
                 <div class="nav">
-                  <span>Inicio</span> <span>Quiénes somos</span> <span>Servicios</span> <span>Contactar</span>
+                  <span>Inicio</span> <span>Quiénes somos</span> <span>Servicios</span> <span>Galería de fotos</span> <span>Contactar</span>
                 </div>
                 <div class="body">
                   <h2>Quiénes somos</h2>
-                  <p>Talleres Bravo S.L. es una empresa fundada en el año 1998 y dedicada al sector de la automoción, contando con una amplia y dilatada experiencia en el sector, ofreciendo a nuestros clientes un servicio de calidad y totalmente personalizado a sus necesidades, siempre con la máxima profesionalidad.</p>
-                  <p>Disponemos de las últimas tecnologías del mercado para poder ofrecer el mejor servicio posible a todos nuestros clientes, tanto particulares como empresas.</p>
+                  <p>Reformas Ejemplo S.L. es una empresa fundada en el año 1998 y dedicada al sector de la construcción y las reformas integrales, contando con una amplia y dilatada experiencia en el sector, ofreciendo a nuestros clientes un servicio de calidad y totalmente personalizado a sus necesidades, siempre con la máxima profesionalidad y seriedad.</p>
+                  <p>Disponemos de los últimos materiales del mercado para poder ofrecer el mejor servicio posible a todos nuestros clientes, tanto particulares como comunidades de vecinos y empresas.</p>
                   <div class="box">
-                    <b>HORARIO:</b> De lunes a viernes de 9:00 a 13:30 y de 16:00 a 19:30 h.<br>
+                    <b>HORARIO:</b> De lunes a viernes de 8:00 a 13:30 y de 15:00 a 18:00 h.<br>
                     <b>TELÉFONO:</b> 9XX XX XX XX &nbsp; <b>FAX:</b> 9XX XX XX XX<br>
-                    <span class="blink">¡¡NUEVO!! Ya puede pedir cita por correo electrónico</span>
+                    <b>E-MAIL:</b> reformasejemplo@hotmail.com<br>
+                    <span class="blink">¡¡NUEVO!! Ya puede solicitar presupuesto por correo electrónico</span>
                   </div>
                   <h2>Servicios</h2>
-                  <p>Mecánica general, chapa y pintura, neumáticos, pre-ITV, aire acondicionado, diagnosis electrónica, cambio de aceite y filtros, revisiones periódicas.</p>
+                  <p>Reformas integrales, baños, cocinas, fontanería, electricidad, pladur, pintura, alicatados y solados, tejados, fachadas, aluminio y PVC, impermeabilizaciones, comunidades de vecinos, obra nueva, albañilería en general.</p>
+                  <h2>Galería de fotos</h2>
+                  <div class="box">Para visualizar nuestra galería de trabajos necesita tener instalado <b>Adobe Flash Player</b>. <span class="blink">Descárguelo aquí</span></div>
                   <div class="foot">
-                    Copyright © 2011 Talleres Bravo S.L. - Todos los derechos reservados<br>
-                    Visitas: 018472 · Optimizado para 1024x768
+                    Copyright © 2009 Reformas Ejemplo S.L. - Todos los derechos reservados<br>
+                    Visitas: 004312 · Optimizado para Internet Explorer 6 · Resolución 1024x768
                   </div>
                 </div>
               </div>
-            </div>
           </div>
         </div>
+      </div>
+      <p class="frame-cap" id="frame-cap">La misma empresa, con la web de hoy: se desplaza dentro de la ventana, responde al ratón y se adapta al móvil.</p>
 
-        <div>
-          <div class="note-col muted">
-            <h3>Por qué la de abajo no trae clientes</h3>
-            <ul>
-              <li>En el móvil hay que hacer zoom para leer, y por el móvil llega la mayoría.</li>
-              <li>Lo primero que se lee es «bienvenidos», no qué haces ni cuánto cuesta.</li>
-              <li>No hay forma de pedir cita ni de llamar con un toque.</li>
-              <li>Nadie del negocio puede cambiar un horario sin llamar a quien la hizo.</li>
-              <li>Sin aviso legal ni cookies, con lo que eso implica.</li>
-            </ul>
-          </div>
-          <div class="note-col" style="margin-top:28px;">
-            <h3>Qué cambia en la de arriba</h3>
-            <ul>
-              <li>La primera frase dice qué haces, dónde y qué gana el cliente.</li>
-              <li>Precios a la vista: el motivo número uno por el que alguien llama o no llama.</li>
-              <li>Botón de llamar y de pedir cita fijos en pantalla, siempre a un toque.</li>
-              <li>Se ve igual de bien en el móvil, y carga rápido aunque haya poca cobertura.</li>
-              <li>Precios, horarios y textos los cambias tú desde un panel.</li>
-            </ul>
-          </div>
+      <div class="notas-row">
+        <div class="note-col muted">
+          <h3>Por qué la de «antes» no trae clientes</h3>
+          <ul>
+            <li>En el móvil hay que hacer zoom para leer, y por el móvil llega la mayoría.</li>
+            <li>Lo primero que se lee es «bienvenidos», no qué haces ni cuánto cuesta.</li>
+            <li>No hay forma de pedir presupuesto ni de llamar con un toque.</li>
+            <li>Las fotos de las obras están en una galería de Flash que hoy ya no abre en ningún navegador.</li>
+            <li>Sin aviso legal ni cookies, con lo que eso implica.</li>
+          </ul>
+        </div>
+        <div class="note-col">
+          <h3>Qué cambia en la de «después»</h3>
+          <ul>
+            <li>La primera frase dice qué haces, dónde y qué gana el cliente.</li>
+            <li>Precios a la vista: el motivo número uno por el que alguien llama o no llama.</li>
+            <li>Formulario de presupuesto y botón de llamar siempre a un toque.</li>
+            <li>Se ve igual de bien en el móvil, y carga rápido aunque haya poca cobertura.</li>
+            <li>Precios, horarios y textos los cambias tú desde un panel.</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -934,6 +1036,29 @@
       tg.querySelectorAll('button').forEach(function(x){
         x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
       });
+    });
+  }
+
+  var et = document.getElementById('estado-toggle');
+  if(et){
+    var urlD = document.getElementById('url-demo');
+    var capD = document.getElementById('frame-cap');
+    var TXT = {
+      despues: ['reformas-ejemplo.es', 'La misma empresa, con la web de hoy: se desplaza dentro de la ventana, responde al ratón y se adapta al móvil.'],
+      antes:   ['reformas-ejemplo.es/index.html', 'Y esto es lo que suele haber: misma empresa, misma pantalla, la web que sigue puesta desde 2009.']
+    };
+    et.addEventListener('click', function(e){
+      var b = e.target.closest('button');
+      if(!b) return;
+      var est = b.getAttribute('data-e');
+      wrap.setAttribute('data-estado', est);
+      et.querySelectorAll('button').forEach(function(x){
+        x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
+      });
+      if(urlD) urlD.textContent = TXT[est][0];
+      if(capD) capD.textContent = TXT[est][1];
+      var sc = document.getElementById(est === 'antes' ? 'screen-old' : 'screen-new');
+      if(sc) sc.scrollTop = 0;
     });
   }
 

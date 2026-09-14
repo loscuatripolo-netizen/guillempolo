@@ -667,6 +667,16 @@
   }
   .nw .pres .leg{ font-size:9.5px; color:#8c8981; margin-top:9px; text-align:center; }
   [data-view="movil"] .nw .pres{ display:none; }
+  /* en pantallas estrechas la maqueta se comporta como en un móvil */
+  @media (max-width:1000px){
+    .nw .pres{ display:none; }
+    .nw .nav .links{ display:none; }
+    .nw .cards, .nw .flow, .nw .plans{ grid-template-columns:1fr; }
+    .nw .stats{ grid-template-columns:1fr 1fr; }
+    .nw .hero .h1{ font-size:26px; }
+    .nw .hero{ padding:30px 16px 34px; }
+    .nw .sec{ padding:28px 16px; }
+  }
 
   .nw .plan.top::before{ display:none; }
   .nw .plan .badge{ background:var(--acc); color:#fff; border-radius:3px; letter-spacing:.1em; font-weight:700; }

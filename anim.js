@@ -29,7 +29,7 @@
         }catch(e){ chars = null; }
       }
       if(chars && chars.length){
-        tl.from(chars, {yPercent:120, opacity:0, rotate:3, duration:1.1, stagger:0.014,
+        tl.from(chars, {yPercent:120, opacity:0, rotate:3, duration:.9, stagger:0.011,
                         onComplete:function(){ try{ sp.revert(); }catch(e){} }}, 0);
       } else if(lineas.length){
         tl.from(lineas, {yPercent:110, duration:.95, stagger:.1}, 0);
@@ -45,6 +45,10 @@
       .from('.cuatro > *', {y:30, opacity:0, duration:.85, stagger:.07}, .7)
       .set(['.hero-cta > *', '.cuatro > *'], {clearProps:'transform'});
 
+    /* red de seguridad: pase lo que pase, a los 3 segundos la portada está entera.
+       En un móvil lento o en una pestaña en segundo plano nadie se queda mirando un hueco. */
+    setTimeout(function(){ if(tl.progress() < 1) tl.progress(1); }, 3000);
+
 
     /* la escena del hero entra detrás del titular */
     var pzs = g.utils.toArray('.pila .pz');
@@ -54,7 +58,7 @@
         y:function(i){ return 70 + i*26; },
         x:function(i){ return (i % 2 ? 40 : -40); },
         rotate:function(i){ return (i % 2 ? 7 : -7); },
-        opacity:0, scale:.92, duration:1.25, stagger:.11, ease:'power4.out'
+        opacity:0, scale:.93, duration:1.05, stagger:.09, ease:'power4.out'
       }, .25);
     }
 

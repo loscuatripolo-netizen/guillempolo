@@ -21,53 +21,76 @@
 <meta name="twitter:title" content="Condiciones de contratación y devoluciones · Guillem Polo">
 <meta name="twitter:description" content="Condiciones de contratación, forma de pago, plazos, garantía de 14 días y política de cancelaciones y devoluciones de los servicios.">
 <meta name="twitter:image" content="https://guillempolo.vercel.app/og-condiciones.png">
-<meta name="theme-color" content="#FCFBF9" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#131417" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F7F7F3">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/favicon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&display=swap">
+<link rel="preload" as="font" type="font/woff2" href="/fuentes/archivo.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fuentes/instrument-sans.woff2" crossorigin>
 <style>
-  :root{ color-scheme: light dark; }
+  @font-face{font-family:"Archivo";src:url("/fuentes/archivo.woff2") format("woff2");font-weight:100 900;font-display:swap;font-style:normal}
+  @font-face{font-family:"Instrument Sans";src:url("/fuentes/instrument-sans.woff2") format("woff2");font-weight:100 800;font-display:swap;font-style:normal}
+  @font-face{font-family:"Space Grotesk";src:url("/fuentes/space-grotesk.woff2") format("woff2");font-weight:300 700;font-display:swap;font-style:normal}
+</style>
+<style>
+  :root{ color-scheme: light; }
   body{ margin:0; }
   img{ max-width:100%; }
   [hidden]{ display:none !important; }
   .salta{
-    position:absolute; left:-9999px; top:0; background:#16181B; color:#FCFBF9;
+    position:absolute; left:-9999px; top:0; background:#10402F; color:#F7F7F3;
     padding:10px 16px; z-index:100; border-radius:0 0 4px 0; font-family:system-ui, sans-serif;
   }
   .salta:focus{ left:0; }
+
+  /* --- capa de movimiento (GSAP) --- */
+  html.gsap .hero h1 .l>span{ animation:none; transform:none; }
+  html.gsap .hero-sub, html.gsap .hero-cta, html.gsap .cuatro{ animation:none; opacity:0; }
+  html.gsap.anim .rev{ transition:none; }
+  html.gsap .ch{ display:inline-block; will-change:transform; }
+  html.gsap .ln{ overflow:hidden; padding-bottom:.08em; }
+  .progreso{
+    position:absolute; left:0; right:0; bottom:-1px; height:2px; transform:scaleX(0);
+    transform-origin:0 50%; background:linear-gradient(90deg,#FF5A1F,#3D7BFF);
+    pointer-events:none; opacity:.95;
+  }
+  @media (prefers-reduced-motion: reduce){ .progreso{ display:none; } }
 </style>
+<script src="/gsap.min.js"></script>
+<script>try{if(window.gsap&&!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches))document.documentElement.classList.add('gsap');}catch(e){}</script>
+<script src="/anim.js" defer></script>
 
 </head>
 <body>
 <a class="salta" href="#a1">Saltar al contenido</a>
 <style>
   :root{
-    --paper:#FCFBF9; --tint:#F3F1EC; --tint-2:#EAE7E0;
-    --ink:#16181B; --ink-2:#54585E; --ink-3:#8B8F95;
-    --rule:rgba(22,24,27,0.14); --rule-strong:rgba(22,24,27,0.30);
-    --accent:#7A2B3C; --accent-2:#B4674F; --accent-soft:rgba(122,43,60,0.10);
-    --btn-bg:#16181B; --btn-ink:#FCFBF9;
-    --serif:"Newsreader", Georgia, serif;
-    --sans:"Hanken Grotesk", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --paper:#131417; --tint:#1A1C20; --tint-2:#212429;
-      --ink:#ECEAE5; --ink-2:#A5A8AC; --ink-3:#74777C;
-      --rule:rgba(236,234,229,0.16); --rule-strong:rgba(236,234,229,0.32);
-      --accent:#C98A93; --accent-2:#D9A98C; --accent-soft:rgba(201,138,147,0.13);
-      --btn-bg:#ECEAE5; --btn-ink:#131417;
-    }
-  }
-  :root[data-theme="dark"]{
-    --paper:#131417; --tint:#1A1C20; --tint-2:#212429;
-    --ink:#ECEAE5; --ink-2:#A5A8AC; --ink-3:#74777C;
-    --rule:rgba(236,234,229,0.16); --rule-strong:rgba(236,234,229,0.32);
-    --accent:#C98A93; --accent-2:#D9A98C; --accent-soft:rgba(201,138,147,0.13);
-    --btn-bg:#ECEAE5; --btn-ink:#131417;
+    --paper:#0C0D15;
+    --tint:rgba(255,255,255,0.045);
+    --tint-2:rgba(255,255,255,0.075);
+    --ink:#F4F6FB;
+    --ink-2:#A7AEC2;
+    --ink-3:#6B7389;
+    --rule:rgba(255,255,255,0.10);
+    --rule-strong:rgba(255,255,255,0.22);
+    --accent:#FF5A1F;
+    --accent-2:#3D7BFF;
+    --accent-soft:rgba(255,90,31,0.12);
+    --btn-bg:#FF5A1F;
+    --btn-ink:#140800;
+    --ruled:rgba(255,255,255,0.035);
+    --viz-surface:#0C0D15;
+    --viz-card:#131522;
+    --viz-grid:rgba(255,255,255,0.10);
+    --viz-axis:#A7AEC2;
+    --s1:#3D7BFF;
+    --s2:#FF5A1F;
+    --s3:#25D48A;
+    --st-good:#25D48A;
+    --st-warn:#FFC14D;
+    --st-serious:#FF8A3D;
+    --st-critical:#F0654A;
+    --serif:"Big Shoulders Display","Arial Narrow",sans-serif;
+    --sans:"Manrope", ui-sans-serif, system-ui, -apple-system, sans-serif;
   }
 
   *{ box-sizing:border-box; }
@@ -294,7 +317,8 @@
 
   <footer>
     <span>Guillem Polo · 688 65 54 65 · <a href="mailto:guillempolo2008@gmail.com">guillempolo2008@gmail.com</a></span>
-    <span><a href="/">Volver a los servicios</a></span>
+    <span><a href="/">Volver a los servicios</a> · <a href="/socios">Programa de socios</a></span>
+    <span class="legal">Guillem Polo Santisteban · NIF 79439688B · Ávila kalea 6, 48012 Bilbao (Vizcaya)</span>
   </footer>
 
 </div>

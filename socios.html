@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Programa de socios · comisión por recomendar · Guillem Polo</title>
+<meta name="description" content="Si ya trabajas con talleres, clínicas o comercios, preséntame y cobra el 20 % de todo lo que pague ese cliente. Sin exclusivas, sin mínimos y sin llamadas que hacer.">
+<meta name="author" content="Guillem Polo">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://guillempolo.vercel.app/socios">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" content="Guillem Polo">
+<meta property="og:title" content="Programa de socios · comisión por recomendar · Guillem Polo">
+<meta property="og:description" content="Si ya trabajas con talleres, clínicas o comercios, preséntame y cobra el 20 % de todo lo que pague ese cliente. Sin exclusivas, sin mínimos y sin llamadas que hacer.">
+<meta property="og:url" content="https://guillempolo.vercel.app/socios">
+<meta property="og:image" content="https://guillempolo.vercel.app/og-socios.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Programa de socios · comisión por recomendar · Guillem Polo">
+<meta name="twitter:description" content="Si ya trabajas con talleres, clínicas o comercios, preséntame y cobra el 20 % de todo lo que pague ese cliente. Sin exclusivas, sin mínimos y sin llamadas que hacer.">
+<meta name="twitter:image" content="https://guillempolo.vercel.app/og-socios.png">
+<meta name="theme-color" content="#F7F7F3">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<link rel="preload" as="font" type="font/woff2" href="/fuentes/archivo.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fuentes/instrument-sans.woff2" crossorigin>
+<style>
+  @font-face{font-family:"Archivo";src:url("/fuentes/archivo.woff2") format("woff2");font-weight:100 900;font-display:swap;font-style:normal}
+  @font-face{font-family:"Instrument Sans";src:url("/fuentes/instrument-sans.woff2") format("woff2");font-weight:100 800;font-display:swap;font-style:normal}
+  @font-face{font-family:"Space Grotesk";src:url("/fuentes/space-grotesk.woff2") format("woff2");font-weight:300 700;font-display:swap;font-style:normal}
+</style>
+<style>
+  :root{ color-scheme: light; }
+  body{ margin:0; }
+  img{ max-width:100%; }
+  [hidden]{ display:none !important; }
+  .salta{
+    position:absolute; left:-9999px; top:0; background:#10402F; color:#F7F7F3;
+    padding:10px 16px; z-index:100; border-radius:0 0 4px 0; font-family:system-ui, sans-serif;
+  }
+  .salta:focus{ left:0; }
+
+  /* --- capa de movimiento (GSAP) --- */
+  html.gsap .hero h1 .l>span{ animation:none; transform:none; }
+  html.gsap .hero-sub, html.gsap .hero-cta, html.gsap .cuatro{ animation:none; opacity:0; }
+  html.gsap.anim .rev{ transition:none; }
+  html.gsap .ch{ display:inline-block; will-change:transform; }
+  html.gsap .ln{ overflow:hidden; padding-bottom:.08em; }
+  .progreso{
+    position:absolute; left:0; right:0; bottom:-1px; height:2px; transform:scaleX(0);
+    transform-origin:0 50%; background:linear-gradient(90deg,#FF5A1F,#3D7BFF);
+    pointer-events:none; opacity:.95;
+  }
+  @media (prefers-reduced-motion: reduce){ .progreso{ display:none; } }
+</style>
+<script src="/gsap.min.js"></script>
+<script>try{if(window.gsap&&!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches))document.documentElement.classList.add('gsap');}catch(e){}</script>
+<script src="/anim.js" defer></script>
+
+</head>
+<body>
+<a class="salta" href="#contacto">Saltar al contacto</a>
+<style>
+:root{
+  color-scheme:light;
+  /* papel */
+  --papel:#F7F7F3; --papel-2:#F1F1EA; --papel-3:#E9E9E0;
+  --sup:#FFFFFF; --sup-2:#FBFBF8;
+  --linea:#E1E1D7; --linea-2:#CFCFC2; --linea-fuerte:#B9B9A9;
+  /* tinta */
+  --tinta:#14181A; --tinta-2:#4C554F; --tinta-3:#79837B;
+  /* acentos */
+  --bosque:#10402F; --bosque-2:#1C6B4D; --bosque-agua:rgba(16,64,47,.08);
+  --cobre:#B4622B; --exito:#2E7D5B; --ambar:#C08419;
+  /* sistema */
+  --radio:14px; --radio-s:10px;
+  --sombra-1:0 1px 2px rgba(20,24,26,.05), 0 2px 6px rgba(20,24,26,.04);
+  --sombra-2:0 2px 4px rgba(20,24,26,.05), 0 12px 28px -10px rgba(20,24,26,.16);
+  --sombra-3:0 4px 8px rgba(20,24,26,.06), 0 28px 60px -22px rgba(16,64,47,.35);
+  --curva:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box}
+html,body{max-width:100%;overflow-x:hidden}
+body{margin:0;background:var(--papel);color:var(--tinta);font-family:"Instrument Sans",system-ui,sans-serif;font-size:16.5px;line-height:1.62;-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;font-family:"Archivo",system-ui,sans-serif;line-height:.94;letter-spacing:-.01em;text-wrap:balance}
+h4{margin:0;font-family:"Instrument Sans",sans-serif;font-weight:800;letter-spacing:-.01em}
+p{margin:0}
+a{color:inherit;text-decoration:none}
+.marco{max-width:1180px;margin:0 auto;padding-inline:20px}
+.mono{font-family:"Space Grotesk",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.eyebrow{font-family:"Space Grotesk",monospace;font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;color:var(--bosque);display:inline-flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--bosque);display:block}
+
+.aurora{position:fixed;inset:-25% -10%;z-index:-2;pointer-events:none;filter:blur(90px);opacity:.7}
+.aurora i{position:absolute;display:block;border-radius:50%;mix-blend-mode:screen;animation:flotar 28s ease-in-out infinite}
+.aurora i:nth-child(1){width:50vw;height:50vw;left:-10vw;top:-12vw;background:radial-gradient(circle,#10402F 0%,transparent 62%)}
+.aurora i:nth-child(2){width:44vw;height:44vw;right:-8vw;top:6vw;background:radial-gradient(circle,#B4622B 0%,transparent 62%);animation-duration:34s;animation-delay:-8s}
+@keyframes flotar{0%,100%{transform:translate3d(0,0,0) scale(1)}33%{transform:translate3d(5vw,4vw,0) scale(1.1)}66%{transform:translate3d(-4vw,6vw,0) scale(.95)}}
+.grano{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.2;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='.55'/></svg>")}
+
+.barra{position:sticky;top:env(safe-area-inset-top,0px);z-index:60;transition:background .3s,backdrop-filter .3s,border-color .3s;border-bottom:1px solid transparent}
+.barra.pegada{background:rgba(247,247,243,.74);backdrop-filter:blur(14px);border-bottom-color:var(--linea)}
+.barra-in{display:flex;align-items:center;gap:20px;height:66px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em}
+.punto{width:11px;height:11px;border-radius:50%;background:var(--bosque);animation:latido 2.6s ease-out infinite}
+@keyframes latido{0%{box-shadow:0 0 0 0 rgba(16,64,47,.5)}70%{box-shadow:0 0 0 13px rgba(16,64,47,0)}100%{box-shadow:0 0 0 0 rgba(16,64,47,0)}}
+.barra nav{margin-left:auto;display:flex;align-items:center;gap:24px;font-size:.9rem;color:var(--tinta-2)}
+.barra nav a.enl{position:relative}
+.barra nav a.enl::after{content:"";position:absolute;left:0;right:100%;bottom:-5px;height:1px;background:var(--bosque);transition:right .3s}
+.barra nav a.enl:hover{color:var(--tinta)}
+.barra nav a.enl:hover::after{right:0}
+@media (max-width:860px){.barra nav a.enl{display:none}}
+
+.btn{position:relative;display:inline-flex;align-items:center;gap:10px;isolation:isolate;padding:14px 24px;border-radius:999px;font-weight:700;font-size:.94rem;overflow:hidden;background:linear-gradient(135deg,var(--bosque),#1C6B4D);color:#FFFFFF;box-shadow:0 10px 30px -12px rgba(16,64,47,.85);transition:transform .25s cubic-bezier(.2,.9,.3,1.2)}
+.btn::before{content:"";position:absolute;inset:0;z-index:-1;opacity:0;transition:opacity .3s;background:radial-gradient(120px 120px at var(--mx,50%) var(--my,50%),rgba(255,255,255,.55),transparent 65%)}
+.btn:hover{transform:translateY(-3px) scale(1.02)}
+.btn:hover::before{opacity:1}
+.btn.ghost{background:transparent;color:var(--tinta);border:1px solid var(--linea);box-shadow:none}
+.btn.ghost::before{background:radial-gradient(140px 140px at var(--mx,50%) var(--my,50%),rgba(180,98,43,.28),transparent 65%)}
+.btn .fl{transition:transform .25s}
+.btn:hover .fl{transform:translateX(4px)}
+
+.hero{padding-block:clamp(44px,6vw,86px) clamp(34px,4vw,56px)}
+.hero h1{font-size:clamp(2.4rem,6.6vw,5.2rem);font-weight:800;text-transform:uppercase}
+.hero h1 .l{display:block;overflow:hidden}
+.hero h1 .l>span{display:block;transform:translateY(105%);animation:subir .95s cubic-bezier(.16,1,.3,1) forwards}
+.hero h1 .l:nth-child(2)>span{animation-delay:.1s}
+@keyframes subir{to{transform:translateY(0)}}
+.hero h1 em{font-style:normal;background:linear-gradient(100deg,var(--bosque),#B4622B 45%,var(--cobre));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-sub{max-width:56ch;margin-top:24px;font-size:clamp(1.02rem,1.5vw,1.18rem);color:var(--tinta-2);opacity:0;animation:aparecer .9s ease .5s forwards}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px;opacity:0;animation:aparecer .9s ease .65s forwards}
+@keyframes aparecer{to{opacity:1}}
+
+.sec{padding-block:clamp(54px,7vw,100px)}
+.sec-cab{margin-bottom:clamp(26px,4vw,44px)}
+.sec-cab h2{font-size:clamp(2rem,5.2vw,3.8rem);font-weight:700;text-transform:uppercase;margin-top:14px}
+.sec-cab p{color:var(--tinta-2);max-width:58ch;margin-top:14px}
+.rev{opacity:1}
+html.anim .rev{opacity:0;transform:translateY(32px);filter:blur(5px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1),filter .8s}
+html.anim .rev.dentro{opacity:1;transform:none;filter:none}
+html.anim .rev.d1{transition-delay:.08s}
+html.anim .rev.d2{transition-delay:.16s}
+
+.quien{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:14px}
+.qi{position:relative;border-radius:var(--radio);border:1px solid var(--linea);background:var(--sup);padding:22px 20px;overflow:hidden;transition:transform .3s,border-color .3s}
+.qi::before{content:"";position:absolute;inset:0;opacity:0;transition:opacity .35s;pointer-events:none;background:radial-gradient(300px 180px at var(--mx,50%) var(--my,0%),rgba(255,255,255,.09),transparent 70%)}
+.qi:hover{transform:translateY(-5px);border-color:rgba(255,255,255,.2)}
+.qi:hover::before{opacity:1}
+.qi .ic{font-family:"Space Grotesk",monospace;font-size:.66rem;letter-spacing:.14em;color:var(--bosque)}
+.qi h4{font-size:1.02rem;margin-top:8px}
+.qi p{font-size:.9rem;color:var(--tinta-2);margin-top:6px}
+
+.dinero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr);gap:clamp(22px,4vw,44px);align-items:start}
+@media (max-width:880px){.dinero{grid-template-columns:1fr}}
+.tabla{border-radius:var(--radio);border:1px solid var(--linea);overflow:hidden;background:var(--sup)}
+.tabla .fila{display:grid;grid-template-columns:1.35fr .5fr;gap:10px;padding:13px 16px;border-bottom:1px solid var(--linea);font-size:.9rem;align-items:baseline}
+.tabla .fila:last-child{border-bottom:none}
+.tabla .cab{background:rgba(255,255,255,.05);font-family:"Space Grotesk",monospace;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--tinta-3)}
+.tabla .fila b{font-family:"Space Grotesk",monospace;font-weight:500;color:var(--tinta)}
+.tabla .fila span.g{color:var(--tinta-2)}
+.tabla .fila .rec{color:var(--exito)}
+.resumen{border-radius:var(--radio);border:1px solid transparent;background:linear-gradient(var(--papel-2),var(--papel-2)) padding-box,linear-gradient(135deg,var(--bosque),#1C6B4D 50%,var(--cobre)) border-box;padding:24px}
+.resumen .grande{font-family:"Archivo",system-ui,sans-serif;font-size:3.4rem;font-weight:800;line-height:.9}
+.resumen .grande small{font-family:"Instrument Sans",sans-serif;font-size:.82rem;font-weight:500;color:var(--tinta-3)}
+.resumen p{font-size:.92rem;color:var(--tinta-2);margin-top:12px}
+.resumen .mas{margin-top:16px;padding-top:16px;border-top:1px solid var(--linea);font-size:.9rem;color:var(--tinta-2)}
+.resumen .mas b{color:var(--exito)}
+
+.pasos{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.paso{position:relative;padding:24px 20px 26px;border-radius:var(--radio);border:1px solid var(--linea);background:var(--sup);transition:transform .3s,border-color .3s}
+.paso:hover{transform:translateY(-6px);border-color:rgba(255,255,255,.2)}
+.paso .num{font-family:"Archivo",system-ui,sans-serif;font-size:3.6rem;font-weight:800;line-height:.8;background:linear-gradient(160deg,var(--bosque),transparent 85%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.paso h4{margin-top:8px;font-size:1.04rem}
+.paso p{margin-top:7px;font-size:.9rem;color:var(--tinta-2)}
+
+.reglas{display:flex;flex-direction:column;border-radius:var(--radio);border:1px solid var(--linea);overflow:hidden}
+.regla{display:grid;grid-template-columns:34px 1fr;gap:14px;padding:18px 20px;border-bottom:1px solid var(--linea);background:var(--sup);transition:background .25s}
+.regla:last-child{border-bottom:none}
+.regla:hover{background:rgba(16,64,47,.06)}
+.regla .n{font-family:"Space Grotesk",monospace;font-size:.72rem;color:var(--bosque);padding-top:3px}
+.regla b{display:block;font-size:.98rem}
+.regla p{font-size:.9rem;color:var(--tinta-2);margin-top:3px}
+
+.nope{border-radius:var(--radio);border:1px dashed rgba(16,64,47,.4);background:rgba(16,64,47,.05);padding:24px}
+.nope p{color:var(--tinta-2);max-width:66ch}
+
+.contacto{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.8fr);gap:clamp(24px,4vw,50px);align-items:start}
+@media (max-width:820px){.contacto{grid-template-columns:1fr}}
+.canales{display:flex;flex-direction:column;gap:11px}
+.canal{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:17px 20px;border-radius:var(--radio);border:1px solid var(--linea);background:var(--sup);transition:transform .25s,border-color .25s,background .25s}
+.canal:hover{transform:translateX(6px);border-color:rgba(16,64,47,.5);background:rgba(16,64,47,.07)}
+.canal .k{font-family:"Space Grotesk",monospace;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--tinta-3)}
+.canal .v{font-weight:700;font-size:1rem}
+.canal .fl{color:var(--bosque)}
+footer{border-top:1px solid var(--linea);padding-block:36px 44px;font-size:.87rem;color:var(--tinta-2);margin-top:16px}
+.pie-grid{display:flex;flex-wrap:wrap;gap:16px 40px;justify-content:space-between}
+footer a:hover{color:var(--bosque)}
+.legal{font-family:"Space Grotesk",monospace;font-size:.7rem;color:var(--tinta-3);line-height:1.9;margin-top:24px;border-top:1px solid var(--linea);padding-top:18px}
+a:focus-visible{outline:2px solid var(--bosque);outline-offset:3px;border-radius:6px}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  html.anim .rev{opacity:1!important;transform:none!important;filter:none!important}
+  .hero h1 .l>span{transform:none}
+  .hero-sub,.hero-cta{opacity:1}
+}
+</style>
+
+<div class="aurora" aria-hidden="true"><i></i><i></i></div>
+<div class="grano" aria-hidden="true"></div>
+
+<header class="barra" id="barra">
+  <div class="marco barra-in">
+    <a class="logo" href="/"><span class="punto"></span> Guillem Polo</a>
+    <nav>
+      <a class="enl" href="/">Servicios</a>
+      <a class="enl" href="#dinero">Qué se cobra</a>
+      <a class="enl" href="#reglas">Las reglas</a>
+      <a class="btn" href="#contacto">Hablamos <span class="fl">→</span></a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="marco">
+    <span class="eyebrow">Programa de socios</span>
+    <h1>
+      <span class="l"><span>Tú ya entras</span></span>
+      <span class="l"><span>en esos negocios. <em>Yo se lo monto.</em></span></span>
+    </h1>
+    <p class="hero-sub">Si te dedicas a algo que te sienta delante del dueño de un taller, una clínica o una tienda, ya tienes lo que a mí me cuesta meses: su confianza. Cuando salga el tema de la web, de Google o del papeleo, preséntame. Si el cliente entra, cobras.</p>
+    <div class="hero-cta">
+      <a class="btn spot" href="#contacto">Hablamos diez minutos <span class="fl">→</span></a>
+      <a class="btn ghost spot" href="#dinero">Ver cuánto se cobra</a>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="quien">
+  <div class="marco">
+    <div class="sec-cab rev">
+      <span class="eyebrow">01 — A quién le encaja</span>
+      <h2>No busco comerciales.<br>Busco vecinos de oficio</h2>
+      <p>Gente que ya trabaja con el mismo cliente que yo y a la que le preguntan cosas que no son lo suyo.</p>
+    </div>
+    <div class="quien">
+      <article class="qi rev spot"><span class="ic">01</span><h4>Rotulistas y serigrafía</h4><p>Le acabas de poner el rótulo y el vinilo del escaparate. La siguiente pregunta suele ser quién le hace la web.</p></article>
+      <article class="qi rev d1 spot"><span class="ic">02</span><h4>Fotógrafos de producto y de local</h4><p>Haces las fotos que van justo en la web que no tienen. Encaja solo.</p></article>
+      <article class="qi rev d2 spot"><span class="ic">03</span><h4>Gestorías y asesorías</h4><p>Ves quién acaba de darse de alta y quién está creciendo, y te preguntan por todo lo que no es contabilidad.</p></article>
+      <article class="qi rev spot"><span class="ic">04</span><h4>Imprentas y papelerías técnicas</h4><p>Tarjetas, folletos y menús. El que encarga eso está cuidando su imagen justo ese mes.</p></article>
+      <article class="qi rev d1 spot"><span class="ic">05</span><h4>Comerciales de datáfono y caja</h4><p>Entras en veinte comercios a la semana y ya hablas de cobros, citas y clientes.</p></article>
+      <article class="qi rev d2 spot"><span class="ic">06</span><h4>Instaladores y mantenimiento</h4><p>Climatización, alarmas, informática. Entras en el local y te tiene por el que arregla cosas.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="dinero">
+  <div class="marco">
+    <div class="sec-cab rev">
+      <span class="eyebrow">02 — Qué te llevas</span>
+      <h2>Veinte por ciento<br>de todo lo que entre</h2>
+      <p>No es un pago por contacto ni una tarjeta de descuento: es una comisión de verdad, con su número y su fecha. Sin panel, sin puntos y sin migajas de un euro al mes.</p>
+    </div>
+    <div class="dinero">
+      <div class="tabla rev">
+        <div class="fila cab"><span>Si entra un cliente de</span><span>Tu comisión</span></div>
+        <div class="fila"><span class="g">Web esencial · 490 €</span><b>98 €</b></div>
+        <div class="fila"><span class="g">Web completa · 590 €</span><b>118 €</b></div>
+        <div class="fila"><span class="g">Reseñas · 219 € + 49 €/mes</span><b>44 €</b></div>
+        <div class="fila"><span class="g">Facturas a datos · 390 €</span><b>78 €</b></div>
+        <div class="fila"><span class="g">WhatsApp con citas · 390 €</span><b>78 €</b></div>
+      </div>
+      <div class="resumen rev d1">
+        <p class="grande">20 %<small> de lo que pague</small></p>
+        <p>Veinte por ciento de lo que pague el cliente, limpio y de una vez. Y si más adelante contrata otra cosa conmigo, vuelves a cobrar tu veinte por ciento de ese trabajo.</p>
+        <p class="mas">Se paga por transferencia <b>dentro de los 30 días</b> siguientes a que el cliente me pague a mí, y siempre te digo cuánto ha facturado para que lo puedas comprobar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="como">
+  <div class="marco">
+    <div class="sec-cab rev">
+      <span class="eyebrow">03 — Cómo funciona</span>
+      <h2>Tres pasos<br>y ninguno es tuyo</h2>
+    </div>
+    <div class="pasos">
+      <article class="paso rev"><span class="num">01</span><h4>Me lo presentas</h4><p>Un mensaje con el nombre del negocio y a quién pregunto, o un grupo de WhatsApp con los tres. No hace falta que vendas nada: solo que digas que me conoces.</p></article>
+      <article class="paso rev d1"><span class="num">02</span><h4>Yo hablo con él</h4><p>Llamo, escucho y le enseño lo suyo montado antes de que pague nada. Si no encaja, lo dejo estar: tu recomendación no se quema.</p></article>
+      <article class="paso rev d2"><span class="num">03</span><h4>Si entra, cobras</h4><p>Te aviso el mismo día que firma, con el importe y tu comisión. Y te vuelvo a avisar cada vez que ese cliente amplía o contrata otra cosa.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="reglas">
+  <div class="marco">
+    <div class="sec-cab rev">
+      <span class="eyebrow">04 — Por escrito</span>
+      <h2>Las reglas,<br>para no hablar más del tema</h2>
+    </div>
+    <div class="reglas rev">
+      <div class="regla"><span class="n">01</span><span><b>Se cobra por cliente cerrado, no por contacto.</b><p>Ni objetivos, ni mínimos, ni exclusivas. Me mandas uno al año o veinte.</p></span></div>
+      <div class="regla"><span class="n">02</span><span><b>Si ese negocio ya estaba en mi lista, te lo digo el mismo día.</b><p>No después de cerrarlo. Y si tú ya habías hablado con él, es tuyo.</p></span></div>
+      <div class="regla"><span class="n">03</span><span><b>No te toco el cliente.</b><p>Hago lo mío y no le vendo nada de lo tuyo ni le presento a nadie de tu competencia.</p></span></div>
+      <div class="regla"><span class="n">04</span><span><b>Si tienes actividad, me facturas la comisión.</b><p>Si no la tienes, la descontamos del trabajo que quieras para ti o para tu negocio.</p></span></div>
+      <div class="regla"><span class="n">05</span><span><b>Si el cliente te vuelve a comprar, vuelves a cobrar.</b><p>Cada trabajo nuevo que contrate ese negocio lleva tu veinte por ciento, aunque hayan pasado dos años.</p></span></div>
+      <div class="regla"><span class="n">06</span><span><b>Te doy con qué enseñarlo.</b><p>Un enlace con ejemplos y precios que puedes mandar tal cual, sin tener que explicar nada.</p></span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="noes">
+  <div class="marco">
+    <div class="nope rev">
+      <span class="eyebrow">05 — Lo que no es</span>
+      <p style="margin-top:14px">Esto no es un programa de afiliados con un panel, ni una red de captación, ni te voy a pedir que hagas llamadas. Es un acuerdo entre dos que trabajan con el mismo cliente. Si un día te incomoda, se deshace con un mensaje y no pasa nada.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="contacto">
+  <div class="marco contacto">
+    <div class="rev">
+      <span class="eyebrow">06 — Contacto</span>
+      <h2 style="font-size:clamp(2rem,4.8vw,3.4rem);text-transform:uppercase;margin-top:14px">Cuéntame a qué<br>te dedicas</h2>
+      <p style="color:var(--tinta-2);max-width:52ch;margin-top:16px">Dime en qué negocios entras y cómo es tu trato con ellos. Si vemos que encaja, te paso los materiales y ya está: no hay contrato que firmar ni nada que pagar por tu parte.</p>
+      <p style="margin-top:26px"><a class="btn spot" href="mailto:guillempolo2008@gmail.com?subject=Programa%20de%20socios">Escribirme ahora <span class="fl">→</span></a></p>
+    </div>
+    <div class="canales rev d1">
+      <a class="canal" href="tel:+34688655465"><span><span class="k">Teléfono</span><br><span class="v mono">688 65 54 65</span></span><span class="fl">→</span></a>
+      <a class="canal" href="mailto:guillempolo2008@gmail.com"><span><span class="k">Correo</span><br><span class="v">guillempolo2008@gmail.com</span></span><span class="fl">→</span></a>
+      <a class="canal" href="/"><span><span class="k">Los servicios</span><br><span class="v">Ver qué se le vende</span></span><span class="fl">→</span></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="marco">
+    <div class="pie-grid">
+      <div style="max-width:32ch"><strong style="color:var(--tinta)">Guillem Polo</strong><br>Webs y automatización para empresas y autónomos.</div>
+      <div><a href="/paginas-web">Páginas web</a> · <a href="/resenas-google">Reseñas</a> · <a href="/facturas-a-datos">Facturas</a> · <a href="/asistente-whatsapp">WhatsApp</a></div>
+      <div><a href="/">Portada</a> · <a href="/condiciones">Condiciones y devoluciones</a></div>
+    </div>
+    <p class="legal">Guillem Polo Santisteban · NIF 79439688B · Ávila kalea 6, 48012 Bilbao (Vizcaya) · 688 65 54 65 · guillempolo2008@gmail.com</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduce) document.documentElement.classList.add('anim');
+  var barra = document.getElementById('barra');
+  function alScroll(){ barra.classList.toggle('pegada', window.scrollY > 12); }
+  alScroll(); window.addEventListener('scroll', alScroll, {passive:true});
+  var revs = [].slice.call(document.querySelectorAll('.rev'));
+  if(!reduce && 'IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('dentro'); io.unobserve(e.target); } });
+    }, {rootMargin:'0px 0px -12% 0px', threshold:.1});
+    revs.forEach(function(el){ io.observe(el); });
+  } else { revs.forEach(function(el){ el.classList.add('dentro'); }); }
+  document.querySelectorAll('.btn,.qi').forEach(function(el){
+    el.addEventListener('pointermove', function(ev){
+      var r = el.getBoundingClientRect();
+      el.style.setProperty('--mx', ((ev.clientX-r.left)/r.width*100)+'%');
+      el.style.setProperty('--my', ((ev.clientY-r.top)/r.height*100)+'%');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -24,7 +24,7 @@
       var chars = null;
       if(Split && lineas.length){
         try{
-          var sp = new Split(lineas, {type:'chars', charsClass:'ch'});
+          var sp = new Split(lineas, {type:'words,chars', charsClass:'ch', wordsClass:'pal'});
           chars = sp.chars;
         }catch(e){ chars = null; }
       }
@@ -42,7 +42,21 @@
       .to('.hero-cta',   {opacity:1, duration:.6}, .55)
       .from('.hero-cta > *', {y:18, opacity:0, duration:.8, stagger:.09}, .55)
       .to('.cuatro',     {opacity:1, duration:.6}, .7)
-      .from('.cuatro > *', {y:30, opacity:0, duration:.85, stagger:.07}, .7);
+      .from('.cuatro > *', {y:30, opacity:0, duration:.85, stagger:.07}, .7)
+      .set(['.hero-cta > *', '.cuatro > *'], {clearProps:'transform'});
+
+
+    /* la escena del hero entra detrás del titular */
+    var pzs = g.utils.toArray('.pila .pz');
+    if(pzs.length){
+      g.set('.pila', {opacity:1});
+      tl.from(pzs, {
+        y:function(i){ return 70 + i*26; },
+        x:function(i){ return (i % 2 ? 40 : -40); },
+        rotate:function(i){ return (i % 2 ? 7 : -7); },
+        opacity:0, scale:.92, duration:1.25, stagger:.11, ease:'power4.out'
+      }, .25);
+    }
 
     if(!ST) return;
 
@@ -153,6 +167,34 @@
           var d = self.direction;
           if(d !== ultimo){ ultimo = d; pista.style.animationDirection = d === 1 ? 'normal' : 'reverse'; }
         }});
+    }
+
+
+    /* ---------- 12. la escena del hero: parallax y giro ---------- */
+    var pila = document.querySelector('.pila');
+    if(pila){
+      var piezas = g.utils.toArray('.pila .pz');
+      var vel = [.16, -.10, .22, -.16];
+      piezas.forEach(function(el, i){
+        g.to(el, {yPercent: vel[i % vel.length] * 100, ease:'none',
+          scrollTrigger:{trigger:'.hero', start:'top top', end:'bottom top', scrub:.8}});
+      });
+      if(window.matchMedia('(pointer:fine)').matches){
+        var qx = piezas.map(function(el){ return g.quickTo(el, 'rotationY', {duration:.9, ease:'power3'}); });
+        var qy = piezas.map(function(el){ return g.quickTo(el, 'rotationX', {duration:.9, ease:'power3'}); });
+        var qz = piezas.map(function(el){ return g.quickTo(el, 'z', {duration:.9, ease:'power3'}); });
+        pila.addEventListener('pointermove', function(ev){
+          var r = pila.getBoundingClientRect();
+          var px = (ev.clientX - r.left) / r.width - .5, py = (ev.clientY - r.top) / r.height - .5;
+          piezas.forEach(function(el, i){
+            var f = 1 + i * .35;
+            qx[i](px * 9 * f); qy[i](-py * 7 * f); qz[i](Math.abs(px) * 14 * f);
+          });
+        });
+        pila.addEventListener('pointerleave', function(){
+          piezas.forEach(function(el, i){ qx[i](0); qy[i](0); qz[i](0); });
+        });
+      }
     }
 
     window.addEventListener('load', function(){ ST.refresh(); });

@@ -216,7 +216,7 @@
       <span class="ord">02</span>
       <div>
         <h3>Y acaban todas en el mismo panel</h3>
-        <p>Tres meses de facturas de un taller. Cambia el mes, la categoría, el tipo de IVA o la métrica que quieres mirar y todo se recalcula: las cifras de arriba, los dos gráficos y la tabla de abajo. Pruébalo.</p>
+        <p>Tres meses de facturas de un taller, en un panel de verdad. Arriba, <b>desplegables</b> para el mes, la categoría, el tipo de IVA y la métrica. Abajo, el botón de <b>editar datos</b>: cambia una base o un tipo de IVA, añade una factura o quita otra, y mira cómo se recalcula todo al instante. Pruébalo, que no rompes nada.</p>
       </div>
     </div>
 
@@ -275,15 +275,24 @@
       </div>
 
       <div class="pf-tabla">
+        <div class="pf-barra">
+          <span class="pf-modo" id="pf-modo">Modo lectura · pulsa «Editar datos» para cambiar cualquier número</span>
+          <div class="pf-acc">
+            <button class="limpiar" id="b-edit" type="button" aria-pressed="false">Editar datos</button>
+            <button class="limpiar" id="b-add" type="button" hidden>+ Añadir factura</button>
+            <button class="limpiar" id="b-reset" type="button" hidden>Restaurar ejemplo</button>
+          </div>
+        </div>
         <div class="env">
           <table class="tabla-x ancha" id="pf-t">
             <thead><tr>
               <th data-ord="f">Fecha</th><th data-ord="p">Proveedor</th><th>NIF</th><th>Nº factura</th>
               <th data-ord="c">Categoría</th><th>Tipo</th><th data-ord="b" class="num">Base</th>
               <th data-ord="i" class="num">Cuota IVA</th><th data-ord="tt" class="num">Total</th>
+              <th class="quitar-col" hidden></th>
             </tr></thead>
             <tbody id="pf-tb"></tbody>
-            <tfoot><tr><td colspan="6" id="pf-pie">—</td><td class="num" id="pf-b">0</td><td class="num" id="pf-i">0</td><td class="num" id="pf-t2">0</td></tr></tfoot>
+            <tfoot><tr><td colspan="6" id="pf-pie">—</td><td class="num" id="pf-b">0</td><td class="num" id="pf-i">0</td><td class="num" id="pf-t2">0</td><td class="quitar-col" hidden></td></tr></tfoot>
           </table>
         </div>
         <p class="pf-vacio" id="pf-vacio" hidden>Con esos filtros no queda ninguna factura. <button type="button" class="enlace-f" id="f-limpia2">Quitar los filtros</button></p>
@@ -430,6 +439,8 @@
   var $ = function(i){ return document.getElementById(i); };
   var MES = {7:'julio', 8:'agosto', 9:'septiembre'};
   var orden = {campo:'f', asc:true};
+  var siguienteId = 0;
+  D.forEach(function(x){ x.id = siguienteId++; });
 
   /* categorías, sacadas de los propios datos */
   var cats = D.map(function(x){ return x.c; }).filter(function(v,i,a){ return a.indexOf(v)===i; }).sort();
@@ -513,23 +524,63 @@
     $('g2-nota').textContent = actual ? 'el mes elegido va marcado' : 'con los filtros puestos';
   }
 
-  function pintaTabla(fs){
+  var editando = false;
+  var ORIGINAL = JSON.stringify(D);
+  var TIPOS = [21, 10, 4, 0];
+  var nomTipo = function(t){ return t === 0 ? 'Exenta' : t + ' %'; };
+
+  function recalcula(fila){
+    fila.i = Math.round(fila.b * fila.t) / 100;
+    fila.tt = Math.round((fila.b + fila.i) * 100) / 100;
+  }
+
+  function ordenadas(fs){
     var c = orden.campo, asc = orden.asc;
-    var arr = fs.slice().sort(function(a,b){
+    return fs.slice().sort(function(a, b){
       var x = a[c], y = b[c];
       if(c === 'f'){ x = a.f.split('/').reverse().join(''); y = b.f.split('/').reverse().join(''); }
-      if(typeof x === 'string') return asc ? x.localeCompare(y,'es') : y.localeCompare(x,'es');
+      if(typeof x === 'string') return asc ? x.localeCompare(y, 'es') : y.localeCompare(x, 'es');
       return asc ? x - y : y - x;
     });
-    var tipo = function(t){ return t === 0 ? 'Exenta' : t + ' %'; };
-    $('pf-tb').innerHTML = arr.map(function(x){
-      return '<tr' + (x.t !== 21 ? ' class="otro-iva"' : '') + '><td>' + x.f + '</td><td>' + x.p + '</td><td>' + x.nif +
-        '</td><td>' + x.n + '</td><td>' + x.c + '</td><td>' + tipo(x.t) + '</td><td class="num">' + eur.format(x.b) +
-        '</td><td class="num">' + eur.format(x.i) + '</td><td class="num">' + eur.format(x.tt) + '</td></tr>';
+  }
+
+  function opcionesCat(sel){
+    var lista = D.map(function(x){ return x.c; }).filter(function(v, i, a){ return a.indexOf(v) === i; }).sort();
+    if(lista.indexOf(sel) === -1) lista.push(sel);
+    return lista.map(function(c){
+      return '<option' + (c === sel ? ' selected' : '') + '>' + c + '</option>';
     }).join('');
-    $('pf-b').textContent  = eur.format(suma(arr,'b'));
-    $('pf-i').textContent  = eur.format(suma(arr,'i'));
-    $('pf-t2').textContent = eur.format(suma(arr,'tt'));
+  }
+
+  function pintaTabla(fs){
+    var arr = ordenadas(fs);
+    if(!editando){
+      $('pf-tb').innerHTML = arr.map(function(x){
+        return '<tr' + (x.t !== 21 ? ' class="otro-iva"' : '') + '><td>' + x.f + '</td><td>' + x.p + '</td><td>' + x.nif +
+          '</td><td>' + x.n + '</td><td>' + x.c + '</td><td>' + nomTipo(x.t) + '</td><td class="num">' + eur.format(x.b) +
+          '</td><td class="num">' + eur.format(x.i) + '</td><td class="num">' + eur.format(x.tt) + '</td></tr>';
+      }).join('');
+    } else {
+      $('pf-tb').innerHTML = arr.map(function(x){
+        return '<tr class="editable' + (x.t !== 21 ? ' otro-iva' : '') + '" data-id="' + x.id + '">' +
+          '<td><input class="ce" data-k="f" value="' + x.f + '" size="9" aria-label="Fecha"></td>' +
+          '<td><input class="ce ancha" data-k="p" value="' + x.p.replace(/"/g, '&quot;') + '" aria-label="Proveedor"></td>' +
+          '<td><input class="ce" data-k="nif" value="' + x.nif + '" size="10" aria-label="NIF"></td>' +
+          '<td><input class="ce" data-k="n" value="' + x.n + '" size="10" aria-label="Número de factura"></td>' +
+          '<td><select class="ce" data-k="c" aria-label="Categoría">' + opcionesCat(x.c) + '</select></td>' +
+          '<td><select class="ce" data-k="t" aria-label="Tipo de IVA">' + TIPOS.map(function(t){
+              return '<option value="' + t + '"' + (t === x.t ? ' selected' : '') + '>' + nomTipo(t) + '</option>';
+            }).join('') + '</select></td>' +
+          '<td class="num"><input class="ce num" data-k="b" type="number" step="0.01" min="0" value="' + x.b + '" aria-label="Base imponible"></td>' +
+          '<td class="num calc">' + eur.format(x.i) + '</td>' +
+          '<td class="num calc fuerte">' + eur.format(x.tt) + '</td>' +
+          '<td class="quitar-col"><button class="quitar" type="button" title="Quitar esta factura" aria-label="Quitar factura">×</button></td>' +
+          '</tr>';
+      }).join('');
+    }
+    $('pf-b').textContent  = eur.format(suma(arr, 'b'));
+    $('pf-i').textContent  = eur.format(suma(arr, 'i'));
+    $('pf-t2').textContent = eur.format(suma(arr, 'tt'));
     $('pf-pie').textContent = arr.length + (arr.length === 1 ? ' factura' : ' facturas');
     $('pf-vacio').hidden = arr.length > 0;
   }
@@ -561,6 +612,83 @@
     }
     th.addEventListener('click', cambia);
     th.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); cambia(); } });
+  });
+
+  /* ---- editar los datos ---- */
+  function modo(on){
+    editando = on;
+    $('b-edit').textContent = on ? 'Terminar de editar' : 'Editar datos';
+    $('b-edit').setAttribute('aria-pressed', String(on));
+    $('b-edit').classList.toggle('activo', on);
+    $('b-add').hidden = !on;
+    $('b-reset').hidden = !on;
+    document.querySelectorAll('.quitar-col').forEach(function(c){ c.hidden = !on; });
+    $('pf-modo').textContent = on
+      ? 'Modo edición · cambia la base o el tipo de IVA y mira cómo se recalcula todo'
+      : 'Modo lectura · pulsa «Editar datos» para cambiar cualquier número';
+    $('pf-modo').classList.toggle('vivo', on);
+    document.getElementById('panel').classList.toggle('editando', on);
+    pinta();
+  }
+  $('b-edit').addEventListener('click', function(){ modo(!editando); });
+
+  $('b-add').addEventListener('click', function(){
+    var hoy = new Date();
+    var mes = +$('f-mes').value || 9;
+    D.push({id: siguienteId++, f: '01/0' + mes + '/2026', m: mes, mn: MES[mes],
+            p: 'Proveedor nuevo', nif: 'B00000000', c: 'Recambios', n: 'SIN-NUMERO',
+            t: 21, b: 100, i: 21, tt: 121});
+    orden.campo = 'f'; orden.asc = false;
+    pinta();
+    var primera = document.querySelector('#pf-tb tr input[data-k="p"]');
+    if(primera){ primera.focus(); primera.select(); }
+  });
+
+  $('b-reset').addEventListener('click', function(){
+    D.length = 0;
+    JSON.parse(ORIGINAL).forEach(function(x){ D.push(x); });
+    siguienteId = 0;
+    D.forEach(function(x){ x.id = siguienteId++; });
+    pinta();
+  });
+
+  $('pf-tb').addEventListener('input', function(ev){
+    var campo = ev.target.closest('.ce');
+    if(!campo) return;
+    var tr = campo.closest('tr');
+    var fila = D.filter(function(x){ return x.id === +tr.getAttribute('data-id'); })[0];
+    if(!fila) return;
+    var k = campo.getAttribute('data-k');
+    if(k === 'b'){ fila.b = Math.round((parseFloat(campo.value) || 0) * 100) / 100; recalcula(fila); }
+    else if(k === 't'){ fila.t = +campo.value; recalcula(fila); }
+    else if(k === 'f'){
+      fila.f = campo.value;
+      var partes = campo.value.split('/');
+      if(partes.length === 3 && +partes[1] >= 7 && +partes[1] <= 9){ fila.m = +partes[1]; fila.mn = MES[fila.m]; }
+    }
+    else { fila[k] = campo.value; }
+    /* se repintan las cifras sin perder el foco de lo que estás escribiendo */
+    if(k === 'b' || k === 't'){
+      tr.querySelectorAll('.calc')[0].textContent = eur.format(fila.i);
+      tr.querySelectorAll('.calc')[1].textContent = eur.format(fila.tt);
+      tr.classList.toggle('otro-iva', fila.t !== 21);
+    }
+    var fs = filtradas();
+    pintaKpis(fs); pintaBarras(fs); pintaMeses(fs);
+    $('pf-b').textContent  = eur.format(suma(fs, 'b'));
+    $('pf-i').textContent  = eur.format(suma(fs, 'i'));
+    $('pf-t2').textContent = eur.format(suma(fs, 'tt'));
+  });
+  $('pf-tb').addEventListener('change', function(ev){
+    if(ev.target.closest('select.ce')) pinta();
+  });
+
+  $('pf-tb').addEventListener('click', function(ev){
+    var bt = ev.target.closest('.quitar');
+    if(!bt) return;
+    var id = +bt.closest('tr').getAttribute('data-id');
+    for(var i = 0; i < D.length; i++){ if(D[i].id === id){ D.splice(i, 1); break; } }
+    pinta();
   });
 
   pinta();

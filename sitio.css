@@ -1126,6 +1126,8 @@ select.ce{appearance:none;-webkit-appearance:none;padding-right:26px;
 .plan::before{background:radial-gradient(320px 200px at var(--mx,50%) var(--my,0%),rgba(16,64,47,.08),transparent 70%)}
 .plan:hover{border-color:var(--linea-2);box-shadow:var(--sombra-2)}
 
+/* sufijo del precio (+ IVA · pago único) sin el tracking apretado del número */
+.precio small{letter-spacing:0;white-space:nowrap}
 /* héroe más corto en móvil */
 @media (max-width:700px){
   .hero .tiras-h{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-top:26px}

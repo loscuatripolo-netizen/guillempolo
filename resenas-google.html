@@ -92,23 +92,45 @@
     <div class="tiras-h"><div class="tira-h"><b>250 €</b><span>desde, montaje</span></div><div class="tira-h"><b>25 €/mes</b><span>sin permanencia</span></div><div class="tira-h"><b>6 min</b><span>de media en contestar</span></div><div class="tira-h"><b>1 y 2 ★</b><span>siempre pasan por ti</span></div></div>
   </div>
 </section>
-<section class="sec" id="problema">
-  <div class="marco">
-    <div class="sec-cab rev">
-      <span class="eyebrow">01 — El problema</span>
-      <h2>Contestar reseñas es<br>lo primero que se deja</h2>
-      <p>Nadie se sienta un martes a contestar catorce reseñas. Y el que las lee sí que se da cuenta.</p>
-    </div>
-    <ul class="necesito rev d1" style="max-width:78ch"><li><span class="n">01</span><span><b>El 80 % elige antes un negocio que contesta a todas</b>No es la nota lo que decide: es ver que detrás hay alguien.</span></li><li><span class="n">02</span><span><b>Las de hace dos años ya no cuentan</b>Tres de cada cuatro personas buscan reseñas de los últimos tres meses.</span></li><li><span class="n">03</span><span><b>Y la mitad rechaza las respuestas de plantilla</b>«Lamentamos las molestias, contacte con nosotros» hace más daño que no contestar.</span></li><li><span class="n">04</span><span><b>La negativa es la que te quita clientes</b>Y es justo la que hay que pensar con calma, no contestar en caliente ni dejar que la conteste una máquina sola.</span></li></ul>
-  </div>
-</section>
+<nav class="saltos" aria-label="En esta página"><div class="marco saltos-in"><a href="#ejemplo">Ejemplo en vivo</a><a href="#precio">Precio</a><a href="#como">Cómo trabajo</a><a href="#preguntas">Preguntas</a><a href="#contacto" class="ult">Pedir presupuesto</a></div></nav>
 
 <section class="sec" id="ejemplo">
   <div class="marco">
     <div class="sec-cab rev">
-      <span class="eyebrow">02 — El ejemplo</span>
+      <span class="eyebrow">01 — El ejemplo</span>
       <h2>Un mes de reseñas<br>de un taller, contestadas</h2>
       <p>Catorce reseñas, doce contestadas solas en menos de diez minutos y dos paradas para que las mires tú. Con el detalle de cada una, no con la misma frase repetida catorce veces.</p>
+    </div>
+
+    <div class="vivo rev" id="vivo-res">
+      <div class="vivo-cab"><span class="vivo-eti">Pruébalo tú</span><p>Escribe una reseña como si fueras un cliente del taller y mira qué pasaría con ella.</p></div>
+      <div class="vivo-g">
+        <form class="vr-form" id="vr-form" onsubmit="return false">
+          <div class="vr-rap" role="group" aria-label="Rellenar con un ejemplo">
+            <button type="button" data-e="5|Aitor|Rapidísimos y muy amables. Me cambiaron las pastillas en una hora y el precio el que me dijeron.">Una buena</button>
+            <button type="button" data-e="3|Nerea|El trabajo bien, pero tardaron dos días más de lo que me dijeron y nadie me avisó.">Una con pega</button>
+            <button type="button" data-e="1|Jon|Carísimo. Me cobraron el doble de lo que me presupuestaron por teléfono.">Una queja</button>
+          </div>
+          <label for="vr-nom">Tu nombre</label>
+          <input id="vr-nom" type="text" value="Aitor" maxlength="30" autocomplete="off">
+          <fieldset class="vr-est"><legend>Estrellas</legend>
+            <div class="vr-stars" role="radiogroup" aria-label="Estrellas">
+              <label><input type="radio" name="vr-e" value="1"><span aria-hidden="true">★</span><span class="sr">1 estrella</span></label>
+              <label><input type="radio" name="vr-e" value="2"><span aria-hidden="true">★</span><span class="sr">2 estrellas</span></label>
+              <label><input type="radio" name="vr-e" value="3"><span aria-hidden="true">★</span><span class="sr">3 estrellas</span></label>
+              <label><input type="radio" name="vr-e" value="4"><span aria-hidden="true">★</span><span class="sr">4 estrellas</span></label>
+              <label><input type="radio" name="vr-e" value="5" checked><span aria-hidden="true">★</span><span class="sr">5 estrellas</span></label>
+            </div>
+          </fieldset>
+          <label for="vr-txt">Lo que escribirías</label>
+          <textarea id="vr-txt" rows="3" maxlength="400">Rapidísimos y muy amables. Me cambiaron las pastillas en una hora y el precio el que me dijeron.</textarea>
+          <button type="button" class="btn spot" id="vr-ok">Ver qué pasa con ella <span class="fl">→</span></button>
+        </form>
+        <div class="vr-sal" id="vr-sal" aria-live="polite">
+          <p class="vr-vacio">Aquí sale la respuesta.</p>
+        </div>
+      </div>
+      <p class="vivo-nota">Simulación reducida para que veas el criterio. En tu negocio la escribe la IA con el tono que tú apruebes.</p>
     </div>
 
     <div class="panel-mes rev">
@@ -136,7 +158,7 @@
       <article class="res-f aviso">
         <div class="res-o">
           <div class="qui"><span class="av">J</span><b>Javier R.</b><span>hace 6 h</span></div>
-          <div class="estr">★<span class="off">★★★★</span></div>
+          <div class="estr" role="img" aria-label="1 estrella de 5">★<span class="off" aria-hidden="true">☆☆☆☆</span></div>
           <p>Me cobraron 40 € más de lo que me dijeron por teléfono. Nadie me avisó del cambio hasta el final.</p>
         </div>
         <div class="res-r">
@@ -149,7 +171,7 @@
       <article class="res-f">
         <div class="res-o">
           <div class="qui"><span class="av">C</span><b>Carlos Benito</b><span>hace 1 semana</span></div>
-          <div class="estr">★★★★<span class="off">★</span></div>
+          <div class="estr" role="img" aria-label="4 estrellas de 5">★★★★<span class="off" aria-hidden="true">☆</span></div>
           <p>Buen servicio, aunque el horario del sábado por la mañana se llena enseguida y cuesta coger hueco.</p>
         </div>
         <div class="res-r">
@@ -174,7 +196,7 @@
     </div>
 
     <div class="paso-ej rev">
-      <span class="ord">·</span>
+      <span class="ord">+</span>
       <div>
         <h3>Cómo se configura tu tono</h3>
         <p>Antes de soltar nada, te enseño diez respuestas a reseñas tuyas de verdad y tú tachas lo que no suene a ti. Eso es lo que se queda grabado.</p>
@@ -193,6 +215,16 @@
   </div>
 </section>
 
+<section class="sec" id="problema">
+  <div class="marco">
+    <div class="sec-cab rev">
+      <span class="eyebrow">02 — El problema</span>
+      <h2>Contestar reseñas es<br>lo primero que se deja</h2>
+      <p>Nadie se sienta un martes a contestar catorce reseñas. Y el que las lee sí que se da cuenta.</p>
+    </div>
+    <ul class="necesito rev d1" style="max-width:78ch"><li><span class="n">01</span><span><b>El 80 % elige antes un negocio que contesta a todas</b>No es la nota lo que decide: es ver que detrás hay alguien.</span></li><li><span class="n">02</span><span><b>Las de hace dos años ya no cuentan</b>Tres de cada cuatro personas buscan reseñas de los últimos tres meses.</span></li><li><span class="n">03</span><span><b>Y la mitad rechaza las respuestas de plantilla</b>«Lamentamos las molestias, contacte con nosotros» hace más daño que no contestar.</span></li><li><span class="n">04</span><span><b>La negativa es la que te quita clientes</b>Y es justo la que hay que pensar con calma, no contestar en caliente ni dejar que la conteste una máquina sola.</span></li></ul>
+  </div>
+</section>
 <section class="sec" id="precio">
   <div class="marco">
     <div class="sec-cab rev">
@@ -201,7 +233,7 @@
       <p>Precio cerrado antes de empezar, y se paga al entregar. Sin permanencia y con 14 días de garantía.</p>
     </div>
     <div class="planes"><article class="plan tilt rev">
-      <span class="plan-eti">Opción A</span><h4>Puesta al día</h4>
+      <span class="plan-eti">Opción A</span><h3 class="t4">Puesta al día</h3>
       <p class="quien-p">Para el que tiene meses de reseñas sin contestar.</p>
       <p class="precio">250 €<small>pago único</small></p>
       <p class="cuota">Sin cuota: se hace una vez y ya está.</p>
@@ -209,7 +241,7 @@
       <a class="btn ghost spot" href="#contacto">Poner al día mis reseñas <span class="fl">→</span></a>
       <a class="enlace-f" href="#ejemplo">Ver el ejemplo <span class="fl">→</span></a>
     </article><article class="plan top tilt rev">
-      <span class="plan-eti">La que se lleva casi todo el mundo</span><h4>Piloto automático</h4>
+      <span class="plan-eti">La que se lleva casi todo el mundo</span><h3 class="t4">Piloto automático</h3>
       <p class="quien-p">Por el mismo precio de entrada, además de ponerlas al día no vuelves a tocarlas.</p>
       <p class="precio"><span class="antes">399 €</span>250 €<small>montaje</small></p>
       <span class="ahorro">Ahorras 149 €</span><p class="porque">Puesta al día (250 €) más el montaje del piloto (149 €) contratados por separado.</p><p class="cuota">Después, <b>25 €/mes</b> sin permanencia.</p>
@@ -227,7 +259,7 @@
       <h2>Tres días,<br>y lo ves antes de pagar</h2>
       <p>El plazo cuenta desde que tengo tu material. Si te retrasas tú, se retrasa la entrega: es lo único que lo alarga.</p>
     </div>
-    <div class="pasos"><article class="paso rev d0"><span class="dia">DÍA 0</span><span class="num">01</span><h4>Me das acceso</h4><p>Dos minutos en tu ficha de Google. No hace falta tu contraseña.</p></article><article class="paso rev d1"><span class="dia">DÍA 1</span><span class="num">02</span><h4>Diez respuestas de prueba</h4><p>A reseñas tuyas de verdad, para que taches lo que no suene a ti.</p></article><article class="paso rev d2"><span class="dia">DÍA 2</span><span class="num">03</span><h4>Ajuste del tono</h4><p>Cambiamos el trato, la firma y qué se para. Se queda grabado.</p></article><article class="paso rev d3"><span class="dia">DÍA 3</span><span class="num">04</span><h4>Funcionando</h4><p>Contesta solo y las malas te llegan al móvil antes de publicarse.</p></article></div>
+    <div class="pasos"><article class="paso rev d0"><span class="dia">DÍA 0</span><span class="num">01</span><h3 class="t4">Me das acceso</h3><p>Dos minutos en tu ficha de Google. No hace falta tu contraseña.</p></article><article class="paso rev d1"><span class="dia">DÍA 1</span><span class="num">02</span><h3 class="t4">Diez respuestas de prueba</h3><p>A reseñas tuyas de verdad, para que taches lo que no suene a ti.</p></article><article class="paso rev d2"><span class="dia">DÍA 2</span><span class="num">03</span><h3 class="t4">Ajuste del tono</h3><p>Cambiamos el trato, la firma y qué se para. Se queda grabado.</p></article><article class="paso rev d3"><span class="dia">DÍA 3</span><span class="num">04</span><h3 class="t4">Funcionando</h3><p>Contesta solo y las malas te llegan al móvil antes de publicarse.</p></article></div>
   </div>
 </section>
 <section class="sec" id="preguntas">
@@ -266,11 +298,118 @@
     <div class="pie-grid">
       <div style="max-width:32ch"><strong style="color:var(--tinta)">Guillem Polo</strong><br>Webs y automatización para empresas y autónomos.</div>
       <div><a href="/paginas-web">Páginas web</a> · <a href="/resenas-google">Reseñas</a> · <a href="/facturas-a-datos">Facturas</a> · <a href="/asistente-whatsapp">WhatsApp</a></div>
-      <div><a href="/socios">Programa de socios</a> · <a href="/condiciones">Condiciones y devoluciones</a></div>
+      <div><a href="/socios">Programa de socios</a> · <a href="/condiciones">Condiciones y devoluciones</a><br><a href="/aviso-legal">Aviso legal</a> · <a href="/privacidad">Privacidad</a> · <a href="/cookies">Cookies</a></div>
     </div>
     <p class="legal">Guillem Polo Santisteban · NIF 79439688B · Ávila kalea 6, 48012 Bilbao (Vizcaya) · 688 65 54 65 · guillempolo2008@gmail.com</p>
   </div>
 </footer>
+
+
+<script>
+(function(){
+  /* ── reseñas ── */
+  var f = document.getElementById('vr-form');
+  if(f){
+    var nom = document.getElementById('vr-nom'), txt = document.getElementById('vr-txt'), sal = document.getElementById('vr-sal');
+    var TEMAS = [
+      [/amabl|trato|atenci|simp[aá]tic|majo|educad/i, 'trato', 'Nos alegra que te sintieras bien atendido, que es lo que más cuidamos.'],
+      [/r[aá]pid|en una hora|en el d[ií]a|enseguida|al momento/i, 'rapidez', 'Intentamos no tener a nadie esperando el coche más de lo necesario.'],
+      [/tard|retras|esper|d[ií]as? m[aá]s|no me avis|nadie me avis/i, 'espera', 'Tienes razón con el plazo, y lo peor es que no te avisáramos: ya hemos cambiado cómo avisamos de los retrasos para que no vuelva a pasar.'],
+      [/precio|caro|barat|cobr|presupuest|€|euros/i, 'precio', 'Nos gusta que el precio final sea el que se dijo al principio, sin sorpresas.'],
+      [/limpi/i, 'limpieza', 'Lo de devolver el coche limpio lo hacemos siempre, gracias por fijarte.'],
+      [/recomiend/i, 'recomienda', 'Y gracias por recomendarnos, es lo que más nos ayuda.'],
+      [/pastillas|frenos|aceite|ruedas|neum[aá]tic|chapa|pintura|itv|embrague/i, 'trabajo', null]
+    ];
+    function limpia(s){ return (s||'').trim().replace(/\s+/g,' '); }
+    function nombre(){ var n = limpia(nom.value).split(' ')[0] || 'amigo'; return n.charAt(0).toUpperCase() + n.slice(1); }
+    function responde(){
+      var e = +f.querySelector('input[name="vr-e"]:checked').value, t = limpia(txt.value), n = nombre();
+      var hits = TEMAS.filter(function(x){ return x[0].test(t); });
+      var tags = hits.map(function(x){ return '<span>'+x[1]+'</span>'; }).join('');
+      var r, cab, nota;
+      if(e <= 2){
+        sal.className = 'vr-sal parada';
+        cab = 'Parada · no se publica nada';
+        r = '<b>Te llega a ti al móvil antes que a nadie</b>, con este borrador preparado:<br><i>«Hola, '+n+'. Sentimos que te fueras así. '+(hits.some(function(x){return x[1]==='precio';}) ? 'Queremos revisar contigo la factura y el presupuesto que te dimos, ' : 'Queremos entender qué pasó, ')+'¿nos llamas o te llamamos nosotros?»</i><br>Tú decides si se manda, se cambia o llamas primero.';
+        nota = 'Toda reseña de 1 y 2 estrellas pasa por ti. Siempre.';
+      } else {
+        sal.className = 'vr-sal';
+        cab = 'Contestada sola · ' + (2 + Math.floor(Math.random()*7)) + ' min';
+        var frases = hits.filter(function(x){ return x[2] && (e<4 || x[1]!=='espera'); }).map(function(x){ return x[2]; });
+        if(e === 3 && !hits.some(function(x){return x[1]==='espera';})) frases.unshift('Gracias también por decirnos lo que no te gustó: lo tenemos apuntado.');
+        if(!t) frases = ['Con '+e+' estrellas y sin tener que escribir nada nos vale igual.'];
+        else if(!frases.length) frases = ['Nos alegra que saliera bien.'];
+        var cierre = e === 3 ? 'Si quieres contarnos más, pásate cuando quieras y lo hablamos.' : 'Te esperamos en la próxima.';
+        r = 'Gracias, '+n+'. ' + frases.slice(0,2).join(' ') + ' ' + cierre;
+        nota = hits.length && t ? 'Ha recogido lo concreto que dijiste, no una frase de plantilla.' : 'Una reseña sin detalle también se contesta: Google cuenta que respondes a todas.';
+      }
+      sal.innerHTML = '<span class="cab-r">'+cab+'</span><p class="vr-r">'+r+'</p>' + (tags ? '<div class="vr-tags" aria-label="Lo que ha detectado">'+tags+'</div>' : '') + '<span class="marca-t">'+nota+'</span>';
+    }
+    document.getElementById('vr-ok').addEventListener('click', responde);
+    f.querySelector('.vr-rap').addEventListener('click', function(ev){
+      var b = ev.target.closest('button'); if(!b) return;
+      var p = b.getAttribute('data-e').split('|');
+      f.querySelector('input[name="vr-e"][value="'+p[0]+'"]').checked = true; nom.value = p[1]; txt.value = p[2];
+      responde();
+    });
+  }
+
+  /* ── WhatsApp ── */
+  var chat = document.getElementById('vw-chat');
+  if(chat){
+    var hora = 23*60+4, est = document.getElementById('vw-est'), inp = document.getElementById('vw-in');
+    function hh(){ hora++; return Math.floor(hora/60)%24 + ':' + ('0'+hora%60).slice(-2); }
+    function esc(s){ return s.replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+    function burbuja(cl, html){ var d = document.createElement('div'); d.className = 'wa-b nuevo ' + cl; d.innerHTML = html; chat.appendChild(d); chat.scrollTop = chat.scrollHeight; return d; }
+    var RESP = [
+      [/aceite|filtro/i, 'Un cambio de aceite con filtro sale entre 60 y 90 € según el motor. ¿Quieres que te busque hueco esta semana?', true],
+      [/s[aá]bado|domingo|horario|abr[ií]s|abiert/i, 'Los sábados abrimos de 9:00 a 13:00. Entre semana, de 8:00 a 18:00 sin cerrar a mediodía.', false],
+      [/cita|hueco|llevar|cu[aá]ndo|semana|ma[ñn]ana/i, 'Esta semana tengo estos huecos. ¿Cuál te va mejor?', true],
+      [/pint|ray|golpe|chapa|bollo|parachoques/i, 'Una pieza pintada al horno suele salir entre 180 y 260 € según el color y si hay que sacar bollo. Si me mandas una foto te lo cierro mañana a primera hora.', true],
+      [/itv/i, 'La revisión pre-ITV son 35 € y te decimos todo lo que te podrían tirar antes de ir. ¿Te busco hueco?', true],
+      [/precio|cu[aá]nto|cuesta|vale/i, 'Depende del trabajo. Dime qué le pasa al coche y te doy una horquilla, que es lo que me deja dar el taller sin verlo.', false],
+      [/gracias|vale|perfecto|genial|ok/i, '¡A ti! Aquí estoy para lo que necesites.', false],
+      [/hola|buenas|kaixo/i, '¡Buenas! Dime qué necesitas: presupuesto, cita u horario.', false]
+    ];
+    function cita(){
+      var op = document.createElement('div'); op.className = 'wa-op';
+      ['Jueves 9:00','Viernes 16:30'].forEach(function(t){
+        var b = document.createElement('button'); b.type='button'; b.textContent = t;
+        b.addEventListener('click', function(){ op.remove(); pregunta(t, true); });
+        op.appendChild(b);
+      });
+      chat.appendChild(op); chat.scrollTop = chat.scrollHeight;
+    }
+    function contesta(q, esHueco){
+      var r, conCita = false, deriva = false;
+      if(esHueco){ r = 'Hecho. <b>'+esc(q)+'</b>, a nombre de tu matrícula. Te mando recordatorio el día antes. ¡Buenas noches!'; }
+      else {
+        var m = null; for(var i=0;i<RESP.length;i++){ if(RESP[i][0].test(q)){ m = RESP[i]; break; } }
+        if(m && !/tesla|el[eé]ctric|bater[ií]a|h[ií]brid|seguro|denuncia|abogad/i.test(q)){ r = m[1]; conCita = m[2]; }
+        else { r = 'Eso se sale de lo que puedo contestarte yo. Se lo paso a Iñaki ahora mismo y te llama él en menos de una hora.'; deriva = true; }
+      }
+      est.textContent = 'escribiendo…';
+      var t = burbuja('tu escribe', '<i></i><i></i><i></i>'); t.setAttribute('aria-hidden','true');
+      setTimeout(function(){
+        t.remove(); est.textContent = 'en línea';
+        burbuja('tu', r + '<span class="h">'+hh()+'</span>');
+        if(esHueco) burbuja('aviso', '📅 Cita apuntada en el calendario del taller y aviso al móvil del dueño');
+        if(deriva) burbuja('aviso', '🔔 Aviso al móvil de Iñaki con la conversación. El asistente no se inventa nada');
+        if(conCita && /huecos/.test(r)) cita();
+      }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 150 : 1100);
+    }
+    function pregunta(q, esHueco){
+      q = (q||'').trim(); if(!q) return;
+      burbuja('el', esc(q) + '<span class="h">'+hh()+'</span>');
+      contesta(q, esHueco);
+    }
+    document.getElementById('vw-chips').addEventListener('click', function(e){
+      var b = e.target.closest('button'); if(!b || b.disabled) return; b.disabled = true; pregunta(b.textContent);
+    });
+    document.getElementById('vw-form').addEventListener('submit', function(){ pregunta(inp.value); inp.value=''; });
+  }
+})();
+</script>
 
 <script src="/servicio.js" defer></script>
 

@@ -1,4 +1,16 @@
 (function(){
+  /* barra de saltos: marca la sección en la que estás */
+  var sl = [].slice.call(document.querySelectorAll('.saltos a'));
+  if(sl.length && 'IntersectionObserver' in window){
+    var mapa = {}; sl.forEach(function(a){ mapa[a.getAttribute('href').slice(1)] = a; });
+    var io2 = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){
+      sl.forEach(function(a){ a.removeAttribute('aria-current'); });
+      var a = mapa[e.target.id]; a.setAttribute('aria-current','true');
+      var c = a.parentNode; c.scrollTo({left: a.offsetLeft - c.clientWidth/2 + a.clientWidth/2, behavior:'smooth'});
+    }}); }, {rootMargin:'-45% 0px -50% 0px'});
+    Object.keys(mapa).forEach(function(id){ var n=document.getElementById(id); if(n) io2.observe(n); });
+  }
+
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(!reduce) document.documentElement.classList.add('anim');
 

@@ -92,31 +92,205 @@
     <div class="tiras-h"><div class="tira-h"><b>290 €</b><span>desde, montaje</span></div><div class="tira-h"><b>4 s</b><span>por factura</span></div><div class="tira-h"><b>20</b><span>facturas de prueba gratis</span></div><div class="tira-h"><b>3 días</b><span>hasta tenerlo en marcha</span></div></div>
   </div>
 </section>
-<section class="sec" id="problema">
-  <div class="marco">
-    <div class="sec-cab rev">
-      <span class="eyebrow">01 — El problema</span>
-      <h2>Picar facturas es el trabajo<br>que nadie quiere hacer</h2>
-      <p>Dos o tres minutos cada una, siempre a última hora y siempre con la sensación de estar perdiendo el tiempo.</p>
-    </div>
-    <ul class="necesito rev d1" style="max-width:78ch"><li><span class="n">01</span><span><b>Dos minutos por factura, cien facturas al mes</b>Son más de tres horas al mes escribiendo números que ya están escritos.</span></li><li><span class="n">02</span><span><b>Y se cuelan errores</b>Un dígito mal en una base imponible lo acabas pagando tú o tu gestoría, y siempre se descubre tarde.</span></li><li><span class="n">03</span><span><b>Cada proveedor manda la suya como quiere</b>PDF, foto, papel. Lo que para ti es «todo facturas», para un programa normal son tres formatos distintos.</span></li><li><span class="n">04</span><span><b>Y el IVA no siempre es el 21 %</b>La comida del equipo va al 10 %, el seguro va exento. Forzarlo todo al 21 % es el error más caro de todos.</span></li></ul>
-  </div>
-</section>
+<nav class="saltos" aria-label="En esta página"><div class="marco saltos-in"><a href="#ejemplo">Ejemplo en vivo</a><a href="#precio">Precio</a><a href="#como">Cómo trabajo</a><a href="#preguntas">Preguntas</a><a href="#contacto" class="ult">Pedir presupuesto</a></div></nav>
 
 <section class="sec" id="ejemplo">
   <div class="marco">
     <div class="sec-cab rev">
-      <span class="eyebrow">02 — El ejemplo</span>
+      <span class="eyebrow">01 — El ejemplo</span>
       <h2>Un mes de facturas<br>de un taller, entero</h2>
       <p>Tres proveedores que mandan la factura de tres maneras distintas, las nueve del mes ya volcadas, lo que se para para que lo mires tú y el resumen que le pasas a la gestoría. Todo inventado, pero con la pinta exacta de lo que te llega.</p>
     </div>
 
-    <!-- 1. tres formatos -->
+
     <div class="paso-ej rev">
       <span class="ord">01</span>
       <div>
-        <h3>Entra como entra, y da igual</h3>
-        <p>PDF del proveedor, foto del albarán hecha con el móvil o el papel escaneado torcido. Los tres se leen igual.</p>
+        <h3>Esto es lo que acabas teniendo</h3>
+        <p>Cuatro pestañas, y en todas se puede tocar. <b>El panel</b> filtra los gastos por mes, categoría y tipo de IVA, y con «editar datos» cambias una base o añades una factura y se recalcula al instante. <b>La bandeja de revisión</b> enseña lo que el sistema no da por bueno solo: un duplicado, una que no cuadra y una sin NIF. <b>El cuadre de IVA</b> es lo que se copia en el 303, y se descarga en CSV. Y <b>facturación</b> es lo que entra, año a año, comparado con el anterior. Pruébalo, que no rompes nada.</p>
+      </div>
+    </div>
+
+    <div class="pf-nav rev" role="tablist" id="pf-nav" aria-label="Partes del panel de facturas">
+      <button role="tab" id="t-panel" aria-controls="v-panel" aria-selected="true" data-v="v-panel">El panel</button>
+      <button role="tab" id="t-revision" aria-controls="v-revision" aria-selected="false" tabindex="-1" data-v="v-revision">Bandeja de revisión <span class="pin" id="pin-rev">0</span></button>
+      <button role="tab" id="t-iva" aria-controls="v-iva" aria-selected="false" tabindex="-1" data-v="v-iva">Cuadre de IVA</button>
+      <button role="tab" id="t-ventas" aria-controls="v-ventas" aria-selected="false" tabindex="-1" data-v="v-ventas">Facturación</button>
+    </div>
+
+    <div class="pf-vista on" id="v-panel" role="tabpanel" aria-labelledby="t-panel" tabindex="0">
+    <div class="panel-fac rev d1" id="panel">
+      <div class="pf-cab">
+        <div class="pf-tit"><span class="pt-live"></span><b>Panel de gastos</b><span class="mono" id="pf-rango">julio – septiembre 2026</span></div>
+        <div class="pf-filtros">
+          <label class="fl-g"><span>Mes</span>
+            <select id="f-mes">
+              <option value="0">Los tres</option><option value="7">Julio</option>
+              <option value="8">Agosto</option><option value="9" selected>Septiembre</option>
+            </select></label>
+          <label class="fl-g"><span>Categoría</span>
+            <select id="f-cat"><option value="">Todas</option></select></label>
+          <label class="fl-g"><span>Tipo de IVA</span>
+            <select id="f-iva">
+              <option value="">Todos</option><option value="21">21 %</option>
+              <option value="10">10 %</option><option value="0">Exenta</option>
+            </select></label>
+          <label class="fl-g crece"><span>Buscar proveedor</span>
+            <input type="search" id="f-txt" placeholder="Escribe un nombre…" autocomplete="off"></label>
+          <button class="limpiar" id="f-limpia" type="button">Limpiar</button>
+        </div>
+      </div>
+
+      <div class="pf-kpis" id="pf-kpis">
+        <div class="kpi"><span class="k">Facturas</span><b id="k-num">0</b><span class="v" id="k-num-v">&nbsp;</span></div>
+        <div class="kpi"><span class="k">Base imponible</span><b id="k-base">0</b><span class="v" id="k-base-v">&nbsp;</span></div>
+        <div class="kpi"><span class="k">IVA soportado</span><b id="k-iva">0</b><span class="v" id="k-iva-v">deducible</span></div>
+        <div class="kpi destaca"><span class="k">Total pagado</span><b id="k-tot">0</b><span class="v" id="k-tot-v">&nbsp;</span></div>
+        <div class="kpi"><span class="k">Factura media</span><b id="k-med">0</b><span class="v">por documento</span></div>
+        <div class="kpi"><span class="k">Tiempo ahorrado</span><b id="k-min">0</b><span class="v">frente a picarlas</span></div>
+      </div>
+
+      <div class="pf-graf">
+        <section class="gf">
+          <header class="gf-cab">
+            <h4 id="g1-tit">Gasto por proveedor</h4>
+            <div class="gf-mandos">
+              <label class="fl-g"><span>Agrupar por</span>
+                <select id="g-grupo"><option value="p">Proveedor</option><option value="c">Categoría</option></select></label>
+              <label class="fl-g"><span>Métrica</span>
+                <select id="g-metr">
+                  <option value="tt">Total pagado</option><option value="b">Base imponible</option>
+                  <option value="i">Cuota de IVA</option><option value="n">Nº de facturas</option>
+                </select></label>
+            </div>
+          </header>
+          <div class="barras-g" id="g-barras"></div>
+        </section>
+
+        <section class="gf">
+          <header class="gf-cab"><h4>Gasto por mes</h4><span class="gf-nota" id="g2-nota">con los filtros puestos</span></header>
+          <div class="meses" id="g-meses"></div>
+        </section>
+      </div>
+
+      <div class="pf-tabla">
+        <div class="pf-barra">
+          <span class="pf-modo" id="pf-modo">Modo lectura · pulsa «Editar datos» para cambiar cualquier número</span>
+          <div class="pf-acc">
+            <button class="limpiar" id="b-edit" type="button" aria-pressed="false">Editar datos</button>
+            <button class="limpiar" id="b-add" type="button" hidden>+ Añadir factura</button>
+            <button class="limpiar" id="b-reset" type="button" hidden>Restaurar ejemplo</button>
+          </div>
+        </div>
+        <div class="env">
+          <table class="tabla-x ancha" id="pf-t">
+            <thead><tr>
+              <th data-ord="f">Fecha</th><th data-ord="p">Proveedor</th><th>NIF</th><th>Nº factura</th>
+              <th data-ord="c">Categoría</th><th>Tipo</th><th data-ord="b" class="num">Base</th>
+              <th data-ord="i" class="num">Cuota IVA</th><th data-ord="tt" class="num">Total</th>
+              <th class="quitar-col" hidden></th>
+            </tr></thead>
+            <tbody id="pf-tb"></tbody>
+            <tfoot><tr><td colspan="6" id="pf-pie">—</td><td class="num" id="pf-b">0</td><td class="num" id="pf-i">0</td><td class="num" id="pf-t2">0</td><td class="quitar-col" hidden></td></tr></tfoot>
+          </table>
+        </div>
+        <p class="pf-vacio" id="pf-vacio" hidden>Con esos filtros no queda ninguna factura. <button type="button" class="enlace-f" id="f-limpia2">Quitar los filtros</button></p>
+      </div>
+    </div>
+    </div>
+
+    <div class="pf-vista" id="v-revision" role="tabpanel" aria-labelledby="t-revision" tabindex="0">
+      <div class="panel-fac">
+        <div class="pf-cab">
+          <div class="pf-tit"><span class="pt-live rojo"></span><b>Bandeja de revisión</b><span class="mono" id="rev-n">0 documentos</span></div>
+          <p class="mini" style="margin:0">Lo que el sistema no da por bueno solo. No se descarta ni se cuela: se aparta para que lo confirmes tú en diez segundos.</p>
+        </div>
+        <div class="env">
+          <table class="tabla-x ancha" id="rev-t">
+            <thead><tr><th>Qué pasa</th><th>Fecha</th><th>Proveedor</th><th>Nº factura</th><th class="num">Importe</th><th>Qué hago</th></tr></thead>
+            <tbody id="rev-tb"></tbody>
+          </table>
+        </div>
+        <p class="pf-vacio" id="rev-vacio" hidden>Nada que revisar: las 41 han entrado limpias.</p>
+      </div>
+    </div>
+
+    <div class="pf-vista" id="v-ventas" role="tabpanel" aria-labelledby="t-ventas" tabindex="0">
+      <div class="panel-fac">
+        <div class="pf-cab">
+          <div class="pf-tit"><span class="pt-live"></span><b>Facturación emitida</b>
+            <span class="anios" id="anios" role="group" aria-label="Elegir año">
+              <button type="button" data-a="2024">2024</button>
+              <button type="button" data-a="2025">2025</button>
+              <button type="button" data-a="2026" aria-pressed="true">2026</button>
+            </span>
+          </div>
+          <p class="mini" style="margin:0">Lo que entra, no lo que sale. Cambia de año y se recalcula todo: el gráfico compara siempre con el anterior.</p>
+        </div>
+
+        <div class="pf-kpis cuatro-k">
+          <div class="kpi destaca"><span class="k">Facturado en el año</span><b id="v-tot">0</b><span class="v" id="v-tot-v">&nbsp;</span></div>
+          <div class="kpi"><span class="k">Reparaciones</span><b id="v-n">0</b><span class="v">facturadas</span></div>
+          <div class="kpi"><span class="k">Ticket medio</span><b id="v-tic">0</b><span class="v" id="v-tic-v">&nbsp;</span></div>
+          <div class="kpi"><span class="k">Mejor mes</span><b id="v-max">—</b><span class="v" id="v-max-v">&nbsp;</span></div>
+        </div>
+
+        <div class="pf-graf una">
+          <section class="gf">
+            <header class="gf-cab">
+              <h4>Facturación mes a mes</h4>
+              <div class="leyenda" id="leyenda"></div>
+            </header>
+            <div class="lienzo" id="lienzo"></div>
+            <p class="mini gf-nota" id="v-nota">&nbsp;</p>
+          </section>
+        </div>
+
+        <div class="pf-graf dos-col">
+          <section class="gf">
+            <header class="gf-cab"><h4>De dónde viene el dinero</h4><span class="gf-nota">por cliente, en el año elegido</span></header>
+            <div class="barras-g" id="v-clientes"></div>
+          </section>
+          <section class="gf">
+            <header class="gf-cab"><h4>Los números, mes a mes</h4><span class="gf-nota">por si prefieres la tabla</span></header>
+            <div class="env">
+              <table class="tabla-x" id="v-tabla">
+                <thead><tr><th>Mes</th><th class="num">Facturado</th><th class="num">Reparaciones</th><th class="num">Ticket medio</th><th class="num">vs año anterior</th></tr></thead>
+                <tbody id="v-tb"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <div class="pf-vista" id="v-iva" role="tabpanel" aria-labelledby="t-iva" tabindex="0">
+      <div class="panel-fac">
+        <div class="pf-cab">
+          <div class="pf-tit"><b>IVA soportado por trimestre</b><span class="mono">3T 2026</span></div>
+          <p class="mini" style="margin:0">Repartido por tipo, que es como hay que declararlo. Este cuadro es el que se copia en el modelo 303.</p>
+        </div>
+        <div class="env">
+          <table class="tabla-x ancha">
+            <thead><tr><th>Tipo</th><th class="num">Facturas</th><th class="num">Base imponible</th><th class="num">Cuota de IVA</th><th class="num">Total</th></tr></thead>
+            <tbody id="iva-tb"></tbody>
+            <tfoot><tr><td><b>Total 3T</b></td><td class="num" id="iva-n">0</td><td class="num" id="iva-b">0</td><td class="num" id="iva-i">0</td><td class="num" id="iva-t">0</td></tr></tfoot>
+          </table>
+        </div>
+        <div class="pf-barra">
+          <span class="pf-modo">Descarga el cuadre y las 41 facturas en un CSV que abre Excel</span>
+          <div class="pf-acc"><button class="limpiar" id="b-csv" type="button">Descargar CSV</button></div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- 1. tres formatos -->
+    <div class="paso-ej rev">
+      <span class="ord">02</span>
+      <div>
+        <h3>Y da igual cómo entre el papel</h3>
+        <p>PDF del proveedor, foto del albarán hecha con el móvil o el papel escaneado torcido. Los tres se leen igual y acaban en el panel de arriba.</p>
       </div>
     </div>
 
@@ -212,94 +386,6 @@
     </div>
 
 
-    <div class="paso-ej rev">
-      <span class="ord">02</span>
-      <div>
-        <h3>Y acaban todas en el mismo panel</h3>
-        <p>Tres meses de facturas de un taller, en un panel de verdad. Arriba, <b>desplegables</b> para el mes, la categoría, el tipo de IVA y la métrica. Abajo, el botón de <b>editar datos</b>: cambia una base o un tipo de IVA, añade una factura o quita otra, y mira cómo se recalcula todo al instante. Pruébalo, que no rompes nada.</p>
-      </div>
-    </div>
-
-    <div class="panel-fac rev d1" id="panel">
-      <div class="pf-cab">
-        <div class="pf-tit"><span class="pt-live"></span><b>Panel de gastos</b><span class="mono" id="pf-rango">julio – septiembre 2026</span></div>
-        <div class="pf-filtros">
-          <label class="fl-g"><span>Mes</span>
-            <select id="f-mes">
-              <option value="0">Los tres</option><option value="7">Julio</option>
-              <option value="8">Agosto</option><option value="9" selected>Septiembre</option>
-            </select></label>
-          <label class="fl-g"><span>Categoría</span>
-            <select id="f-cat"><option value="">Todas</option></select></label>
-          <label class="fl-g"><span>Tipo de IVA</span>
-            <select id="f-iva">
-              <option value="">Todos</option><option value="21">21 %</option>
-              <option value="10">10 %</option><option value="0">Exenta</option>
-            </select></label>
-          <label class="fl-g crece"><span>Buscar proveedor</span>
-            <input type="search" id="f-txt" placeholder="Escribe un nombre…" autocomplete="off"></label>
-          <button class="limpiar" id="f-limpia" type="button">Limpiar</button>
-        </div>
-      </div>
-
-      <div class="pf-kpis" id="pf-kpis">
-        <div class="kpi"><span class="k">Facturas</span><b id="k-num">0</b><span class="v" id="k-num-v">&nbsp;</span></div>
-        <div class="kpi"><span class="k">Base imponible</span><b id="k-base">0</b><span class="v" id="k-base-v">&nbsp;</span></div>
-        <div class="kpi"><span class="k">IVA soportado</span><b id="k-iva">0</b><span class="v" id="k-iva-v">deducible</span></div>
-        <div class="kpi destaca"><span class="k">Total pagado</span><b id="k-tot">0</b><span class="v" id="k-tot-v">&nbsp;</span></div>
-        <div class="kpi"><span class="k">Factura media</span><b id="k-med">0</b><span class="v">por documento</span></div>
-        <div class="kpi"><span class="k">Tiempo ahorrado</span><b id="k-min">0</b><span class="v">frente a picarlas</span></div>
-      </div>
-
-      <div class="pf-graf">
-        <section class="gf">
-          <header class="gf-cab">
-            <h4 id="g1-tit">Gasto por proveedor</h4>
-            <div class="gf-mandos">
-              <label class="fl-g"><span>Agrupar por</span>
-                <select id="g-grupo"><option value="p">Proveedor</option><option value="c">Categoría</option></select></label>
-              <label class="fl-g"><span>Métrica</span>
-                <select id="g-metr">
-                  <option value="tt">Total pagado</option><option value="b">Base imponible</option>
-                  <option value="i">Cuota de IVA</option><option value="n">Nº de facturas</option>
-                </select></label>
-            </div>
-          </header>
-          <div class="barras-g" id="g-barras"></div>
-        </section>
-
-        <section class="gf">
-          <header class="gf-cab"><h4>Gasto por mes</h4><span class="gf-nota" id="g2-nota">con los filtros puestos</span></header>
-          <div class="meses" id="g-meses"></div>
-        </section>
-      </div>
-
-      <div class="pf-tabla">
-        <div class="pf-barra">
-          <span class="pf-modo" id="pf-modo">Modo lectura · pulsa «Editar datos» para cambiar cualquier número</span>
-          <div class="pf-acc">
-            <button class="limpiar" id="b-edit" type="button" aria-pressed="false">Editar datos</button>
-            <button class="limpiar" id="b-add" type="button" hidden>+ Añadir factura</button>
-            <button class="limpiar" id="b-reset" type="button" hidden>Restaurar ejemplo</button>
-          </div>
-        </div>
-        <div class="env">
-          <table class="tabla-x ancha" id="pf-t">
-            <thead><tr>
-              <th data-ord="f">Fecha</th><th data-ord="p">Proveedor</th><th>NIF</th><th>Nº factura</th>
-              <th data-ord="c">Categoría</th><th>Tipo</th><th data-ord="b" class="num">Base</th>
-              <th data-ord="i" class="num">Cuota IVA</th><th data-ord="tt" class="num">Total</th>
-              <th class="quitar-col" hidden></th>
-            </tr></thead>
-            <tbody id="pf-tb"></tbody>
-            <tfoot><tr><td colspan="6" id="pf-pie">—</td><td class="num" id="pf-b">0</td><td class="num" id="pf-i">0</td><td class="num" id="pf-t2">0</td><td class="quitar-col" hidden></td></tr></tfoot>
-          </table>
-        </div>
-        <p class="pf-vacio" id="pf-vacio" hidden>Con esos filtros no queda ninguna factura. <button type="button" class="enlace-f" id="f-limpia2">Quitar los filtros</button></p>
-      </div>
-    </div>
-
-
     <!-- 3. lo dudoso -->
     <div class="paso-ej rev">
       <span class="ord">03</span>
@@ -348,6 +434,16 @@
   </div>
 </section>
 
+<section class="sec" id="problema">
+  <div class="marco">
+    <div class="sec-cab rev">
+      <span class="eyebrow">02 — El problema</span>
+      <h2>Picar facturas es el trabajo<br>que nadie quiere hacer</h2>
+      <p>Dos o tres minutos cada una, siempre a última hora y siempre con la sensación de estar perdiendo el tiempo.</p>
+    </div>
+    <ul class="necesito rev d1" style="max-width:78ch"><li><span class="n">01</span><span><b>Dos minutos por factura, cien facturas al mes</b>Son más de tres horas al mes escribiendo números que ya están escritos.</span></li><li><span class="n">02</span><span><b>Y se cuelan errores</b>Un dígito mal en una base imponible lo acabas pagando tú o tu gestoría, y siempre se descubre tarde.</span></li><li><span class="n">03</span><span><b>Cada proveedor manda la suya como quiere</b>PDF, foto, papel. Lo que para ti es «todo facturas», para un programa normal son tres formatos distintos.</span></li><li><span class="n">04</span><span><b>Y el IVA no siempre es el 21 %</b>La comida del equipo va al 10 %, el seguro va exento. Forzarlo todo al 21 % es el error más caro de todos.</span></li></ul>
+  </div>
+</section>
 <section class="sec" id="precio">
   <div class="marco">
     <div class="sec-cab rev">
@@ -356,7 +452,7 @@
       <p>Precio cerrado antes de empezar, y se paga al entregar. Sin permanencia y con 14 días de garantía.</p>
     </div>
     <div class="planes"><article class="plan tilt rev">
-      <span class="plan-eti">Opción A</span><h4>Montaje estándar</h4>
+      <span class="plan-eti">Opción A</span><h3 class="t4">Montaje estándar</h3>
       <p class="quien-p">Un formato o dos de factura, un destino: tu Excel o tu programa.</p>
       <p class="precio">290 €<small>pago único</small></p>
       <p class="cuota">Opcional después: <b>19 €/mes</b> de mantenimiento y avisos.</p>
@@ -364,7 +460,7 @@
       <a class="btn ghost spot" href="#contacto">Quiero el montaje <span class="fl">→</span></a>
       <a class="enlace-f" href="#ejemplo">Ver el ejemplo <span class="fl">→</span></a>
     </article><article class="plan top tilt rev">
-      <span class="plan-eti">El que se lleva casi todo el mundo</span><h4>Montaje a medida</h4>
+      <span class="plan-eti">El que se lleva casi todo el mundo</span><h3 class="t4">Montaje a medida</h3>
       <p class="quien-p">Por 100 € más, sin límite de formatos y conectado a tu programa.</p>
       <p class="precio"><span class="antes">480 €</span>390 €<small>pago único</small></p>
       <span class="ahorro">Ahorras 90 €</span><p class="porque">Montaje estándar (290 €) más la conexión con tu programa (190 €) por separado.</p><p class="cuota">Opcional después: <b>29 €/mes</b> con soporte prioritario.</p>
@@ -382,7 +478,7 @@
       <h2>Tres días,<br>y lo ves antes de pagar</h2>
       <p>El plazo cuenta desde que tengo tu material. Si te retrasas tú, se retrasa la entrega: es lo único que lo alarga.</p>
     </div>
-    <div class="pasos"><article class="paso rev d0"><span class="dia">DÍA 0</span><span class="num">01</span><h4>Me mandas 20 facturas</h4><p>De las de verdad, con los proveedores raros incluidos. Esto es gratis.</p></article><article class="paso rev d1"><span class="dia">DÍA 1</span><span class="num">02</span><h4>Te enseño la hoja</h4><p>Las 20 ya volcadas, para que compruebes número a número que están bien.</p></article><article class="paso rev d2"><span class="dia">DÍA 2</span><span class="num">03</span><h4>Ajustes</h4><p>Columnas a tu gusto, categorías tuyas y a dónde va la hoja.</p></article><article class="paso rev d3"><span class="dia">DÍA 3</span><span class="num">04</span><h4>En marcha</h4><p>Reenvías las facturas a una dirección y aparecen solas.</p></article></div>
+    <div class="pasos"><article class="paso rev d0"><span class="dia">DÍA 0</span><span class="num">01</span><h3 class="t4">Me mandas 20 facturas</h3><p>De las de verdad, con los proveedores raros incluidos. Esto es gratis.</p></article><article class="paso rev d1"><span class="dia">DÍA 1</span><span class="num">02</span><h3 class="t4">Te enseño la hoja</h3><p>Las 20 ya volcadas, para que compruebes número a número que están bien.</p></article><article class="paso rev d2"><span class="dia">DÍA 2</span><span class="num">03</span><h3 class="t4">Ajustes</h3><p>Columnas a tu gusto, categorías tuyas y a dónde va la hoja.</p></article><article class="paso rev d3"><span class="dia">DÍA 3</span><span class="num">04</span><h3 class="t4">En marcha</h3><p>Reenvías las facturas a una dirección y aparecen solas.</p></article></div>
   </div>
 </section>
 <section class="sec" id="preguntas">
@@ -421,14 +517,15 @@
     <div class="pie-grid">
       <div style="max-width:32ch"><strong style="color:var(--tinta)">Guillem Polo</strong><br>Webs y automatización para empresas y autónomos.</div>
       <div><a href="/paginas-web">Páginas web</a> · <a href="/resenas-google">Reseñas</a> · <a href="/facturas-a-datos">Facturas</a> · <a href="/asistente-whatsapp">WhatsApp</a></div>
-      <div><a href="/socios">Programa de socios</a> · <a href="/condiciones">Condiciones y devoluciones</a></div>
+      <div><a href="/socios">Programa de socios</a> · <a href="/condiciones">Condiciones y devoluciones</a><br><a href="/aviso-legal">Aviso legal</a> · <a href="/privacidad">Privacidad</a> · <a href="/cookies">Cookies</a></div>
     </div>
     <p class="legal">Guillem Polo Santisteban · NIF 79439688B · Ávila kalea 6, 48012 Bilbao (Vizcaya) · 688 65 54 65 · guillempolo2008@gmail.com</p>
   </div>
 </footer>
 
 
-<script id="datos-facturas" type="application/json">[{"f":"02/07/2026","m":7,"mn":"julio","p":"Recambios Uribe, S.L.","nif":"B95000000","c":"Recambios","n":"F-2026/598","t":21,"b":128.4,"i":26.96,"tt":155.36},{"f":"03/07/2026","m":7,"mn":"julio","p":"Pinturas Goitia","nif":"B01000000","c":"Pintura","n":"2026-0812","t":21,"b":356.0,"i":74.76,"tt":430.76},{"f":"06/07/2026","m":7,"mn":"julio","p":"Gasóleos Nervión, S.A.","nif":"A48000000","c":"Combustible","n":"GN-88104","t":21,"b":291.3,"i":61.17,"tt":352.47},{"f":"08/07/2026","m":7,"mn":"julio","p":"Iberdrola","nif":"A95758389","c":"Luz y agua","n":"IB-2026-07","t":21,"b":184.55,"i":38.76,"tt":223.31},{"f":"09/07/2026","m":7,"mn":"julio","p":"Ferretería Lauaxeta","nif":"B48333333","c":"Consumibles","n":"2026/1140","t":21,"b":62.9,"i":13.21,"tt":76.11},{"f":"13/07/2026","m":7,"mn":"julio","p":"Talleres Egaña","nif":"B48111111","c":"Subcontrata","n":"2026/0388","t":21,"b":480.0,"i":100.8,"tt":580.8},{"f":"15/07/2026","m":7,"mn":"julio","p":"Bidegorri Catering","nif":"B48222222","c":"Comida equipo","n":"4302","t":10,"b":74.0,"i":7.4,"tt":81.4},{"f":"16/07/2026","m":7,"mn":"julio","p":"Suministros Berriz, S.L.","nif":"B48000000","c":"Recambios","n":"A/2026-3980","t":21,"b":198.7,"i":41.73,"tt":240.43},{"f":"20/07/2026","m":7,"mn":"julio","p":"Mutua laboral Norte","nif":"G28000000","c":"Seguros","n":"MU-2026-07","t":0,"b":146.3,"i":0.0,"tt":146.3},{"f":"22/07/2026","m":7,"mn":"julio","p":"Pinturas Goitia","nif":"B01000000","c":"Pintura","n":"2026-0901","t":21,"b":298.0,"i":62.58,"tt":360.58},{"f":"24/07/2026","m":7,"mn":"julio","p":"Recambios Uribe, S.L.","nif":"B95000000","c":"Recambios","n":"F-2026/641","t":21,"b":87.1,"i":18.29,"tt":105.39},{"f":"28/07/2026","m":7,"mn":"julio","p":"Grúas Deusto","nif":"B48444444","c":"Subcontrata","n":"GD-1188","t":21,"b":180.0,"i":37.8,"tt":217.8},{"f":"30/07/2026","m":7,"mn":"julio","p":"Gasóleos Nervión, S.A.","nif":"A48000000","c":"Combustible","n":"GN-88512","t":21,"b":264.9,"i":55.63,"tt":320.53},{"f":"03/08/2026","m":8,"mn":"agosto","p":"Recambios Uribe, S.L.","nif":"B95000000","c":"Recambios","n":"F-2026/688","t":21,"b":74.2,"i":15.58,"tt":89.78},{"f":"05/08/2026","m":8,"mn":"agosto","p":"Pinturas Goitia","nif":"B01000000","c":"Pintura","n":"2026-0977","t":21,"b":402.0,"i":84.42,"tt":486.42},{"f":"07/08/2026","m":8,"mn":"agosto","p":"Gasóleos Nervión, S.A.","nif":"A48000000","c":"Combustible","n":"GN-89020","t":21,"b":205.4,"i":43.13,"tt":248.53},{"f":"08/08/2026","m":8,"mn":"agosto","p":"Iberdrola","nif":"A95758389","c":"Luz y agua","n":"IB-2026-08","t":21,"b":212.3,"i":44.58,"tt":256.88},{"f":"11/08/2026","m":8,"mn":"agosto","p":"Ferretería Lauaxeta","nif":"B48333333","c":"Consumibles","n":"2026/1222","t":21,"b":41.3,"i":8.67,"tt":49.97},{"f":"12/08/2026","m":8,"mn":"agosto","p":"Talleres Egaña","nif":"B48111111","c":"Subcontrata","n":"2026/0401","t":21,"b":320.0,"i":67.2,"tt":387.2},{"f":"14/08/2026","m":8,"mn":"agosto","p":"Bidegorri Catering","nif":"B48222222","c":"Comida equipo","n":"4388","t":10,"b":52.0,"i":5.2,"tt":57.2},{"f":"18/08/2026","m":8,"mn":"agosto","p":"Suministros Berriz, S.L.","nif":"B48000000","c":"Recambios","n":"A/2026-4155","t":21,"b":156.8,"i":32.93,"tt":189.73},{"f":"20/08/2026","m":8,"mn":"agosto","p":"Mutua laboral Norte","nif":"G28000000","c":"Seguros","n":"MU-2026-08","t":0,"b":146.3,"i":0.0,"tt":146.3},{"f":"25/08/2026","m":8,"mn":"agosto","p":"Recambios Uribe, S.L.","nif":"B95000000","c":"Recambios","n":"F-2026/724","t":21,"b":112.6,"i":23.65,"tt":136.25},{"f":"27/08/2026","m":8,"mn":"agosto","p":"Pinturas Goitia","nif":"B01000000","c":"Pintura","n":"2026-1042","t":21,"b":188.0,"i":39.48,"tt":227.48},{"f":"31/08/2026","m":8,"mn":"agosto","p":"Gasóleos Nervión, S.A.","nif":"A48000000","c":"Combustible","n":"GN-89488","t":21,"b":243.1,"i":51.05,"tt":294.15},{"f":"02/09/2026","m":9,"mn":"septiembre","p":"Recambios Uribe, S.L.","nif":"B95000000","c":"Recambios","n":"F-2026/781","t":21,"b":96.2,"i":20.2,"tt":116.4},{"f":"04/09/2026","m":9,"mn":"septiembre","p":"Pinturas Goitia","nif":"B01000000","c":"Pintura","n":"2026-1104","t":21,"b":412.0,"i":86.52,"tt":498.52},{"f":"07/09/2026","m":9,"mn":"septiembre","p":"Gasóleos Nervión, S.A.","nif":"A48000000","c":"Combustible","n":"GN-90412","t":21,"b":318.75,"i":66.94,"tt":385.69},{"f":"08/09/2026","m":9,"mn":"septiembre","p":"Iberdrola","nif":"A95758389","c":"Luz y agua","n":"IB-2026-09","t":21,"b":196.8,"i":41.33,"tt":238.13},{"f":"09/09/2026","m":9,"mn":"septiembre","p":"Talleres Egaña","nif":"B48111111","c":"Subcontrata","n":"2026/0442","t":21,"b":540.0,"i":113.4,"tt":653.4},{"f":"11/09/2026","m":9,"mn":"septiembre","p":"Mutua laboral Norte","nif":"G28000000","c":"Seguros","n":"MU-2026-09","t":0,"b":146.3,"i":0.0,"tt":146.3},{"f":"14/09/2026","m":9,"mn":"septiembre","p":"Bidegorri Catering","nif":"B48222222","c":"Comida equipo","n":"4471","t":10,"b":87.0,"i":8.7,"tt":95.7},{"f":"15/09/2026","m":9,"mn":"septiembre","p":"Recambios Uribe, S.L.","nif":"B95000000","c":"Recambios","n":"F-2026/812","t":21,"b":96.2,"i":20.2,"tt":116.4},{"f":"16/09/2026","m":9,"mn":"septiembre","p":"Pinturas Goitia","nif":"B01000000","c":"Pintura","n":"2026-1180","t":21,"b":412.0,"i":86.52,"tt":498.52},{"f":"17/09/2026","m":9,"mn":"septiembre","p":"Suministros Berriz, S.L.","nif":"B48000000","c":"Recambios","n":"A/2026-4417","t":21,"b":213.3,"i":44.79,"tt":258.09},{"f":"19/09/2026","m":9,"mn":"septiembre","p":"Ferretería Lauaxeta","nif":"B48333333","c":"Consumibles","n":"2026/1301","t":21,"b":58.4,"i":12.26,"tt":70.66},{"f":"23/09/2026","m":9,"mn":"septiembre","p":"Grúas Deusto","nif":"B48444444","c":"Subcontrata","n":"GD-1240","t":21,"b":240.0,"i":50.4,"tt":290.4},{"f":"25/09/2026","m":9,"mn":"septiembre","p":"Gasóleos Nervión, S.A.","nif":"A48000000","c":"Combustible","n":"GN-90905","t":21,"b":274.5,"i":57.65,"tt":332.15}]</script>
+<script id="datos-facturas" type="application/json">[{"f":"02/07/2026","m":7,"mn":"julio","p":"Recambios Uribe, S.L.","nif":"B95000000","c":"Recambios","n":"F-2026/598","t":21,"b":128.4,"i":26.96,"tt":155.36},{"f":"03/07/2026","m":7,"mn":"julio","p":"Pinturas Goitia","nif":"B01000000","c":"Pintura","n":"2026-0812","t":21,"b":356.0,"i":74.76,"tt":430.76},{"f":"06/07/2026","m":7,"mn":"julio","p":"Gasóleos Nervión, S.A.","nif":"A48000000","c":"Combustible","n":"GN-88104","t":21,"b":291.3,"i":61.17,"tt":352.47},{"f":"08/07/2026","m":7,"mn":"julio","p":"Iberdrola","nif":"A95758389","c":"Luz y agua","n":"IB-2026-07","t":21,"b":184.55,"i":38.76,"tt":223.31},{"f":"09/07/2026","m":7,"mn":"julio","p":"Ferretería Lauaxeta","nif":"B48333333","c":"Consumibles","n":"2026/1140","t":21,"b":62.9,"i":13.21,"tt":76.11},{"f":"13/07/2026","m":7,"mn":"julio","p":"Talleres Egaña","nif":"B48111111","c":"Subcontrata","n":"2026/0388","t":21,"b":480.0,"i":100.8,"tt":580.8},{"f":"15/07/2026","m":7,"mn":"julio","p":"Bidegorri Catering","nif":"B48222222","c":"Comida equipo","n":"4302","t":10,"b":74.0,"i":7.4,"tt":81.4},{"f":"16/07/2026","m":7,"mn":"julio","p":"Suministros Berriz, S.L.","nif":"B48000000","c":"Recambios","n":"A/2026-3980","t":21,"b":198.7,"i":41.73,"tt":240.43},{"f":"20/07/2026","m":7,"mn":"julio","p":"Mutua laboral Norte","nif":"G28000000","c":"Seguros","n":"MU-2026-07","t":0,"b":146.3,"i":0.0,"tt":146.3},{"f":"22/07/2026","m":7,"mn":"julio","p":"Pinturas Goitia","nif":"B01000000","c":"Pintura","n":"2026-0901","t":21,"b":298.0,"i":62.58,"tt":360.58},{"f":"24/07/2026","m":7,"mn":"julio","p":"Recambios Uribe, S.L.","nif":"B95000000","c":"Recambios","n":"F-2026/641","t":21,"b":87.1,"i":18.29,"tt":105.39},{"f":"28/07/2026","m":7,"mn":"julio","p":"Grúas Deusto","nif":"B48444444","c":"Subcontrata","n":"GD-1188","t":21,"b":180.0,"i":37.8,"tt":217.8},{"f":"30/07/2026","m":7,"mn":"julio","p":"Gasóleos Nervión, S.A.","nif":"A48000000","c":"Combustible","n":"GN-88512","t":21,"b":264.9,"i":55.63,"tt":320.53},{"f":"03/08/2026","m":8,"mn":"agosto","p":"Recambios Uribe, S.L.","nif":"B95000000","c":"Recambios","n":"F-2026/688","t":21,"b":74.2,"i":15.58,"tt":89.78},{"f":"05/08/2026","m":8,"mn":"agosto","p":"Pinturas Goitia","nif":"B01000000","c":"Pintura","n":"2026-0977","t":21,"b":402.0,"i":84.42,"tt":486.42},{"f":"07/08/2026","m":8,"mn":"agosto","p":"Gasóleos Nervión, S.A.","nif":"A48000000","c":"Combustible","n":"GN-89020","t":21,"b":205.4,"i":43.13,"tt":248.53},{"f":"08/08/2026","m":8,"mn":"agosto","p":"Iberdrola","nif":"A95758389","c":"Luz y agua","n":"IB-2026-08","t":21,"b":212.3,"i":44.58,"tt":256.88},{"f":"11/08/2026","m":8,"mn":"agosto","p":"Ferretería Lauaxeta","nif":"B48333333","c":"Consumibles","n":"2026/1222","t":21,"b":41.3,"i":8.67,"tt":49.97},{"f":"12/08/2026","m":8,"mn":"agosto","p":"Talleres Egaña","nif":"B48111111","c":"Subcontrata","n":"2026/0401","t":21,"b":320.0,"i":67.2,"tt":387.2},{"f":"14/08/2026","m":8,"mn":"agosto","p":"Bidegorri Catering","nif":"B48222222","c":"Comida equipo","n":"4388","t":10,"b":52.0,"i":5.2,"tt":57.2},{"f":"18/08/2026","m":8,"mn":"agosto","p":"Suministros Berriz, S.L.","nif":"B48000000","c":"Recambios","n":"A/2026-4155","t":21,"b":156.8,"i":32.93,"tt":189.73},{"f":"20/08/2026","m":8,"mn":"agosto","p":"Mutua laboral Norte","nif":"G28000000","c":"Seguros","n":"MU-2026-08","t":0,"b":146.3,"i":0.0,"tt":146.3},{"f":"25/08/2026","m":8,"mn":"agosto","p":"Recambios Uribe, S.L.","nif":"B95000000","c":"Recambios","n":"F-2026/724","t":21,"b":112.6,"i":23.65,"tt":136.25},{"f":"27/08/2026","m":8,"mn":"agosto","p":"Pinturas Goitia","nif":"B01000000","c":"Pintura","n":"2026-1042","t":21,"b":188.0,"i":39.48,"tt":227.48},{"f":"31/08/2026","m":8,"mn":"agosto","p":"Gasóleos Nervión, S.A.","nif":"A48000000","c":"Combustible","n":"GN-89488","t":21,"b":243.1,"i":51.05,"tt":294.15},{"f":"02/09/2026","m":9,"mn":"septiembre","p":"Recambios Uribe, S.L.","nif":"B95000000","c":"Recambios","n":"F-2026/781","t":21,"b":96.2,"i":20.2,"tt":116.4},{"f":"04/09/2026","m":9,"mn":"septiembre","p":"Pinturas Goitia","nif":"B01000000","c":"Pintura","n":"2026-1104","t":21,"b":412.0,"i":86.52,"tt":498.52},{"f":"07/09/2026","m":9,"mn":"septiembre","p":"Gasóleos Nervión, S.A.","nif":"A48000000","c":"Combustible","n":"GN-90412","t":21,"b":318.75,"i":66.94,"tt":385.69},{"f":"08/09/2026","m":9,"mn":"septiembre","p":"Iberdrola","nif":"A95758389","c":"Luz y agua","n":"IB-2026-09","t":21,"b":196.8,"i":41.33,"tt":238.13},{"f":"09/09/2026","m":9,"mn":"septiembre","p":"Talleres Egaña","nif":"B48111111","c":"Subcontrata","n":"2026/0442","t":21,"b":540.0,"i":113.4,"tt":653.4},{"f":"11/09/2026","m":9,"mn":"septiembre","p":"Mutua laboral Norte","nif":"G28000000","c":"Seguros","n":"MU-2026-09","t":0,"b":146.3,"i":0.0,"tt":146.3},{"f":"14/09/2026","m":9,"mn":"septiembre","p":"Bidegorri Catering","nif":"B48222222","c":"Comida equipo","n":"4471","t":10,"b":87.0,"i":8.7,"tt":95.7},{"f":"15/09/2026","m":9,"mn":"septiembre","p":"Recambios Uribe, S.L.","nif":"B95000000","c":"Recambios","n":"F-2026/812","t":21,"b":96.2,"i":20.2,"tt":116.4},{"f":"16/09/2026","m":9,"mn":"septiembre","p":"Pinturas Goitia","nif":"B01000000","c":"Pintura","n":"2026-1180","t":21,"b":412.0,"i":86.52,"tt":498.52},{"f":"17/09/2026","m":9,"mn":"septiembre","p":"Suministros Berriz, S.L.","nif":"B48000000","c":"Recambios","n":"A/2026-4417","t":21,"b":213.3,"i":44.79,"tt":258.09},{"f":"18/09/2026","m":9,"mn":"septiembre","p":"Recambios Uribe, S.L.","nif":"B95000000","c":"Recambios","n":"F-2026/812","t":21,"b":96.2,"i":20.2,"tt":116.4},{"f":"19/09/2026","m":9,"mn":"septiembre","p":"Ferretería Lauaxeta","nif":"B48333333","c":"Consumibles","n":"2026/1301","t":21,"b":58.4,"i":12.26,"tt":70.66},{"f":"23/09/2026","m":9,"mn":"septiembre","p":"Grúas Deusto","nif":"B48444444","c":"Subcontrata","n":"GD-1240","t":21,"b":240.0,"i":50.4,"tt":290.4},{"f":"23/09/2026","m":9,"mn":"septiembre","p":"Gasóleos Nervión, S.A.","nif":"A48000000","c":"Combustible","n":"GN-91340","t":21,"b":212.75,"i":44.68,"tt":269.83},{"f":"25/09/2026","m":9,"mn":"septiembre","p":"Gasóleos Nervión, S.A.","nif":"A48000000","c":"Combustible","n":"GN-90905","t":21,"b":274.5,"i":57.65,"tt":332.15},{"f":"25/09/2026","m":9,"mn":"septiembre","p":"Ferretería Lauaxeta","nif":"","c":"Consumibles","n":"2026/1402","t":21,"b":58.3,"i":12.24,"tt":70.54}]</script>
+<script id="datos-ventas" type="application/json">{"meses":["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"],"anios":{"2024":{"meses":[24180,23940,27310,25760,28420,27050,29380,12640,28110,30240,28890,24470],"piezas":[38,37,43,40,44,42,46,20,44,47,45,38],"total":310390,"n":484,"clientes":[{"n":"Mutua Cantábrica","v":105533},{"n":"Aseguradora Bilbao Norte","v":68286},{"n":"Particulares","v":46558},{"n":"Seguros Arriaga","v":43455},{"n":"Flota Garaiak","v":27935},{"n":"Renting Ibaizabal","v":18623}]},"2025":{"meses":[26840,27510,31180,29720,32460,30890,33120,14980,31760,34580,33210,27940],"piezas":[40,41,47,44,48,46,49,22,47,51,49,41],"total":354190,"n":525,"clientes":[{"n":"Mutua Cantábrica","v":102715},{"n":"Aseguradora Bilbao Norte","v":81464},{"n":"Seguros Arriaga","v":56670},{"n":"Flota Garaiak","v":42503},{"n":"Particulares","v":42503},{"n":"Renting Ibaizabal","v":28335}]},"2026":{"meses":[30120,31460,35240,33810,36970,35120,37480,16210,36340,39120,37650,31280],"piezas":[43,45,50,48,52,50,53,23,51,55,53,44],"total":400800,"n":567,"clientes":[{"n":"Mutua Cantábrica","v":96192},{"n":"Aseguradora Bilbao Norte","v":88176},{"n":"Seguros Arriaga","v":68136},{"n":"Flota Garaiak","v":64128},{"n":"Renting Ibaizabal","v":44088},{"n":"Particulares","v":40080}]}}}</script>
 <script>
 (function(){
   var panel = document.getElementById('panel');
@@ -692,6 +789,294 @@
   });
 
   pinta();
+
+  /* ═══ pestañas ═══ */
+  var nav = document.getElementById('pf-nav');
+  if(nav){
+    function activa(b, foco){
+      nav.querySelectorAll('[data-v]').forEach(function(x){
+        var on = x===b; x.setAttribute('aria-selected', String(on)); x.tabIndex = on ? 0 : -1;
+      });
+      document.querySelectorAll('.pf-vista').forEach(function(v){ v.classList.toggle('on', v.id === b.getAttribute('data-v')); });
+      if(foco) b.focus();
+      if(b.getAttribute('data-v') === 'v-ventas' && typeof pintaVentas === 'function') pintaVentas();
+    }
+    nav.addEventListener('click', function(ev){
+      var b = ev.target.closest('[data-v]'); if(b) activa(b, false);
+    });
+    nav.addEventListener('keydown', function(ev){
+      var bs = [].slice.call(nav.querySelectorAll('[data-v]'));
+      var i = bs.indexOf(document.activeElement); if(i < 0) return;
+      var n = null;
+      if(ev.key === 'ArrowRight') n = bs[(i+1) % bs.length];
+      if(ev.key === 'ArrowLeft')  n = bs[(i-1+bs.length) % bs.length];
+      if(ev.key === 'Home') n = bs[0];
+      if(ev.key === 'End')  n = bs[bs.length-1];
+      if(n){ ev.preventDefault(); activa(n, true); }
+    });
+  }
+
+  /* ═══ 1 · del papel al dato ═══ */
+  var DOCS = [
+    {nom:'factura-recambios-uribe.pdf', tipo:'PDF', clase:'',
+     emp:'Recambios Uribe, S.L.', nif:'B95000000', num:'F-2026/812', fecha:'15/09/2026',
+     lineas:[['Pastillas freno delanteras','48,20'],['Filtro de aceite x4','26,00'],['Líquido refrigerante 5 L','22,00']],
+     base:'96,20', tipo_iva:'21', cuota:'20,20', total:'116,40',
+     conf:{emp:99,nif:99,num:98,fecha:99,base:99,cuota:99,total:99}},
+    {nom:'IMG_2291.jpg', tipo:'Foto del móvil', clase:'torcido',
+     emp:'Gasóleos Nervión, S.A.', nif:'A48000000', num:'GN-91340', fecha:'23/09/2026',
+     lineas:[['Gasóleo A · 180 L','212,75']],
+     base:'212,75', tipo_iva:'21', cuota:'44,68', total:'269,83',
+     conf:{emp:97,nif:94,num:91,fecha:96,base:95,cuota:95,total:72}},
+    {nom:'ticket-ferreteria.jpg', tipo:'Ticket térmico', clase:'ticket',
+     emp:'Ferretería Lauaxeta', nif:'', num:'2026/1402', fecha:'25/09/2026',
+     lineas:[['Brocas HSS 3 mm','12,40'],['Guantes nitrilo x50','19,90'],['Cinta aislante x10','26,00']],
+     base:'58,30', tipo_iva:'21', cuota:'12,24', total:'70,54',
+     conf:{emp:96,nif:0,num:93,fecha:95,base:96,cuota:96,total:96}}
+  ];
+  var iDoc = 0, temporizadores = [];
+
+  function hoja(d){
+    var ls = d.lineas.map(function(l){ return '<div class="l"><span>'+l[0]+'</span><span>'+l[1]+' &euro;</span></div>'; }).join('');
+    return '<div class="hoja">'+
+      '<div class="h"><div><b>'+d.emp+'</b><br>'+(d.nif ? 'NIF '+d.nif : '<span style="color:#b04a2a">NIF ilegible</span>')+'</div>'+
+      '<div style="text-align:right">Nº '+d.num+'<br>'+d.fecha+'</div></div>'+
+      ls+
+      '<div class="tot"><div class="l"><span>Base imponible</span><span>'+d.base+' &euro;</span></div>'+
+      '<div class="l"><span>IVA '+d.tipo_iva+' %</span><span>'+d.cuota+' &euro;</span></div>'+
+      '<div class="l"><span>TOTAL</span><span>'+d.total+' &euro;</span></div></div></div>';
+  }
+
+  function arranca(){
+    temporizadores.forEach(clearTimeout); temporizadores = [];
+    var d = DOCS[iDoc];
+    $('doc-nom').textContent = d.nom;
+    $('doc-tipo').textContent = d.tipo;
+    $('doc-cuenta').textContent = (iDoc+1) + ' de ' + DOCS.length;
+    var caja = $('doc'); caja.className = 'doc ' + d.clase; caja.innerHTML = hoja(d);
+    $('estado-lee').textContent = 'Leyendo…';
+    $('estado-lee').style.color = 'var(--tinta-3)';
+
+    var CAMPOS = [
+      ['Proveedor', d.emp, d.conf.emp],
+      ['NIF', d.nif || 'no se lee en el papel', d.conf.nif],
+      ['Nº factura', d.num, d.conf.num],
+      ['Fecha', d.fecha, d.conf.fecha],
+      ['Base imponible', d.base + ' €', d.conf.base],
+      ['Cuota de IVA (' + d.tipo_iva + ' %)', d.cuota + ' €', d.conf.cuota],
+      ['Total', d.total + ' €', d.conf.total]
+    ];
+    var dl = $('campos'); dl.innerHTML = CAMPOS.map(function(c){
+      var baja = c[2] < 90;
+      var pin = c[2] === 0 ? '<span class="conf baja">no leído</span>'
+                           : '<span class="conf '+(baja?'baja':'ok')+'">'+c[2]+' %</span>';
+      return '<div class="ca"><dt>'+c[0]+'</dt><dd>'+c[1]+'</dd>'+pin+'</div>';
+    }).join('');
+    var filas = dl.querySelectorAll('.ca');
+    filas.forEach(function(f, k){
+      temporizadores.push(setTimeout(function(){ f.classList.add('on'); }, 260 + k*230));
+    });
+    temporizadores.push(setTimeout(function(){
+      $('estado-lee').textContent = 'Leído en 1,4 s';
+      $('estado-lee').style.color = 'var(--exito)';
+    }, 260 + filas.length*230 + 200));
+  }
+  if($('doc-otro')){
+    $('doc-otro').addEventListener('click', function(){ iDoc = (iDoc+1) % DOCS.length; arranca(); });
+  }
+
+  /* ═══ 3 · bandeja de revisión ═══ */
+  function revisar(){
+    var avisos = [];
+    var vistos = {};
+    D.forEach(function(x){
+      var k = x.p + '|' + x.n;
+      if(vistos[k]) avisos.push({tipo:'dup', t:'Duplicado', r:x,
+        q:'Ya entró la misma factura el ' + vistos[k].f + '. Se queda una sola.'});
+      else vistos[k] = x;
+      if(Math.abs(x.b + x.i - x.tt) > 0.011) avisos.push({tipo:'des', t:'No cuadra', r:x,
+        q:'Base + IVA da ' + eur.format(x.b + x.i) + ' €, y el papel pone ' + eur.format(x.tt) + ' €.'});
+      if(!x.nif) avisos.push({tipo:'nif', t:'Falta el NIF', r:x,
+        q:'No se lee en el documento. Se busca en los datos del proveedor.'});
+    });
+    var tb = $('rev-tb'); if(!tb) return;
+    tb.innerHTML = avisos.map(function(a){
+      return '<tr><td><span class="mot '+a.tipo+'"><i></i>'+a.t+'</span></td>'+
+             '<td class="mono">'+a.r.f+'</td><td>'+a.r.p+'</td><td class="mono">'+a.r.n+'</td>'+
+             '<td class="num">'+eur.format(a.r.tt)+' €</td><td class="arreglo">'+a.q+'</td></tr>';
+    }).join('');
+    if($('rev-n')) $('rev-n').textContent = avisos.length + (avisos.length===1?' documento':' documentos');
+    if($('pin-rev')) $('pin-rev').textContent = avisos.length;
+    if($('rev-vacio')) $('rev-vacio').hidden = avisos.length > 0;
+  }
+
+  /* ═══ 4 · cuadre de IVA ═══ */
+  function cuadre(){
+    var tb = $('iva-tb'); if(!tb) return;
+    var tipos = [21, 10, 0], filas = '';
+    var tn=0, tb2=0, ti=0, tt=0;
+    tipos.forEach(function(t){
+      var g = D.filter(function(x){ return x.t === t; });
+      if(!g.length) return;
+      var b = suma(g,'b'), i = suma(g,'i'), to = suma(g,'tt');
+      tn += g.length; tb2 += b; ti += i; tt += to;
+      filas += '<tr><td><b>'+(t ? t+' %' : 'Exenta')+'</b></td><td class="num">'+g.length+'</td>'+
+               '<td class="num">'+eur.format(b)+' €</td><td class="num">'+eur.format(i)+' €</td>'+
+               '<td class="num">'+eur.format(to)+' €</td></tr>';
+    });
+    tb.innerHTML = filas;
+    $('iva-n').textContent = tn;
+    $('iva-b').textContent = eur.format(tb2) + ' €';
+    $('iva-i').textContent = eur.format(ti) + ' €';
+    $('iva-t').textContent = eur.format(tt) + ' €';
+  }
+
+  /* ═══ descargar CSV de verdad ═══ */
+  if($('b-csv')){
+    $('b-csv').addEventListener('click', function(){
+      var esc = function(v){ return '"' + String(v==null?'':v).replace(/"/g,'""') + '"'; };
+      var cab = ['fecha','proveedor','nif','numero','categoria','tipo_iva','base','cuota_iva','total'];
+      var cuerpo = D.slice().sort(function(a,b){ return a.m-b.m || parseInt(a.f)-parseInt(b.f); })
+        .map(function(x){ return [x.f,x.p,x.nif,x.n,x.c,x.t,x.b,x.i,x.tt].map(esc).join(';'); });
+      var csv = '\ufeff' + [cab.join(';')].concat(cuerpo).join('\r\n');
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv;charset=utf-8'}));
+      a.download = 'facturas-3T-2026.csv';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
+    });
+  }
+
+  /* ═══ facturación: dos series, año elegido contra el anterior ═══ */
+  var V = JSON.parse(document.getElementById('datos-ventas').textContent);
+  var ACT = '#1F7A55';     /* año elegido  */
+  var ANT = '#C4661F';     /* año anterior */
+  var anio = 2026;
+  var mil = new Intl.NumberFormat('es-ES', {maximumFractionDigits:0});
+
+  function k(v){ return v >= 1000 ? mil.format(Math.round(v/1000)) + 'k' : mil.format(v); }
+
+  function pintaVentas(){
+    var a = V.anios[String(anio)]; if(!a) return;
+    var prev = V.anios[String(anio-1)] || null;
+    var meses = V.meses;
+
+    /* ── kpis ── */
+    $('v-tot').textContent = mil.format(a.total) + ' €';
+    if(prev){
+      var d = (a.total - prev.total) / prev.total * 100;
+      $('v-tot-v').innerHTML = '<span class="delta ' + (d>=0?'sube':'baja') + '">' +
+        (d>=0?'▲ ':'▼ ') + Math.abs(d).toFixed(1).replace('.',',') + ' %</span> frente a ' + (anio-1);
+    } else { $('v-tot-v').textContent = 'primer año con datos'; }
+    $('v-n').textContent = mil.format(a.n);
+    $('v-tic').textContent = mil.format(Math.round(a.total / a.n)) + ' €';
+    $('v-tic-v').textContent = 'por reparación';
+    var mx = a.meses.indexOf(Math.max.apply(null, a.meses));
+    $('v-max').textContent = meses[mx];
+    $('v-max-v').textContent = mil.format(a.meses[mx]) + ' €';
+
+    /* ── leyenda: identidad nunca solo por color ── */
+    $('leyenda').innerHTML =
+      '<span><i style="background:'+ACT+'"></i>' + anio + '</span>' +
+      (prev ? '<span style="color:'+ANT+'"><i class="raya"></i><span style="color:var(--tinta-2)">' + (anio-1) + '</span></span>' : '');
+
+    /* ── gráfico ── */
+    var W = 1000, H = 300, ml = 52, mr = 16, mt = 14, mb = 30;
+    var iw = W - ml - mr, ih = H - mt - mb;
+    var todos = a.meses.concat(prev ? prev.meses : []);
+    var tope = Math.max.apply(null, todos) * 1.12;
+    var x = function(i){ return ml + (iw * i / 11); };
+    var y = function(v){ return mt + ih - (v / tope * ih); };
+    var linea = function(arr){ return arr.map(function(v,i){ return (i?'L':'M') + x(i).toFixed(1) + ' ' + y(v).toFixed(1); }).join(' '); };
+
+    var pasos = 4, rejas = '', etiq = '';
+    for(var g=0; g<=pasos; g++){
+      var vy = tope * g / pasos, py = y(vy);
+      rejas += '<line class="rej" x1="'+ml+'" y1="'+py.toFixed(1)+'" x2="'+(W-mr)+'" y2="'+py.toFixed(1)+'"/>';
+      etiq  += '<text class="eje" x="'+(ml-10)+'" y="'+(py+4).toFixed(1)+'" text-anchor="end">'+k(vy)+' €</text>';
+    }
+    var mesesTxt = meses.map(function(m,i){
+      return '<text class="eje" x="'+x(i).toFixed(1)+'" y="'+(H-8)+'" text-anchor="middle">'+m+'</text>';
+    }).join('');
+
+    var area = 'M '+x(0).toFixed(1)+' '+(mt+ih)+' ' + a.meses.map(function(v,i){ return 'L '+x(i).toFixed(1)+' '+y(v).toFixed(1); }).join(' ') + ' L '+x(11).toFixed(1)+' '+(mt+ih)+' Z';
+    var puntos = a.meses.map(function(v,i){
+      return '<circle class="pt" data-i="'+i+'" cx="'+x(i).toFixed(1)+'" cy="'+y(v).toFixed(1)+'" r="4.5" fill="'+ACT+'" stroke="var(--sup)" stroke-width="2"/>';
+    }).join('');
+    var puntosP = prev ? prev.meses.map(function(v,i){
+      return '<circle class="pt" data-i="'+i+'" cx="'+x(i).toFixed(1)+'" cy="'+y(v).toFixed(1)+'" r="4" fill="'+ANT+'" stroke="var(--sup)" stroke-width="2"/>';
+    }).join('') : '';
+
+    $('lienzo').innerHTML =
+      '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Facturación mes a mes de '+anio+(prev?' comparada con '+(anio-1):'')+'">' +
+      rejas + etiq + mesesTxt +
+      '<path d="'+area+'" fill="'+ACT+'" opacity=".10"/>' +
+      (prev ? '<path d="'+linea(prev.meses)+'" fill="none" stroke="'+ANT+'" stroke-width="2" stroke-dasharray="7 5" stroke-linecap="round"/>' : '') +
+      '<path d="'+linea(a.meses)+'" fill="none" stroke="'+ACT+'" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<line id="cruz" x1="0" y1="'+mt+'" x2="0" y2="'+(mt+ih)+'" stroke="var(--linea-fuerte)" stroke-width="1" opacity="0"/>' +
+      puntosP + puntos +
+      '<rect id="capa" x="'+ml+'" y="'+mt+'" width="'+iw+'" height="'+ih+'" fill="transparent"/>' +
+      '</svg><div class="globo" id="globo"></div>';
+
+    $('v-nota').textContent = prev
+      ? 'Agosto cae siempre: el taller cierra dos semanas. Lo demás sube mes a mes respecto a ' + (anio-1) + '.'
+      : 'El primer año con datos, sin nada con lo que comparar todavía.';
+
+    /* ── cruz y globo ── */
+    var svg = $('lienzo').querySelector('svg'), globo = $('globo'), cruz = svg.querySelector('#cruz');
+    function mueve(ev){
+      var r = svg.getBoundingClientRect();
+      var px = (ev.clientX - r.left) / r.width * W;
+      var i = Math.round((px - ml) / (iw/11));
+      i = Math.max(0, Math.min(11, i));
+      cruz.setAttribute('x1', x(i)); cruz.setAttribute('x2', x(i)); cruz.setAttribute('opacity', '1');
+      $('lienzo').classList.add('activo');
+      globo.innerHTML = '<b>' + meses[i] + '</b>' +
+        '<div class="g-l"><i style="background:'+ACT+'"></i>' + anio + ': <b>' + mil.format(a.meses[i]) + ' €</b></div>' +
+        (prev ? '<div class="g-l"><i style="background:'+ANT+'"></i>' + (anio-1) + ': <b>' + mil.format(prev.meses[i]) + ' €</b></div>' : '');
+      globo.style.left = (x(i) / W * 100) + '%';
+      globo.style.top  = (y(Math.max(a.meses[i], prev ? prev.meses[i] : 0)) / H * r.height) + 'px';
+      globo.classList.add('on');
+    }
+    svg.addEventListener('mousemove', mueve);
+    svg.addEventListener('mouseleave', function(){
+      globo.classList.remove('on'); cruz.setAttribute('opacity','0'); $('lienzo').classList.remove('activo');
+    });
+
+    /* ── clientes: una sola serie, un solo tono ── */
+    var mxc = a.clientes[0].v;
+    $('v-clientes').innerHTML = a.clientes.map(function(c){
+      var pc = c.v / mxc * 100;
+      return '<div class="barra-g"><span class="et" title="'+c.n+'">'+c.n+'</span>' +
+             '<span class="pista-b"><i style="width:'+pc.toFixed(1)+'%;background:'+ACT+'"></i></span>' +
+             '<span class="cifra">'+mil.format(c.v)+' €</span></div>';
+    }).join('');
+
+    /* ── tabla, que es la vista accesible ── */
+    $('v-tb').innerHTML = meses.map(function(m,i){
+      var val = a.meses[i], pz = a.piezas[i];
+      var dd = prev ? (val - prev.meses[i]) / prev.meses[i] * 100 : null;
+      return '<tr><td>'+m+'</td><td class="num">'+mil.format(val)+' €</td><td class="num">'+pz+'</td>' +
+             '<td class="num">'+mil.format(Math.round(val/pz))+' €</td>' +
+             '<td class="num">' + (dd===null ? '—' :
+               '<span class="delta '+(dd>=0?'sube':'baja')+'">'+(dd>=0?'+':'−')+Math.abs(dd).toFixed(1).replace('.',',')+' %</span>') +
+             '</td></tr>';
+    }).join('');
+  }
+
+  var selA = document.getElementById('anios');
+  if(selA){
+    selA.addEventListener('click', function(ev){
+      var b = ev.target.closest('[data-a]'); if(!b) return;
+      anio = +b.getAttribute('data-a');
+      selA.querySelectorAll('[data-a]').forEach(function(x){ x.setAttribute('aria-pressed', String(x===b)); });
+      pintaVentas();
+    });
+    pintaVentas();
+    window.addEventListener('resize', function(){ clearTimeout(window.__rv); window.__rv = setTimeout(pintaVentas, 220); });
+  }
+
+  revisar(); cuadre();
 })();
 </script>
 

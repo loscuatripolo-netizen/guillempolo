@@ -7,6 +7,9 @@
   var g = window.gsap, ST = window.ScrollTrigger, Split = window.SplitText;
   if(ST) g.registerPlugin(ST);
   if(Split) g.registerPlugin(Split);
+  /* Hay piezas de la portada que no existen en todas las páginas (.cuatro, .hero-cta...). GSAP las salta
+     sin problema, pero avisaba en la consola; esto apaga solo ese aviso. */
+  g.config({nullTargetWarn:false});
 
   function listo(fn){
     if(document.readyState !== 'loading') fn();

@@ -70,7 +70,7 @@
   --sup:#FFFFFF; --sup-2:#FBFBF8;
   --linea:#E1E1D7; --linea-2:#CFCFC2; --linea-fuerte:#B9B9A9;
   /* tinta */
-  --tinta:#14181A; --tinta-2:#4C554F; --tinta-3:#79837B;
+  --tinta:#14181A; --tinta-2:#4C554F; --tinta-3:#646E66;
   /* acentos */
   --bosque:#10402F; --bosque-2:#1C6B4D; --bosque-agua:rgba(16,64,47,.08);
   --cobre:#B4622B; --exito:#2E7D5B; --ambar:#C08419;
@@ -86,6 +86,7 @@ html,body{max-width:100%;overflow-x:hidden}
 body{margin:0;background:var(--papel);color:var(--tinta);font-family:"Instrument Sans",system-ui,sans-serif;font-size:16.5px;line-height:1.62;-webkit-font-smoothing:antialiased}
 h1,h2,h3{margin:0;font-family:"Archivo",system-ui,sans-serif;line-height:.94;letter-spacing:-.01em;text-wrap:balance}
 h4{margin:0;font-family:"Instrument Sans",sans-serif;font-weight:800;letter-spacing:-.01em}
+h3.t4{margin:0;font-family:"Instrument Sans",sans-serif;font-weight:800;letter-spacing:-.01em;line-height:1.3;text-wrap:initial}
 p{margin:0}
 a{color:inherit;text-decoration:none}
 .marco{max-width:1180px;margin:0 auto;padding-inline:20px}
@@ -149,7 +150,7 @@ html.anim .rev.d2{transition-delay:.16s}
 .qi:hover{transform:translateY(-5px);border-color:rgba(255,255,255,.2)}
 .qi:hover::before{opacity:1}
 .qi .ic{font-family:"Space Grotesk",monospace;font-size:.66rem;letter-spacing:.14em;color:var(--bosque)}
-.qi h4{font-size:1.02rem;margin-top:8px}
+.qi h4,.qi .t4{font-size:1.02rem;margin-top:8px}
 .qi p{font-size:.9rem;color:var(--tinta-2);margin-top:6px}
 
 .dinero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr);gap:clamp(22px,4vw,44px);align-items:start}
@@ -172,7 +173,7 @@ html.anim .rev.d2{transition-delay:.16s}
 .paso{position:relative;padding:24px 20px 26px;border-radius:var(--radio);border:1px solid var(--linea);background:var(--sup);transition:transform .3s,border-color .3s}
 .paso:hover{transform:translateY(-6px);border-color:rgba(255,255,255,.2)}
 .paso .num{font-family:"Archivo",system-ui,sans-serif;font-size:3.6rem;font-weight:800;line-height:.8;background:linear-gradient(160deg,var(--bosque),transparent 85%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.paso h4{margin-top:8px;font-size:1.04rem}
+.paso h4,.paso .t4{margin-top:8px;font-size:1.04rem}
 .paso p{margin-top:7px;font-size:.9rem;color:var(--tinta-2)}
 
 .reglas{display:flex;flex-direction:column;border-radius:var(--radio);border:1px solid var(--linea);overflow:hidden}
@@ -247,12 +248,12 @@ a:focus-visible{outline:2px solid var(--bosque);outline-offset:3px;border-radius
       <p>Gente que ya trabaja con el mismo cliente que yo y a la que le preguntan cosas que no son lo suyo.</p>
     </div>
     <div class="quien">
-      <article class="qi rev spot"><span class="ic">01</span><h4>Rotulistas y serigrafía</h4><p>Le acabas de poner el rótulo y el vinilo del escaparate. La siguiente pregunta suele ser quién le hace la web.</p></article>
-      <article class="qi rev d1 spot"><span class="ic">02</span><h4>Fotógrafos de producto y de local</h4><p>Haces las fotos que van justo en la web que no tienen. Encaja solo.</p></article>
-      <article class="qi rev d2 spot"><span class="ic">03</span><h4>Gestorías y asesorías</h4><p>Ves quién acaba de darse de alta y quién está creciendo, y te preguntan por todo lo que no es contabilidad.</p></article>
-      <article class="qi rev spot"><span class="ic">04</span><h4>Imprentas y papelerías técnicas</h4><p>Tarjetas, folletos y menús. El que encarga eso está cuidando su imagen justo ese mes.</p></article>
-      <article class="qi rev d1 spot"><span class="ic">05</span><h4>Comerciales de datáfono y caja</h4><p>Entras en veinte comercios a la semana y ya hablas de cobros, citas y clientes.</p></article>
-      <article class="qi rev d2 spot"><span class="ic">06</span><h4>Instaladores y mantenimiento</h4><p>Climatización, alarmas, informática. Entras en el local y te tiene por el que arregla cosas.</p></article>
+      <article class="qi rev spot"><span class="ic">01</span><h3 class="t4">Rotulistas y serigrafía</h3><p>Le acabas de poner el rótulo y el vinilo del escaparate. La siguiente pregunta suele ser quién le hace la web.</p></article>
+      <article class="qi rev d1 spot"><span class="ic">02</span><h3 class="t4">Fotógrafos de producto y de local</h3><p>Haces las fotos que van justo en la web que no tienen. Encaja solo.</p></article>
+      <article class="qi rev d2 spot"><span class="ic">03</span><h3 class="t4">Gestorías y asesorías</h3><p>Ves quién acaba de darse de alta y quién está creciendo, y te preguntan por todo lo que no es contabilidad.</p></article>
+      <article class="qi rev spot"><span class="ic">04</span><h3 class="t4">Imprentas y papelerías técnicas</h3><p>Tarjetas, folletos y menús. El que encarga eso está cuidando su imagen justo ese mes.</p></article>
+      <article class="qi rev d1 spot"><span class="ic">05</span><h3 class="t4">Comerciales de datáfono y caja</h3><p>Entras en veinte comercios a la semana y ya hablas de cobros, citas y clientes.</p></article>
+      <article class="qi rev d2 spot"><span class="ic">06</span><h3 class="t4">Instaladores y mantenimiento</h3><p>Climatización, alarmas, informática. Entras en el local y te tiene por el que arregla cosas.</p></article>
     </div>
   </div>
 </section>
@@ -289,9 +290,9 @@ a:focus-visible{outline:2px solid var(--bosque);outline-offset:3px;border-radius
       <h2>Tres pasos<br>y ninguno es tuyo</h2>
     </div>
     <div class="pasos">
-      <article class="paso rev"><span class="num">01</span><h4>Me lo presentas</h4><p>Un mensaje con el nombre del negocio y a quién pregunto, o un grupo de WhatsApp con los tres. No hace falta que vendas nada: solo que digas que me conoces.</p></article>
-      <article class="paso rev d1"><span class="num">02</span><h4>Yo hablo con él</h4><p>Llamo, escucho y le enseño lo suyo montado antes de que pague nada. Si no encaja, lo dejo estar: tu recomendación no se quema.</p></article>
-      <article class="paso rev d2"><span class="num">03</span><h4>Si entra, cobras</h4><p>Te aviso el mismo día que firma, con el importe y tu comisión. Y te vuelvo a avisar cada vez que ese cliente amplía o contrata otra cosa.</p></article>
+      <article class="paso rev"><span class="num">01</span><h3 class="t4">Me lo presentas</h3><p>Un mensaje con el nombre del negocio y a quién pregunto, o un grupo de WhatsApp con los tres. No hace falta que vendas nada: solo que digas que me conoces.</p></article>
+      <article class="paso rev d1"><span class="num">02</span><h3 class="t4">Yo hablo con él</h3><p>Llamo, escucho y le enseño lo suyo montado antes de que pague nada. Si no encaja, lo dejo estar: tu recomendación no se quema.</p></article>
+      <article class="paso rev d2"><span class="num">03</span><h3 class="t4">Si entra, cobras</h3><p>Te aviso el mismo día que firma, con el importe y tu comisión. Y te vuelvo a avisar cada vez que ese cliente amplía o contrata otra cosa.</p></article>
     </div>
   </div>
 </section>
@@ -345,7 +346,7 @@ a:focus-visible{outline:2px solid var(--bosque);outline-offset:3px;border-radius
     <div class="pie-grid">
       <div style="max-width:32ch"><strong style="color:var(--tinta)">Guillem Polo</strong><br>Webs y automatización para empresas y autónomos.</div>
       <div><a href="/paginas-web">Páginas web</a> · <a href="/resenas-google">Reseñas</a> · <a href="/facturas-a-datos">Facturas</a> · <a href="/asistente-whatsapp">WhatsApp</a></div>
-      <div><a href="/">Portada</a> · <a href="/condiciones">Condiciones y devoluciones</a></div>
+      <div><a href="/">Portada</a> · <a href="/condiciones">Condiciones y devoluciones</a><br><a href="/aviso-legal">Aviso legal</a> · <a href="/privacidad">Privacidad</a> · <a href="/cookies">Cookies</a></div>
     </div>
     <p class="legal">Guillem Polo Santisteban · NIF 79439688B · Ávila kalea 6, 48012 Bilbao (Vizcaya) · 688 65 54 65 · guillempolo2008@gmail.com</p>
   </div>

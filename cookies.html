@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Política de cookies · Guillem Polo</title>
+<meta name="description" content="Esta web no usa cookies ni analítica ni guarda datos en tu navegador. Qué se ha comprobado y qué pasaría si cambia.">
+<meta name="author" content="Guillem Polo">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://guillempolo.vercel.app/cookies">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" content="Guillem Polo">
+<meta property="og:title" content="Política de cookies · Guillem Polo">
+<meta property="og:description" content="Esta web no usa cookies ni analítica ni guarda datos en tu navegador. Qué se ha comprobado y qué pasaría si cambia.">
+<meta property="og:url" content="https://guillempolo.vercel.app/cookies">
+<meta property="og:image" content="https://guillempolo.vercel.app/og-cookies.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Política de cookies · Guillem Polo">
+<meta name="twitter:description" content="Esta web no usa cookies ni analítica ni guarda datos en tu navegador. Qué se ha comprobado y qué pasaría si cambia.">
+<meta name="twitter:image" content="https://guillempolo.vercel.app/og-cookies.png">
+<meta name="theme-color" content="#F7F7F3">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<link rel="preload" as="font" type="font/woff2" href="/fuentes/archivo.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fuentes/instrument-sans.woff2" crossorigin>
+<style>
+  @font-face{font-family:"Archivo";src:url("/fuentes/archivo.woff2") format("woff2");font-weight:100 900;font-display:swap;font-style:normal}
+  @font-face{font-family:"Instrument Sans";src:url("/fuentes/instrument-sans.woff2") format("woff2");font-weight:100 800;font-display:swap;font-style:normal}
+  @font-face{font-family:"Space Grotesk";src:url("/fuentes/space-grotesk.woff2") format("woff2");font-weight:300 700;font-display:swap;font-style:normal}
+</style>
+<style>
+  :root{ color-scheme: light; }
+  body{ margin:0; }
+  img{ max-width:100%; }
+  [hidden]{ display:none !important; }
+  .salta{
+    position:absolute; left:-9999px; top:0; background:#10402F; color:#F7F7F3;
+    padding:10px 16px; z-index:100; border-radius:0 0 4px 0; font-family:system-ui, sans-serif;
+  }
+  .salta:focus{ left:0; }
+
+  /* --- capa de movimiento (GSAP) --- */
+  html.gsap .hero h1 .l>span{ animation:none; transform:none; }
+  html.gsap .hero-sub, html.gsap .hero-cta, html.gsap .cuatro{ animation:none; opacity:0; }
+  html.gsap.anim .rev{ transition:none; }
+  html.gsap .ch{ display:inline-block; will-change:transform; }
+  html.gsap .ln{ overflow:hidden; padding-bottom:.08em; }
+  .progreso{
+    position:absolute; left:0; right:0; bottom:-1px; height:2px; transform:scaleX(0);
+    transform-origin:0 50%; background:linear-gradient(90deg,#FF5A1F,#3D7BFF);
+    pointer-events:none; opacity:.95;
+  }
+  @media (prefers-reduced-motion: reduce){ .progreso{ display:none; } }
+</style>
+<script src="/gsap.min.js"></script>
+<script>try{if(window.gsap&&!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches))document.documentElement.classList.add('gsap');}catch(e){}</script>
+<script src="/anim.js" defer></script>
+
+</head>
+<body>
+<a class="salta" href="#texto">Saltar al texto</a>
+<link rel="stylesheet" href="/sitio.css">
+
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="grano" aria-hidden="true"></div>
+<a class="llamar-movil" id="llamar" href="tel:+34688655465">Llamar al 688 65 54 65</a>
+
+<header class="barra" id="barra">
+  <div class="marco barra-in">
+    <a class="logo" href="/" aria-label="Guillem Polo · portada"><span class="punto"></span> Guillem Polo</a>
+    <nav><a class="enl" href="/">Portada</a><a class="enl" href="/paginas-web">Webs</a><a class="enl" href="/resenas-google">Reseñas</a><a class="enl" href="/facturas-a-datos">Facturas</a><a class="enl" href="/asistente-whatsapp">WhatsApp</a><a class="btn" href="/#contacto">Pedir presupuesto <span class="fl">→</span></a></nav>
+  </div>
+</header>
+
+<main>
+<section class="lg-cab">
+  <div class="marco">
+    <nav class="lg-tabs" aria-label="Textos legales"><a href="/aviso-legal">Aviso legal</a><a href="/privacidad">Privacidad</a><a href="/cookies" aria-current="page">Cookies</a><a href="/condiciones">Condiciones y devoluciones</a></nav>
+    <span class="eyebrow">Política de cookies</span>
+    <h1 class="lg-h1">Esta web no<br>usa cookies</h1>
+    <p class="lg-ent">Por eso no ves ningún aviso al entrar: no hay nada que aceptar. Aquí se explica qué se ha comprobado y qué pasaría si esto cambia.</p>
+    <p class="lg-fecha">Última actualización: 23 de septiembre de 2026</p>
+  </div>
+</section>
+<section class="lg-cuerpo" id="texto">
+  <div class="marco lg-grid">
+    <aside class="lg-ind"><p>En esta página</p><ol><li><a href="#a1">Qué son las cookies</a></li><li><a href="#a2">Qué usa esta web</a></li><li><a href="#a3">Qué se ha comprobado</a></li><li><a href="#a4">Cuando sales de esta web</a></li><li><a href="#a5">Si esto cambia</a></li></ol></aside>
+    <div class="lg-doc">
+
+<section class="lg-art" id="a1"><h2><span class="n">01</span>Qué son las cookies</h2><p>Pequeños archivos que una web guarda en tu navegador para recordarte, medir visitas o enseñarte publicidad. El artículo 22.2 de la LSSI obliga a pedir tu permiso antes de usar las que no son imprescindibles.</p></section>
+<section class="lg-art" id="a2"><h2><span class="n">02</span>Qué usa esta web</h2><p><b>Ninguna cookie</b>, ni propia ni de terceros. Tampoco guarda datos en tu navegador por otros medios (almacenamiento local), ni tiene analítica, píxeles de publicidad, vídeos incrustados ni botones de redes sociales que te rastreen.</p><p>Las fuentes de letra y las animaciones se sirven desde el propio dominio, así que al abrir la web no se hace ninguna petición a Google ni a otros servicios externos.</p></section>
+<section class="lg-art" id="a3"><h2><span class="n">03</span>Qué se ha comprobado</h2><div class="lg-tabla" role="region" aria-label="Revisión de cookies" tabindex="0"><table><thead><tr><th scope="col">Revisión</th><th scope="col">Resultado</th></tr></thead><tbody><tr><td>Cookies creadas al navegar por todas las páginas</td><td>0</td></tr><tr><td>Datos guardados en el navegador</td><td>0</td></tr><tr><td>Peticiones a dominios de terceros</td><td>0</td></tr></tbody></table></div><p>Revisión hecha el 23 de septiembre de 2026.</p></section>
+<section class="lg-art" id="a4"><h2><span class="n">04</span>Cuando sales de esta web</h2><p>Si pulsas el botón de WhatsApp, un enlace de correo o cualquier enlace externo, pasas a otra web o aplicación con sus propias cookies y su propia política, que ya no dependen de mí.</p></section>
+<section class="lg-art" id="a5"><h2><span class="n">05</span>Si esto cambia</h2><p>Si algún día añado analítica u otra herramienta que use cookies no imprescindibles, lo indicaré aquí con el detalle de cada una y aparecerá un aviso para que puedas aceptarlas o rechazarlas, con la misma facilidad para las dos cosas.</p><p>Mientras tanto, si quieres borrar las cookies de otras webs, puedes hacerlo desde la configuración de tu navegador.</p></section>
+
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="marco">
+    <div class="pie-grid">
+      <div style="max-width:32ch"><strong style="color:var(--tinta)">Guillem Polo</strong><br>Webs y automatización para empresas y autónomos.</div>
+      <div><a href="/paginas-web">Páginas web</a> · <a href="/resenas-google">Reseñas</a> · <a href="/facturas-a-datos">Facturas</a> · <a href="/asistente-whatsapp">WhatsApp</a></div>
+      <div><a href="/socios">Programa de socios</a> · <a href="/condiciones">Condiciones y devoluciones</a><br><a href="/aviso-legal">Aviso legal</a> · <a href="/privacidad">Privacidad</a> · <a href="/cookies">Cookies</a></div>
+    </div>
+    <p class="legal">Guillem Polo Santisteban · NIF 79439688B · Ávila kalea 6, 48012 Bilbao (Vizcaya) · 688 65 54 65 · guillempolo2008@gmail.com</p>
+  </div>
+</footer>
+
+<script src="/servicio.js" defer></script>
+
+</body>
+</html>

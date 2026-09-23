@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Política de privacidad · Guillem Polo</title>
+<meta name="description" content="Qué datos trato, para qué, con qué base legal, cuánto tiempo y cómo ejercer tus derechos (RGPD y LOPDGDD).">
+<meta name="author" content="Guillem Polo">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://guillempolo.vercel.app/privacidad">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" content="Guillem Polo">
+<meta property="og:title" content="Política de privacidad · Guillem Polo">
+<meta property="og:description" content="Qué datos trato, para qué, con qué base legal, cuánto tiempo y cómo ejercer tus derechos (RGPD y LOPDGDD).">
+<meta property="og:url" content="https://guillempolo.vercel.app/privacidad">
+<meta property="og:image" content="https://guillempolo.vercel.app/og-privacidad.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Política de privacidad · Guillem Polo">
+<meta name="twitter:description" content="Qué datos trato, para qué, con qué base legal, cuánto tiempo y cómo ejercer tus derechos (RGPD y LOPDGDD).">
+<meta name="twitter:image" content="https://guillempolo.vercel.app/og-privacidad.png">
+<meta name="theme-color" content="#F7F7F3">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<link rel="preload" as="font" type="font/woff2" href="/fuentes/archivo.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fuentes/instrument-sans.woff2" crossorigin>
+<style>
+  @font-face{font-family:"Archivo";src:url("/fuentes/archivo.woff2") format("woff2");font-weight:100 900;font-display:swap;font-style:normal}
+  @font-face{font-family:"Instrument Sans";src:url("/fuentes/instrument-sans.woff2") format("woff2");font-weight:100 800;font-display:swap;font-style:normal}
+  @font-face{font-family:"Space Grotesk";src:url("/fuentes/space-grotesk.woff2") format("woff2");font-weight:300 700;font-display:swap;font-style:normal}
+</style>
+<style>
+  :root{ color-scheme: light; }
+  body{ margin:0; }
+  img{ max-width:100%; }
+  [hidden]{ display:none !important; }
+  .salta{
+    position:absolute; left:-9999px; top:0; background:#10402F; color:#F7F7F3;
+    padding:10px 16px; z-index:100; border-radius:0 0 4px 0; font-family:system-ui, sans-serif;
+  }
+  .salta:focus{ left:0; }
+
+  /* --- capa de movimiento (GSAP) --- */
+  html.gsap .hero h1 .l>span{ animation:none; transform:none; }
+  html.gsap .hero-sub, html.gsap .hero-cta, html.gsap .cuatro{ animation:none; opacity:0; }
+  html.gsap.anim .rev{ transition:none; }
+  html.gsap .ch{ display:inline-block; will-change:transform; }
+  html.gsap .ln{ overflow:hidden; padding-bottom:.08em; }
+  .progreso{
+    position:absolute; left:0; right:0; bottom:-1px; height:2px; transform:scaleX(0);
+    transform-origin:0 50%; background:linear-gradient(90deg,#FF5A1F,#3D7BFF);
+    pointer-events:none; opacity:.95;
+  }
+  @media (prefers-reduced-motion: reduce){ .progreso{ display:none; } }
+</style>
+<script src="/gsap.min.js"></script>
+<script>try{if(window.gsap&&!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches))document.documentElement.classList.add('gsap');}catch(e){}</script>
+<script src="/anim.js" defer></script>
+
+</head>
+<body>
+<a class="salta" href="#texto">Saltar al texto</a>
+<link rel="stylesheet" href="/sitio.css">
+
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="grano" aria-hidden="true"></div>
+<a class="llamar-movil" id="llamar" href="tel:+34688655465">Llamar al 688 65 54 65</a>
+
+<header class="barra" id="barra">
+  <div class="marco barra-in">
+    <a class="logo" href="/" aria-label="Guillem Polo · portada"><span class="punto"></span> Guillem Polo</a>
+    <nav><a class="enl" href="/">Portada</a><a class="enl" href="/paginas-web">Webs</a><a class="enl" href="/resenas-google">Reseñas</a><a class="enl" href="/facturas-a-datos">Facturas</a><a class="enl" href="/asistente-whatsapp">WhatsApp</a><a class="btn" href="/#contacto">Pedir presupuesto <span class="fl">→</span></a></nav>
+  </div>
+</header>
+
+<main>
+<section class="lg-cab">
+  <div class="marco">
+    <nav class="lg-tabs" aria-label="Textos legales"><a href="/aviso-legal">Aviso legal</a><a href="/privacidad" aria-current="page">Privacidad</a><a href="/cookies">Cookies</a><a href="/condiciones">Condiciones y devoluciones</a></nav>
+    <span class="eyebrow">Política de privacidad</span>
+    <h1 class="lg-h1">Qué hago con<br>tus datos</h1>
+    <p class="lg-ent">Conforme al Reglamento General de Protección de Datos (RGPD, UE 2016/679) y a la Ley Orgánica 3/2018 (LOPDGDD). Escrita para que se entienda a la primera.</p>
+    <p class="lg-fecha">Última actualización: 23 de septiembre de 2026</p>
+  </div>
+</section>
+<section class="lg-cuerpo" id="texto">
+  <div class="marco lg-grid">
+    <aside class="lg-ind"><p>En esta página</p><ol><li><a href="#a1">Quién es el responsable</a></li><li><a href="#a2">Qué datos trato y de dónde salen</a></li><li><a href="#a3">Para qué y con qué base legal</a></li><li><a href="#a4">Cuánto tiempo los guardo</a></li><li><a href="#a5">Quién más los ve</a></li><li><a href="#a6">Tus derechos</a></li><li><a href="#a7">Datos de los clientes de mis clientes</a></li><li><a href="#a8">Seguridad y cambios</a></li></ol></aside>
+    <div class="lg-doc">
+<div class="lg-res"><h2>Lo importante</h2><ul><li>Esta web <b>no usa cookies</b>, no tiene analítica y <b>no guarda nada</b> de lo que escribes en los ejemplos.</li><li>Solo trato los datos que tú me das al escribirme o llamarme, y los <b>datos de contacto públicos</b> de negocios a los que ofrezco mis servicios.</li><li><b>No vendo ni cedo</b> datos a nadie.</li><li>Si me pides que no te vuelva a contactar, <b>te borro de la lista</b> y no vuelvo a llamarte.</li></ul></div>
+<section class="lg-art" id="a1"><h2><span class="n">01</span>Quién es el responsable</h2><p>Guillem Polo Santisteban, NIF 79439688B, con domicilio en Ávila kalea 6, 48012 Bilbao (Bizkaia), España. Para cualquier cosa sobre tus datos: <a href="mailto:guillempolo2008@gmail.com">guillempolo2008@gmail.com</a> o el <a href="tel:+34688655465">688 65 54 65</a>.</p></section>
+<section class="lg-art" id="a2"><h2><span class="n">02</span>Qué datos trato y de dónde salen</h2><p><b>Si me escribes o me llamas</b> (correo, teléfono, WhatsApp o el formulario de contacto, que abre tu propio programa de correo): tu nombre, el de tu negocio, tu teléfono o correo y lo que me cuentes en el mensaje.</p><p><b>Si eres cliente</b>: además, los datos necesarios para hacer el trabajo y cobrarlo (datos de facturación y los accesos o documentos que me pases).</p><p><b>Si tienes un negocio al que he contactado</b>: el nombre del negocio, su teléfono, su web, su dirección y su ficha pública de Google (por ejemplo, número de reseñas), obtenidos de <b>fuentes públicas</b> como Google Maps o la propia web del negocio, y las notas de la llamada (si te interesa, cuándo volver a llamar o si prefieres que no te llame).</p><p>Al navegar por la web, el proveedor de alojamiento registra de forma técnica y temporal la dirección IP y el navegador para servir las páginas y protegerlas de ataques. Yo no uso esos registros para nada más.</p></section>
+<section class="lg-art" id="a3"><h2><span class="n">03</span>Para qué y con qué base legal</h2><div class="lg-tabla" role="region" aria-label="Finalidades y base legal" tabindex="0"><table><thead><tr><th scope="col">Para qué</th><th scope="col">Base legal (art. 6 RGPD)</th></tr></thead><tbody><tr><td>Contestarte y prepararte un presupuesto</td><td>Tu solicitud: medidas precontractuales (6.1.b)</td></tr><tr><td>Hacer el trabajo contratado y cobrarlo</td><td>Ejecución del contrato (6.1.b)</td></tr><tr><td>Guardar facturas y cumplir con Hacienda</td><td>Obligación legal (6.1.c)</td></tr><tr><td>Ofrecer mis servicios a negocios con datos de contacto públicos</td><td>Interés legítimo en la prospección comercial entre profesionales (6.1.f y art. 19 LOPDGDD)</td></tr><tr><td>Servir la web de forma segura</td><td>Interés legítimo (6.1.f)</td></tr></tbody></table></div><p>Puedes oponerte en cualquier momento al contacto comercial: basta con decírmelo por teléfono o por escrito y deja de producirse. Antes de llamar a autónomos (personas físicas) consulto la Lista Robinson.</p></section>
+<section class="lg-art" id="a4"><h2><span class="n">04</span>Cuánto tiempo los guardo</h2><ul><li><b>Contactos que no llegan a nada</b>: hasta un año desde el último contacto, y después se borran.</li><li><b>Quien me pide que no le llame</b>: solo el teléfono y el nombre del negocio en una lista de exclusión, para no volver a llamar.</li><li><b>Clientes</b>: mientras dure la relación y, después, lo que exijan las leyes fiscales y mercantiles (en general, entre 4 y 6 años).</li></ul></section>
+<section class="lg-art" id="a5"><h2><span class="n">05</span>Quién más los ve</h2><p>Nadie, salvo los proveedores que necesito para trabajar y que actúan por mi cuenta con contrato de encargado de tratamiento:</p><ul><li><b>Alojamiento de la web</b>: Vercel Inc. (Estados Unidos).</li><li><b>Correo electrónico</b>: Google (Gmail).</li><li><b>Mensajería</b>: WhatsApp (Meta), si me escribes por ahí.</li><li><b>Herramientas de trabajo</b>: Anthropic (Claude), donde organizo la lista de negocios a los que llamo y preparo propuestas.</li></ul><p>Algunos de estos proveedores están en Estados Unidos. Las transferencias se hacen con las garantías del RGPD: el Marco de Privacidad de Datos UE-EE. UU. o las cláusulas contractuales tipo de la Comisión Europea.</p><p>También podría tener que darlos a autoridades cuando una ley lo obligue.</p></section>
+<section class="lg-art" id="a6"><h2><span class="n">06</span>Tus derechos</h2><p>Puedes pedirme <b>acceso</b> a tus datos, <b>rectificarlos</b>, <b>suprimirlos</b>, <b>oponerte</b> a que los trate, <b>limitar</b> su uso o pedir su <b>portabilidad</b>. Escríbeme a <a href="mailto:guillempolo2008@gmail.com">guillempolo2008@gmail.com</a> diciendo qué quieres; si hay dudas sobre quién lo pide, te pediré que lo acredites. Te contesto en menos de un mes.</p><p>Si crees que no he atendido bien tu petición, puedes reclamar ante la <b>Agencia Española de Protección de Datos</b> (<a href="https://www.aepd.es" rel="noopener">aepd.es</a>).</p></section>
+<section class="lg-art" id="a7"><h2><span class="n">07</span>Datos de los clientes de mis clientes</h2><p>Cuando un servicio implica tratar datos de las personas que atienden mis clientes (por ejemplo, las reseñas de Google o los mensajes que recibe su WhatsApp), el responsable es el cliente y yo actúo como <b>encargado del tratamiento</b>, con el contrato que exige el artículo 28 del RGPD. Está detallado en las <a href="/condiciones#a13">condiciones de contratación</a>.</p></section>
+<section class="lg-art" id="a8"><h2><span class="n">08</span>Seguridad y cambios</h2><p>Aplico medidas razonables para proteger los datos: accesos protegidos con contraseña, cuentas separadas por cliente cuando hace falta y solo los datos imprescindibles. Si esta política cambia, se publicará aquí con su nueva fecha.</p></section>
+
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="marco">
+    <div class="pie-grid">
+      <div style="max-width:32ch"><strong style="color:var(--tinta)">Guillem Polo</strong><br>Webs y automatización para empresas y autónomos.</div>
+      <div><a href="/paginas-web">Páginas web</a> · <a href="/resenas-google">Reseñas</a> · <a href="/facturas-a-datos">Facturas</a> · <a href="/asistente-whatsapp">WhatsApp</a></div>
+      <div><a href="/socios">Programa de socios</a> · <a href="/condiciones">Condiciones y devoluciones</a><br><a href="/aviso-legal">Aviso legal</a> · <a href="/privacidad">Privacidad</a> · <a href="/cookies">Cookies</a></div>
+    </div>
+    <p class="legal">Guillem Polo Santisteban · NIF 79439688B · Ávila kalea 6, 48012 Bilbao (Vizcaya) · 688 65 54 65 · guillempolo2008@gmail.com</p>
+  </div>
+</footer>
+
+<script src="/servicio.js" defer></script>
+
+</body>
+</html>

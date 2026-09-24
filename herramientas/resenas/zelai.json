@@ -1,0 +1,133 @@
+{
+ "slug": "zelai-txiki-resenas",
+ "negocio": "Zelai Txiki",
+ "para": "Para Eva y Juan Carlos",
+ "nota": "4,6",
+ "total": "1.306",
+ "cifra3": "0",
+ "cifra3txt": "respuestas en las que Google enseña primero",
+ "iniciales": "ZT",
+ "movil_queja": "una espera larga entre platos",
+ "movil_resp": "Sentimos mucho la espera, y más sin que nadie os explicara nada. Si nos escribís con el día de la reserva, nos gustaría hablarlo con vosotros directamente.",
+ "movil_cambio": "OK, pero añade que lo vamos a mirar con la sala",
+ "regla_platos": "Si habla de la torrija, del cochinillo o del menú degustación, la respuesta también.",
+ "precio_alta": "desde 390 €",
+ "precio_mes": "desde 39 €",
+ "firma_corta": "Eva, Juan Carlos y el equipo",
+ "firma": "Eva, Juan Carlos y el equipo de Zelai Txiki",
+ "resenas": [
+  {
+   "id": 1,
+   "estado": "esp",
+   "nombre": "Ejemplo inventado",
+   "ini": "?",
+   "color": "#A9492A",
+   "est": 2,
+   "cuando": "reseña de ejemplo",
+   "inventada": true,
+   "texto": "Reservamos para las dos y entre el primer y el segundo plato pasaron más de cuarenta minutos sin que nadie nos dijera nada. La comida, bien, pero para lo que cuesta esperábamos otra cosa.",
+   "resp": "Sentimos mucho la espera, y más sin que nadie os explicara qué pasaba: no es lo que queremos para nadie que viene a comer a casa. Si nos escribís con el día de la reserva, nos gustaría hablarlo con vosotros directamente. Gracias por decírnoslo tan claro.",
+   "motivo": "Dos estrellas y una queja de la sala. No se publica hasta que la aprobéis."
+  },
+  {
+   "id": 2,
+   "estado": "esp",
+   "nombre": "Urtzi",
+   "ini": "U",
+   "color": "#2E5A43",
+   "est": 5,
+   "cuando": "Google · hace 6 meses",
+   "texto": "Nuestra primera vez en Zelai Txiki, y muy muy bien la verdad. No habíamos especificado que queríamos el menú degustación y al principio parecía que no iba a ser posible… Por poner algún pero, el solomillo no estaba muy rico y el ravioli, rico, pero mucha pasta y poco relleno. La atención de la chica, espectacular. Para repetir.",
+   "resp": "Urtzi, gracias por venir y por contarlo con tanto detalle. Tienes razón con lo del menú degustación: hay que pedirlo al reservar porque se prepara con antelación, y está claro que tenemos que explicarlo mejor. Lo del solomillo y el ravioli se lo pasamos a cocina, y tus palabras a nuestra compañera de sala, que seguro que le hacen ilusión. Te esperamos para que la próxima sea redonda.",
+   "motivo": "Cinco estrellas, pero critica dos platos y la reserva. Mejor que lo veáis antes."
+  },
+  {
+   "id": 3,
+   "estado": "auto",
+   "nombre": "Beatriz M.",
+   "ini": "B",
+   "color": "#7A6A2E",
+   "est": 5,
+   "cuando": "Google · hace un mes",
+   "texto": "Primera vez que hemos ido pero no será la última. Estaba todo DELICIOSO. Hemos probado la anchoa, croqueta, el talo de txistorra, el tomate, los hongos fueron de lo mejorcito y el canelón. Y para rematar los postres WOWWWW. Pedimos la torrija y el coulant.",
+   "resp": "¡Qué alegría leerte, Beatriz! Que una primera visita acabe en «no será la última» es lo mejor que nos puede pasar. Nos quedamos con lo de los hongos y el canelón, y el WOW de la torrija y el coulant se lo pasamos a cocina. Os esperamos pronto."
+  },
+  {
+   "id": 4,
+   "estado": "auto",
+   "nombre": "K. G.",
+   "ini": "K",
+   "color": "#2E5A43",
+   "est": 5,
+   "cuando": "Google · hace 2 semanas",
+   "texto": "Ayer fuimos a comer en familia (6 personas). Una sala muy agradable, cuidando cada detalle. La comida espectacular, tal y como decimos en euskara «goxua». El servicio atento sin ser muy cargantes. De 10. Eskerrikasko por hacer de una celebración familiar algo ESPECIAL.",
+   "resp": "Eskerrik asko zuri! Que una comida familiar de seis salga redonda y goxua es justo lo que buscamos cada día. Gracias por elegirnos para un día tan especial; aquí os esperamos para la próxima celebración."
+  },
+  {
+   "id": 5,
+   "estado": "auto",
+   "nombre": "Jorge de R.",
+   "ini": "J",
+   "color": "#4B5E7A",
+   "est": 5,
+   "cuando": "Google · hace 5 meses",
+   "texto": "Fuimos a cenar con mi mujer y mis suegros, y la experiencia fue de 10. Destacaría las croquetas de jamón, las vieiras con crema de calabaza y huevas de trucha, y la chuleta. Como único punto, el precio es algo elevado, pero entiendo que también se paga el entorno y el nivel de servicio.",
+   "resp": "Jorge, gracias por elegirnos para cenar en familia. Nos alegra que las croquetas, las vieiras y la chuleta estuvieran a la altura, y que el ambiente tranquilo acompañara. Entendemos lo del precio: cuidamos mucho el producto de aquí y de temporada, y nos alegra que se notara. Un saludo a tu mujer y a tus suegros."
+  },
+  {
+   "id": 6,
+   "estado": "auto",
+   "nombre": "Koro A.",
+   "ini": "K",
+   "color": "#6B4E7A",
+   "est": 5,
+   "cuando": "Google · hace 4 meses",
+   "texto": "Me hicieron un menú vegano personalizado solo para mí, con cosas que no había en la carta. Muy agradecida, todo riquísimo, un ambiente muy agradable y el servicio majísimo.",
+   "resp": "Koro, gracias a ti por avisarnos. Adaptar el menú a cada persona es parte de cocinar en casa, y que lo disfrutaras tanto nos ha encantado. Te esperamos cuando quieras."
+  },
+  {
+   "id": 7,
+   "estado": "auto",
+   "nombre": "Mónica B.",
+   "ini": "M",
+   "color": "#7A4B3A",
+   "est": 5,
+   "cuando": "Google · hace 6 meses",
+   "texto": "Hacía muchos años que no iba y me ha encantado, la comida, el servicio. Solo tiene un pero, que el parking es pequeño.",
+   "resp": "Mónica, qué bien que volvieras después de tanto tiempo y que te encantara. Tienes razón con el aparcamiento: los días de más gente se nos queda pequeño, y lo tenemos en cuenta. Gracias por volver y hasta pronto."
+  },
+  {
+   "id": 8,
+   "estado": "auto",
+   "nombre": "Cynthia S.",
+   "ini": "C",
+   "color": "#2E5A43",
+   "est": 5,
+   "cuando": "Google · hace 4 meses",
+   "texto": "Hemos venido varias veces, local muy acogedor, gente muy amable y comida riquísima.",
+   "resp": "Cynthia, que volváis una y otra vez es el mejor cumplido que nos podéis hacer. Gracias por la confianza, y hasta muy pronto."
+  },
+  {
+   "id": 9,
+   "estado": "auto",
+   "nombre": "A. B.",
+   "ini": "A",
+   "color": "#4B5E7A",
+   "est": 5,
+   "cuando": "Google · hace 2 meses",
+   "texto": "Un sitio agradable, comida excelente y servicio súper atento y amable, repetiremos.",
+   "resp": "¡Muchas gracias! Nos alegra mucho que os sintierais a gusto. Aquí estaremos para esa próxima vez."
+  },
+  {
+   "id": 10,
+   "estado": "auto",
+   "nombre": "Laura J.",
+   "ini": "L",
+   "color": "#7A6A2E",
+   "est": 5,
+   "cuando": "Google · hace 3 años",
+   "texto": "Una vez más acertamos yendo a visitar a nuestros antiguos vecinos. Qué bien y qué rico siguen cocinando Carlos y su equipo. Es un placer siempre volver. Calidad precio espectacular. Volveremos.",
+   "resp": "Laura, qué bonito leer esto de unos antiguos vecinos. Juan Carlos y todo el equipo os mandan un abrazo enorme. Gracias por seguir viniendo después de tanto tiempo: aquí tenéis siempre vuestra casa."
+  }
+ ]
+}

@@ -10,7 +10,7 @@
 <meta property="og:description" content="Carrocería, pintura y tapicería. Propuesta de web de Guillem.">
 <meta property="og:image" content="https://guillempolo.vercel.app/demos/talleres-adame-og.jpg">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#121314">
+<meta name="theme-color" content="#ffffff">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23121314'/><text x='32' y='48' font-family='Arial Narrow,Arial' font-weight='900' font-size='44' fill='%23FFC400' text-anchor='middle'>A</text></svg>">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"AutoBodyShop","name":"Talleres Adame","foundingDate":"1912","telephone":"+34954573059","email":"adamesl1912@gmail.com",
@@ -191,6 +191,57 @@ a.d:hover{background:var(--carbon-2)}
   .cinta .pista{animation:none}
   html{scroll-behavior:auto}
 }
+
+/* ===== tema claro (da más confianza) ===== */
+:root{--linea:#e2dfd8;--fondo-claro:#F7F6F2;--ref:#8a6400}
+body{background:#fff;color:var(--tinta)}
+.ref{color:var(--ref)}
+.cab{background:rgba(255,255,255,.96);border-bottom-color:var(--linea)}
+.marca b{color:#111}
+.marca span{color:#6b6d72}
+.menu a{color:#2b2c2f}
+.menu a:hover{color:#111;box-shadow:inset 0 -3px 0 var(--amarillo)}
+.btn.lin{border-color:#1b1c1e;color:#111}
+.btn.lin:hover{background:#111;border-color:#111;color:#fff}
+.hero{background-color:var(--fondo-claro);background-image:linear-gradient(rgba(20,20,20,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(20,20,20,.06) 1px,transparent 1px);border-bottom-color:var(--linea)}
+.hero::after{background:radial-gradient(ellipse at 20% 40%,rgba(247,246,242,0),var(--fondo-claro) 74%)}
+.hero h1{color:#111}
+.hero h1 em{color:#111;background:linear-gradient(transparent 58%,var(--amarillo) 58%,var(--amarillo) 92%,transparent 92%);-webkit-box-decoration-break:clone;box-decoration-break:clone;padding:0 .06em}
+.hero .sub{color:#3c3d40}
+.ficha{background:#fff;border:2px solid #111;box-shadow:10px 10px 0 var(--amarillo)}
+.ficha .top{background:#111;border-bottom:0}
+.ficha .top span{color:#e9e7e1}
+.ficha .grande{color:#111}
+.ficha .grande small{color:#111}
+.ficha p{color:#3c3d40}
+.ficha .fila{border-top-color:var(--linea)}
+.ficha .fila div+div{border-left-color:var(--linea)}
+.ficha .fila b{color:#111}
+.ficha .fila div>span{color:#6b6d72}
+#servicios{background:#fff}
+.sec.gris{background:var(--fondo-claro);color:var(--tinta)}
+.sec.gris .cabeza p{color:var(--gris-osc)}
+.sec.gris .pasos{border-color:#d9d6ce;background:#fff}
+.sec.gris .p{border-color:#d9d6ce}
+.sec.gris .p p{color:#4a4c50}
+.sec.gris .p h3{color:#111}
+#contacto{background:#fff;color:var(--tinta)}
+#contacto .cabeza p{color:var(--gris-osc)}
+.contacto{border-color:#d9d6ce}
+.form{background:var(--fondo-claro);border-color:#d9d6ce}
+.form p.nota-f{color:var(--gris-osc)}
+.campo label{color:#55575c}
+.campo input,.campo textarea{background:#fff;border-color:#cfccc4;color:#111}
+.campo input:focus,.campo textarea:focus{border-color:#111;box-shadow:0 0 0 3px var(--amarillo)}
+.ok{border-color:#111;color:#111;background:#FFF4CC}
+.d{border-color:#d9d6ce}
+.d:nth-child(odd){border-right-color:#d9d6ce}
+a.d:hover{background:var(--fondo-claro)}
+.d b{color:#111}
+.d span{color:#55575c}
+.mapa{background:#eceae4}
+.mapa iframe{filter:grayscale(.6)}
+.pie{background:#111;border-top:0}
 </style>
 </head>
 <body>
@@ -250,7 +301,7 @@ a.d:hover{background:var(--carbon-2)}
 
 <div class="franja-aviso" aria-hidden="true"></div>
 
-<section class="sec" id="como"><div class="env">
+<section class="sec gris" id="como"><div class="env">
   <div class="cabeza rev">
     <div><span class="ref">Cómo trabajamos</span><h2>Sin sorpresas</h2></div>
     <p>Lo que más valoran nuestros clientes en Google: el trato, el presupuesto al momento y un precio ajustado.</p>

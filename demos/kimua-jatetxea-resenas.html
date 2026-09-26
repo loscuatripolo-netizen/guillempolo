@@ -45,7 +45,10 @@ a{color:inherit}
 .firma-g{font-size:14px;color:var(--tinta-2)}
 
 /* hero */
-.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;padding:34px 0 70px}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;padding:26px 0 40px}
+.ir{display:inline-flex;align-items:center;gap:8px;margin-top:22px;font-weight:600;color:var(--verde);text-decoration:none;border-bottom:2px solid var(--oro);padding-bottom:2px}
+.movil{margin:0;justify-self:center;display:flex;flex-direction:column;align-items:center;gap:14px}
+.movil figcaption{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--verde-2);text-align:center;order:2}
 .etiqueta{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--verde-2);margin-bottom:18px}
 .etiqueta::before{content:"";width:26px;height:2px;background:currentColor}
 .hero h1{font-size:clamp(36px,4.6vw,58px);margin-bottom:22px}
@@ -61,8 +64,8 @@ a{color:inherit}
 .telefono{justify-self:center;width:300px;border-radius:44px;background:#111;padding:12px;box-shadow:0 40px 70px -30px rgba(27,38,32,.6);transform:rotate(2deg)}
 .pantalla{border-radius:34px;overflow:hidden;background:#E9E3D6;min-height:520px;position:relative}
 .barra-tel{display:flex;justify-content:space-between;font:600 12px var(--sans);color:#333;padding:12px 22px 6px}
-.chat-cab{background:#1F3A2C;color:#fff;display:flex;align-items:center;gap:10px;padding:10px 14px}
-.chat-cab i{width:32px;height:32px;border-radius:50%;background:#E8C66A;display:grid;place-items:center;font-style:normal;font-weight:700;color:#1F3A2C;font-size:13px}
+.chat-cab{background:var(--verde);color:#fff;display:flex;align-items:center;gap:10px;padding:10px 14px}
+.chat-cab i{width:32px;height:32px;border-radius:50%;background:#E8C66A;display:grid;place-items:center;font-style:normal;font-weight:700;color:var(--verde);font-size:13px}
 .chat-cab b{font-size:14px;display:block}
 .chat-cab small{font-size:11.5px;opacity:.8}
 .burbujas{padding:14px 12px;display:flex;flex-direction:column;gap:8px}
@@ -91,8 +94,8 @@ html:not(.js) .burbuja{opacity:1;transform:none}
 .paso.dos .n{background:var(--teja)}
 
 /* bandeja */
-.bandeja{background:var(--papel);border-radius:28px;box-shadow:var(--sombra);overflow:hidden}
-.pestanas{display:flex;gap:6px;padding:14px;border-bottom:1px solid var(--linea);background:#F7F4EC;flex-wrap:wrap}
+.bandeja{background:var(--papel);border-radius:28px;box-shadow:var(--sombra)}
+.pestanas{display:flex;gap:6px;padding:12px 14px;border-bottom:1px solid var(--linea);background:#F7F4EC;flex-wrap:wrap;position:sticky;top:0;z-index:5;border-radius:28px 28px 0 0}
 .pestana{border:0;background:none;font:600 15px var(--sans);color:var(--tinta-2);padding:10px 16px;border-radius:99px;cursor:pointer;display:flex;align-items:center;gap:8px}
 .pestana .c{min-width:24px;height:24px;border-radius:99px;display:grid;place-items:center;font-size:12.5px;background:var(--linea);color:var(--tinta);padding:0 7px}
 .pestana[aria-selected="true"]{background:var(--tinta);color:#fff}
@@ -108,6 +111,7 @@ html:not(.js) .burbuja{opacity:1;transform:none}
 .est{color:var(--oro);letter-spacing:2px;font-size:15px}
 .est .vac{color:#D6CFBF}
 .texto{font-size:15.5px;color:#2E3833}
+.leer{display:none;border:0;background:none;padding:6px 0 0;font:600 14px var(--sans);color:var(--verde-2);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 .inventada{display:inline-block;margin-top:8px;font-size:12.5px;font-weight:600;color:var(--teja);background:var(--teja-s);border-radius:99px;padding:3px 10px}
 .resp{background:#F4F1E8;border-radius:16px;padding:14px 16px;position:relative}
 .resp .tit{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:6px;flex-wrap:wrap}
@@ -171,26 +175,89 @@ html:not(.js) .burbuja{opacity:1;transform:none}
 .js .rev.dentro{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.js .rev{opacity:1;transform:none}}
 
+.sec.demo{padding:10px 0 60px}
+.demo .cabeza{margin-bottom:22px}
+
+/* barra fija del móvil */
+.barra-wa{display:none}
+
 @media (max-width:900px){
-  .hero,.precio{grid-template-columns:1fr}
-  .telefono{transform:none;width:280px}
+  /* en móvil, las reseñas justo debajo del titular y el teléfono después */
+  main{display:flex;flex-direction:column}
+  .hero{display:contents}
+  .hero-txt{order:1;padding:8px 0 22px}
+  .demo{order:2}
+  .movil{order:3;padding:10px 0 20px}
+  .movil figcaption{order:0}
+  main>section:not(.demo){order:4}
+  .precio{grid-template-columns:1fr}
+  .telefono{transform:none;width:270px}
+  .pantalla{min-height:0}
   .pasos,.reglas{grid-template-columns:1fr}
-  .resena{grid-template-columns:1fr;gap:14px}
+  .resena{grid-template-columns:1fr;gap:12px}
+  .ir{display:none}
+  .texto.larga:not(.abierta){display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+  .texto.larga:not(.abierta)+.leer{display:inline-block}
+  .barra-wa{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;align-items:center;justify-content:space-between;gap:12px;background:var(--papel);border-top:1px solid var(--linea);box-shadow:0 -10px 30px -18px rgba(27,38,32,.45);padding:10px 16px calc(10px + env(safe-area-inset-bottom))}
+  .barra-wa b{display:block;font:400 19px/1.15 var(--serif);color:var(--verde)}
+  .barra-wa small{font-size:13px;color:var(--tinta-2)}
+  .barra-wa .btn{padding:12px 20px;font-size:15px;white-space:nowrap;text-decoration:none}
+  body{padding-bottom:76px}
+  #aviso-flash{bottom:92px}
 }
 @media (max-width:560px){
-  body{font-size:16.5px}
+  body{font-size:16px}
   .envol{width:calc(100% - 32px)}
+  .aviso{font-size:12.5px;padding:7px 14px}
+  .cab{padding:12px 0}
+  .logo{font-size:19px;gap:10px}
+  .logo i{width:34px;height:34px;border-radius:10px}
   .firma-g{display:none}
-  .sec{padding:60px 0}
-  .lista{padding:4px 12px 12px}
-  .pestana{padding:9px 12px;font-size:14px}
-  .tarifa,.incluye{padding:24px}
+  .etiqueta{font-size:12px;margin-bottom:10px}
+  .hero h1{font-size:28px;margin-bottom:10px}
+  .hero h1 em{display:none}
+  .aviso .largo{display:none}
+  .logo small{display:none}
+  .hero-txt{padding-bottom:18px}
+  .hero .entrada{font-size:15.5px;margin-bottom:14px}
+  .cifras{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .cifra{min-width:0;padding:8px 12px;border-radius:14px}
+  .cifra b{font-size:21px}
+  .cifra span{font-size:13px}
+  .cifra.alerta{grid-column:1/-1;display:flex;align-items:baseline;gap:8px}
+  .cifra.alerta b{display:inline}
+  .sec.demo{padding:0 0 30px}
+  .demo .cabeza{margin-bottom:12px}
+  .demo .cabeza h2{font-size:25px;margin-bottom:6px}
+  .demo .cabeza p{font-size:14.5px;line-height:1.5}
+  .bandeja{border-radius:20px;margin-inline:-6px}
+  .pestanas{padding:8px;gap:4px;border-radius:20px 20px 0 0;flex-wrap:nowrap}
+  .pestana{padding:8px 10px;font-size:14px;gap:6px}
+  .pestana .d{display:none}
+  .lista{padding:0 12px 6px}
+  .resena{padding:16px 0;gap:10px}
+  .quien{margin-bottom:6px;gap:8px}
+  .av{width:32px;height:32px;font-size:13px}
+  .texto,.resp p.cuerpo{font-size:15px}
+  .resp{padding:12px 13px;border-radius:14px}
+  .acciones .btn{flex:1}
+  .sec{padding:44px 0}
+  .cabeza h2{font-size:27px}
+  .cabeza p{font-size:16px}
+  .paso{padding:18px 20px;border-radius:18px;display:grid;grid-template-columns:auto 1fr;gap:4px 14px}
+  .paso .n{margin:0;grid-row:span 2;width:34px;height:34px;font-size:16px}
+  .paso h3{font-size:19px;margin:4px 0 2px}
+  .paso p{font-size:15px}
+  .regla{padding:14px 16px}
+  .regla span{font-size:15px}
+  .tarifa,.incluye{padding:22px}
   .linea-p{flex-direction:column;gap:4px}
+  .cierre{padding:40px 0 50px}
 }
 </style>
 </head>
 <body>
-<aside class="aviso" aria-label="Aviso de propuesta">Propuesta de Guillem para <b data-t="negocio">Kimua Jatetxea</b> · Es una demostración: nada de esto se ha publicado en vuestra ficha de Google.</aside>
+<aside class="aviso" aria-label="Aviso de propuesta">Propuesta de Guillem para <b data-t="negocio">Kimua Jatetxea</b> · Demostración<span class="largo">: nada de esto se ha publicado en vuestra ficha de Google</span>.</aside>
 
 <div class="envol">
   <header class="cab">
@@ -199,33 +266,52 @@ html:not(.js) .burbuja{opacity:1;transform:none}
   </header>
 
   <main>
-  <section class="hero">
-    <div>
+  <div class="hero">
+    <div class="hero-txt">
       <p class="etiqueta" data-t="para">Para el equipo de Kimua</p>
       <h1>Vuestras reseñas, contestadas. <em>Las delicadas, primero a vosotros.</em></h1>
-      <p class="entrada">Un agente lee cada reseña nueva de Google y escribe la respuesta como la escribiríais en <span data-t="negocio">Kimua Jatetxea</span>: nombrando el plato, la celebración o la persona. Las buenas se publican solas. Las que traen una queja os llegan antes al móvil, y no sale nada sin vuestro visto bueno.</p>
+      <p class="entrada">Un agente contesta cada reseña de Google como lo haríais en <span data-t="negocio">Kimua Jatetxea</span>. Las buenas se publican solas; las que traen una queja os llegan antes al móvil.</p>
       <div class="cifras">
         <div class="cifra"><b data-t="nota">4,6</b><span>de media en Google</span></div>
         <div class="cifra"><b data-t="total">934</b><span>reseñas</span></div>
         <div class="cifra alerta"><b data-t="cifra3">0</b><span data-t="cifra3txt">respuestas en las que Google enseña primero</span></div>
       </div>
+      <a class="ir" href="#demo">Ver las diez respuestas <span aria-hidden="true">↓</span></a>
     </div>
-    <div class="telefono" aria-label="Ejemplo de aviso en el móvil">
-      <div class="pantalla">
-        <div class="barra-tel"><span>9:41</span><span>●●● 5G</span></div>
-        <div class="chat-cab"><i data-t="iniciales">KJ</i><div><b>Reseñas <span data-t="negocio">Kimua Jatetxea</span></b><small>aviso automático</small></div></div>
-        <div class="burbujas" data-burbujas>
-          <div class="burbuja">Nueva reseña de <b>2 <span class="est">★★</span></b> en Google. Habla de <span data-t="movil_queja">lo largo que se hizo el menú: casi tres horas en la mesa</span>.<span class="hora">14:52</span></div>
-          <div class="burbuja">Respuesta propuesta:<q data-t="movil_resp">Sentimos que el menú largo se os hiciera tan largo: el ritmo entre pases es parte de la experiencia y ese día no lo cuidamos. Si nos escribís con la fecha, nos gustaría hablarlo con vosotros.</q><span class="hora">14:52</span></div>
-          <div class="burbuja">Responde <b>OK</b> para publicarla o escribe tu cambio.<span class="hora">14:52</span></div>
-          <div class="burbuja mia"><span data-t="movil_cambio">OK, pero añade que lo hablamos con cocina y sala</span><span class="hora">15:07</span></div>
-          <div class="burbuja">Hecho. Publicada con tu cambio ✓<span class="hora">15:07</span></div>
+    <figure class="movil">
+      <figcaption>Así os llega una delicada</figcaption>
+      <div class="telefono" aria-label="Ejemplo de aviso en el móvil">
+        <div class="pantalla">
+          <div class="barra-tel"><span>9:41</span><span>●●● 5G</span></div>
+          <div class="chat-cab"><i data-t="iniciales">KJ</i><div><b>Reseñas <span data-t="negocio">Kimua Jatetxea</span></b><small>aviso automático</small></div></div>
+          <div class="burbujas" data-burbujas>
+            <div class="burbuja">Nueva reseña de <b>2 <span class="est">★★</span></b> en Google. Habla de <span data-t="movil_queja">lo largo que se hizo el menú: casi tres horas en la mesa</span>.<span class="hora">14:52</span></div>
+            <div class="burbuja">Respuesta propuesta:<q data-t="movil_resp">Sentimos que el menú largo se os hiciera tan largo: el ritmo entre pases es parte de la experiencia y ese día no lo cuidamos. Si nos escribís con la fecha, nos gustaría hablarlo con vosotros.</q><span class="hora">14:52</span></div>
+            <div class="burbuja">Responde <b>OK</b> para publicarla o escribe tu cambio.<span class="hora">14:52</span></div>
+            <div class="burbuja mia"><span data-t="movil_cambio">OK, pero añade que lo hablamos con cocina y sala</span><span class="hora">15:07</span></div>
+            <div class="burbuja">Hecho. Publicada con tu cambio ✓<span class="hora">15:07</span></div>
+          </div>
         </div>
       </div>
+    </figure>
+  </div>
+
+  <section class="sec demo" id="demo" aria-labelledby="demo-tit">
+    <div class="cabeza">
+      <h2 id="demo-tit">Diez respuestas ya escritas</h2>
+      <p data-t="intro_demo">Nueve son reseñas vuestras de verdad, sacadas de Google. La décima es un ejemplo negativo inventado, para que veáis qué pasa cuando llega una mala. Probad a publicar o editar las que esperan.</p>
+    </div>
+    <div class="bandeja">
+      <div class="pestanas" role="tablist" aria-label="Bandeja de reseñas">
+        <button class="pestana" role="tab" aria-selected="true" aria-controls="lista" data-ver="todas">Todas <span class="c" data-n="todas">0</span></button>
+        <button class="pestana urg" role="tab" aria-selected="false" aria-controls="lista" data-ver="esp">Os esperan <span class="c" data-n="esp">0</span></button>
+        <button class="pestana" role="tab" aria-selected="false" aria-controls="lista" data-ver="auto">Publicadas<span class="d"> solas</span> <span class="c" data-n="auto">0</span></button>
+      </div>
+      <div class="lista" id="lista" role="tabpanel" aria-live="polite"></div>
     </div>
   </section>
 
-  <section class="sec" style="padding-top:20px">
+  <section class="sec">
     <div class="cabeza rev"><p class="etiqueta">Cómo funciona</p><h2>Tres pasos, y vosotros solo miráis el segundo</h2></div>
     <div class="pasos">
       <div class="paso rev"><div class="n">1</div><h3>Entra una reseña</h3><p>El agente la lee en cuanto aparece en vuestra ficha: nota, platos que nombra, si es una celebración o si trae una queja.</p></div>
@@ -234,22 +320,7 @@ html:not(.js) .burbuja{opacity:1;transform:none}
     </div>
   </section>
 
-  <section class="sec" id="demo" style="padding-top:10px">
-    <div class="cabeza rev">
-      <p class="etiqueta">La prueba, con vuestras reseñas</p>
-      <h2>Diez respuestas ya escritas</h2>
-      <p data-t="intro_demo">Nueve son reseñas vuestras de verdad, sacadas de Google. La décima es un ejemplo negativo inventado, para que veáis qué pasa cuando llega una mala. Probad a publicar o editar las que esperan.</p>
-    </div>
-    <div class="bandeja rev">
-      <div class="pestanas" role="tablist" aria-label="Bandeja de reseñas">
-        <button class="pestana urg" role="tab" aria-selected="true" aria-controls="lista" data-ver="esp">Os esperan <span class="c" data-n="esp">0</span></button>
-        <button class="pestana" role="tab" aria-selected="false" aria-controls="lista" data-ver="auto">Contestadas solas <span class="c" data-n="auto">0</span></button>
-      </div>
-      <div class="lista" id="lista" role="tabpanel" aria-live="polite"></div>
-    </div>
-  </section>
-
-  <section class="sec" style="padding-top:10px">
+  <section class="sec">
     <div class="cabeza rev"><p class="etiqueta">Las reglas del agente</p><h2>Lo que hace y lo que no hará nunca</h2></div>
     <div class="reglas">
       <div class="regla si rev"><i>✓</i><div><b>Nombra lo que nombra el cliente</b><span data-t="regla_platos">Si habla de la croqueta de cangrejo, de la porrusalda o de la cava de vinos, la respuesta también.</span></div></div>
@@ -261,7 +332,7 @@ html:not(.js) .burbuja{opacity:1;transform:none}
     </div>
   </section>
 
-  <section class="sec" style="padding-top:10px">
+  <section class="sec">
     <div class="cabeza rev"><p class="etiqueta">Lo que cuesta</p><h2>Un precio cerrado, sin permanencia</h2></div>
     <div class="precio">
       <div class="tarifa rev">
@@ -291,6 +362,7 @@ html:not(.js) .burbuja{opacity:1;transform:none}
   </main>
 </div>
 <footer class="pie-g">Demostración preparada por Guillem · 688 65 54 65 · guillempolo.vercel.app · <span data-t="negocio">Kimua Jatetxea</span> no ha publicado nada de esta página.</footer>
+<div class="barra-wa" role="complementary" aria-label="Contacto"><div><b><span data-t="precio_alta">desde 390 €</span> + IVA</b><small>y luego <span data-t="precio_mes">desde 39 €</span>/mes</small></div><a class="btn ok" href="https://wa.me/34688655465?text=Hola%20Guillem%2C%20he%20visto%20lo%20de%20las%20rese%C3%B1as%20de%20Kimua%20Jatetxea" data-wa>Me interesa</a></div>
 <div id="aviso-flash" role="status"></div>
 
 <script type="application/json" id="datos">{"firma": "Unai y el equipo de Kimua", "resenas": [{"id": 1, "estado": "esp", "nombre": "Ejemplo inventado", "ini": "?", "color": "#A9492A", "est": 2, "cuando": "reseña de ejemplo", "inventada": true, "texto": "Pedimos el menú largo. Los platos muy bonitos, pero entre pase y pase pasaba demasiado tiempo y acabamos casi a las cinco de la tarde. Para 65 € por persona esperábamos otro ritmo.", "resp": "Sentimos que el menú largo se os hiciera tan largo: el ritmo entre pases es parte de la experiencia y ese día no lo cuidamos como merecíais. Si nos escribís con la fecha de la reserva, nos gustaría hablarlo con vosotros directamente. Gracias por contarlo.", "motivo": "Dos estrellas y una queja sobre el servicio. No se publica hasta que la aprobéis."}, {"id": 2, "estado": "esp", "nombre": "Koldo R.", "ini": "K", "color": "#2E5A43", "est": 5, "cuando": "Google · hace 5 meses", "texto": "Fuimos a comer y fue una grata sorpresa el local y la gastronomía. La comida genial pero hubo un momento que se trastocó todo… Una de las camareras nos llamó la atención porque hablábamos alto (estábamos con un bebé dormido desde que entramos). Por lo demás, encantados con la comida. Volveremos.", "resp": "Koldo, gracias por contárnoslo con tanta calma. Sentimos mucho ese momento: nunca queremos que nadie se sienta llamado la atención en nuestra casa, y menos con un bebé en la mesa. Lo hemos hablado con el equipo de sala. Nos alegra que la comida os gustara y os esperamos para que la próxima sea redonda.", "motivo": "Cinco estrellas, pero se queja de cómo le trató una camarera. Mejor que lo veáis antes."}, {"id": 3, "estado": "auto", "nombre": "blanca v.", "ini": "B", "color": "#7A6A2E", "est": 5, "cuando": "Google · hace un mes", "texto": "Muy buena experiencia. Los platos exquisitos y los camareros explican muy bien cada plato. Ojalá os llevarais una estrella Michelin.", "resp": "¡Gracias, Blanca! Que se note cómo explicamos cada plato es un orgullo para la sala. Lo de la estrella lo guardamos con cariño; mientras tanto, seguiremos cocinando para que vuelvas."}, {"id": 4, "estado": "auto", "nombre": "Lucia", "ini": "L", "color": "#5B4A7A", "est": 4, "cuando": "Google · hace 3 meses", "texto": "Ambiente acogedor, personal agradable y atento, explicando cada pase. Cogimos el menú largo, versionaban la comida tradicional de la zona, en general todo estaba bueno.", "resp": "Gracias, Lucia. Versionar la cocina de aquí es justo lo que buscamos con el menú largo, y nos alegra que la sala te acompañara pase a pase. Nos quedamos con ese «en general» para que la próxima vez sea todo."}, {"id": 5, "estado": "auto", "nombre": "Oscar C.", "ini": "O", "color": "#2F5E6B", "est": 5, "cuando": "Google · hace 6 meses", "texto": "Disfrutamos del menú degustación largo y fue una experiencia redonda. Estuvimos en la sección reservada con vistas directas a la cocina, lo que añade un plus increíble. Cada pase fue una sorpresa: sabores equilibrados, presentaciones impecables y una cantidad muy bien medida.", "resp": "¡Qué alegría, Oscar! Esa mesa con vistas a la cocina es de nuestras favoritas: ahí se ve todo lo que pasa antes de cada pase. Y que la cantidad te pareciera justa nos dice que el menú está donde queremos. Te esperamos."}, {"id": 6, "estado": "auto", "nombre": "Andrea K.", "ini": "A", "color": "#8A3F52", "est": 5, "cuando": "Google · hace 9 meses", "texto": "Nos recibieron con un aperitivo en la sala de catas, donde el sumiller nos recomendó un vino que acompañó a la perfección el menú Lurralde. La croqueta de cangrejo de río, la porrusalda y su versión de cocido fueron de lo mejor de la noche. Incluso la mantequilla ahumada del pan estaba riquísima.", "resp": "Andrea, gracias por fijarte en tantos detalles, hasta en la mantequilla ahumada. La croqueta de cangrejo de río, la porrusalda y el cocido son muy nuestros, y que el vino del sumiller los acompañara así es lo que buscamos con el Lurralde. Volved cuando queráis."}, {"id": 7, "estado": "auto", "nombre": "Ainara F.", "ini": "A", "color": "#6B4A2F", "est": 5, "cuando": "Google · hace un año", "texto": "Una experiencia para repetir. El trato fue excelente y cada plato un espectáculo (pedimos el menú largo, 9 pases por 65 €). Además, antes de sentarse te enseñan las 100 referencias de vino y te aconsejan para elegir.", "resp": "¡Gracias, Ainara! Enseñar la cava antes de sentarse es nuestra manera de empezar la comida con calma y elegir el vino con vosotros. Nos alegra que los nueve pases estuvieran a la altura. Te esperamos para repetir."}, {"id": 8, "estado": "auto", "nombre": "Armando A.", "ini": "A", "color": "#3E5B2E", "est": 5, "cuando": "Google · hace 6 meses", "texto": "Muy buena cocina de Km0. Un buen escaparate de los productos alaveses: alubias, trufa, porrusalda, verduras, corzo… El local sencillo y muy cuidado con detalles alaveses.", "resp": "Gracias, Armando. Que nos veas como escaparate de Álava es el mejor elogio: las alubias, la trufa y el corzo vienen de gente de aquí a la que conocemos por su nombre. Nos vemos pronto."}, {"id": 9, "estado": "auto", "nombre": "irati l.", "ini": "I", "color": "#A0662B", "est": 5, "cuando": "Google · hace 11 meses", "texto": "Hemos comido el menú entre semana y ha sido espectacular. Cinco platos deliciosos de principio a fin. El local es precioso, muy luminoso y con una decoración rústica con mucho encanto. La sumiller y el camarero, encantadores.", "resp": "¡Qué bien, Irati! El menú de entre semana es una forma estupenda de conocernos, y nos alegra que los cinco platos te gustaran de principio a fin. Se lo decimos a nuestra sumiller y al equipo de sala. ¡Hasta la próxima!"}, {"id": 10, "estado": "auto", "nombre": "Mikel M.", "ini": "M", "color": "#4A4E7A", "est": 5, "cuando": "Google · hace 2 años", "texto": "¡Toda la vida queriendo ir y por fin! No ha defraudado. Unai te recibe amablemente y ya sentados en la mesa tienes opción de menú largo y otro menú de muy buena pinta también.", "resp": "Mikel, ¡por fin! Nos hace mucha ilusión que la espera mereciera la pena. Unai se alegra de que te sintieras bien recibido desde la puerta. La próxima vez te toca probar el otro menú."}]}</script>
@@ -300,23 +372,24 @@ html:not(.js) .burbuja{opacity:1;transform:none}
   var D = JSON.parse(document.getElementById("datos").textContent);
   var FIRMA = D.firma;
   var R = D.resenas;
-  var ver = "esp";
+  var ver = "todas";
   var lista = document.getElementById('lista');
   function estrellas(n){ var s=''; for(var i=1;i<=5;i++) s += i<=n ? '★' : '<span class="vac">★</span>'; return s; }
   function esc(t){ var d=document.createElement('div'); d.textContent=t; return d.innerHTML; }
   function flash(m){ var f=document.getElementById('aviso-flash'); f.textContent=m; f.classList.add('on'); clearTimeout(f._t); f._t=setTimeout(function(){ f.classList.remove('on'); },2600); }
   function contar(){
     ['esp','auto'].forEach(function(k){ document.querySelector('[data-n="'+k+'"]').textContent = R.filter(function(r){return r.estado===k}).length; });
+    document.querySelector('[data-n="todas"]').textContent = R.length;
   }
   function pintar(){
     contar();
-    var sel = R.filter(function(r){ return r.estado===ver; });
+    var sel = ver==='todas' ? R.filter(function(r){return r.estado==='esp'}).concat(R.filter(function(r){return r.estado!=='esp'})) : R.filter(function(r){ return r.estado===ver; });
     if(!sel.length){ lista.innerHTML = '<p class="vacio">No os espera ninguna. Todo contestado.</p>'; return; }
     lista.innerHTML = sel.map(function(r){
       var pend = r.estado==='esp';
       return '<article class="resena" data-id="'+r.id+'">'+
         '<div><div class="quien"><span class="av" style="background:'+r.color+'" aria-hidden="true">'+esc(r.ini)+'</span><div><b>'+esc(r.nombre)+'</b><br><small>'+esc(r.cuando)+'</small></div><span class="est" aria-label="'+r.est+' de 5 estrellas">'+estrellas(r.est)+'</span></div>'+
-        '<p class="texto">'+esc(r.texto)+'</p>'+(r.inventada?'<span class="inventada">Ejemplo inventado: no es una reseña real</span>':'')+'</div>'+
+        '<p class="texto'+(r.texto.length>190?' larga':'')+'">'+esc(r.texto)+'</p>'+(r.texto.length>190?'<button class="leer" data-leer>Leer entera</button>':'')+(r.inventada?'<span class="inventada">Ejemplo inventado: no es una reseña real</span>':'')+'</div>'+
         '<div class="resp"><div class="tit"><span>Respuesta</span>'+(pend?'<em class="chip esp">Espera vuestro visto bueno</em>':'<em class="chip auto">'+(r.hecho?'Aprobada por vosotros':'Publicada sola')+'</em>')+'</div>'+
         '<p class="cuerpo" data-cuerpo>'+esc(r.resp)+'</p><p class="firma">— '+FIRMA+'</p>'+
         (pend?'<p class="motivo"><span aria-hidden="true">⚑</span>'+esc(r.motivo)+'</p><div class="acciones"><button class="btn ok" data-pub>Publicar</button><button class="btn sec2" data-edit>Editar</button></div>':'')+
@@ -327,6 +400,7 @@ html:not(.js) .burbuja{opacity:1;transform:none}
     var art = e.target.closest('.resena'); if(!art) return;
     var r = R.filter(function(x){ return x.id==art.dataset.id; })[0];
     var cuerpo = art.querySelector('[data-cuerpo]');
+    if(e.target.closest('[data-leer]')){ art.querySelector('.texto').classList.add('abierta'); e.target.remove(); return; }
     if(e.target.closest('[data-edit]')){
       var on = cuerpo.getAttribute('contenteditable')==='true';
       if(on){ cuerpo.setAttribute('contenteditable','false'); r.resp = cuerpo.textContent.trim(); e.target.textContent='Editar'; flash('Cambio guardado.'); }
@@ -344,6 +418,7 @@ html:not(.js) .burbuja{opacity:1;transform:none}
       ver = b.dataset.ver;
       document.querySelectorAll('.pestana').forEach(function(x){ x.setAttribute('aria-selected', String(x===b)); });
       pintar();
+      var bj=document.querySelector('.bandeja'); if(bj.getBoundingClientRect().top<0) bj.scrollIntoView({behavior: reducido?'auto':'smooth'});
     });
   });
   pintar();

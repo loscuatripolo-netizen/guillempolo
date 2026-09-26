@@ -8,7 +8,7 @@
 <meta name="description" content="Propuesta para Zelai Txiki: un agente que contesta las reseñas de Google en vuestro tono y os pasa primero las delicadas.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Zelai Txiki · Vuestras reseñas, contestadas">
-<meta property="og:description" content="Diez reseñas vuestras de verdad con su respuesta. Las delicadas te llegan a ti antes de publicarse.">
+<meta property="og:description" content="Diez reseñas vuestras de verdad con su respuesta. Las delicadas os llegan antes de publicarse.">
 <meta property="og:image" content="https://guillempolo.vercel.app/demos/zelai-txiki-resenas-og.jpg">
 <meta property="og:url" content="https://guillempolo.vercel.app/demos/zelai-txiki-resenas">
 <meta name="twitter:card" content="summary_large_image">
@@ -45,7 +45,10 @@ a{color:inherit}
 .firma-g{font-size:14px;color:var(--tinta-2)}
 
 /* hero */
-.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;padding:34px 0 70px}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;padding:26px 0 40px}
+.ir{display:inline-flex;align-items:center;gap:8px;margin-top:22px;font-weight:600;color:var(--verde);text-decoration:none;border-bottom:2px solid var(--oro);padding-bottom:2px}
+.movil{margin:0;justify-self:center;display:flex;flex-direction:column;align-items:center;gap:14px}
+.movil figcaption{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--verde-2);text-align:center;order:2}
 .etiqueta{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--verde-2);margin-bottom:18px}
 .etiqueta::before{content:"";width:26px;height:2px;background:currentColor}
 .hero h1{font-size:clamp(36px,4.6vw,58px);margin-bottom:22px}
@@ -61,8 +64,8 @@ a{color:inherit}
 .telefono{justify-self:center;width:300px;border-radius:44px;background:#111;padding:12px;box-shadow:0 40px 70px -30px rgba(27,38,32,.6);transform:rotate(2deg)}
 .pantalla{border-radius:34px;overflow:hidden;background:#E9E3D6;min-height:520px;position:relative}
 .barra-tel{display:flex;justify-content:space-between;font:600 12px var(--sans);color:#333;padding:12px 22px 6px}
-.chat-cab{background:#1F3A2C;color:#fff;display:flex;align-items:center;gap:10px;padding:10px 14px}
-.chat-cab i{width:32px;height:32px;border-radius:50%;background:#E8C66A;display:grid;place-items:center;font-style:normal;font-weight:700;color:#1F3A2C;font-size:13px}
+.chat-cab{background:var(--verde);color:#fff;display:flex;align-items:center;gap:10px;padding:10px 14px}
+.chat-cab i{width:32px;height:32px;border-radius:50%;background:#E8C66A;display:grid;place-items:center;font-style:normal;font-weight:700;color:var(--verde);font-size:13px}
 .chat-cab b{font-size:14px;display:block}
 .chat-cab small{font-size:11.5px;opacity:.8}
 .burbujas{padding:14px 12px;display:flex;flex-direction:column;gap:8px}
@@ -91,8 +94,8 @@ html:not(.js) .burbuja{opacity:1;transform:none}
 .paso.dos .n{background:var(--teja)}
 
 /* bandeja */
-.bandeja{background:var(--papel);border-radius:28px;box-shadow:var(--sombra);overflow:hidden}
-.pestanas{display:flex;gap:6px;padding:14px;border-bottom:1px solid var(--linea);background:#F7F4EC;flex-wrap:wrap}
+.bandeja{background:var(--papel);border-radius:28px;box-shadow:var(--sombra)}
+.pestanas{display:flex;gap:6px;padding:12px 14px;border-bottom:1px solid var(--linea);background:#F7F4EC;flex-wrap:wrap;position:sticky;top:0;z-index:5;border-radius:28px 28px 0 0}
 .pestana{border:0;background:none;font:600 15px var(--sans);color:var(--tinta-2);padding:10px 16px;border-radius:99px;cursor:pointer;display:flex;align-items:center;gap:8px}
 .pestana .c{min-width:24px;height:24px;border-radius:99px;display:grid;place-items:center;font-size:12.5px;background:var(--linea);color:var(--tinta);padding:0 7px}
 .pestana[aria-selected="true"]{background:var(--tinta);color:#fff}
@@ -108,6 +111,7 @@ html:not(.js) .burbuja{opacity:1;transform:none}
 .est{color:var(--oro);letter-spacing:2px;font-size:15px}
 .est .vac{color:#D6CFBF}
 .texto{font-size:15.5px;color:#2E3833}
+.leer{display:none;border:0;background:none;padding:6px 0 0;font:600 14px var(--sans);color:var(--verde-2);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 .inventada{display:inline-block;margin-top:8px;font-size:12.5px;font-weight:600;color:var(--teja);background:var(--teja-s);border-radius:99px;padding:3px 10px}
 .resp{background:#F4F1E8;border-radius:16px;padding:14px 16px;position:relative}
 .resp .tit{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:6px;flex-wrap:wrap}
@@ -171,61 +175,143 @@ html:not(.js) .burbuja{opacity:1;transform:none}
 .js .rev.dentro{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.js .rev{opacity:1;transform:none}}
 
+.sec.demo{padding:10px 0 60px}
+.demo .cabeza{margin-bottom:22px}
+
+/* barra fija del móvil */
+.barra-wa{display:none}
+
 @media (max-width:900px){
-  .hero,.precio{grid-template-columns:1fr}
-  .telefono{transform:none;width:280px}
+  /* en móvil, las reseñas justo debajo del titular y el teléfono después */
+  main{display:flex;flex-direction:column}
+  .hero{display:contents}
+  .hero-txt{order:1;padding:8px 0 22px}
+  .demo{order:2}
+  .movil{order:3;padding:10px 0 20px}
+  .movil figcaption{order:0}
+  main>section:not(.demo){order:4}
+  .precio{grid-template-columns:1fr}
+  .telefono{transform:none;width:270px}
+  .pantalla{min-height:0}
   .pasos,.reglas{grid-template-columns:1fr}
-  .resena{grid-template-columns:1fr;gap:14px}
+  .resena{grid-template-columns:1fr;gap:12px}
+  .ir{display:none}
+  .texto.larga:not(.abierta){display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+  .texto.larga:not(.abierta)+.leer{display:inline-block}
+  .barra-wa{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;align-items:center;justify-content:space-between;gap:12px;background:var(--papel);border-top:1px solid var(--linea);box-shadow:0 -10px 30px -18px rgba(27,38,32,.45);padding:10px 16px calc(10px + env(safe-area-inset-bottom))}
+  .barra-wa b{display:block;font:400 19px/1.15 var(--serif);color:var(--verde)}
+  .barra-wa small{font-size:13px;color:var(--tinta-2)}
+  .barra-wa .btn{padding:12px 20px;font-size:15px;white-space:nowrap;text-decoration:none}
+  body{padding-bottom:76px}
+  #aviso-flash{bottom:92px}
 }
 @media (max-width:560px){
-  body{font-size:16.5px}
+  body{font-size:16px}
   .envol{width:calc(100% - 32px)}
+  .aviso{font-size:12.5px;padding:7px 14px}
+  .cab{padding:12px 0}
+  .logo{font-size:19px;gap:10px}
+  .logo i{width:34px;height:34px;border-radius:10px}
   .firma-g{display:none}
-  .sec{padding:60px 0}
-  .lista{padding:4px 12px 12px}
-  .pestana{padding:9px 12px;font-size:14px}
-  .tarifa,.incluye{padding:24px}
+  .etiqueta{font-size:12px;margin-bottom:10px}
+  .hero h1{font-size:28px;margin-bottom:10px}
+  .hero h1 em{display:none}
+  .aviso .largo{display:none}
+  .logo small{display:none}
+  .hero-txt{padding-bottom:18px}
+  .hero .entrada{font-size:15.5px;margin-bottom:14px}
+  .cifras{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .cifra{min-width:0;padding:8px 12px;border-radius:14px}
+  .cifra b{font-size:21px}
+  .cifra span{font-size:13px}
+  .cifra.alerta{grid-column:1/-1;display:flex;align-items:baseline;gap:8px}
+  .cifra.alerta b{display:inline}
+  .sec.demo{padding:0 0 30px}
+  .demo .cabeza{margin-bottom:12px}
+  .demo .cabeza h2{font-size:25px;margin-bottom:6px}
+  .demo .cabeza p{font-size:14.5px;line-height:1.5}
+  .bandeja{border-radius:20px;margin-inline:-6px}
+  .pestanas{padding:8px;gap:4px;border-radius:20px 20px 0 0;flex-wrap:nowrap}
+  .pestana{padding:8px 10px;font-size:14px;gap:6px}
+  .pestana .d{display:none}
+  .lista{padding:0 12px 6px}
+  .resena{padding:16px 0;gap:10px}
+  .quien{margin-bottom:6px;gap:8px}
+  .av{width:32px;height:32px;font-size:13px}
+  .texto,.resp p.cuerpo{font-size:15px}
+  .resp{padding:12px 13px;border-radius:14px}
+  .acciones .btn{flex:1}
+  .sec{padding:44px 0}
+  .cabeza h2{font-size:27px}
+  .cabeza p{font-size:16px}
+  .paso{padding:18px 20px;border-radius:18px;display:grid;grid-template-columns:auto 1fr;gap:4px 14px}
+  .paso .n{margin:0;grid-row:span 2;width:34px;height:34px;font-size:16px}
+  .paso h3{font-size:19px;margin:4px 0 2px}
+  .paso p{font-size:15px}
+  .regla{padding:14px 16px}
+  .regla span{font-size:15px}
+  .tarifa,.incluye{padding:22px}
   .linea-p{flex-direction:column;gap:4px}
+  .cierre{padding:40px 0 50px}
 }
 </style>
 </head>
 <body>
-<aside class="aviso" aria-label="Aviso de propuesta">Propuesta de Guillem para <b>Zelai Txiki</b> · Es una demostración: nada de esto se ha publicado en vuestra ficha de Google.</aside>
+<aside class="aviso" aria-label="Aviso de propuesta">Propuesta de Guillem para <b data-t="negocio">Zelai Txiki</b> · Demostración<span class="largo">: nada de esto se ha publicado en vuestra ficha de Google</span>.</aside>
 
 <div class="envol">
   <header class="cab">
-    <div class="logo"><i aria-hidden="true"><svg width="20" height="20" viewBox="0 0 64 64"><path d="M32 8l6.5 14 15.5 1.5-11.7 10.4 3.4 15.1L32 41.3 18.3 49l3.4-15.1L10 23.5 25.5 22z" fill="#E8C66A"/></svg></i><span>Zelai Txiki<small>Reseñas de Google · propuesta</small></span></div>
+    <div class="logo"><i aria-hidden="true"><svg width="20" height="20" viewBox="0 0 64 64"><path d="M32 8l6.5 14 15.5 1.5-11.7 10.4 3.4 15.1L32 41.3 18.3 49l3.4-15.1L10 23.5 25.5 22z" fill="#E8C66A"/></svg></i><span><span data-t="negocio">Zelai Txiki</span><small>Reseñas de Google · propuesta</small></span></div>
     <span class="firma-g">Preparado por Guillem</span>
   </header>
 
   <main>
-  <section class="hero">
-    <div>
-      <p class="etiqueta">Para Eva y Juan Carlos</p>
+  <div class="hero">
+    <div class="hero-txt">
+      <p class="etiqueta" data-t="para">Para Eva y Juan Carlos</p>
       <h1>Vuestras reseñas, contestadas. <em>Las delicadas, primero a vosotros.</em></h1>
-      <p class="entrada">Un agente lee cada reseña nueva de Google y escribe la respuesta como la escribiríais en Zelai Txiki: nombrando el plato, la celebración o la persona. Las buenas se publican solas. Las que traen una queja os llegan antes al móvil, y no sale nada sin vuestro visto bueno.</p>
+      <p class="entrada">Un agente contesta cada reseña de Google como lo haríais en <span data-t="negocio">Zelai Txiki</span>. Las buenas se publican solas; las que traen una queja os llegan antes al móvil.</p>
       <div class="cifras">
-        <div class="cifra"><b>4,6</b><span>de media en Google</span></div>
-        <div class="cifra"><b>1.306</b><span>reseñas</span></div>
-        <div class="cifra alerta"><b>0</b><span>respuestas en las que Google enseña primero</span></div>
+        <div class="cifra"><b data-t="nota">4,6</b><span>de media en Google</span></div>
+        <div class="cifra"><b data-t="total">1.306</b><span>reseñas</span></div>
+        <div class="cifra alerta"><b data-t="cifra3">0</b><span data-t="cifra3txt">respuestas en las que Google enseña primero</span></div>
       </div>
+      <a class="ir" href="#demo">Ver las diez respuestas <span aria-hidden="true">↓</span></a>
     </div>
-    <div class="telefono" aria-label="Ejemplo de aviso en el móvil">
-      <div class="pantalla">
-        <div class="barra-tel"><span>9:41</span><span>●●● 5G</span></div>
-        <div class="chat-cab"><i>ZT</i><div><b>Reseñas Zelai Txiki</b><small>aviso automático</small></div></div>
-        <div class="burbujas" data-burbujas>
-          <div class="burbuja">Nueva reseña de <b>2 <span class="est">★★</span></b> en Google. Habla de una espera larga entre platos.<span class="hora">14:52</span></div>
-          <div class="burbuja">Respuesta propuesta:<q>Sentimos mucho la espera, y más sin que nadie os explicara nada. Si nos escribís con el día de la reserva, nos gustaría hablarlo con vosotros directamente.</q><span class="hora">14:52</span></div>
-          <div class="burbuja">Responde <b>OK</b> para publicarla o escribe tu cambio.<span class="hora">14:52</span></div>
-          <div class="burbuja mia">OK, pero añade que lo vamos a mirar con la sala<span class="hora">15:07</span></div>
-          <div class="burbuja">Hecho. Publicada con tu cambio ✓<span class="hora">15:07</span></div>
+    <figure class="movil">
+      <figcaption>Así os llega una delicada</figcaption>
+      <div class="telefono" aria-label="Ejemplo de aviso en el móvil">
+        <div class="pantalla">
+          <div class="barra-tel"><span>9:41</span><span>●●● 5G</span></div>
+          <div class="chat-cab"><i data-t="iniciales">ZT</i><div><b>Reseñas <span data-t="negocio">Zelai Txiki</span></b><small>aviso automático</small></div></div>
+          <div class="burbujas" data-burbujas>
+            <div class="burbuja">Nueva reseña de <b>2 <span class="est">★★</span></b> en Google. Habla de <span data-t="movil_queja">una espera larga entre platos</span>.<span class="hora">14:52</span></div>
+            <div class="burbuja">Respuesta propuesta:<q data-t="movil_resp">Sentimos mucho la espera, y más sin que nadie os explicara nada. Si nos escribís con el día de la reserva, nos gustaría hablarlo con vosotros directamente.</q><span class="hora">14:52</span></div>
+            <div class="burbuja">Responde <b>OK</b> para publicarla o escribe tu cambio.<span class="hora">14:52</span></div>
+            <div class="burbuja mia"><span data-t="movil_cambio">OK, pero añade que lo vamos a mirar con la sala</span><span class="hora">15:07</span></div>
+            <div class="burbuja">Hecho. Publicada con tu cambio ✓<span class="hora">15:07</span></div>
+          </div>
         </div>
       </div>
+    </figure>
+  </div>
+
+  <section class="sec demo" id="demo" aria-labelledby="demo-tit">
+    <div class="cabeza">
+      <h2 id="demo-tit">Diez respuestas ya escritas</h2>
+      <p data-t="intro_demo">Nueve son reseñas vuestras de verdad, sacadas de Google. La décima es un ejemplo negativo inventado, para que veáis qué pasa cuando llega una mala. Probad a publicar o editar las que esperan.</p>
+    </div>
+    <div class="bandeja">
+      <div class="pestanas" role="tablist" aria-label="Bandeja de reseñas">
+        <button class="pestana" role="tab" aria-selected="true" aria-controls="lista" data-ver="todas">Todas <span class="c" data-n="todas">0</span></button>
+        <button class="pestana urg" role="tab" aria-selected="false" aria-controls="lista" data-ver="esp">Os esperan <span class="c" data-n="esp">0</span></button>
+        <button class="pestana" role="tab" aria-selected="false" aria-controls="lista" data-ver="auto">Publicadas<span class="d"> solas</span> <span class="c" data-n="auto">0</span></button>
+      </div>
+      <div class="lista" id="lista" role="tabpanel" aria-live="polite"></div>
     </div>
   </section>
 
-  <section class="sec" style="padding-top:20px">
+  <section class="sec">
     <div class="cabeza rev"><p class="etiqueta">Cómo funciona</p><h2>Tres pasos, y vosotros solo miráis el segundo</h2></div>
     <div class="pasos">
       <div class="paso rev"><div class="n">1</div><h3>Entra una reseña</h3><p>El agente la lee en cuanto aparece en vuestra ficha: nota, platos que nombra, si es una celebración o si trae una queja.</p></div>
@@ -234,25 +320,10 @@ html:not(.js) .burbuja{opacity:1;transform:none}
     </div>
   </section>
 
-  <section class="sec" id="demo" style="padding-top:10px">
-    <div class="cabeza rev">
-      <p class="etiqueta">La prueba, con vuestras reseñas</p>
-      <h2>Diez respuestas ya escritas</h2>
-      <p>Nueve son reseñas vuestras de verdad, sacadas de Google. La décima es un ejemplo negativo inventado, para que veáis qué pasa cuando llega una mala. Probad a publicar o editar las que esperan.</p>
-    </div>
-    <div class="bandeja rev">
-      <div class="pestanas" role="tablist" aria-label="Bandeja de reseñas">
-        <button class="pestana urg" role="tab" aria-selected="true" aria-controls="lista" data-ver="esp">Os esperan <span class="c" data-n="esp">0</span></button>
-        <button class="pestana" role="tab" aria-selected="false" aria-controls="lista" data-ver="auto">Contestadas solas <span class="c" data-n="auto">0</span></button>
-      </div>
-      <div class="lista" id="lista" role="tabpanel" aria-live="polite"></div>
-    </div>
-  </section>
-
-  <section class="sec" style="padding-top:10px">
+  <section class="sec">
     <div class="cabeza rev"><p class="etiqueta">Las reglas del agente</p><h2>Lo que hace y lo que no hará nunca</h2></div>
     <div class="reglas">
-      <div class="regla si rev"><i>✓</i><div><b>Nombra lo que nombra el cliente</b><span>Si habla de la torrija, del cochinillo o del menú degustación, la respuesta también.</span></div></div>
+      <div class="regla si rev"><i>✓</i><div><b>Nombra lo que nombra el cliente</b><span data-t="regla_platos">Si habla de la torrija, del cochinillo o del menú degustación, la respuesta también.</span></div></div>
       <div class="regla si rev"><i>✓</i><div><b>Nunca repite frase</b><span>Nada de «¡Gracias por su visita!» en todas. Cada respuesta es distinta.</span></div></div>
       <div class="regla si rev"><i>✓</i><div><b>Contesta en su idioma</b><span>Al turista que escribe en inglés o francés se le responde en inglés o en francés. Un «eskerrik asko» se agradece en euskera.</span></div></div>
       <div class="regla si rev"><i>✓</i><div><b>Las pegas pequeñas, con tacto</b><span>Si alguien comenta el aparcamiento o el precio, se reconoce sin discutir y sin prometer nada.</span></div></div>
@@ -261,13 +332,13 @@ html:not(.js) .burbuja{opacity:1;transform:none}
     </div>
   </section>
 
-  <section class="sec" style="padding-top:10px">
+  <section class="sec">
     <div class="cabeza rev"><p class="etiqueta">Lo que cuesta</p><h2>Un precio cerrado, sin permanencia</h2></div>
     <div class="precio">
       <div class="tarifa rev">
-        <h3>Agente de reseñas para Zelai Txiki</h3>
-        <div class="linea-p"><span>Puesta en marcha: el agente con vuestro tono y las reseñas recientes sin respuesta, contestadas</span><b>desde 390 € <small>+ IVA</small></b></div>
-        <div class="linea-p"><span>Después, cada mes: las nuevas contestadas y las delicadas a vuestro móvil</span><b>desde 39 € <small>/mes + IVA</small></b></div>
+        <h3>Agente de reseñas para <span data-t="negocio">Zelai Txiki</span></h3>
+        <div class="linea-p"><span>Puesta en marcha: el agente con vuestro tono y las reseñas recientes sin respuesta, contestadas</span><b><span data-t="precio_alta">desde 390 €</span> <small>+ IVA</small></b></div>
+        <div class="linea-p"><span>Después, cada mes: las nuevas contestadas y las delicadas a vuestro móvil</span><b><span data-t="precio_mes">desde 39 €</span> <small>/mes + IVA</small></b></div>
         <p class="pie">Sin permanencia: si un mes no os convence, se para y ya está.</p>
       </div>
       <div class="incluye rev">
@@ -275,7 +346,7 @@ html:not(.js) .burbuja{opacity:1;transform:none}
         <ul>
           <li>Las reseñas recientes sin responder, contestadas en la primera semana</li>
           <li>Aviso por WhatsApp o correo de cada reseña delicada, con la respuesta ya escrita</li>
-          <li>Vuestra firma al pie: «Eva, Juan Carlos y el equipo», o la que prefiráis</li>
+          <li>Vuestra firma al pie: «<span data-t="firma_corta">Eva, Juan Carlos y el equipo</span>», o la que prefiráis</li>
           <li>Un resumen al mes: qué platos se nombran más y qué se repite en las quejas</li>
           <li>Solo hace falta añadirme como gestor de la ficha de Google. Me quitáis cuando queráis</li>
         </ul>
@@ -286,68 +357,39 @@ html:not(.js) .burbuja{opacity:1;transform:none}
   <section class="cierre rev">
     <h2>¿Lo dejamos funcionando esta semana?</h2>
     <p>Si os encaja, me lo decís y en unos días está contestando.</p>
-    <a class="btn ok" href="https://wa.me/34688655465?text=Hola%20Guillem%2C%20he%20visto%20lo%20de%20las%20rese%C3%B1as%20de%20Zelai%20Txiki">Escribir a Guillem por WhatsApp</a>
+    <a class="btn ok" href="https://wa.me/34688655465?text=Hola%20Guillem%2C%20he%20visto%20lo%20de%20las%20rese%C3%B1as%20de%20Zelai%20Txiki" data-wa>Escribir a Guillem por WhatsApp</a>
   </section>
   </main>
 </div>
-<footer class="pie-g">Demostración preparada por Guillem · 688 65 54 65 · guillempolo.vercel.app · Zelai Txiki no ha publicado nada de esta página.</footer>
+<footer class="pie-g">Demostración preparada por Guillem · 688 65 54 65 · guillempolo.vercel.app · <span data-t="negocio">Zelai Txiki</span> no ha publicado nada de esta página.</footer>
+<div class="barra-wa" role="complementary" aria-label="Contacto"><div><b><span data-t="precio_alta">desde 390 €</span> + IVA</b><small>y luego <span data-t="precio_mes">desde 39 €</span>/mes</small></div><a class="btn ok" href="https://wa.me/34688655465?text=Hola%20Guillem%2C%20he%20visto%20lo%20de%20las%20rese%C3%B1as%20de%20Zelai%20Txiki" data-wa>Me interesa</a></div>
 <div id="aviso-flash" role="status"></div>
 
+<script type="application/json" id="datos">{"firma": "Eva, Juan Carlos y el equipo de Zelai Txiki", "resenas": [{"id": 1, "estado": "esp", "nombre": "Ejemplo inventado", "ini": "?", "color": "#A9492A", "est": 2, "cuando": "reseña de ejemplo", "inventada": true, "texto": "Reservamos para las dos y entre el primer y el segundo plato pasaron más de cuarenta minutos sin que nadie nos dijera nada. La comida, bien, pero para lo que cuesta esperábamos otra cosa.", "resp": "Sentimos mucho la espera, y más sin que nadie os explicara qué pasaba: no es lo que queremos para nadie que viene a comer a casa. Si nos escribís con el día de la reserva, nos gustaría hablarlo con vosotros directamente. Gracias por decírnoslo tan claro.", "motivo": "Dos estrellas y una queja de la sala. No se publica hasta que la aprobéis."}, {"id": 2, "estado": "esp", "nombre": "Urtzi", "ini": "U", "color": "#2E5A43", "est": 5, "cuando": "Google · hace 6 meses", "texto": "Nuestra primera vez en Zelai Txiki, y muy muy bien la verdad. No habíamos especificado que queríamos el menú degustación y al principio parecía que no iba a ser posible… Por poner algún pero, el solomillo no estaba muy rico y el ravioli, rico, pero mucha pasta y poco relleno. La atención de la chica, espectacular. Para repetir.", "resp": "Urtzi, gracias por venir y por contarlo con tanto detalle. Tienes razón con lo del menú degustación: hay que pedirlo al reservar porque se prepara con antelación, y está claro que tenemos que explicarlo mejor. Lo del solomillo y el ravioli se lo pasamos a cocina, y tus palabras a nuestra compañera de sala, que seguro que le hacen ilusión. Te esperamos para que la próxima sea redonda.", "motivo": "Cinco estrellas, pero critica dos platos y la reserva. Mejor que lo veáis antes."}, {"id": 3, "estado": "auto", "nombre": "Beatriz M.", "ini": "B", "color": "#7A6A2E", "est": 5, "cuando": "Google · hace un mes", "texto": "Primera vez que hemos ido pero no será la última. Estaba todo DELICIOSO. Hemos probado la anchoa, croqueta, el talo de txistorra, el tomate, los hongos fueron de lo mejorcito y el canelón. Y para rematar los postres WOWWWW. Pedimos la torrija y el coulant.", "resp": "¡Qué alegría leerte, Beatriz! Que una primera visita acabe en «no será la última» es lo mejor que nos puede pasar. Nos quedamos con lo de los hongos y el canelón, y el WOW de la torrija y el coulant se lo pasamos a cocina. Os esperamos pronto."}, {"id": 4, "estado": "auto", "nombre": "K. G.", "ini": "K", "color": "#2E5A43", "est": 5, "cuando": "Google · hace 2 semanas", "texto": "Ayer fuimos a comer en familia (6 personas). Una sala muy agradable, cuidando cada detalle. La comida espectacular, tal y como decimos en euskara «goxua». El servicio atento sin ser muy cargantes. De 10. Eskerrikasko por hacer de una celebración familiar algo ESPECIAL.", "resp": "Eskerrik asko zuri! Que una comida familiar de seis salga redonda y goxua es justo lo que buscamos cada día. Gracias por elegirnos para un día tan especial; aquí os esperamos para la próxima celebración."}, {"id": 5, "estado": "auto", "nombre": "Jorge de R.", "ini": "J", "color": "#4B5E7A", "est": 5, "cuando": "Google · hace 5 meses", "texto": "Fuimos a cenar con mi mujer y mis suegros, y la experiencia fue de 10. Destacaría las croquetas de jamón, las vieiras con crema de calabaza y huevas de trucha, y la chuleta. Como único punto, el precio es algo elevado, pero entiendo que también se paga el entorno y el nivel de servicio.", "resp": "Jorge, gracias por elegirnos para cenar en familia. Nos alegra que las croquetas, las vieiras y la chuleta estuvieran a la altura, y que el ambiente tranquilo acompañara. Entendemos lo del precio: cuidamos mucho el producto de aquí y de temporada, y nos alegra que se notara. Un saludo a tu mujer y a tus suegros."}, {"id": 6, "estado": "auto", "nombre": "Koro A.", "ini": "K", "color": "#6B4E7A", "est": 5, "cuando": "Google · hace 4 meses", "texto": "Me hicieron un menú vegano personalizado solo para mí, con cosas que no había en la carta. Muy agradecida, todo riquísimo, un ambiente muy agradable y el servicio majísimo.", "resp": "Koro, gracias a ti por avisarnos. Adaptar el menú a cada persona es parte de cocinar en casa, y que lo disfrutaras tanto nos ha encantado. Te esperamos cuando quieras."}, {"id": 7, "estado": "auto", "nombre": "Mónica B.", "ini": "M", "color": "#7A4B3A", "est": 5, "cuando": "Google · hace 6 meses", "texto": "Hacía muchos años que no iba y me ha encantado, la comida, el servicio. Solo tiene un pero, que el parking es pequeño.", "resp": "Mónica, qué bien que volvieras después de tanto tiempo y que te encantara. Tienes razón con el aparcamiento: los días de más gente se nos queda pequeño, y lo tenemos en cuenta. Gracias por volver y hasta pronto."}, {"id": 8, "estado": "auto", "nombre": "Cynthia S.", "ini": "C", "color": "#2E5A43", "est": 5, "cuando": "Google · hace 4 meses", "texto": "Hemos venido varias veces, local muy acogedor, gente muy amable y comida riquísima.", "resp": "Cynthia, que volváis una y otra vez es el mejor cumplido que nos podéis hacer. Gracias por la confianza, y hasta muy pronto."}, {"id": 9, "estado": "auto", "nombre": "A. B.", "ini": "A", "color": "#4B5E7A", "est": 5, "cuando": "Google · hace 2 meses", "texto": "Un sitio agradable, comida excelente y servicio súper atento y amable, repetiremos.", "resp": "¡Muchas gracias! Nos alegra mucho que os sintierais a gusto. Aquí estaremos para esa próxima vez."}, {"id": 10, "estado": "auto", "nombre": "Laura J.", "ini": "L", "color": "#7A6A2E", "est": 5, "cuando": "Google · hace 3 años", "texto": "Una vez más acertamos yendo a visitar a nuestros antiguos vecinos. Qué bien y qué rico siguen cocinando Carlos y su equipo. Es un placer siempre volver. Calidad precio espectacular. Volveremos.", "resp": "Laura, qué bonito leer esto de unos antiguos vecinos. Juan Carlos y todo el equipo os mandan un abrazo enorme. Gracias por seguir viniendo después de tanto tiempo: aquí tenéis siempre vuestra casa."}]}</script>
 <script>
 (function(){
   var reducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var FIRMA = "Eva, Juan Carlos y el equipo de Zelai Txiki";
-  var R = [
-    {id:1, estado:"esp", nombre:"Ejemplo inventado", ini:"?", color:"#A9492A", est:2, cuando:"reseña de ejemplo", inventada:true,
-     texto:"Reservamos para las dos y entre el primer y el segundo plato pasaron más de cuarenta minutos sin que nadie nos dijera nada. La comida, bien, pero para lo que cuesta esperábamos otra cosa.",
-     resp:"Sentimos mucho la espera, y más sin que nadie os explicara qué pasaba: no es lo que queremos para nadie que viene a comer a casa. Si nos escribís con el día de la reserva, nos gustaría hablarlo con vosotros directamente. Gracias por decírnoslo tan claro.",
-     motivo:"Dos estrellas y una queja de la sala. No se publica hasta que la aprobéis."},
-    {id:2, estado:"esp", nombre:"Urtzi", ini:"U", color:"#2E5A43", est:5, cuando:"Google · hace 6 meses",
-     texto:"Nuestra primera vez en Zelai Txiki, y muy muy bien la verdad. No habíamos especificado que queríamos el menú degustación y al principio parecía que no iba a ser posible… Por poner algún pero, el solomillo no estaba muy rico y el ravioli, rico, pero mucha pasta y poco relleno. La atención de la chica, espectacular. Para repetir.",
-     resp:"Urtzi, gracias por venir y por contarlo con tanto detalle. Tienes razón con lo del menú degustación: hay que pedirlo al reservar porque se prepara con antelación, y está claro que tenemos que explicarlo mejor. Lo del solomillo y el ravioli se lo pasamos a cocina, y tus palabras a nuestra compañera de sala, que seguro que le hacen ilusión. Te esperamos para que la próxima sea redonda.",
-     motivo:"Cinco estrellas, pero critica dos platos y la reserva. Mejor que lo veáis antes."},
-    {id:3, estado:"auto", nombre:"Beatriz M.", ini:"B", color:"#7A6A2E", est:5, cuando:"Google · hace un mes",
-     texto:"Primera vez que hemos ido pero no será la última. Estaba todo DELICIOSO. Hemos probado la anchoa, croqueta, el talo de txistorra, el tomate, los hongos fueron de lo mejorcito y el canelón. Y para rematar los postres WOWWWW. Pedimos la torrija y el coulant.",
-     resp:"¡Qué alegría leerte, Beatriz! Que una primera visita acabe en «no será la última» es lo mejor que nos puede pasar. Nos quedamos con lo de los hongos y el canelón, y el WOW de la torrija y el coulant se lo pasamos a cocina. Os esperamos pronto."},
-    {id:4, estado:"auto", nombre:"K. G.", ini:"K", color:"#2E5A43", est:5, cuando:"Google · hace 2 semanas",
-     texto:"Ayer fuimos a comer en familia (6 personas). Una sala muy agradable, cuidando cada detalle. La comida espectacular, tal y como decimos en euskara «goxua». El servicio atento sin ser muy cargantes. De 10. Eskerrikasko por hacer de una celebración familiar algo ESPECIAL.",
-     resp:"Eskerrik asko zuri! Que una comida familiar de seis salga redonda y goxua es justo lo que buscamos cada día. Gracias por elegirnos para un día tan especial; aquí os esperamos para la próxima celebración."},
-    {id:5, estado:"auto", nombre:"Jorge de R.", ini:"J", color:"#4B5E7A", est:5, cuando:"Google · hace 5 meses",
-     texto:"Fuimos a cenar con mi mujer y mis suegros, y la experiencia fue de 10. Destacaría las croquetas de jamón, las vieiras con crema de calabaza y huevas de trucha, y la chuleta. Como único punto, el precio es algo elevado, pero entiendo que también se paga el entorno y el nivel de servicio.",
-     resp:"Jorge, gracias por elegirnos para cenar en familia. Nos alegra que las croquetas, las vieiras y la chuleta estuvieran a la altura, y que el ambiente tranquilo acompañara. Entendemos lo del precio: cuidamos mucho el producto de aquí y de temporada, y nos alegra que se notara. Un saludo a tu mujer y a tus suegros."},
-    {id:6, estado:"auto", nombre:"Koro A.", ini:"K", color:"#6B4E7A", est:5, cuando:"Google · hace 4 meses",
-     texto:"Me hicieron un menú vegano personalizado solo para mí, con cosas que no había en la carta. Muy agradecida, todo riquísimo, un ambiente muy agradable y el servicio majísimo.",
-     resp:"Koro, gracias a ti por avisarnos. Adaptar el menú a cada persona es parte de cocinar en casa, y que lo disfrutaras tanto nos ha encantado. Te esperamos cuando quieras."},
-    {id:7, estado:"auto", nombre:"Mónica B.", ini:"M", color:"#7A4B3A", est:5, cuando:"Google · hace 6 meses",
-     texto:"Hacía muchos años que no iba y me ha encantado, la comida, el servicio. Solo tiene un pero, que el parking es pequeño.",
-     resp:"Mónica, qué bien que volvieras después de tanto tiempo y que te encantara. Tienes razón con el aparcamiento: los días de más gente se nos queda pequeño, y lo tenemos en cuenta. Gracias por volver y hasta pronto."},
-    {id:8, estado:"auto", nombre:"Cynthia S.", ini:"C", color:"#2E5A43", est:5, cuando:"Google · hace 4 meses",
-     texto:"Hemos venido varias veces, local muy acogedor, gente muy amable y comida riquísima.",
-     resp:"Cynthia, que volváis una y otra vez es el mejor cumplido que nos podéis hacer. Gracias por la confianza, y hasta muy pronto."},
-    {id:9, estado:"auto", nombre:"A. B.", ini:"A", color:"#4B5E7A", est:5, cuando:"Google · hace 2 meses",
-     texto:"Un sitio agradable, comida excelente y servicio súper atento y amable, repetiremos.",
-     resp:"¡Muchas gracias! Nos alegra mucho que os sintierais a gusto. Aquí estaremos para esa próxima vez."},
-    {id:10, estado:"auto", nombre:"Laura J.", ini:"L", color:"#7A6A2E", est:5, cuando:"Google · hace 3 años",
-     texto:"Una vez más acertamos yendo a visitar a nuestros antiguos vecinos. Qué bien y qué rico siguen cocinando Carlos y su equipo. Es un placer siempre volver. Calidad precio espectacular. Volveremos.",
-     resp:"Laura, qué bonito leer esto de unos antiguos vecinos. Juan Carlos y todo el equipo os mandan un abrazo enorme. Gracias por seguir viniendo después de tanto tiempo: aquí tenéis siempre vuestra casa."}
-  ];
-  var ver = "esp";
+  var D = JSON.parse(document.getElementById("datos").textContent);
+  var FIRMA = D.firma;
+  var R = D.resenas;
+  var ver = "todas";
   var lista = document.getElementById('lista');
   function estrellas(n){ var s=''; for(var i=1;i<=5;i++) s += i<=n ? '★' : '<span class="vac">★</span>'; return s; }
   function esc(t){ var d=document.createElement('div'); d.textContent=t; return d.innerHTML; }
   function flash(m){ var f=document.getElementById('aviso-flash'); f.textContent=m; f.classList.add('on'); clearTimeout(f._t); f._t=setTimeout(function(){ f.classList.remove('on'); },2600); }
   function contar(){
     ['esp','auto'].forEach(function(k){ document.querySelector('[data-n="'+k+'"]').textContent = R.filter(function(r){return r.estado===k}).length; });
+    document.querySelector('[data-n="todas"]').textContent = R.length;
   }
   function pintar(){
     contar();
-    var sel = R.filter(function(r){ return r.estado===ver; });
+    var sel = ver==='todas' ? R.filter(function(r){return r.estado==='esp'}).concat(R.filter(function(r){return r.estado!=='esp'})) : R.filter(function(r){ return r.estado===ver; });
     if(!sel.length){ lista.innerHTML = '<p class="vacio">No os espera ninguna. Todo contestado.</p>'; return; }
     lista.innerHTML = sel.map(function(r){
       var pend = r.estado==='esp';
       return '<article class="resena" data-id="'+r.id+'">'+
         '<div><div class="quien"><span class="av" style="background:'+r.color+'" aria-hidden="true">'+esc(r.ini)+'</span><div><b>'+esc(r.nombre)+'</b><br><small>'+esc(r.cuando)+'</small></div><span class="est" aria-label="'+r.est+' de 5 estrellas">'+estrellas(r.est)+'</span></div>'+
-        '<p class="texto">'+esc(r.texto)+'</p>'+(r.inventada?'<span class="inventada">Ejemplo inventado: no es una reseña real</span>':'')+'</div>'+
+        '<p class="texto'+(r.texto.length>190?' larga':'')+'">'+esc(r.texto)+'</p>'+(r.texto.length>190?'<button class="leer" data-leer>Leer entera</button>':'')+(r.inventada?'<span class="inventada">Ejemplo inventado: no es una reseña real</span>':'')+'</div>'+
         '<div class="resp"><div class="tit"><span>Respuesta</span>'+(pend?'<em class="chip esp">Espera vuestro visto bueno</em>':'<em class="chip auto">'+(r.hecho?'Aprobada por vosotros':'Publicada sola')+'</em>')+'</div>'+
         '<p class="cuerpo" data-cuerpo>'+esc(r.resp)+'</p><p class="firma">— '+FIRMA+'</p>'+
         (pend?'<p class="motivo"><span aria-hidden="true">⚑</span>'+esc(r.motivo)+'</p><div class="acciones"><button class="btn ok" data-pub>Publicar</button><button class="btn sec2" data-edit>Editar</button></div>':'')+
@@ -358,6 +400,7 @@ html:not(.js) .burbuja{opacity:1;transform:none}
     var art = e.target.closest('.resena'); if(!art) return;
     var r = R.filter(function(x){ return x.id==art.dataset.id; })[0];
     var cuerpo = art.querySelector('[data-cuerpo]');
+    if(e.target.closest('[data-leer]')){ art.querySelector('.texto').classList.add('abierta'); e.target.remove(); return; }
     if(e.target.closest('[data-edit]')){
       var on = cuerpo.getAttribute('contenteditable')==='true';
       if(on){ cuerpo.setAttribute('contenteditable','false'); r.resp = cuerpo.textContent.trim(); e.target.textContent='Editar'; flash('Cambio guardado.'); }
@@ -375,6 +418,7 @@ html:not(.js) .burbuja{opacity:1;transform:none}
       ver = b.dataset.ver;
       document.querySelectorAll('.pestana').forEach(function(x){ x.setAttribute('aria-selected', String(x===b)); });
       pintar();
+      var bj=document.querySelector('.bandeja'); if(bj.getBoundingClientRect().top<0) bj.scrollIntoView({behavior: reducido?'auto':'smooth'});
     });
   });
   pintar();

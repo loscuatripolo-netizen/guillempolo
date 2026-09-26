@@ -1389,3 +1389,5 @@ input[type=range]{width:100%;accent-color:var(--bosque);height:28px;cursor:point
 .lg-tabla td:first-child{color:var(--tinta);font-weight:600}
 
 .desde-l{margin:12px 0 -8px;font-size:.78rem;font-weight:600;color:var(--tinta-3);text-transform:uppercase;letter-spacing:.1em}
+
+.precio{flex-wrap:wrap;row-gap:4px;white-space:nowrap}

@@ -1387,3 +1387,5 @@ input[type=range]{width:100%;accent-color:var(--bosque);height:28px;cursor:point
 .lg-tabla th{text-align:left;font-size:.76rem;letter-spacing:.06em;text-transform:uppercase;color:var(--tinta-3);background:var(--papel-2);padding:10px 14px}
 .lg-tabla td{padding:11px 14px;border-top:1px solid var(--linea);color:var(--tinta-2);vertical-align:top}
 .lg-tabla td:first-child{color:var(--tinta);font-weight:600}
+
+.desde-l{margin:12px 0 -8px;font-size:.78rem;font-weight:600;color:var(--tinta-3);text-transform:uppercase;letter-spacing:.1em}

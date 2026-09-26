@@ -54,6 +54,11 @@
       "source": "/publicaciones-automaticas",
       "destination": "/",
       "permanent": false
+    },
+    {
+      "source": "/material",
+      "destination": "/",
+      "permanent": false
     }
   ]
 }

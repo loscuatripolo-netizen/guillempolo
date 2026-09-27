@@ -582,10 +582,13 @@ a,button,summary,input,select,textarea{-webkit-tap-highlight-color:transparent}
 /* llamar siempre a un dedo, en el móvil */
 .llamar-movil{display:none}
 @media (max-width:760px){
-  .llamar-movil{display:flex;position:fixed;left:14px;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:70;
-    align-items:center;justify-content:center;gap:10px;padding:15px 18px;border-radius:12px;
-    background:var(--bosque);color:#F7F7F3;font-weight:700;font-size:1rem;box-shadow:0 10px 30px -8px rgba(16,64,47,.55);
+  .llamar-movil{display:flex;gap:8px;position:fixed;left:14px;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:70;
     transform:translateY(130%);transition:transform .45s var(--curva)}
+  .llamar-movil a{display:flex;align-items:center;justify-content:center;gap:9px;padding:15px 16px;border-radius:12px;
+    font-weight:700;font-size:1rem;text-decoration:none;box-shadow:0 10px 30px -8px rgba(16,64,47,.5)}
+  .llamar-movil .lm-wa{flex:1 1 auto;background:#177A43;color:#fff}
+  .llamar-movil .lm-wa svg{width:21px;height:21px;flex:none}
+  .llamar-movil .lm-tel{flex:0 0 auto;background:#F7F7F3;color:var(--bosque);border:1.5px solid var(--bosque);padding-inline:18px}
   .llamar-movil.dentro{transform:none}
   body{padding-bottom:78px}
 }

@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Propuesta de web para Con los 5 sentidos bakery · Guillem Polo</title>
+<meta name="description" content="Respuestas a vuestras preguntas: colores, sabores y tamaños, galería, reseñas en carrusel y cómo mantener vuestro dominio y hosting.">
+<meta name="author" content="Guillem Polo">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://guillempolo.es/propuesta-5-sentidos">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" content="Guillem Polo">
+<meta property="og:title" content="Propuesta de web para Con los 5 sentidos bakery · Guillem Polo">
+<meta property="og:description" content="Respuestas a vuestras preguntas: colores, sabores y tamaños, galería, reseñas en carrusel y cómo mantener vuestro dominio y hosting.">
+<meta property="og:url" content="https://guillempolo.es/propuesta-5-sentidos">
+<meta property="og:image" content="https://guillempolo.es/demos/con-los-5-sentidos-og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Propuesta de web para Con los 5 sentidos bakery · Guillem Polo">
+<meta name="twitter:description" content="Respuestas a vuestras preguntas: colores, sabores y tamaños, galería, reseñas en carrusel y cómo mantener vuestro dominio y hosting.">
+<meta name="twitter:image" content="https://guillempolo.es/demos/con-los-5-sentidos-og.jpg">
+<meta name="theme-color" content="#F7F7F3">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<link rel="preload" as="font" type="font/woff2" href="/fuentes/archivo.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fuentes/instrument-sans.woff2" crossorigin>
+<style>
+  @font-face{font-family:"Archivo";src:url("/fuentes/archivo.woff2") format("woff2");font-weight:100 900;font-display:swap;font-style:normal}
+  @font-face{font-family:"Instrument Sans";src:url("/fuentes/instrument-sans.woff2") format("woff2");font-weight:100 800;font-display:swap;font-style:normal}
+  @font-face{font-family:"Space Grotesk";src:url("/fuentes/space-grotesk.woff2") format("woff2");font-weight:300 700;font-display:swap;font-style:normal}
+</style>
+<style>
+  :root{ color-scheme: light; }
+  body{ margin:0; }
+  img{ max-width:100%; }
+  [hidden]{ display:none !important; }
+  .salta{
+    position:absolute; left:-9999px; top:0; background:#10402F; color:#F7F7F3;
+    padding:10px 16px; z-index:100; border-radius:0 0 4px 0; font-family:system-ui, sans-serif;
+  }
+  .salta:focus{ left:0; }
+
+  /* --- capa de movimiento (GSAP) --- */
+  html.gsap .hero h1 .l>span{ animation:none; transform:none; }
+  html.gsap .hero-sub, html.gsap .hero-cta, html.gsap .cuatro{ animation:none; opacity:0; }
+  html.gsap.anim .rev{ transition:none; }
+  html.gsap .ch{ display:inline-block; will-change:transform; }
+  html.gsap .ln{ overflow:hidden; padding-bottom:.08em; }
+  .progreso{
+    position:absolute; left:0; right:0; bottom:-1px; height:2px; transform:scaleX(0);
+    transform-origin:0 50%; background:linear-gradient(90deg,#FF5A1F,#3D7BFF);
+    pointer-events:none; opacity:.95;
+  }
+  @media (prefers-reduced-motion: reduce){ .progreso{ display:none; } }
+</style>
+<script src="/gsap.min.js"></script>
+<script>try{if(window.gsap&&!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches))document.documentElement.classList.add('gsap');}catch(e){}</script>
+<script src="/anim.js" defer></script>
+
+<style>
+.pp h1{max-width:13ch;font-family:"Archivo",sans-serif;font-size:clamp(2.5rem,7vw,5.6rem);font-weight:800;text-transform:uppercase;letter-spacing:-.035em;line-height:.93;margin-top:22px}
+.pp-hero{padding-block:clamp(46px,7vw,90px) clamp(30px,4vw,56px)}
+.pp-ent{font-size:clamp(1.05rem,1.6vw,1.22rem);color:var(--tinta-2);max-width:62ch;margin-top:26px}
+.pp-ent b{color:var(--tinta)}
+.pp-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.pp-cifras{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--linea);border:1px solid var(--linea);border-radius:var(--radio);overflow:hidden;margin-top:46px}
+.pp-cifras div{background:var(--sup);padding:22px 20px;display:flex;flex-direction:column;gap:4px}
+.pp-cifras b{font-family:"Archivo",sans-serif;font-size:clamp(1.8rem,3vw,2.5rem);font-weight:800;letter-spacing:-.03em;color:var(--bosque);line-height:1}
+.pp-cifras span{font-size:.9rem;color:var(--tinta-2)}
+.pp-p{display:grid;grid-template-columns:.9fr 1.4fr;gap:clamp(20px,4vw,60px);padding:clamp(28px,4vw,44px) 0;border-top:1px solid var(--linea)}
+.pp-p:last-child{border-bottom:1px solid var(--linea)}
+.pp-p-l{display:flex;gap:18px;align-items:flex-start}
+.pp-n{flex:none;width:44px;height:44px;border-radius:50%;background:var(--bosque);color:#F7F7F3;display:grid;place-items:center;font:800 1.2rem "Archivo",sans-serif}
+.pp-cita{font-family:"Archivo",sans-serif;font-weight:700;font-size:clamp(1.25rem,2vw,1.6rem);line-height:1.2;letter-spacing:-.015em;color:var(--tinta)}
+.pp-p-r h3{font-family:"Instrument Sans",sans-serif;font-weight:800;font-size:1.25rem;line-height:1.3;letter-spacing:-.01em;margin-bottom:10px;color:var(--bosque)}
+.pp-p-r p{color:var(--tinta-2)}
+.pp-p-r p+p{margin-top:10px}
+.pp-nota{font-size:.92rem;background:var(--papel-2);border-radius:var(--radio-s);padding:10px 14px}
+.pp-lista{margin:8px 0 0;padding-left:20px;color:var(--tinta-2);display:grid;gap:8px}
+.pp-lista b{color:var(--tinta)}
+.pp-pal{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.pp-pal a{display:inline-flex;align-items:center;gap:10px;background:var(--sup);border:1px solid var(--linea-2);border-radius:99px;padding:7px 16px 7px 7px;font-weight:700;font-size:.92rem;transition:border-color .25s,transform .3s var(--curva)}
+.pp-pal a:hover{border-color:var(--bosque);transform:translateY(-2px)}
+.pp-pal i{width:34px;height:34px;border-radius:50%;background:conic-gradient(var(--a) 0 50%,var(--b) 0 75%,var(--c) 0);box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.pp-host{background:var(--sup-2);border-block:1px solid var(--linea)}
+.pp-esquema{display:flex;align-items:stretch;gap:14px;margin-bottom:34px;flex-wrap:wrap}
+.pp-esquema div{flex:1 1 180px;background:var(--sup);border:1px solid var(--linea-2);border-radius:var(--radio);padding:18px 20px;display:flex;flex-direction:column}
+.pp-esquema small{font-family:"Space Grotesk",monospace;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--tinta-3)}
+.pp-esquema b{font:800 1.6rem "Archivo",sans-serif;letter-spacing:-.02em}
+.pp-esquema span{color:var(--tinta-2);font-size:.92rem}
+.pp-esquema .nuevo{background:var(--bosque);border-color:var(--bosque);color:#F7F7F3}
+.pp-esquema .nuevo small,.pp-esquema .nuevo span{color:rgba(247,247,243,.75)}
+.pp-esquema i{align-self:center;font-style:normal;font-size:1.4rem;color:var(--bosque)}
+.pp-dos{display:grid;grid-template-columns:1.15fr 1fr;gap:22px}
+.pp-caja{background:var(--sup);border:1px solid var(--linea);border-radius:var(--radio);padding:clamp(22px,3vw,34px);box-shadow:var(--sombra-1)}
+.pp-caja h3{font-family:"Instrument Sans",sans-serif;font-weight:800;font-size:1.2rem;line-height:1.3;margin-bottom:12px}
+.pp-caja p{color:var(--tinta-2)}
+.pp-pasos{margin:0;padding-left:22px;display:grid;gap:12px;color:var(--tinta-2)}
+.pp-pasos b{color:var(--tinta)}
+.pp-precio{display:grid;grid-template-columns:1.3fr .9fr;gap:24px;align-items:start}
+.pp-incl h3{font-family:"Instrument Sans",sans-serif;font-weight:800;font-size:1.25rem;line-height:1.3;margin-bottom:14px}
+.pp-check{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.pp-check li{position:relative;padding-left:32px;color:var(--tinta-2)}
+.pp-check li b{color:var(--tinta)}
+.pp-check li::before{content:"";position:absolute;left:0;top:3px;width:20px;height:20px;border-radius:50%;background:var(--bosque-agua) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5.5 10.5l3 3 6-7' fill='none' stroke='%2310402F' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% no-repeat}
+.pp-tarjeta{position:sticky;top:94px;background:var(--sup);border:1px solid var(--linea-2);border-radius:18px;padding:30px;box-shadow:var(--sombra-3)}
+.pp-oferta{display:inline-block;background:var(--cobre);color:#fff;font:700 .75rem "Space Grotesk",monospace;letter-spacing:.16em;text-transform:uppercase;padding:5px 11px;border-radius:99px}
+.pp-cifra{font:800 3.6rem/1 "Archivo",sans-serif;letter-spacing:-.04em;margin-top:16px;color:var(--bosque)}
+.pp-cifra s{font-size:1.5rem;color:var(--tinta-3);font-weight:600;margin-right:6px}
+.pp-iva{color:var(--tinta-2);font-size:.92rem;margin-top:6px}
+.pp-tarjeta ul{list-style:none;margin:20px 0;padding:18px 0;border-block:1px solid var(--linea);display:grid;gap:8px;font-size:.95rem;color:var(--tinta-2)}
+.pp-tarjeta ul b{color:var(--tinta)}
+.pp-guardo{font-size:.9rem;background:#FBF1E6;color:#6B3A15;border-radius:var(--radio-s);padding:10px 14px;margin-bottom:18px}
+.pp-tarjeta .btn{width:100%;justify-content:center}
+.pp-extra{font-size:.85rem;color:var(--tinta-3);margin-top:12px;text-align:center}
+.pp-tl{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:14px;counter-reset:t}
+.pp-tl li{counter-increment:t;background:var(--sup);border:1px solid var(--linea);border-radius:var(--radio);padding:22px 20px;display:flex;flex-direction:column;gap:8px;position:relative}
+.pp-tl li::before{content:counter(t,decimal-leading-zero);font:700 .8rem "Space Grotesk",monospace;letter-spacing:.14em;color:var(--cobre)}
+.pp-tl b{font-weight:800;font-size:1.05rem;line-height:1.3}
+.pp-tl span{color:var(--tinta-2);font-size:.92rem}
+.pp-tl li:nth-child(3){border-color:var(--bosque);box-shadow:var(--sombra-2)}
+.pp-garantias{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.pp-garantias div{background:var(--sup);border:1px solid var(--linea);border-radius:var(--radio);padding:22px}
+.pp-garantias b{display:block;font:800 1.15rem "Archivo",sans-serif;letter-spacing:-.01em;margin-bottom:8px;color:var(--bosque)}
+.pp-garantias p{color:var(--tinta-2);font-size:.95rem}
+.pp-yo{display:flex;gap:22px;align-items:flex-start;margin-top:26px;background:var(--papel-2);border-radius:18px;padding:clamp(22px,3vw,34px)}
+.pp-av{flex:none;width:64px;height:64px;border-radius:50%;background:var(--bosque);color:#F7F7F3;display:grid;place-items:center;font:800 1.7rem "Archivo",sans-serif}
+.pp-yo h3{font-family:"Instrument Sans",sans-serif;font-weight:800;font-size:1.2rem;line-height:1.3;margin-bottom:8px}
+.pp-yo p{color:var(--tinta-2);max-width:70ch}
+.pp-link{color:var(--bosque);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.pp-fin{background:var(--bosque);color:#F7F7F3;border-radius:22px;padding:clamp(34px,6vw,70px);text-align:center;display:flex;flex-direction:column;align-items:center}
+.pp-fin .eyebrow{color:rgba(247,247,243,.8)}
+.pp-fin .eyebrow::before{background:rgba(247,247,243,.8)}
+.pp-fin h2{font-family:"Archivo",sans-serif;font-size:clamp(3rem,8vw,6rem);font-weight:800;text-transform:uppercase;letter-spacing:-.035em;margin-top:14px}
+.pp-fin p{max-width:52ch;margin-top:16px;color:rgba(247,247,243,.85)}
+.pp-fin .pp-cta{justify-content:center}
+.pp-fin .btn{background:#F7F7F3;color:var(--bosque);border-color:#F7F7F3}
+.pp-fin .btn.ghost{background:transparent;color:#F7F7F3;border-color:rgba(247,247,243,.45)}
+.pp-firma{font:italic 700 1.3rem "Archivo",sans-serif;margin-top:26px!important;color:#F7F7F3!important}
+@media (max-width:980px){
+  .pp-cifras{grid-template-columns:repeat(2,1fr)}
+  .pp-p{grid-template-columns:1fr;gap:14px}
+  .pp-dos,.pp-precio{grid-template-columns:1fr}
+  .pp-tarjeta{position:relative;top:0}
+  .pp-tl{grid-template-columns:1fr}
+  .pp-garantias{grid-template-columns:1fr 1fr}
+}
+@media (max-width:640px){
+  .pp-garantias{grid-template-columns:1fr}
+  .pp-esquema{flex-direction:column}
+  .pp-esquema i{transform:rotate(90deg)}
+  .pp-esquema div{flex:auto}
+  .pp-cta .btn{flex:1 1 100%;justify-content:center}
+  .pp-yo{flex-direction:column}
+  .faq{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<a class="salta" href="#texto">Saltar al contenido</a>
+<link rel="stylesheet" href="/sitio.css">
+
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="grano" aria-hidden="true"></div>
+<div class="llamar-movil" id="llamar"><a class="lm-wa" href="https://wa.me/34688655465?text=Hola%20Guillem%2C%20vengo%20de%20tu%20web" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.02c-.24.68-1.42 1.3-1.95 1.34-.5.05-.97.23-3.27-.68-2.77-1.09-4.52-3.93-4.66-4.11-.13-.18-1.1-1.47-1.1-2.8 0-1.33.7-1.99.95-2.26.24-.27.53-.34.71-.34l.51.01c.16.01.38-.06.6.46.24.55.8 1.9.87 2.04.07.14.12.3.02.48-.09.18-.14.3-.27.46-.14.16-.29.36-.41.48-.14.14-.28.29-.12.56.16.27.71 1.17 1.52 1.9 1.05.93 1.93 1.22 2.2 1.36.27.14.43.11.59-.07.16-.18.68-.79.86-1.06.18-.27.36-.23.61-.14.25.09 1.58.75 1.85.88.27.14.45.2.52.32.07.11.07.66-.17 1.33z"/></svg>Escríbeme por WhatsApp</a><a class="lm-tel" href="tel:+34688655465" aria-label="Llamar al 688 65 54 65">Llamar</a></div>
+
+<header class="barra" id="barra">
+  <div class="marco barra-in">
+    <a class="logo" href="/" aria-label="Guillem Polo · portada"><span class="punto"></span> Guillem Polo</a>
+    <nav><a class="enl" href="/">Portada</a><a class="enl" href="/paginas-web">Webs</a><a class="enl" href="/resenas-google">Reseñas</a><a class="btn" href="/#contacto">Pedir presupuesto <span class="fl">→</span></a></nav>
+  </div>
+</header>
+
+
+<main class="pp">
+<section class="pp-hero" id="texto">
+  <div class="marco">
+    <span class="eyebrow">Propuesta para Con los 5 sentidos bakery</span>
+    <h1>Vuestra web, con todo lo que nos habéis pedido</h1>
+    <p class="pp-ent">Gracias por mirar el boceto con tanto detalle. Habéis pedido cinco cosas: otros colores, sabores y tamaños con fotos, una galería, las reseñas en carrusel y una duda sobre vuestro dominio y hosting. <b>Las cuatro primeras ya están montadas en el boceto</b> para que las probéis, y la quinta os la explico aquí con calma. Tiene fácil solución.</p>
+    <div class="pp-cta">
+      <a class="btn" href="/demos/con-los-5-sentidos" target="_blank" rel="noopener">Ver el boceto nuevo <span class="fl">→</span></a>
+      <a class="btn ghost" href="#hosting">Ir a lo del dominio y el hosting</a>
+    </div>
+    <div class="pp-cifras">
+      <div><b>0 €</b><span>por adelantado: se paga al entregar</span></div>
+      <div><b>590 €</b><span>+ IVA, precio cerrado (antes 790 €)</span></div>
+      <div><b>0 €/mes</b><span>de cuota conmigo: usáis vuestro hosting</span></div>
+      <div><b>14 días</b><span>de cambios sin coste tras publicarla</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="pedido">
+  <div class="marco">
+    <div class="sec-cab rev"><span class="eyebrow">01 — Lo que nos habéis pedido</span><h2>Pedido a pedido,<br>ya resuelto</h2><p>Cada punto enlaza a su sitio en el boceto. Abridlo en el móvil, que es donde lo van a ver vuestros clientes.</p></div>
+
+    <article class="pp-p rev">
+      <div class="pp-p-l"><span class="pp-n">1</span><p class="pp-cita">«Habría que cambiar los colores de la web»</p></div>
+      <div class="pp-p-r">
+        <h3>Elegís vosotros. Hay cinco para probar ya.</h3>
+        <p>En el boceto tenéis ahora un selector de colores abajo a la izquierda. Pulsad cualquiera y la web entera cambia al momento. Si ninguno os convence, me pasáis vuestro logo, una foto de la tienda o un color que os guste y la hago con esos. Se puede cambiar las veces que haga falta hasta que os guste.</p>
+        <div class="pp-pal">
+          <a href="/demos/con-los-5-sentidos?paleta=fresa" target="_blank" rel="noopener"><i style="--a:#E0476B;--b:#F6D66E;--c:#FFF6EF"></i>Fresa</a>
+          <a href="/demos/con-los-5-sentidos?paleta=pistacho" target="_blank" rel="noopener"><i style="--a:#6E9A4B;--b:#F3D6C7;--c:#F7F8F0"></i>Pistacho</a>
+          <a href="/demos/con-los-5-sentidos?paleta=lavanda" target="_blank" rel="noopener"><i style="--a:#8B6CC9;--b:#BFE3D3;--c:#F8F6FC"></i>Lavanda</a>
+          <a href="/demos/con-los-5-sentidos?paleta=cielo" target="_blank" rel="noopener"><i style="--a:#3E7FD0;--b:#F8DE8A;--c:#F4F8FC"></i>Azul cielo</a>
+          <a href="/demos/con-los-5-sentidos?paleta=vainilla" target="_blank" rel="noopener"><i style="--a:#B8875A;--b:#F1EADC;--c:#FBF8F2"></i>Vainilla</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="pp-p rev">
+      <div class="pp-p-l"><span class="pp-n">2</span><p class="pp-cita">«Añadir sabores, tamaños y fotos»</p></div>
+      <div class="pp-p-r">
+        <h3>Una sección de sabores y tamaños, cada uno con su foto.</h3>
+        <ul class="pp-lista">
+          <li><b>Sabores:</b> cada combinación con su foto, una frase y, si queréis, su precio. En el boceto he puesto de ejemplo vainilla con Lotus, red velvet, chocolate con Kinder y Oreo. Vosotros decidís cuáles salen.</li>
+          <li><b>Tamaños:</b> por número de raciones, del cumple en casa a la tarta de tres pisos. Podéis poner precio orientativo o dejar «según diseño».</li>
+          <li><b>Fotos:</b> en la web de verdad van vuestras fotos, no dibujos. Podemos usar las de vuestro Instagram, con vuestro permiso, o las que me mandéis.</li>
+          <li><b>Encargos:</b> en «Diseña tu tarta» el cliente elige ya sabor, relleno, tamaño y fecha, y el encargo os llega por WhatsApp con todo escrito. Menos mensajes de ida y vuelta.</li>
+        </ul>
+        <a class="enlace-f" href="/demos/con-los-5-sentidos#carta" target="_blank" rel="noopener">Ver sabores y tamaños en el boceto <span class="fl">→</span></a>
+      </div>
+    </article>
+
+    <article class="pp-p rev">
+      <div class="pp-p-l"><span class="pp-n">3</span><p class="pp-cita">«Echamos de menos una galería. ¿Habría una página de galería?»</p></div>
+      <div class="pp-p-r">
+        <h3>Sí. Con su propia página y ordenada por celebración.</h3>
+        <p>Cumpleaños, infantiles, bodas y comuniones, mesas dulces y galletas. Se pulsa una foto, se ve en grande y se pasa a la siguiente con el dedo. Debajo de cada foto hay un botón «Quiero una así» que os abre WhatsApp diciendo qué tarta han visto. Así la galería también os trae encargos.</p>
+        <p class="pp-nota">En el boceto las fotos son dibujos porque aún no tengo las vuestras. En cuanto me las paséis, se llena.</p>
+        <a class="enlace-f" href="/demos/con-los-5-sentidos#galeria" target="_blank" rel="noopener">Probar la galería del boceto <span class="fl">→</span></a>
+      </div>
+    </article>
+
+    <article class="pp-p rev">
+      <div class="pp-p-l"><span class="pp-n">4</span><p class="pp-cita">«Que aparezcan las reseñas en algún lugar más, en carrusel»</p></div>
+      <div class="pp-p-r">
+        <h3>Nada más entrar, en carrusel. Y otra vez más abajo.</h3>
+        <p>Justo debajo de la portada va una cinta de reseñas que se mueve sola y se para al tocarla, con vuestro 5,0 y las 190 opiniones de Google. Más abajo se mantiene el bloque grande de opiniones. Solo reseñas reales de Google, con el nombre de quien la escribió, y las que vosotros elijáis. Cuando lleguen reseñas nuevas que os gusten, se añaden.</p>
+        <a class="enlace-f" href="/demos/con-los-5-sentidos#car-t" target="_blank" rel="noopener">Ver el carrusel <span class="fl">→</span></a>
+      </div>
+    </article>
+
+    <article class="pp-p rev">
+      <div class="pp-p-l"><span class="pp-n">5</span><p class="pp-cita">«Dispongo de un dominio y un hosting. Me gustaría mantenerlo, ¿habría algún inconveniente?»</p></div>
+      <div class="pp-p-r">
+        <h3>Ninguno. Lo mantenéis y la web va ahí.</h3>
+        <p>De hecho es lo que yo recomiendo: que el dominio y el hosting sean vuestros y estén a vuestro nombre. Os lo explico paso a paso justo aquí debajo.</p>
+        <a class="enlace-f" href="#hosting">Cómo se hace <span class="fl">→</span></a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="sec pp-host" id="hosting">
+  <div class="marco">
+    <div class="sec-cab rev"><span class="eyebrow">02 — Vuestro dominio y vuestro hosting</span><h2>Todo sigue<br>siendo vuestro</h2><p>El dominio es la dirección (vuestronombre.es). El hosting es el sitio donde se guarda la web. Los dos se quedan como están, con vuestra empresa y a vuestro nombre. Lo único que cambia es la web que se ve.</p></div>
+    <div class="pp-esquema rev" aria-hidden="true">
+      <div><small>Vuestro</small><b>Dominio</b><span>sigue a vuestro nombre</span></div>
+      <i>→</i>
+      <div><small>Vuestro</small><b>Hosting</b><span>seguís con vuestra empresa</span></div>
+      <i>→</i>
+      <div class="nuevo"><small>Nueva</small><b>Web</b><span>la subo yo ahí</span></div>
+    </div>
+    <div class="pp-dos">
+      <div class="pp-caja rev">
+        <h3>Cómo lo hacemos</h3>
+        <ol class="pp-pasos">
+          <li><b>Me decís qué dominio es y con qué empresa tenéis el hosting.</b> Con eso compruebo que todo encaja antes de empezar. La web que hago es ligera y funciona en los hostings normales. Si el vuestro se quedara corto para algo, os lo diría antes y sin coste.</li>
+          <li><b>Monto la web aparte, en una dirección de prueba.</b> Mientras la revisáis, en vuestro dominio no cambia nada.</li>
+          <li><b>Si ya hay algo publicado en vuestro dominio, lo guardo en copia</b> antes de tocar nada. No se pierde nada.</li>
+          <li><b>Cuando me dais el visto bueno, la subo a vuestro hosting</b> con el candado de seguridad (https). El cambio se hace en un rato.</li>
+          <li><b>El correo, si lo tenéis con ese dominio, no se toca.</b> Seguís recibiendo los emails igual que ahora.</li>
+        </ol>
+      </div>
+      <div class="pp-caja rev">
+        <h3>Sin darme vuestra contraseña</h3>
+        <p>Para subir la web necesito entrar en el hosting. Hay dos formas cómodas y ninguna pasa por mandarme la contraseña por WhatsApp:</p>
+        <ul class="pp-lista">
+          <li><b>Me creáis un acceso propio</b> (casi todos los hostings lo permiten) y lo borráis cuando acabemos.</li>
+          <li><b>O lo hacemos juntos</b> en 15 minutos, en vuestro obrador o por videollamada. Vosotros escribís la contraseña y yo os guío.</li>
+        </ul>
+        <h3 style="margin-top:26px">Y lo que cuesta</h3>
+        <p>Seguís pagando el dominio y el hosting a vuestra empresa, como ahora. <b>A mí no me pagáis ninguna cuota mensual.</b> Si algún día preferís que me encargue yo de las copias de seguridad y el mantenimiento, se habla, pero no hace falta.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="precio">
+  <div class="marco">
+    <div class="sec-cab rev"><span class="eyebrow">03 — Qué incluye y cuánto cuesta</span><h2>Un precio,<br>todo dentro</h2></div>
+    <div class="pp-precio">
+      <div class="pp-incl rev">
+        <h3>La web completa de Con los 5 sentidos</h3>
+        <ul class="pp-check">
+          <li>Hasta <b>6 páginas</b>: inicio, sabores y tamaños, galería, diseña tu tarta, opiniones y contacto con horario y mapa.</li>
+          <li><b>Colores a vuestro gusto</b>: una de las cinco paletas o la vuestra.</li>
+          <li><b>Sabores y tamaños</b> con foto, descripción y precio si queréis.</li>
+          <li><b>Galería</b> por categorías, con foto en grande y botón «Quiero una así».</li>
+          <li><b>Diseña tu tarta</b>: el encargo os llega por WhatsApp con sabor, relleno, tamaño y fecha.</li>
+          <li><b>Reseñas de Google en carrusel</b> y en su bloque.</li>
+          <li><b>Horario «abierto ahora»</b> en vivo y botón para llamar o escribir desde el móvil.</li>
+          <li><b>Panel para cambiar fotos, sabores y precios vosotros</b>, sin depender de nadie. Y si preferís, me lo mandáis por WhatsApp y lo cambio yo.</li>
+          <li>Preparada para Google: textos, títulos y enlace con vuestra ficha de Maps.</li>
+          <li>Medición de visitas y de cuántos pulsan llamar o WhatsApp.</li>
+          <li>Instalación en vuestro hosting, copia de lo que haya y candado https.</li>
+        </ul>
+      </div>
+      <aside class="pp-tarjeta rev">
+        <span class="pp-oferta">Oferta de septiembre</span>
+        <p class="pp-cifra"><s>790 €</s> 590 €</p>
+        <p class="pp-iva">+ IVA (713,90 € en total) · pago único</p>
+        <ul>
+          <li><b>0 €</b> por adelantado. Se paga al entregar.</li>
+          <li><b>0 €/mes</b> conmigo, porque usáis vuestro hosting.</li>
+          <li>Precio cerrado y por escrito.</li>
+          <li>14 días de cambios sin coste.</li>
+          <li>Sin permanencia.</li>
+        </ul>
+        <p class="pp-guardo">Os guardo el precio de septiembre si me decís que sí antes del 15 de octubre.</p>
+        <a class="btn" href="https://wa.me/34688655465?text=Hola%20Guillem%2C%20adelante%20con%20la%20web%20de%20Con%20los%205%20sentidos." target="_blank" rel="noopener">Adelante con la web <span class="fl">→</span></a>
+        <p class="pp-extra">¿La queréis también en euskera? Se añade por 120 € + IVA.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="pasos" style="padding-top:0">
+  <div class="marco">
+    <div class="sec-cab rev"><span class="eyebrow">04 — Cómo seguimos</span><h2>De aquí a<br>publicarla</h2></div>
+    <ol class="pp-tl rev">
+      <li><b>Me decís que sí</b><span>Un WhatsApp basta. Os mando el presupuesto cerrado por escrito.</span></li>
+      <li><b>Me pasáis el material</b><span>Fotos (o permiso para usar las de Instagram), sabores, tamaños, colores y de qué empresa es el hosting. Si os es más fácil, me paso por el obrador y lo vemos en media hora.</span></li>
+      <li><b>En 3 días laborables la tenéis montada</b><span>En una dirección de prueba, para que la miréis en el móvil con calma.</span></li>
+      <li><b>Cambiamos lo que queráis</b><span>Colores, textos, fotos, orden. Hasta que os guste.</span></li>
+      <li><b>La publico en vuestro dominio</b><span>Y entonces se paga. Desde ese día, 14 días de cambios sin coste.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="sec pp-conf" id="tranquilos">
+  <div class="marco">
+    <div class="sec-cab rev"><span class="eyebrow">05 — Por qué no arriesgáis nada</span><h2>Lo veis antes<br>de pagarlo</h2></div>
+    <div class="pp-garantias">
+      <div class="rev"><b>Ya lo habéis visto</b><p>No os pido que confiéis en una promesa: el boceto está hecho y lo habéis probado. La web final es eso, con vuestras fotos y vuestros cambios.</p></div>
+      <div class="rev"><b>Se paga al final</b><p>Nada por adelantado. Se paga cuando está terminada, os gusta y está publicada en vuestro dominio.</p></div>
+      <div class="rev"><b>Todo es vuestro</b><p>Dominio, hosting y archivos, a vuestro nombre. No dependéis de mí: si un día queréis cambiar de persona, os lo lleváis todo sin pedir permiso.</p></div>
+      <div class="rev"><b>Garantía de 14 días</b><p>Después de publicarla, cualquier ajuste o fallo lo corrijo sin coste.</p></div>
+    </div>
+    <div class="pp-yo rev">
+      <div class="pp-av" aria-hidden="true">G</div>
+      <div>
+        <h3>Quién os escribe</h3>
+        <p>Soy Guillem, de Bilbao. Hago webs para negocios de aquí y trabajo solo, así que hablaréis siempre conmigo, por WhatsApp o en persona, sin centralitas ni tickets. Me puedo pasar por Ibarrekolanda cuando os venga bien. Todo lo que acordemos os lo dejo por escrito.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="dudas" style="padding-top:0">
+  <div class="marco">
+    <div class="sec-cab rev"><span class="eyebrow">06 — Otras dudas</span><h2>Lo que suele<br>preguntarse</h2></div>
+    <div class="faq rev">
+      <details><summary><span class="mas"></span>¿Podremos cambiar nosotros las fotos, los sabores y los precios?</summary><p class="resp">Sí, desde el panel, en el móvil o en el ordenador. Es tan sencillo como cambiar una foto de perfil. Y si un día no os apetece, me mandáis la foto por WhatsApp y lo cambio yo.</p></details>
+      <details><summary><span class="mas"></span>¿Hay que saber de ordenadores?</summary><p class="resp">No. Los encargos os llegan al WhatsApp como ahora, pero con todo escrito. La web no os pide hacer nada desde el ordenador.</p></details>
+      <details><summary><span class="mas"></span>¿Y el Instagram?</summary><p class="resp">Sigue igual. La web lo enlaza, y sus fotos pueden llenar la galería. La diferencia es que la web os la encuentra quien busca tartas en Google, aunque no os siga.</p></details>
+      <details><summary><span class="mas"></span>¿Saldremos en Google?</summary><p class="resp">La web va preparada para que Google la entienda y enlazada con vuestra ficha de Maps, donde ya tenéis 5,0 con 190 opiniones. Nadie honesto puede prometer un puesto concreto, pero sin web es mucho más difícil.</p></details>
+      <details><summary><span class="mas"></span>¿Y si al verla terminada no nos gusta?</summary><p class="resp">Se cambia hasta que os guste, y no se paga hasta entonces. Por eso os la enseño antes de publicarla.</p></details>
+      <details><summary><span class="mas"></span>¿Cuánto tarda?</summary><p class="resp">Tres días laborables desde que tengo las fotos y los datos. Lo que más suele alargarlo es reunir las fotos, así que si queréis, lo hacemos juntos.</p></details>
+      <details><summary><span class="mas"></span>¿Tiene permanencia o cuota?</summary><p class="resp">No. Con vuestro hosting no me pagáis nada al mes. Solo seguís pagando vuestro dominio y hosting a vuestra empresa, como ahora.</p></details>
+      <details><summary><span class="mas"></span>¿Se puede añadir algo más adelante?</summary><p class="resp">Sí: una página nueva, la versión en euskera o una carta para imprimir con QR. Os digo el precio antes y decidís vosotros.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="seguimos" style="padding-top:0">
+  <div class="marco">
+    <div class="pp-fin rev">
+      <span class="eyebrow">Siguiente paso</span>
+      <h2>¿Seguimos?</h2>
+      <p>Decidme qué colores os gustan más y si os parece bien empezar. Con un «adelante» por WhatsApp me pongo esta misma semana.</p>
+      <div class="pp-cta">
+        <a class="btn" href="https://wa.me/34688655465?text=Hola%20Guillem%2C%20adelante%20con%20la%20web%20de%20Con%20los%205%20sentidos." target="_blank" rel="noopener">Adelante, empezamos <span class="fl">→</span></a>
+        <a class="btn ghost" href="https://wa.me/34688655465?text=Hola%20Guillem%2C%20tengo%20una%20duda%20sobre%20la%20web%20de%20Con%20los%205%20sentidos%3A%20" target="_blank" rel="noopener">Tengo una duda</a>
+        <a class="btn ghost" href="tel:+34688655465">Llamar · 688 65 54 65</a>
+      </div>
+      <p class="pp-firma">Guillem</p>
+    </div>
+  </div>
+</section>
+</main>
+
+
+<footer>
+  <div class="marco">
+    <div class="pie-grid">
+      <div style="max-width:32ch"><strong style="color:var(--tinta)">Guillem Polo</strong><br>Webs y reseñas de Google para negocios.</div>
+      <div><a href="/paginas-web">Páginas web</a> · <a href="/resenas-google">Reseñas</a></div>
+      <div><a href="/socios">Programa de socios</a> · <a href="/condiciones">Condiciones y devoluciones</a><br><a href="/aviso-legal">Aviso legal</a> · <a href="/privacidad">Privacidad</a> · <a href="/cookies">Cookies</a></div>
+    </div>
+    <p class="legal">Guillem Polo Santisteban · NIF 79439688B · Ávila kalea 6, 48012 Bilbao (Vizcaya) · 688 65 54 65 · guillem@guillempolo.es</p>
+  </div>
+</footer>
+
+<script src="/servicio.js" defer></script>
+
+</body>
+</html>

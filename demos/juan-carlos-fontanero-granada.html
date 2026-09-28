@@ -310,6 +310,96 @@ legend b{color:var(--naranja-osc)}
   .serv{height:auto}.serv-fijo{position:relative;height:auto;padding:90px 0}.pista{flex-direction:column;padding:0 20px}.srv{width:100%}.progreso{display:none}
   .barras .b i{transform:none}
 }
+/* ── versión tranquila: mismo estilo, menos golpe ── */
+:root{--linea-2:rgba(17,19,21,.18);--r:14px}
+body::before{opacity:.12}
+h1,h2,h3{font-weight:700;letter-spacing:0}
+h2,h3{text-transform:none;line-height:.95}
+.aviso{font-family:var(--txt);font-size:13px}
+.cab{border-bottom:1px solid var(--linea-2)}
+.btn{border-width:1px;border-radius:10px;font-weight:700;font-size:18px;padding:14px 20px;border-color:var(--linea-2)}
+.btn-naranja{border-color:var(--naranja)}
+.btn-tinta{border-color:var(--tinta)}
+.cab .btn{font-size:17px}
+.hero{border-bottom:0;padding-bottom:30px}
+.hero h1{font-size:clamp(54px,8.2vw,118px);line-height:.9}
+.estado{border-width:1px;border-color:var(--linea-2);border-radius:99px;font-family:var(--txt);font-size:13px;letter-spacing:0;text-transform:none;font-weight:600}
+.hero .dato div{border-left-width:2px}
+.panel{border:1px solid var(--linea-2);border-radius:var(--r);overflow:hidden;box-shadow:0 30px 60px -40px rgba(17,19,21,.35)}
+.tubo{stroke-width:12}
+.cinta{background:var(--blanco);border-block:1px solid var(--linea-2);padding:12px 0}
+.cinta-pista{animation-duration:60s}
+.cinta span{font-size:clamp(22px,2.4vw,30px);font-weight:600;gap:36px;color:var(--tinta-2)}
+.cinta span::after{width:9px;height:9px;background:var(--naranja);border-radius:2px}
+.sec{padding:clamp(70px,8vw,110px) 0}
+.cabeza h2{font-size:clamp(40px,5vw,68px)}
+.ref{font-size:11.5px;letter-spacing:.1em}
+.diag{background:transparent;border:0}
+.diag-grid{background:var(--blanco);border:1px solid var(--linea-2);border-radius:var(--r);padding:clamp(20px,3vw,34px)}
+.av span{border:1px solid var(--linea-2);border-radius:12px;background:var(--papel)}
+.av b{font-weight:700;text-transform:none;font-size:21px}
+.av input:checked+span{background:var(--tinta);border-color:var(--tinta)}
+.chip span{border:1px solid var(--linea-2);border-radius:99px;font-family:var(--txt);font-size:14px;font-weight:600;text-transform:none;letter-spacing:0}
+.chip input:checked+span{background:var(--tinta);border-color:var(--tinta);color:#fff}
+legend{font-family:var(--txt);font-size:13px;letter-spacing:.04em}
+.campo label{font-family:var(--txt);font-size:12.5px;letter-spacing:.04em}
+.campo input{border:1px solid var(--linea-2);border-radius:10px}
+.parte{border:1px solid var(--linea-2);border-radius:12px;overflow:hidden}
+.parte-cab{background:var(--papel-2);color:var(--tinta)}
+.parte-cab b{color:var(--naranja-osc)}
+/* servicios en rejilla, sin scroll fijado */
+.serv{height:auto;padding:clamp(70px,8vw,110px) 0}
+.serv-fijo{position:relative;height:auto;padding:0;display:block}
+.serv-cab h2{font-size:clamp(40px,5vw,68px)}
+.progreso{display:none}
+.pista{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:0;width:min(1240px,100% - 40px);margin-inline:auto;transform:none!important}
+.srv{width:auto;min-height:0;border:1px solid var(--linea-2);border-radius:var(--r);background:var(--blanco)!important;padding:24px}
+.srv:nth-child(4),.srv:nth-child(5){grid-column:span 1}
+.srv .num{font-size:64px;-webkit-text-stroke:1px var(--linea-2);right:18px;top:18px}
+.srv svg.ico{width:48px;height:48px}
+.srv h3{font-size:clamp(30px,2.6vw,38px);margin-top:10px}
+.srv .tag{border:1px solid var(--linea-2);border-radius:99px;font-family:var(--txt);text-transform:none;letter-spacing:0;font-size:12.5px;background:var(--papel)}
+.srv-cta{border:1px dashed var(--linea-2);border-radius:var(--r);padding:24px;display:flex;flex-direction:column;justify-content:center;gap:14px;background:transparent}
+.srv-cta b{font:700 30px/1 var(--tit)}
+.srv-cta p{color:var(--tinta-2)}
+.cifras{background:var(--blanco);color:var(--tinta);border-block:1px solid var(--linea-2)}
+.cifras div.c{border-left-color:var(--linea-2);padding:34px 20px}
+.cifras b{font-size:clamp(52px,6vw,84px);font-weight:700}
+.cifras span{color:var(--tinta-2);font-family:var(--txt);letter-spacing:.02em;text-transform:none;font-size:14px}
+.barras li{font-family:var(--txt);text-transform:none;font-weight:600}
+.barras .b{border:0;border-radius:99px;height:14px}
+.barras .b i{border-radius:99px}
+.palabras h2{font-size:clamp(40px,5vw,68px)}
+.res{border:1px solid var(--linea-2);border-radius:var(--r)}
+.res:first-child{background:var(--blanco);box-shadow:inset 4px 0 0 var(--naranja)}
+.res:first-child .est{color:var(--naranja-osc)}
+.res blockquote{font-family:var(--txt);text-transform:none;font-weight:600;font-size:clamp(18px,1.5vw,21px);line-height:1.45}
+.res:first-child blockquote{font-size:clamp(21px,1.9vw,26px)}
+.res footer{font-family:var(--txt)}
+.extractos span{border-radius:99px;border-style:solid;border-color:var(--linea);font-family:var(--txt)}
+.nota-g{font-family:var(--txt);letter-spacing:0;text-transform:none}
+.pasos{border:1px solid var(--linea-2);border-radius:var(--r);overflow:hidden}
+.paso{border-left:1px solid var(--linea-2)}
+.paso .n{font-size:54px;font-weight:700}
+.paso h3{font-size:30px}
+.caja,.mapa{border:1px solid var(--linea-2);border-radius:var(--r);overflow:hidden}
+.caja h3{font-size:32px}
+.tabla{font-family:var(--txt)}
+.mapa .pie{border:1px solid var(--linea-2);border-radius:10px}
+.mapa .pie b{text-transform:none;font-weight:700}
+.preguntas{border-top:1px solid var(--linea-2)}
+.preguntas details{border-bottom:1px solid var(--linea-2)}
+.preguntas summary{text-transform:none;font-weight:700;font-size:clamp(22px,2vw,28px)}
+.preguntas summary i{border:1px solid var(--linea-2);border-radius:50%;font-size:18px;width:34px;height:34px}
+.preguntas details[open] summary i{background:var(--papel-2)}
+.final{background:var(--blanco);border-block:1px solid var(--linea-2)}
+.final h2{font-size:clamp(52px,7.6vw,110px)}
+.final p{font-family:var(--txt);text-transform:none;letter-spacing:0;font-weight:500;color:var(--tinta-2)}
+.final .btn-naranja{background:var(--naranja);border-color:var(--naranja);color:var(--tinta)}
+.firma{border-top:1px solid var(--linea-2)}
+.pie .nom{font-weight:700;text-transform:none}
+@media (max-width:980px){.pista{grid-template-columns:1fr 1fr}.paso{border-left:0;border-top:1px solid var(--linea-2)}.paso:first-child{border-top:0}}
+@media (max-width:640px){.pista{grid-template-columns:1fr}.barra-movil{border-top:1px solid var(--linea-2)}.barra-movil a{font-weight:700}}
 </style>
 </head>
 <body>
@@ -397,7 +487,7 @@ legend b{color:var(--naranja-osc)}
 <section class="serv" id="servicios">
   <div class="serv-fijo">
     <div class="envol serv-cab"><div><p class="ref">Ref. 04 · <b>Servicios</b></p><h2>Lo que arreglo</h2></div><div class="progreso" aria-hidden="true"><span id="s-n">01/05</span><span class="barra"><i id="s-b"></i></span></div></div>
-    <div class="pista" id="pista"><article class="srv"><span class="num">01</span><p class="ref">Ref. 01</p><svg class="ico" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 11h18a6 6 0 0 1 6 6v4"/><path d="M27 25c2 3 3 4 3 5.5a3 3 0 0 1-6 0c0-1.5 1-2.5 3-5.5z" fill="currentColor"/></svg><h3>Detección de fugas</h3><p>Localizo la fuga, también la que no se ve, y la reparo.</p><span class="tag">Humedades · Contador que corre</span></article><article class="srv"><span class="num">02</span><p class="ref">Ref. 02</p><svg class="ico" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 5v10a10 10 0 0 0 20 0V5"/><path d="M12 14h10M13 19h8"/><path d="M17 25v6"/></svg><h3>Desatascos</h3><p>Fregaderos, lavabos, duchas y bajantes. Rápido y dejando todo limpio.</p><span class="tag">«Atasco», en sus reseñas</span></article><article class="srv"><span class="num">03</span><p class="ref">Ref. 03</p><svg class="ico" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="9" y="3" width="16" height="24" rx="3"/><path d="M13 31v-4M21 31v-4"/><circle cx="17" cy="11" r="3"/><path d="M13 20h8"/></svg><h3>Termos y calentadores</h3><p>Instalación y reparación de termos y calentadores de agua. Te asesoro sobre el que te conviene.</p><span class="tag">«Termo», en sus reseñas</span></article><article class="srv"><span class="num">04</span><p class="ref">Ref. 04</p><svg class="ico" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="6" y="3" width="22" height="26"/><path d="M17 23c-3 0-4-2-4-4 0-3 4-4 4-8 2 2 4 4 4 8 0 2-1 4-4 4z"/><path d="M11 31h12"/></svg><h3>Calderas</h3><p>Instalación de calderas, también eléctricas, dejando todo en perfecto estado.</p><span class="tag">Instalación y reparación</span></article><article class="srv"><span class="num">05</span><p class="ref">Ref. 05</p><svg class="ico" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 10h12v14h16"/><path d="M11 6v8M19 20v8"/></svg><h3>Tuberías</h3><p>Reparación de tubos y tuberías de agua fría y caliente, y las averías del día a día.</p><span class="tag">Reparaciones</span></article></div>
+    <div class="pista" id="pista"><article class="srv"><span class="num">01</span><p class="ref">Ref. 01</p><svg class="ico" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 11h18a6 6 0 0 1 6 6v4"/><path d="M27 25c2 3 3 4 3 5.5a3 3 0 0 1-6 0c0-1.5 1-2.5 3-5.5z" fill="currentColor"/></svg><h3>Detección de fugas</h3><p>Localizo la fuga, también la que no se ve, y la reparo.</p><span class="tag">Humedades · Contador que corre</span></article><article class="srv"><span class="num">02</span><p class="ref">Ref. 02</p><svg class="ico" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 5v10a10 10 0 0 0 20 0V5"/><path d="M12 14h10M13 19h8"/><path d="M17 25v6"/></svg><h3>Desatascos</h3><p>Fregaderos, lavabos, duchas y bajantes. Rápido y dejando todo limpio.</p><span class="tag">«Atasco», en sus reseñas</span></article><article class="srv"><span class="num">03</span><p class="ref">Ref. 03</p><svg class="ico" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="9" y="3" width="16" height="24" rx="3"/><path d="M13 31v-4M21 31v-4"/><circle cx="17" cy="11" r="3"/><path d="M13 20h8"/></svg><h3>Termos y calentadores</h3><p>Instalación y reparación de termos y calentadores de agua. Te asesoro sobre el que te conviene.</p><span class="tag">«Termo», en sus reseñas</span></article><article class="srv"><span class="num">04</span><p class="ref">Ref. 04</p><svg class="ico" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="6" y="3" width="22" height="26"/><path d="M17 23c-3 0-4-2-4-4 0-3 4-4 4-8 2 2 4 4 4 8 0 2-1 4-4 4z"/><path d="M11 31h12"/></svg><h3>Calderas</h3><p>Instalación de calderas, también eléctricas, dejando todo en perfecto estado.</p><span class="tag">Instalación y reparación</span></article><article class="srv"><span class="num">05</span><p class="ref">Ref. 05</p><svg class="ico" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 10h12v14h16"/><path d="M11 6v8M19 20v8"/></svg><h3>Tuberías</h3><p>Reparación de tubos y tuberías de agua fría y caliente, y las averías del día a día.</p><span class="tag">Reparaciones</span></article><div class="srv-cta"><b>¿No sale tu avería?</b><p>Cuéntamela por teléfono o mándame una foto y te digo si puedo ayudarte.</p><a class="btn btn-naranja" href="tel:+34653062286"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2"/></svg>Llamar</a></div></div>
   </div>
 </section>
 
@@ -426,11 +516,10 @@ legend b{color:var(--naranja-osc)}
   </div>
 </section>
 
-<div class="aviso-rayas" aria-hidden="true"></div>
 
 <section class="sec" id="como">
   <div class="envol">
-    <div class="cabeza rev"><p class="ref">Ref. 07 · <b>Cómo trabajo</b></p><h2>Tres pasos y listo</h2></div>
+    <div class="cabeza rev"><p class="ref">Ref. 07 · <b>Cómo trabajo</b></p><h2>Así de sencillo</h2></div>
     <div class="pasos rev">
       <div class="paso"><span class="n">01</span><h3>Me llamas o escribes</h3><p>Por teléfono o por WhatsApp con una foto de la avería. Así voy con el material que hace falta.</p></div>
       <div class="paso"><span class="n">02</span><h3>Voy y lo miro</h3><p>Te explico qué pasa y cómo se arregla, sin tecnicismos, y te asesoro sobre la mejor opción para tu casa.</p></div>
@@ -478,7 +567,7 @@ legend b{color:var(--naranja-osc)}
 
 <section class="sec final">
   <div class="envol">
-    <h2 class="rev">¿Gotea? Llama.</h2>
+    <h2 class="rev">¿Tienes una avería?</h2>
     <p class="rev" data-estado3>Urgencias de 7:30 a 23:30 · Todos los días</p>
     <div class="botones rev"><a class="btn btn-naranja" href="tel:+34653062286"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2"/></svg>653 06 22 86</a><a class="btn" href="https://wa.me/34653062286?text=Hola%20Carlos%2C%20tengo%20una%20aver%C3%ADa%20de%20fontaner%C3%ADa." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3z"/></svg>WhatsApp</a></div>
   </div>
@@ -533,11 +622,11 @@ legend b{color:var(--naranja-osc)}
     (function f(t){ var k=Math.min(1,(t-t0)/dur), out='';
       for(var i=0;i<fin.length;i++){ var c=fin[i]; out+= (/\d/.test(c) && i>=Math.floor(k*fin.length)) ? set[(Math.random()*10)|0] : c; }
       el.textContent=out; if(k<1) requestAnimationFrame(f); else el.textContent=fin; })(t0); }
-  if(!reducido && 'IntersectionObserver' in window){ var ic=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ descifra(e.target); ic.unobserve(e.target);} }); },{threshold:.6}); cif.forEach(function(c){ic.observe(c)}); }
+  if(false){ var ic=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ descifra(e.target); ic.unobserve(e.target);} }); },{threshold:.6}); cif.forEach(function(c){ic.observe(c)}); }
 
   /* servicios: scroll horizontal fijado */
   var sec=document.getElementById('servicios'), pista=document.getElementById('pista'), sb=document.getElementById('s-b'), sn=document.getElementById('s-n'), total=pista.children.length;
-  var escritorio=window.matchMedia('(min-width:981px)');
+  var escritorio={matches:false};
   function mover(){
     if(reducido||!escritorio.matches){ pista.style.transform=''; return; }
     var r=sec.getBoundingClientRect(), rango=sec.offsetHeight-window.innerHeight, p=Math.min(1,Math.max(0,-r.top/rango));

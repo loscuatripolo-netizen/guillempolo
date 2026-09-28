@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://guillempolo.vercel.app/sitemap.xml
+Sitemap: https://guillempolo.es/sitemap.xml

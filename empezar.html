@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#F7F7F3">
 <meta property="og:title" content="Lo que necesito para empezar tu web">
 <meta property="og:description" content="Cinco minutos: tus datos, tus servicios y tus fotos. Con esto me pongo a trabajar.">
-<meta property="og:image" content="https://guillempolo.vercel.app/og-index.png">
+<meta property="og:image" content="https://guillempolo.es/og-index.png">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <style>
 @font-face{font-family:"Archivo";src:url("/fuentes/archivo.woff2") format("woff2");font-weight:100 900;font-display:swap}
@@ -184,7 +184,7 @@ input:focus,textarea:focus,select:focus{outline:3px solid rgba(28,107,77,.25);bo
   </div>
   </form>
 
-  <p class="pie">Guillem Polo · 688 65 54 65 · guillempolo2008@gmail.com · Tus datos solo los uso para hacer tu trabajo.</p>
+  <p class="pie">Guillem Polo · 688 65 54 65 · guillem@guillempolo.es · Tus datos solo los uso para hacer tu trabajo.</p>
 </main>
 
 <script>
@@ -241,7 +241,7 @@ input:focus,textarea:focus,select:focus{outline:3px solid rgba(28,107,77,.25);bo
   });
   document.getElementById("b-mail").addEventListener("click",function(ev){
     if(vacioAviso()){ ev.preventDefault(); return; }
-    this.href="mailto:guillempolo2008@gmail.com?subject="+encodeURIComponent(TIT[serv]+(neg?" · "+neg:""))+"&body="+encodeURIComponent(texto().replace(/\*/g,""));
+    this.href="mailto:guillem@guillempolo.es?subject="+encodeURIComponent(TIT[serv]+(neg?" · "+neg:""))+"&body="+encodeURIComponent(texto().replace(/\*/g,""));
     est.textContent="Se abre tu correo con todo escrito. Las fotos, adjúntalas en ese mismo correo.";
   });
   document.getElementById("b-copiar").addEventListener("click",function(){

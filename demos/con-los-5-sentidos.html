@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>Con los 5 sentidos · Tartas por encargo en Deusto, Bilbao</title>
-<meta name="description" content="Tartas personalizadas por encargo en Ibarrekolanda 36, Deusto (Bilbao). Red velvet, vainilla con crema de lotus y mesas dulces. 5,0 en Google con 190 opiniones.">
+<meta name="description" content="Tartas personalizadas por encargo en Ibarrekolanda 36, Deusto (Bilbao). Red velvet, vainilla con crema de Lotus y mesas dulces. 5,0 en Google con 190 opiniones.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Con los 5 sentidos bakery · Propuesta de web">
 <meta property="og:description" content="Tartas preciosas por fuera y riquísimas por dentro, por encargo en Deusto.">
@@ -40,14 +40,21 @@ html[data-paleta="lavanda"]{--nata:#F8F6FC;--nata-2:#ECE7F6;--cacao:#2E2640;--ca
 html[data-paleta="cielo"]{--nata:#F4F8FC;--nata-2:#E3EDF7;--cacao:#1E2F45;--cacao-2:#54677E;--fresa:#3E7FD0;--fresa-osc:#2A62AB;--pista:#BFE3CF;--mante:#F8DE8A;--rosa:#CFE2F6;--naranja:#F5B98E}
 html[data-paleta="vainilla"]{--nata:#FBF8F2;--nata-2:#F1EADC;--cacao:#33291F;--cacao-2:#6E6152;--fresa:#B8875A;--fresa-osc:#94673D;--pista:#D9D3C0;--mante:#EBD9AE;--rosa:#EFDCCB;--naranja:#DDBB94}
 body,.cab .envol,.panel,.tarjeta,.caja,.paso,.formu,.chip span,.final,.cinta,.btn{transition-property:background-color,color,border-color,transform,box-shadow;transition-duration:.6s}
-.selector{position:fixed;left:16px;bottom:16px;z-index:80;display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--linea);border-radius:99px;padding:8px 10px 8px 16px;box-shadow:0 16px 40px -18px rgba(0,0,0,.45);font:700 13px var(--txt)}
-.selector span{white-space:nowrap}
-.selector div{display:flex;gap:6px}
-.selector button{width:30px;height:30px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.15);cursor:pointer;padding:0;transition:transform .35s var(--muelle)}
-.selector button:hover{transform:scale(1.12)}
-.selector button[aria-pressed="true"]{box-shadow:0 0 0 2px var(--cacao);transform:scale(1.08)}
-.selector .toast{position:absolute;left:0;bottom:calc(100% + 8px);background:var(--cacao);color:var(--nata);border-radius:12px;padding:7px 12px;font-weight:600;opacity:0;transform:translateY(6px);transition:opacity .3s,transform .3s;pointer-events:none;white-space:nowrap}
-.selector .toast.ver{opacity:1;transform:none}
+.cab .envol{position:relative}
+.colores-btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--linea);background:#fff;color:var(--cacao);border-radius:99px;padding:9px 14px 9px 10px;font:700 14px var(--txt);cursor:pointer;transition:border-color .25s,transform .35s var(--muelle)}
+.colores-btn:hover{border-color:var(--cacao);transform:translateY(-2px)}
+.colores-btn i{width:22px;height:22px;border-radius:50%;background:conic-gradient(#E0476B 0 20%,#6E9A4B 0 40%,#8B6CC9 0 60%,#3E7FD0 0 80%,#B8875A 0);box-shadow:0 0 0 2px #fff,0 0 0 3px var(--linea)}
+.js .colores-btn.avisa i{animation:pulso 1.6s var(--suave) 3}
+@keyframes pulso{50%{box-shadow:0 0 0 2px #fff,0 0 0 9px color-mix(in srgb,var(--fresa) 30%,transparent)}}
+.selector{position:absolute;right:8px;top:calc(100% + 10px);z-index:5;background:#fff;border:1px solid var(--linea);border-radius:22px;padding:16px;box-shadow:0 24px 50px -24px rgba(0,0,0,.45);width:min(300px,calc(100vw - 32px))}
+.selector[hidden]{display:none}
+.selector p{font:800 13px var(--txt);letter-spacing:.08em;text-transform:uppercase;color:var(--cacao-2);margin-bottom:12px}
+.selector div{display:grid;gap:6px}
+.selector button{display:flex;align-items:center;gap:12px;width:100%;border:0;background:transparent;border-radius:12px;padding:8px 10px;font:600 15px var(--txt);color:var(--cacao);cursor:pointer;text-align:left}
+.selector button:hover{background:var(--nata-2)}
+.selector button i{width:28px;height:28px;border-radius:50%;flex:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}
+.selector button[aria-pressed="true"]{background:var(--nata-2)}
+.selector button[aria-pressed="true"]::after{content:"✓";margin-left:auto;font-weight:800;color:var(--fresa)}
 
 /* reseñas en carrusel (arriba) */
 .carrusel{padding:70px 0 10px;overflow:hidden}
@@ -141,7 +148,7 @@ body,.cab .envol,.panel,.tarjeta,.caja,.paso,.formu,.chip span,.final,.cinta,.bt
 .marca:hover i{transform:rotate(8deg) scale(1.08)}
 .marca small{display:block;font:600 11px var(--txt);letter-spacing:.1em;text-transform:uppercase;color:var(--cacao-2);margin-top:3px}
 .menu{display:flex;gap:4px}
-.menu a{text-decoration:none;font-weight:600;font-size:15px;padding:9px 14px;border-radius:99px;transition:background .25s}
+.menu a{white-space:nowrap;text-decoration:none;font-weight:600;font-size:15px;padding:9px 14px;border-radius:99px;transition:background .25s}
 .menu a:hover{background:var(--nata-2)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font:700 16px var(--txt);text-decoration:none;border-radius:99px;padding:15px 26px;border:2px solid transparent;cursor:pointer;transition:transform .45s var(--muelle),background .25s,color .25s,box-shadow .25s}
 .btn:hover{transform:translateY(-3px) rotate(-1.5deg)}
@@ -221,16 +228,16 @@ body,.cab .envol,.panel,.tarjeta,.caja,.paso,.formu,.chip span,.final,.cinta,.bt
 
 /* sentidos (scroll horizontal fijado) */
 .sentidos{height:calc(100vh * 5);position:relative;background:var(--cacao);color:var(--nata)}
-.sentidos-fijo{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
-.sentidos-cab{position:absolute;top:clamp(90px,12vh,130px);left:0;right:0}
+.sentidos-fijo{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding-top:84px}
+.sentidos-cab{position:relative;margin-bottom:clamp(20px,3.5vh,36px)}
 .sentidos-cab .envol{display:flex;justify-content:space-between;align-items:end;gap:20px}
-.sentidos-cab h2{font-size:clamp(34px,4vw,56px)}
+.sentidos-cab h2{font-size:clamp(30px,3.3vw,50px)}
 .sentidos-cab h2 em{font-style:normal;color:var(--rosa)}
 .barra-sent{display:flex;gap:6px}
 .barra-sent i{width:34px;height:6px;border-radius:9px;background:rgba(255,246,239,.2);overflow:hidden;position:relative}
 .barra-sent i b{position:absolute;inset:0;background:var(--mante);transform:scaleX(var(--p,0));transform-origin:0 50%}
-.pista{display:flex;gap:30px;padding-left:max(20px,(100vw - 1220px)/2);will-change:transform;margin-top:80px}
-.panel{flex:none;width:min(78vw,860px);min-height:min(58vh,480px);border-radius:36px;padding:clamp(28px,4vw,56px);display:grid;grid-template-columns:1.2fr .8fr;gap:30px;align-items:center;position:relative;overflow:hidden}
+.pista{display:flex;gap:30px;padding-left:max(20px,(100vw - 1220px)/2);will-change:transform}
+.panel{flex:none;width:min(78vw,860px);min-height:min(calc(100vh - 260px),470px);border-radius:36px;padding:clamp(28px,4vw,56px);display:grid;grid-template-columns:1.2fr .8fr;gap:30px;align-items:center;position:relative;overflow:hidden}
 .panel:nth-child(1){background:var(--fresa)}
 .panel:nth-child(2){background:var(--naranja);color:var(--cacao)}
 .panel:nth-child(3){background:var(--rosa);color:var(--cacao)}
@@ -308,10 +315,13 @@ legend,.lbl{font:800 13px var(--txt);letter-spacing:.1em;text-transform:uppercas
 @keyframes latido{0%{box-shadow:0 0 0 0 rgba(62,154,85,.5)}70%{box-shadow:0 0 0 10px rgba(62,154,85,0)}100%{box-shadow:0 0 0 0 rgba(62,154,85,0)}}
 .tabla{width:100%;border-collapse:collapse}
 .tabla td{padding:11px 0;border-bottom:1px dashed var(--linea)}
+.tabla td:last-child span{white-space:nowrap;display:inline-block}
+.tabla td:last-child span+span::before{content:"· ";}
 .tabla td:last-child{text-align:right;font-variant-numeric:tabular-nums;color:var(--cacao-2)}
 .tabla tr.hoy td{font-weight:800;color:var(--fresa)}
 .mapa{display:block;text-decoration:none;position:relative;border-radius:var(--r);overflow:hidden;background:var(--rosa);min-height:320px}
-.mapa svg{position:absolute;inset:0;width:100%;height:100%}
+.mapa>svg{position:absolute;inset:0;width:100%;height:100%}
+.mapa-pie svg{flex:none;width:22px;height:22px}
 .mapa .pin{transform-box:fill-box;transform-origin:50% 100%;animation:bota 2s var(--muelle) infinite}
 @keyframes bota{0%,55%,100%{transform:none}25%{transform:translateY(-14px)}}
 .mapa-pie{position:absolute;left:16px;right:16px;bottom:16px;background:#fff;border-radius:20px;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;gap:14px}
@@ -349,13 +359,14 @@ legend,.lbl{font:800 13px var(--txt);letter-spacing:.1em;text-transform:uppercas
 .firma{grid-column:1 / -1;border-top:1px solid var(--linea);padding-top:22px;font-size:13px;color:var(--cacao-2)}
 .barra-movil{display:none}
 
+@media (max-width:1180px){.menu{display:none}}
 @media (max-width:980px){
   .menu{display:none}
   .hero .envol{grid-template-columns:1fr}
   .escena{max-width:460px;margin:10px auto 0}
   .sentidos{height:auto}
   .sentidos-fijo{position:relative;height:auto;padding:90px 0}
-  .sentidos-cab{position:relative;top:0;margin-bottom:34px}
+  .sentidos-cab{margin-bottom:34px}
   .barra-sent{display:none}
   .pista{flex-direction:column;padding:0 20px;margin:0;transform:none!important}
   .panel{width:100%;grid-template-columns:1fr;min-height:0}
@@ -374,19 +385,25 @@ legend,.lbl{font:800 13px var(--txt);letter-spacing:.1em;text-transform:uppercas
   body{font-size:16px;padding-bottom:78px}
   .cab .btn{display:none}
   .cab .envol{padding:8px 8px 8px 14px}
+  .marca{font-size:16px;gap:9px;white-space:nowrap}
+  .marca i{width:34px;height:34px;font-size:19px}
+  .marca small{font-size:10px}
   .hero h1{font-size:clamp(46px,13.6vw,64px)}
   .pegatina{width:104px;height:104px;left:-4px}
   .botones .btn{flex:1 1 auto}
   .formu{padding:22px}
+  .caja{padding:24px 20px}
+  .tabla td:last-child span+span::before{content:""}
+  .tabla td:last-child span{display:block}
   .dos{grid-template-columns:1fr}
   .final{margin:0 10px 10px;border-radius:32px}
+  .final .globo{width:42px;top:22px!important}
   .pie .envol{grid-template-columns:1fr}
   .tarjeta{position:relative;top:0!important}
   .barra-movil{display:flex;position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:70;gap:8px;background:rgba(255,246,239,.9);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--linea);border-radius:99px;padding:6px}
   .barra-movil .btn{flex:1;padding:13px 10px}
-  .selector{bottom:calc(84px + env(safe-area-inset-bottom));left:10px;padding:6px 8px 6px 12px}
-  .selector span{display:none}
-  .selector button{width:26px;height:26px}
+  .colores-btn{padding:8px 12px 8px 8px;font-size:13.5px}
+  .selector{right:0}
   .sabores{grid-template-columns:1fr}
   .sabor{display:grid;grid-template-columns:110px 1fr;column-gap:16px;align-items:center}
   .sabor svg{grid-row:1 / span 3;margin:0}
@@ -418,7 +435,9 @@ legend,.lbl{font:800 13px var(--txt);letter-spacing:.1em;text-transform:uppercas
   <div class="envol">
     <a class="marca" href="#inicio"><i>5</i><span>Con los 5 sentidos<small>Bakery · Deusto</small></span></a>
     <nav class="menu" aria-label="Secciones"><a href="#carta">Sabores</a><a href="#disena">Diseña tu tarta</a><a href="#galeria">Galería</a><a href="#opiniones">Opiniones</a><a href="#visita">Horario</a></nav>
+    <button type="button" class="colores-btn avisa" id="colores-btn" aria-expanded="false" aria-controls="selector"><i aria-hidden="true"></i>Colores</button>
     <a class="btn btn-fresa" href="https://wa.me/34747475873?text=Hola%2C%20quer%C3%ADa%20encargar%20una%20tarta." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3z"/></svg>Encargar</a>
+    <div class="selector" id="selector" hidden><p>Prueba los colores de la web</p><div role="group" aria-label="Colores de la web"><button type="button" data-p="fresa" aria-pressed="false"><i style="background:linear-gradient(135deg,#E0476B 50%,#F6D66E 50%)"></i>Fresa</button><button type="button" data-p="pistacho" aria-pressed="false"><i style="background:linear-gradient(135deg,#6E9A4B 50%,#F3D6C7 50%)"></i>Pistacho</button><button type="button" data-p="lavanda" aria-pressed="false"><i style="background:linear-gradient(135deg,#8B6CC9 50%,#BFE3D3 50%)"></i>Lavanda</button><button type="button" data-p="cielo" aria-pressed="false"><i style="background:linear-gradient(135deg,#3E7FD0 50%,#F8DE8A 50%)"></i>Azul cielo</button><button type="button" data-p="vainilla" aria-pressed="false"><i style="background:linear-gradient(135deg,#B8875A 50%,#F1EADC 50%)"></i>Vainilla y caramelo</button></div></div>
   </div>
 </header>
 
@@ -429,7 +448,7 @@ legend,.lbl{font:800 13px var(--txt);letter-spacing:.1em;text-transform:uppercas
     <div>
       <p class="ante"><b>5,0 ★</b> 190 opiniones en Google</p>
       <h1><span class="palabra" style="--i:0">Tartas</span> <span class="palabra" style="--i:1">preciosas</span> <span class="palabra" style="--i:2">que</span> <span class="palabra" style="--i:3">no</span> <span class="palabra" style="--i:4">dejan</span> <span class="fresa"><span class="palabra" style="--i:5">ni</span> <span class="migas"><span class="palabra" style="--i:6">las</span> <span class="palabra" style="--i:7">migas.</span><svg viewBox="0 0 300 30" preserveAspectRatio="none" aria-hidden="true"><path d="M4 18C80 6 200 6 296 16"/></svg></span></span></h1>
-      <p class="entrada">Tartas por encargo en Deusto, diseñadas a partir de lo que nos cuentas por WhatsApp. Preciosas por fuera, <b>riquísimas por dentro</b>: bizcocho de vainilla con crema de lotus, red velvet y lo que se te ocurra.</p>
+      <p class="entrada">Tartas por encargo en Deusto, diseñadas a partir de lo que nos cuentas por WhatsApp. Preciosas por fuera, <b>riquísimas por dentro</b>: bizcocho de vainilla con crema de Lotus, red velvet y lo que se te ocurra.</p>
       <div class="botones">
         <a class="btn btn-fresa" href="#disena">Diseña tu tarta <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         <a class="btn btn-linea" href="https://wa.me/34747475873?text=Hola%2C%20quer%C3%ADa%20encargar%20una%20tarta." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3z"/></svg>Escríbenos</a>
@@ -457,7 +476,7 @@ legend,.lbl{font:800 13px var(--txt);letter-spacing:.1em;text-transform:uppercas
     <div class="pista">
       <article class="panel"><div><span class="n">01 · Vista</span><h3>Vista</h3><p>Primero entra por los ojos. Nos cuentas la idea, el tema o el personaje y la convertimos en tarta, cuidando hasta el último detalle.</p><blockquote>«Las tartas no solo han sido preciosas sino que además estaban deliciosas.»<small>Vanessa Valverde · Google</small></blockquote></div>
         <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" aria-hidden="true"><path d="M20 100c30-46 130-46 160 0-30 46-130 46-160 0z"/><circle cx="100" cy="100" r="30"/><circle cx="100" cy="100" r="11" fill="currentColor"/><path d="M60 50l-8-16M100 40V22M140 50l8-16"/></svg></article>
-      <article class="panel"><div><span class="n">02 · Gusto</span><h3>Gusto</h3><p>Bonita no basta: tiene que estar buena. Bizcocho de vainilla con crema de lotus, red velvet y sabores para que no quede ni una miga.</p><blockquote>«Por dentro era riquísima, de bizcocho de vainilla y crema de lotus, ¡espectacular!»<small>María Fernandez · Google</small></blockquote></div>
+      <article class="panel"><div><span class="n">02 · Gusto</span><h3>Gusto</h3><p>Bonita no basta: tiene que estar buena. Bizcocho de vainilla con crema de Lotus, red velvet y sabores para que no quede ni una miga.</p><blockquote>«Por dentro era riquísima, de bizcocho de vainilla y crema de lotus, ¡espectacular!»<small>María Fernandez · Google</small></blockquote></div>
         <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M40 150l60-90 60 90z"/><path d="M40 150h120"/><path d="M58 123h84M76 96h48"/><circle cx="100" cy="48" r="10" fill="currentColor"/></svg></article>
       <article class="panel"><div><span class="n">03 · Olfato</span><h3>Olfato</h3><p>Cada tarta se prepara por encargo, para tu fecha y tu celebración. Y se nota en cuanto abres la caja.</p><blockquote>«Un verdadero gusto encontrar a alguien que se note disfruta tanto de su trabajo.»<small>Vanessa Valverde · Google</small></blockquote></div>
         <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" aria-hidden="true"><path d="M60 170h80l10-60H50z"/><path d="M78 90c-10-14 10-22 0-36M100 86c-10-14 10-22 0-36M122 90c-10-14 10-22 0-36"/></svg></article>
@@ -472,10 +491,10 @@ legend,.lbl{font:800 13px var(--txt);letter-spacing:.1em;text-transform:uppercas
 <section class="sec carta" id="carta">
   <div class="envol">
     <div class="cabeza rev"><span class="eti">Sabores y tamaños</span><h2>Tú eliges el sabor. La decoración, cosa nuestra.</h2><p>Cada tarta se hace por encargo: escoge el sabor, dinos para cuántas personas y la decoramos a tu gusto.</p></div>
-    <div class="sabores"><article class="sabor rev"><svg viewBox="0 0 200 150" aria-hidden="true"><path d="M20 40h160v86q0 12-12 12H32q-12 0-12-12z" fill="#F3D9A4"/><rect x="20" y="66" width="160" height="12" fill="#C9884E"/><rect x="20" y="100" width="160" height="12" fill="#C9884E"/><rect x="16" y="30" width="168" height="16" rx="8" fill="var(--fresa)"/><circle cx="34" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="56" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="78" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="100" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="122" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="144" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="166" cy="26" r="7" fill="#fff" stroke="var(--linea)"/></svg><h3>Vainilla y crema de Lotus</h3><p>Bizcocho de vainilla con crema de galleta Lotus.</p><small class="cita">María Fernandez: «por dentro era riquísima»</small></article><article class="sabor rev"><svg viewBox="0 0 200 150" aria-hidden="true"><path d="M20 40h160v86q0 12-12 12H32q-12 0-12-12z" fill="#B3263C"/><rect x="20" y="66" width="160" height="12" fill="#FFF3DD"/><rect x="20" y="100" width="160" height="12" fill="#FFF3DD"/><rect x="16" y="30" width="168" height="16" rx="8" fill="var(--fresa)"/><circle cx="34" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="56" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="78" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="100" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="122" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="144" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="166" cy="26" r="7" fill="#fff" stroke="var(--linea)"/></svg><h3>Red velvet</h3><p>Bizcocho rojo aterciopelado con frosting de queso.</p><small class="cita">Amaia CE: «nada empalagosa, jugosa»</small></article><article class="sabor rev"><svg viewBox="0 0 200 150" aria-hidden="true"><path d="M20 40h160v86q0 12-12 12H32q-12 0-12-12z" fill="#6B3E2A"/><rect x="20" y="66" width="160" height="12" fill="#D9A066"/><rect x="20" y="100" width="160" height="12" fill="#D9A066"/><rect x="16" y="30" width="168" height="16" rx="8" fill="var(--fresa)"/><circle cx="34" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="56" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="78" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="100" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="122" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="144" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="166" cy="26" r="7" fill="#fff" stroke="var(--linea)"/></svg><h3>Chocolate y Kinder</h3><p>Bizcocho de chocolate con crema de Kinder.</p></article><article class="sabor rev"><svg viewBox="0 0 200 150" aria-hidden="true"><path d="M20 40h160v86q0 12-12 12H32q-12 0-12-12z" fill="#4A2C22"/><rect x="20" y="66" width="160" height="12" fill="#F2EDE4"/><rect x="20" y="100" width="160" height="12" fill="#F2EDE4"/><rect x="16" y="30" width="168" height="16" rx="8" fill="var(--fresa)"/><circle cx="34" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="56" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="78" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="100" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="122" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="144" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="166" cy="26" r="7" fill="#fff" stroke="var(--linea)"/></svg><h3>Oreo</h3><p>Bizcocho de chocolate con crema de Oreo.</p></article><article class="sabor sabor-otro rev"><div class="interro" aria-hidden="true">?</div><h3>¿Otro sabor?</h3><p>Cuéntanos qué os gusta y te proponemos bizcocho y relleno.</p></article></div>
+    <div class="sabores"><article class="sabor rev"><svg viewBox="0 0 200 150" aria-hidden="true"><path d="M20 40h160v86q0 12-12 12H32q-12 0-12-12z" fill="#F3D9A4"/><rect x="20" y="66" width="160" height="12" fill="#C9884E"/><rect x="20" y="100" width="160" height="12" fill="#C9884E"/><rect x="16" y="30" width="168" height="16" rx="8" fill="var(--fresa)"/><circle cx="34" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="56" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="78" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="100" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="122" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="144" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="166" cy="26" r="7" fill="#fff" stroke="var(--linea)"/></svg><h3>Vainilla y crema de Lotus</h3><p>Bizcocho de vainilla con crema de galleta Lotus.</p><small class="cita">María Fernandez: «por dentro era riquísima»</small></article><article class="sabor rev"><svg viewBox="0 0 200 150" aria-hidden="true"><path d="M20 40h160v86q0 12-12 12H32q-12 0-12-12z" fill="#B3263C"/><rect x="20" y="66" width="160" height="12" fill="#FFF3DD"/><rect x="20" y="100" width="160" height="12" fill="#FFF3DD"/><rect x="16" y="30" width="168" height="16" rx="8" fill="var(--fresa)"/><circle cx="34" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="56" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="78" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="100" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="122" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="144" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="166" cy="26" r="7" fill="#fff" stroke="var(--linea)"/></svg><h3>Red velvet</h3><p>Bizcocho rojo aterciopelado con frosting de queso.</p><small class="cita">Amaia CE: «nada empalagosa, jugosa»</small></article><article class="sabor rev"><svg viewBox="0 0 200 150" aria-hidden="true"><path d="M20 40h160v86q0 12-12 12H32q-12 0-12-12z" fill="#6B3E2A"/><rect x="20" y="66" width="160" height="12" fill="#D9A066"/><rect x="20" y="100" width="160" height="12" fill="#D9A066"/><rect x="16" y="30" width="168" height="16" rx="8" fill="var(--fresa)"/><circle cx="34" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="56" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="78" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="100" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="122" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="144" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="166" cy="26" r="7" fill="#fff" stroke="var(--linea)"/></svg><h3>Chocolate y Kinder</h3><p>Bizcocho de chocolate con crema de Kinder.</p></article><article class="sabor rev"><svg viewBox="0 0 200 150" aria-hidden="true"><path d="M20 40h160v86q0 12-12 12H32q-12 0-12-12z" fill="#4A2C22"/><rect x="20" y="66" width="160" height="12" fill="#F2EDE4"/><rect x="20" y="100" width="160" height="12" fill="#F2EDE4"/><rect x="16" y="30" width="168" height="16" rx="8" fill="var(--fresa)"/><circle cx="34" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="56" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="78" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="100" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="122" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="144" cy="26" r="7" fill="#fff" stroke="var(--linea)"/><circle cx="166" cy="26" r="7" fill="#fff" stroke="var(--linea)"/></svg><h3>Oreo</h3><p>Bizcocho de chocolate con crema de Oreo.</p></article><article class="sabor sabor-otro rev"><div class="interro" aria-hidden="true">?</div><h3>¿Otro sabor?</h3><p>Cuéntanos qué te gusta y te proponemos bizcocho y relleno.</p></article></div>
     <div class="bloque-tam">
       <div class="rev"><h3>¿Para cuántos?</h3><p>Del cumple en casa a la boda de tres pisos. El precio depende del tamaño y la decoración: te lo decimos por WhatsApp en el momento.</p><p style="margin-top:18px"><a class="btn btn-fresa" href="#disena">Calcula la tuya <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p></div>
-      <div class="tamanos"><div class="tam rev"><svg viewBox="0 0 200 170" aria-hidden="true"><ellipse cx="100" cy="158" rx="86" ry="9" fill="var(--cacao)" opacity=".1"/><rect x="62.8" y="116.0" width="74.4" height="34" rx="8" fill="var(--rosa)"/><rect x="60.8" y="112.0" width="78.4" height="10" rx="5" fill="var(--fresa)"/></svg><b>Pequeña</b><span>6–8 raciones</span><small>1 piso</small></div><div class="tam rev"><svg viewBox="0 0 200 170" aria-hidden="true"><ellipse cx="100" cy="158" rx="86" ry="9" fill="var(--cacao)" opacity=".1"/><rect x="53.2" y="104.0" width="93.6" height="46" rx="8" fill="var(--rosa)"/><rect x="51.2" y="100.0" width="97.6" height="10" rx="5" fill="var(--fresa)"/></svg><b>Mediana</b><span>10–15 raciones</span><small>1 piso alto</small></div><div class="tam rev"><svg viewBox="0 0 200 170" aria-hidden="true"><ellipse cx="100" cy="158" rx="86" ry="9" fill="var(--cacao)" opacity=".1"/><rect x="46.0" y="116.0" width="108.0" height="34" rx="8" fill="var(--rosa)"/><rect x="44.0" y="112.0" width="112.0" height="10" rx="5" fill="var(--fresa)"/><rect x="61.1" y="82.0" width="77.8" height="34" rx="8" fill="var(--rosa)"/><rect x="59.1" y="78.0" width="81.8" height="10" rx="5" fill="var(--fresa)"/></svg><b>Grande</b><span>20–25 raciones</span><small>2 pisos</small></div><div class="tam rev"><svg viewBox="0 0 200 170" aria-hidden="true"><ellipse cx="100" cy="158" rx="86" ry="9" fill="var(--cacao)" opacity=".1"/><rect x="40.0" y="116.0" width="120.0" height="34" rx="8" fill="var(--rosa)"/><rect x="38.0" y="112.0" width="124.0" height="10" rx="5" fill="var(--fresa)"/><rect x="56.8" y="82.0" width="86.4" height="34" rx="8" fill="var(--rosa)"/><rect x="54.8" y="78.0" width="90.4" height="10" rx="5" fill="var(--fresa)"/><rect x="68.9" y="48.0" width="62.2" height="34" rx="8" fill="var(--rosa)"/><rect x="66.9" y="44.0" width="66.2" height="10" rx="5" fill="var(--fresa)"/></svg><b>De celebración</b><span>30 o más</span><small>3 pisos</small></div></div>
+      <div class="tamanos"><div class="tam rev"><svg viewBox="0 0 200 170" aria-hidden="true"><ellipse cx="100" cy="158" rx="86" ry="9" fill="var(--cacao)" opacity=".1"/><rect x="62.8" y="116.0" width="74.4" height="34" rx="8" fill="var(--rosa)"/><rect x="60.8" y="112.0" width="78.4" height="10" rx="5" fill="var(--fresa)"/></svg><b>Pequeña</b><span>6–8 raciones</span><small>1 piso</small></div><div class="tam rev"><svg viewBox="0 0 200 170" aria-hidden="true"><ellipse cx="100" cy="158" rx="86" ry="9" fill="var(--cacao)" opacity=".1"/><rect x="53.2" y="104.0" width="93.6" height="46" rx="8" fill="var(--rosa)"/><rect x="51.2" y="100.0" width="97.6" height="10" rx="5" fill="var(--fresa)"/></svg><b>Mediana</b><span>10–15 raciones</span><small>1 piso alto</small></div><div class="tam rev"><svg viewBox="0 0 200 170" aria-hidden="true"><ellipse cx="100" cy="158" rx="86" ry="9" fill="var(--cacao)" opacity=".1"/><rect x="46.0" y="116.0" width="108.0" height="34" rx="8" fill="var(--rosa)"/><rect x="44.0" y="112.0" width="112.0" height="10" rx="5" fill="var(--fresa)"/><rect x="61.1" y="82.0" width="77.8" height="34" rx="8" fill="var(--rosa)"/><rect x="59.1" y="78.0" width="81.8" height="10" rx="5" fill="var(--fresa)"/></svg><b>Grande</b><span>20–25 raciones</span><small>2 pisos</small></div><div class="tam rev"><svg viewBox="0 0 200 170" aria-hidden="true"><ellipse cx="100" cy="158" rx="86" ry="9" fill="var(--cacao)" opacity=".1"/><rect x="40.0" y="116.0" width="120.0" height="34" rx="8" fill="var(--rosa)"/><rect x="38.0" y="112.0" width="124.0" height="10" rx="5" fill="var(--fresa)"/><rect x="56.8" y="82.0" width="86.4" height="34" rx="8" fill="var(--rosa)"/><rect x="54.8" y="78.0" width="90.4" height="10" rx="5" fill="var(--fresa)"/><rect x="68.9" y="48.0" width="62.2" height="34" rx="8" fill="var(--rosa)"/><rect x="66.9" y="44.0" width="66.2" height="10" rx="5" fill="var(--fresa)"/></svg><b>De celebración</b><span>30 o más raciones</span><small>3 pisos</small></div></div>
     </div>
     <p class="nota-ej rev"><span aria-hidden="true">✎</span><span><b>Nota del boceto:</b> sabores, raciones y fotos son de ejemplo. En la web de verdad ponéis los vuestros, con precio si queréis, y los cambiáis cuando haya novedades.</span></p>
   </div>
@@ -486,7 +505,7 @@ legend,.lbl{font:800 13px var(--txt);letter-spacing:.1em;text-transform:uppercas
     <div class="cabeza rev"><span class="eti">Pruébalo</span><h2>Diseña tu tarta y mándanosla.</h2><p>Juega con el sabor, la cobertura y el tamaño. Mira cómo cambia y envíanos el encargo por WhatsApp con todo apuntado: te contestamos con precio y fecha.</p></div>
     <div class="disena-grid">
       <form class="formu" id="tarta-form" novalidate>
-        <fieldset><legend>¿Qué celebráis?</legend><div class="chips">
+        <fieldset><legend>¿Qué celebras?</legend><div class="chips">
           <label class="chip"><input type="radio" name="motivo" value="Cumpleaños" checked><span>Cumpleaños</span></label>
           <label class="chip"><input type="radio" name="motivo" value="Primer cumpleaños"><span>Primer añito</span></label>
           <label class="chip"><input type="radio" name="motivo" value="Celebración familiar"><span>Celebración</span></label>
@@ -496,10 +515,10 @@ legend,.lbl{font:800 13px var(--txt);letter-spacing:.1em;text-transform:uppercas
           <label class="chip"><input type="radio" name="bizcocho" value="Vainilla" data-c="#F3D9A4" checked><span><i style="background:#F3D9A4"></i>Vainilla</span></label>
           <label class="chip"><input type="radio" name="bizcocho" value="Red velvet" data-c="#B3263C"><span><i style="background:#B3263C"></i>Red velvet</span></label>
           <label class="chip"><input type="radio" name="bizcocho" value="Chocolate" data-c="#6B3E2A"><span><i style="background:#6B3E2A"></i>Chocolate</span></label>
-          <label class="chip"><input type="radio" name="bizcocho" value="Otro (os lo cuento)" data-c="#8A5A3C"><span><i style="background:#8A5A3C"></i>Otro sabor</span></label>
+          <label class="chip"><input type="radio" name="bizcocho" value="Otro sabor (os lo cuento)" data-c="#8A5A3C"><span><i style="background:#8A5A3C"></i>Otro sabor</span></label>
         </div></fieldset>
         <fieldset><legend>Relleno</legend><div class="chips">
-          <label class="chip"><input type="radio" name="relleno" value="Crema de lotus" data-c="#C9884E" checked><span><i style="background:#C9884E"></i>Crema de lotus</span></label>
+          <label class="chip"><input type="radio" name="relleno" value="Crema de Lotus" data-c="#C9884E" checked><span><i style="background:#C9884E"></i>Crema de Lotus</span></label>
           <label class="chip"><input type="radio" name="relleno" value="Frosting de queso" data-c="#FFF3DD"><span><i style="background:#FFF3DD"></i>Frosting de queso</span></label>
           <label class="chip"><input type="radio" name="relleno" value="Kinder" data-c="#D9A066"><span><i style="background:#D9A066"></i>Kinder</span></label>
           <label class="chip"><input type="radio" name="relleno" value="Oreo" data-c="#EDEBE6"><span><i style="background:#3A2A24"></i>Oreo</span></label>
@@ -549,7 +568,7 @@ legend,.lbl{font:800 13px var(--txt);letter-spacing:.1em;text-transform:uppercas
   <div class="envol">
     <div class="cabeza rev"><span class="eti">Así de fácil</span><h2>De la idea a la mesa en tres pasos.</h2></div>
     <div class="pasos">
-      <div class="paso rev"><b>1</b><h3>Nos escribes</h3><p>Por WhatsApp o en la tienda: qué celebráis, para cuántos, qué día y la idea que tienes en la cabeza. Si tienes foto, mándala.</p></div>
+      <div class="paso rev"><b>1</b><h3>Nos escribes</h3><p>Por WhatsApp o en la tienda: qué celebras, para cuántos, qué día y la idea que tienes en la cabeza. Si tienes foto, mándala.</p></div>
       <div class="paso rev"><b>2</b><h3>La diseñamos</h3><p>Te proponemos sabores, decoración y precio. Cambiamos lo que haga falta hasta que sea tu tarta.</p></div>
       <div class="paso rev"><b>3</b><h3>La recoges</h3><p>El día acordado, en Ibarrekolanda, 36. Solo queda soplar las velas.</p></div>
     </div>
@@ -574,11 +593,11 @@ legend,.lbl{font:800 13px var(--txt);letter-spacing:.1em;text-transform:uppercas
     <div class="visita-grid">
       <div class="caja rev"><p class="estado" data-estado><i></i><span>Horario</span></p>
         <table class="tabla">
-          <tr data-dia="lunes"><td>Lunes</td><td>10:00–14:00 · 16:30–19:00</td></tr>
-          <tr data-dia="martes"><td>Martes</td><td>9:00–14:00 · 16:30–19:00</td></tr>
-          <tr data-dia="miércoles"><td>Miércoles</td><td>10:00–14:00 · 16:30–19:00</td></tr>
-          <tr data-dia="jueves"><td>Jueves</td><td>9:00–14:00 · 16:30–19:00</td></tr>
-          <tr data-dia="viernes"><td>Viernes</td><td>10:00–14:00 · 16:30–19:00</td></tr>
+          <tr data-dia="lunes"><td>Lunes</td><td><span>10:00–14:00</span> <span>16:30–19:00</span></td></tr>
+          <tr data-dia="martes"><td>Martes</td><td><span>9:00–14:00</span> <span>16:30–19:00</span></td></tr>
+          <tr data-dia="miércoles"><td>Miércoles</td><td><span>10:00–14:00</span> <span>16:30–19:00</span></td></tr>
+          <tr data-dia="jueves"><td>Jueves</td><td><span>9:00–14:00</span> <span>16:30–19:00</span></td></tr>
+          <tr data-dia="viernes"><td>Viernes</td><td><span>10:00–14:00</span> <span>16:30–19:00</span></td></tr>
           <tr data-dia="sábado"><td>Sábado</td><td>10:00–13:30</td></tr>
           <tr data-dia="domingo"><td>Domingo</td><td>Cerrado</td></tr>
         </table>
@@ -628,13 +647,7 @@ legend,.lbl{font:800 13px var(--txt);letter-spacing:.1em;text-transform:uppercas
 
 <nav class="barra-movil" aria-label="Contacto rápido"><a class="btn btn-fresa" href="https://wa.me/34747475873?text=Hola%2C%20quer%C3%ADa%20encargar%20una%20tarta." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3z"/></svg>WhatsApp</a><a class="btn btn-linea" href="tel:+34747475873"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2"/></svg>Llamar</a></nav>
 
-<div class="selector" id="selector" role="group" aria-label="Probar colores de la web"><span>Prueba colores</span><div>
-  <button type="button" data-p="fresa" aria-label="Fresa" style="background:linear-gradient(135deg,#E0476B 50%,#F6D66E 50%)"></button>
-  <button type="button" data-p="pistacho" aria-label="Pistacho" style="background:linear-gradient(135deg,#6E9A4B 50%,#F3D6C7 50%)"></button>
-  <button type="button" data-p="lavanda" aria-label="Lavanda" style="background:linear-gradient(135deg,#8B6CC9 50%,#BFE3D3 50%)"></button>
-  <button type="button" data-p="cielo" aria-label="Azul cielo" style="background:linear-gradient(135deg,#3E7FD0 50%,#F8DE8A 50%)"></button>
-  <button type="button" data-p="vainilla" aria-label="Vainilla y caramelo" style="background:linear-gradient(135deg,#B8875A 50%,#F1EADC 50%)"></button>
-</div><em class="toast" id="toast" aria-live="polite"></em></div>
+
 
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Foto de la galería"><button class="x" type="button" data-lb="x" aria-label="Cerrar">×</button><button class="ant" type="button" data-lb="-1" aria-label="Anterior">‹</button><figure><div class="lienzo-lb" id="lb-lienzo"></div><figcaption><span id="lb-txt"></span><a id="lb-pedir" href="https://wa.me/34747475873" target="_blank" rel="noopener">Quiero una así →</a></figcaption></figure><button class="sig" type="button" data-lb="1" aria-label="Siguiente">›</button></div>
 
@@ -647,11 +660,12 @@ legend,.lbl{font:800 13px var(--txt);letter-spacing:.1em;text-transform:uppercas
   var HORAS={"lunes":[["10:00","14:00"],["16:30","19:00"]],"martes":[["09:00","14:00"],["16:30","19:00"]],"miércoles":[["10:00","14:00"],["16:30","19:00"]],"jueves":[["09:00","14:00"],["16:30","19:00"]],"viernes":[["10:00","14:00"],["16:30","19:00"]],"sábado":[["10:00","13:30"]],"domingo":[]};
   var DIAS=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
   function ahora(){ var o={}; new Intl.DateTimeFormat('es-ES',{timeZone:'Europe/Madrid',weekday:'long',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date()).forEach(function(x){o[x.type]=x.value;}); return {d:o.weekday,m:(+o.hour%24)*60+(+o.minute)}; }
+  function hh(t){return t.replace(/^0/,'');}
   function mm(t){var a=t.split(':');return +a[0]*60+(+a[1]);}
   var n=ahora(), t=HORAS[n.d]||[], txt=null, ab=false;
-  t.forEach(function(x){ if(!txt && n.m>=mm(x[0]) && n.m<mm(x[1])){ txt='Abierto ahora · hasta las '+x[1]; ab=true; } });
-  if(!txt) t.forEach(function(x){ if(!txt && n.m<mm(x[0])) txt='Cerrado · abrimos hoy a las '+x[0]; });
-  if(!txt){ var i=DIAS.indexOf(n.d); for(var k=1;k<8;k++){ var dn=DIAS[(i+k)%7]; if(HORAS[dn].length){ txt='Cerrado · abrimos '+(k===1?'mañana':'el '+dn)+' a las '+HORAS[dn][0][0]; break; } } }
+  t.forEach(function(x){ if(!txt && n.m>=mm(x[0]) && n.m<mm(x[1])){ txt='Abierto ahora · hasta las '+hh(x[1]); ab=true; } });
+  if(!txt) t.forEach(function(x){ if(!txt && n.m<mm(x[0])) txt='Cerrado · abrimos hoy a las '+hh(x[0]); });
+  if(!txt){ var i=DIAS.indexOf(n.d); for(var k=1;k<8;k++){ var dn=DIAS[(i+k)%7]; if(HORAS[dn].length){ txt='Cerrado · abrimos '+(k===1?'mañana':'el '+dn)+' a las '+hh(HORAS[dn][0][0]); break; } } }
   document.querySelectorAll('[data-estado]').forEach(function(e){ e.classList.toggle('abierto',ab); e.querySelector('span').textContent=txt; });
   document.querySelectorAll('tr[data-dia]').forEach(function(tr){ if(tr.getAttribute('data-dia')===n.d) tr.classList.add('hoy'); });
 
@@ -680,19 +694,22 @@ legend,.lbl{font:800 13px var(--txt);letter-spacing:.1em;text-transform:uppercas
   /* paletas */
   var NOM={fresa:'Fresa',pistacho:'Pistacho',lavanda:'Lavanda',cielo:'Azul cielo',vainilla:'Vainilla y caramelo'};
   var TC={fresa:'#E0476B',pistacho:'#6E9A4B',lavanda:'#8B6CC9',cielo:'#3E7FD0',vainilla:'#B8875A'};
-  var toast=document.getElementById('toast'), tt;
+  var cb=document.getElementById('colores-btn'), selp=document.getElementById('selector');
+  function abreSel(v){ selp.hidden=!v; cb.setAttribute('aria-expanded',v?'true':'false'); cb.classList.remove("avisa"); }
+  cb.addEventListener('click',function(e){ e.stopPropagation(); abreSel(selp.hidden); });
+  document.addEventListener('click',function(e){ if(!selp.hidden && !selp.contains(e.target)) abreSel(false); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !selp.hidden){ abreSel(false); cb.focus(); } });
   function paleta(p,avisar){
     if(!NOM[p]) p='fresa';
     document.documentElement.setAttribute('data-paleta',p);
     document.querySelectorAll('#selector button').forEach(function(b){ b.setAttribute('aria-pressed',b.getAttribute('data-p')===p?'true':'false'); });
     var m=document.querySelector('meta[name="theme-color"]'); if(m) m.setAttribute('content',TC[p]);
     try{ localStorage.setItem('c5-paleta',p); }catch(e){}
-    if(avisar){ toast.textContent='Colores: '+NOM[p]; toast.classList.add('ver'); clearTimeout(tt); tt=setTimeout(function(){toast.classList.remove('ver');},1600); }
   }
   var ini=null; try{ ini=new URLSearchParams(location.search).get('paleta'); }catch(e){}
   if(!ini){ try{ ini=localStorage.getItem('c5-paleta'); }catch(e){} }
   paleta(ini||'fresa',false);
-  document.querySelectorAll('#selector button').forEach(function(b){ b.addEventListener('click',function(){ paleta(b.getAttribute('data-p'),true); }); });
+  document.querySelectorAll('#selector button').forEach(function(b){ b.addEventListener('click',function(){ paleta(b.getAttribute('data-p'),true); setTimeout(function(){abreSel(false);},250); }); });
 
   /* galería */
   var fotos=[].slice.call(document.querySelectorAll('.foto')), lb=document.getElementById('lb'), lbL=document.getElementById('lb-lienzo'), lbT=document.getElementById('lb-txt'), lbP=document.getElementById('lb-pedir'), idx=0, antes=null;
@@ -716,9 +733,11 @@ legend,.lbl{font:800 13px var(--txt);letter-spacing:.1em;text-transform:uppercas
     vista.style.setProperty('--bizcocho',b.getAttribute('data-c')); vista.style.setProperty('--relleno',r.getAttribute('data-c'));
     vista.style.setProperty('--cobertura',co.getAttribute('data-c')); vista.style.setProperty('--glaseado',co.getAttribute('data-g'));
     vista.setAttribute('data-pisos', ra<=14?'1':(ra<=26?'2':'3'));
-    out.textContent=ra; document.getElementById('t-tam').textContent='· '+(ra<=8?'pequeña':ra<=15?'mediana':ra<=26?'grande':'de celebración'); var tp=f.topper.value.trim(); if(topper) topper.textContent=tp||'¡Zorionak!';
+    out.textContent=ra; document.getElementById('t-tam').textContent='· tarta '+(ra<=8?'pequeña':ra<=15?'mediana':ra<=26?'grande':'de celebración'); var tp=f.topper.value.trim(); if(topper) topper.textContent=tp||'¡Zorionak!';
     var fe=fecha(f.fecha.value), idea=f.idea.value.trim();
-    res.innerHTML='Tarta de <b>'+b.value.toLowerCase()+'</b> con <b>'+r.value.toLowerCase()+'</b>, cobertura <b>'+co.value.toLowerCase()+'</b>, para <b>'+ra+' personas</b>'+(fe?' · <b>'+fe+'</b>':'')+'.';
+    function lc(x){return x.charAt(0).toLowerCase()+x.slice(1);}
+    var rel=/^Que/.test(r.value)?'el relleno que nos aconsejéis':lc(r.value);
+    res.innerHTML='Tarta de <b>'+lc(b.value)+'</b> con <b>'+rel+'</b>, cobertura <b>'+co.value.toLowerCase()+'</b>, para <b>'+ra+' personas</b>'+(fe?' · <b>'+fe+'</b>':'')+'.';
     var m='Hola, quería encargar una tarta:\n• Motivo: '+mo.value+'\n• Bizcocho: '+b.value+'\n• Relleno: '+r.value+'\n• Cobertura: '+co.value+'\n• Para '+ra+' personas'+(tp?'\n• En la tarta: '+tp:'')+(fe?'\n• Para el '+fe:'')+(idea?'\n• Idea: '+idea:'')+'\n\n¿Me decís precio y si llegáis? Gracias.';
     env.href='https://wa.me/34747475873?text='+encodeURIComponent(m);
   }

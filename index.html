@@ -3,24 +3,24 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Webs y reseñas de Google para tu negocio · Guillem Polo</title>
-<meta name="description" content="Te lo enseño montado antes de que pagues nada: tu web arreglada desde 190 € + IVA, web nueva desde 490 € + IVA y reseñas de Google contestadas con tu tono. Precio cerrado, 14 días de garantía y sin permanencia.">
+<title>Tu web, primero gratis en boceto · Guillem Polo</title>
+<meta name="description" content="Te preparo gratis un boceto de la web de tu negocio con tus datos reales y lo ves en el móvil antes de decidir nada. Sin compromiso. Si te gusta, web desde 490 € + IVA; arreglo desde 190 € + IVA.">
 <meta name="author" content="Guillem Polo">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://guillempolo.es/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_ES">
 <meta property="og:site_name" content="Guillem Polo">
-<meta property="og:title" content="Webs y reseñas de Google para tu negocio · Guillem Polo">
-<meta property="og:description" content="Te lo enseño montado antes de que pagues nada: tu web arreglada desde 190 € + IVA, web nueva desde 490 € + IVA y reseñas de Google contestadas con tu tono. Precio cerrado, 14 días de garantía y sin permanencia.">
+<meta property="og:title" content="Tu web, primero gratis en boceto · Guillem Polo">
+<meta property="og:description" content="Te preparo gratis un boceto de la web de tu negocio con tus datos reales y lo ves en el móvil antes de decidir nada. Sin compromiso. Si te gusta, web desde 490 € + IVA; arreglo desde 190 € + IVA.">
 <meta property="og:url" content="https://guillempolo.es/">
-<meta property="og:image" content="https://guillempolo.es/og-index.png">
+<meta property="og:image" content="https://guillempolo.es/og-inicio.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Webs y reseñas de Google para tu negocio · Guillem Polo">
-<meta name="twitter:description" content="Te lo enseño montado antes de que pagues nada: tu web arreglada desde 190 € + IVA, web nueva desde 490 € + IVA y reseñas de Google contestadas con tu tono. Precio cerrado, 14 días de garantía y sin permanencia.">
-<meta name="twitter:image" content="https://guillempolo.es/og-index.png">
+<meta name="twitter:title" content="Tu web, primero gratis en boceto · Guillem Polo">
+<meta name="twitter:description" content="Te preparo gratis un boceto de la web de tu negocio con tus datos reales y lo ves en el móvil antes de decidir nada. Sin compromiso. Si te gusta, web desde 490 € + IVA; arreglo desde 190 € + IVA.">
+<meta name="twitter:image" content="https://guillempolo.es/og-inicio.png">
 <meta name="theme-color" content="#F7F7F3">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/favicon.svg">
@@ -63,7 +63,7 @@
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
   "name": "Guillem Polo",
-  "description": "Páginas web y automatización para empresas y autónomos: webs y reseñas de Google contestadas.",
+  "description": "Páginas web para negocios con boceto previo gratis y sin compromiso, y reseñas de Google contestadas.",
   "url": "https://guillempolo.es",
   "telephone": "+34688655465",
   "email": "guillem@guillempolo.es",
@@ -71,8 +71,8 @@
   "priceRange": "€€",
   "makesOffer": [
     { "@type": "Offer", "name": "Página web para negocios", "price": "490", "priceCurrency": "EUR", "priceSpecification": { "@type": "PriceSpecification", "price": "490", "priceCurrency": "EUR", "valueAddedTaxIncluded": false } },
-    { "@type": "Offer", "name": "Reseñas de Google contestadas", "price": "250", "priceCurrency": "EUR", "priceSpecification": { "@type": "PriceSpecification", "price": "250", "priceCurrency": "EUR", "valueAddedTaxIncluded": false } }, }, }
-      ]
+    { "@type": "Offer", "name": "Reseñas de Google contestadas", "price": "250", "priceCurrency": "EUR", "priceSpecification": { "@type": "PriceSpecification", "price": "250", "priceCurrency": "EUR", "valueAddedTaxIncluded": false } }
+  ]
 }
 </script>
 </head>
@@ -106,11 +106,13 @@
   main{display:flex;flex-direction:column}
   main>*{order:3}
   main>.hero{order:1}
+  main>#metodo{order:2}
   main>#ejemplos{order:2}
   #ejemplos .en,#ejemplos .toca{display:none}
   /* portada corta: título, una frase y a los ejemplos */
   section.hero{padding-block:26px 6px}
-  section.hero .eyebrow,section.hero .hero-cta,section.hero .toca-m{display:none}
+  section.hero .eyebrow,section.hero .toca-m{display:none}
+  section.hero .hero-cta{margin-top:18px}
   section.hero h1{font-size:clamp(2rem,10vw,2.6rem)}
   section.hero .hero-sub{margin-top:14px;font-size:1rem}
   .sub-largo{display:none}
@@ -124,6 +126,11 @@
 .arreglo-nota .enlace-f{white-space:nowrap}
 .desde-l{margin:12px 0 -8px;font-size:.78rem;font-weight:600;color:var(--tinta-3);text-transform:uppercase;letter-spacing:.1em}
 .pila{height:clamp(360px,34vw,440px)}
+.pila .pz-wa{background:none;width:auto;height:auto;padding:0;border:0;border-radius:0;box-shadow:none;margin:2px 0 0}
+.pz-wa{display:block;font-family:"Space Grotesk",monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:#1f8f55}
+.boceto-cta{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px;margin-top:34px}
+.boceto-cta span{color:var(--tinta-2);max-width:46ch;font-size:.95rem;line-height:1.5}
+a.q{text-decoration:none;color:inherit}
 .pz-web{width:80%;top:0}
 .pz-res{width:66%;right:0;top:44%}
 @media (max-width:1040px){.pila{height:380px}}
@@ -131,19 +138,19 @@
 
 <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
 <div class="grano" aria-hidden="true"></div>
-<div class="llamar-movil" id="llamar"><a class="lm-wa" href="https://wa.me/34688655465?text=Hola%20Guillem%2C%20vengo%20de%20tu%20web" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.02c-.24.68-1.42 1.3-1.95 1.34-.5.05-.97.23-3.27-.68-2.77-1.09-4.52-3.93-4.66-4.11-.13-.18-1.1-1.47-1.1-2.8 0-1.33.7-1.99.95-2.26.24-.27.53-.34.71-.34l.51.01c.16.01.38-.06.6.46.24.55.8 1.9.87 2.04.07.14.12.3.02.48-.09.18-.14.3-.27.46-.14.16-.29.36-.41.48-.14.14-.28.29-.12.56.16.27.71 1.17 1.52 1.9 1.05.93 1.93 1.22 2.2 1.36.27.14.43.11.59-.07.16-.18.68-.79.86-1.06.18-.27.36-.23.61-.14.25.09 1.58.75 1.85.88.27.14.45.2.52.32.07.11.07.66-.17 1.33z"/></svg>Escríbeme por WhatsApp</a><a class="lm-tel" href="tel:+34688655465" aria-label="Llamar al 688 65 54 65">Llamar</a></div>
+<div class="llamar-movil" id="llamar"><a class="lm-wa" href="https://wa.me/34688655465?text=Hola%20Guillem%2C%20quiero%20ver%20mi%20web%20gratis.%20Mi%20negocio%20es%3A%20" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.02c-.24.68-1.42 1.3-1.95 1.34-.5.05-.97.23-3.27-.68-2.77-1.09-4.52-3.93-4.66-4.11-.13-.18-1.1-1.47-1.1-2.8 0-1.33.7-1.99.95-2.26.24-.27.53-.34.71-.34l.51.01c.16.01.38-.06.6.46.24.55.8 1.9.87 2.04.07.14.12.3.02.48-.09.18-.14.3-.27.46-.14.16-.29.36-.41.48-.14.14-.28.29-.12.56.16.27.71 1.17 1.52 1.9 1.05.93 1.93 1.22 2.2 1.36.27.14.43.11.59-.07.16-.18.68-.79.86-1.06.18-.27.36-.23.61-.14.25.09 1.58.75 1.85.88.27.14.45.2.52.32.07.11.07.66-.17 1.33z"/></svg>Ver mi web gratis</a><a class="lm-tel" href="tel:+34688655465" aria-label="Llamar al 688 65 54 65">Llamar</a></div>
 
 <header class="barra" id="barra">
   <div class="marco barra-in">
     <a class="logo" href="/" aria-label="Guillem Polo · portada"><span class="punto"></span> Guillem Polo</a>
     <nav>
-      <a class="enl" href="#servicios">Servicios</a>
+      <a class="enl" href="#metodo">Cómo funciona</a>
+      <a class="enl" href="#servicios">Precios</a>
       <a class="enl" href="#ejemplos">Ejemplos</a>
-      <a class="enl" href="#metodo">Cómo trabajo</a>
       <a class="enl" href="#cuentas">Echa la cuenta</a>
       <a class="enl" href="#garantias">Garantías</a>
       <a class="enl" href="#socios">Socios</a>
-      <a class="btn" href="#contacto">Pedir presupuesto <span class="fl">→</span></a>
+      <a class="btn" href="https://wa.me/34688655465?text=Hola%20Guillem%2C%20quiero%20ver%20mi%20web%20gratis.%20Mi%20negocio%20es%3A%20" target="_blank" rel="noopener">Ver mi web gratis <span class="fl">→</span></a>
     </nav>
   </div>
 </header>
@@ -153,24 +160,25 @@
 <section class="hero">
   <div class="marco hero-grid">
     <div class="hero-txt">
-    <span class="eyebrow">Páginas web · Reseñas de Google</span>
+    <span class="eyebrow">Páginas web · Boceto gratis y sin compromiso</span>
     <h1>
-      <span class="l"><span>Tu negocio es bueno.</span></span>
-      <span class="l"><span>Por fuera</span></span>
-      <span class="l"><span><em>no lo parece.</em></span></span>
+      <span class="l"><span>Primero ves</span></span>
+      <span class="l"><span>tu web.</span></span>
+      <span class="l"><span>Si te gusta,</span></span>
+      <span class="l"><span><em>es tuya.</em></span></span>
     </h1>
-    <p class="hero-sub"><span class="sub-largo">El cliente te juzga antes de entrar: por tu web y por cómo contestas a tus reseñas de Google. Arreglo esas dos cosas. </span><span class="sub-corto">Páginas web y respuestas a tus reseñas de Google. </span><b>Te lo enseño montado antes de que pagues nada.</b></p>
+    <p class="hero-sub"><span class="sub-largo">Te preparo un boceto de la web de tu negocio con tu nombre, tus horarios y tus reseñas de Google, y te lo mando por WhatsApp para que lo mires en el móvil. </span><span class="sub-corto">Te preparo un boceto de la web de tu negocio con tus datos y te lo mando por WhatsApp. </span><b>Gratis y sin compromiso: si no te convence, no pagas nada.</b></p>
     <div class="hero-cta">
-      <a class="btn spot" href="#contacto">Pedir presupuesto <span class="fl">→</span></a>
-      <a class="btn ghost spot" href="#servicios">Ver los dos funcionando</a>
+      <a class="btn spot" href="https://wa.me/34688655465?text=Hola%20Guillem%2C%20quiero%20ver%20mi%20web%20gratis.%20Mi%20negocio%20es%3A%20" target="_blank" rel="noopener">Ver mi web gratis ya <span class="fl">→</span></a>
+      <a class="btn ghost spot" href="#metodo">Cómo funciona</a>
     </div>
     <nav class="toca-m" aria-label="Ejemplos para probar">
-      <a class="toca-c" href="/paginas-web#ejemplo"><i aria-hidden="true">01 · desde 190 € + IVA</i><b>Página web</b><span>Mira tres webs y prueba la calculadora y las citas</span><em aria-hidden="true">→</em></a>
+      <a class="toca-c" href="/paginas-web#ejemplo"><i aria-hidden="true">01 · boceto gratis</i><b>Página web</b><span>Mira tres webs y prueba la calculadora y las citas</span><em aria-hidden="true">→</em></a>
       <a class="toca-c" href="/resenas-google#vivo-res"><i aria-hidden="true">02 · desde 59 €/mes + IVA</i><b>Reseñas de Google</b><span>Escribe una reseña y mira qué contesta</span><em aria-hidden="true">→</em></a>
     </nav>
     <div class="cuatro">
-      <button class="q" data-ir="t-web"><i>01</i><b>Página web</b><span>desde 190 € + IVA</span></button>
-      <button class="q" data-ir="t-res"><i>02</i><b>Reseñas de Google</b><span>desde 59 €/mes + IVA</span></button>
+      <a class="q" href="#metodo"><i>01</i><b>Tu boceto</b><span>gratis · sin compromiso</span></a>
+      <button class="q" data-ir="t-web"><i>02</i><b>Tu web publicada</b><span>desde 490 € + IVA</span></button>
     </div>
     </div>
 
@@ -185,20 +193,20 @@
           </div>
           <div class="pz-tiras"><span>4,9 ★</span><span>Abierto hasta 20:30</span></div>
         </div>
-        <span class="pz-eti">Página web</span>
+        <span class="pz-eti">Ejemplo de boceto</span>
       </article>
 
       <article class="pz pz-res">
         <div class="pz-res-o">
-          <span class="pz-av">M</span>
-          <div><b>Marta E.</b><span class="pz-est">★★★★★</span></div>
+          <span class="pz-av">G</span>
+          <div><b>Guillem</b><span class="pz-wa">WhatsApp</span></div>
         </div>
-        <p class="pz-txt">«Muy contenta con el trato. Lo único, esperé veinte minutos de más…»</p>
+        <p class="pz-txt">«Hola, Marta. Te he preparado un boceto de tu web, con tus horarios y tus reseñas. Míralo en el móvil y me dices.»</p>
         <div class="pz-rp">
-          <span class="pz-ok"></span> Contestada sola · 4 min
-          <p>Gracias por decírnoslo, Marta. Tienes razón con la espera: hemos ampliado la agenda de las tardes.</p>
+          <span class="pz-ok"></span> Gratis · sin compromiso
+          <p>Si te gusta, es tuya. Si no te convence, no pagas nada.</p>
         </div>
-        <span class="pz-eti">Reseñas</span>
+        <span class="pz-eti">Tu boceto</span>
       </article>
 
     </div>
@@ -211,6 +219,23 @@
     <b>Clínicas dentales</b><i>◆</i><b>Fisioterapia</b><i>◆</i><b>Veterinarias</b><i>◆</i><b>Talleres de chapa y pintura</b><i>◆</i><b>Reformas</b><i>◆</i><b>Ópticas</b><i>◆</i><b>Autoescuelas</b><i>◆</i><b>Podología</b><i>◆</i><b>Gestorías</b><i>◆</i>
   </div>
 </div>
+
+<section class="sec" id="metodo">
+  <div class="marco">
+    <div class="sec-cab rev">
+      <span class="eyebrow">01 — Cómo funciona</span>
+      <h2>Primero ves tu boceto.<br>Luego decides.</h2>
+      <p>Sin pagar nada, sin dar datos de pago y sin compromiso. Si no te convence, ahí se acaba.</p>
+    </div>
+    <div class="pasos">
+      <article class="paso rev"><span class="dia">HOY</span><span class="num">01</span><h3 class="t4">Diez minutos</h3><p>Me cuentas qué vendes y qué te preguntan los clientes. Por teléfono o por WhatsApp, sin presentaciones.</p></article>
+      <article class="paso rev d1"><span class="dia">GRATIS</span><span class="num">02</span><h3 class="t4">Tu boceto, en el móvil</h3><p>Te mando por WhatsApp tu web montada con tu nombre, tus horarios y tus reseñas reales. No una plantilla: la tuya.</p></article>
+      <article class="paso rev d2"><span class="dia">SIN PRISA</span><span class="num">03</span><h3 class="t4">Tú decides</h3><p>¿No te convence? No pagas nada y no me debes nada. ¿Te gusta? Me dices qué cambiar: colores, textos, fotos o secciones.</p></article>
+      <article class="paso rev d3"><span class="dia">3 DÍAS</span><span class="num">04</span><h3 class="t4">Publicada y tuya</h3><p>Si seguimos, pagas la mitad al aceptar y la otra mitad a la entrega. Publicada con tu dominio, a tu nombre.</p></article>
+    </div>
+    <p class="boceto-cta rev"><a class="btn spot" href="https://wa.me/34688655465?text=Hola%20Guillem%2C%20quiero%20ver%20mi%20web%20gratis.%20Mi%20negocio%20es%3A%20" target="_blank" rel="noopener">Ver mi web gratis ya <span class="fl">→</span></a><span>Solo necesito el nombre de tu negocio y tu ciudad. Lo demás lo saco de tu ficha de Google.</span></p>
+  </div>
+</section>
 
 
 <section class="datos" id="datos">
@@ -251,9 +276,9 @@
 <section class="sec" id="servicios">
   <div class="marco">
     <div class="sec-cab rev">
-      <span class="eyebrow">01 — Los dos servicios</span>
-      <h2>Míralos funcionando<br>antes de preguntar precio</h2>
-      <p>Cada servicio trae su demostración: la web se arrastra y la reseña se contesta sola. Y debajo, lo que cuesta.</p>
+      <span class="eyebrow">02 — Precios</span>
+      <h2>Lo que cuesta<br>si te gusta tu boceto</h2>
+      <p>El boceto es gratis. Si decides seguir, estos son los precios, cerrados y sin sorpresas. Y si ya tienes reseñas que contestar, también me ocupo.</p>
     </div>
 
     <div class="rev d1">
@@ -280,16 +305,16 @@
               <article class="plan tilt">
                 <span class="plan-eti">Opción A</span><h4>Web básica</h4>
                 <p class="precio">490 €<small>+ IVA · pago único</small></p>
-                <p class="cuota">Después, 15 €/mes + IVA de dominio, alojamiento y mantenimiento.</p>
+                <p class="cuota">Después, 19 €/mes + IVA: alojamiento, dominio y cambios pequeños incluidos.</p>
                 <ul><li>Una página con hasta 5 secciones</li><li>Textos escritos por mí</li><li>Botón de llamar y de WhatsApp</li><li>Aviso legal y cookies en regla</li></ul>
                 <a class="enlace-f" href="/paginas-web#precio">Ver la página completa <span class="fl">→</span></a>
               </article>
               <article class="plan top tilt">
-                <span class="plan-eti">Opción B · la más contratada</span><h4>Web completa</h4>
+                <span class="plan-eti">Opción B · la que recomiendo</span><h4>Web completa</h4>
                 <p class="precio"><span class="antes">790 €</span>590 €<small>+ IVA · pago único</small></p>
                 <span class="ahorro">Ahorras 200 €</span>
                 <p class="porque">Por piezas: 490 € la básica, 180 € las tres páginas extra y 120 € la preparación para buscar por oficio y ciudad.</p>
-                <p class="cuota">Después, 15 €/mes + IVA de dominio, alojamiento y mantenimiento.</p>
+                <p class="cuota">Después, 19 €/mes + IVA: alojamiento, dominio y cambios pequeños incluidos.</p>
                 <ul><li class="mas">Todo lo anterior, y además:</li><li>Hasta 6 páginas, una por servicio</li><li>Panel para cambiarla tú</li><li>Medición de visitas y llamadas</li></ul>
                 <a class="enlace-f" href="/paginas-web#precio">Ver la página completa <span class="fl">→</span></a>
               </article>
@@ -402,7 +427,7 @@
 <section class="sec" id="ejemplos">
   <div class="marco">
     <div class="sec-cab rev">
-      <span class="eyebrow"><span class="en">02 — </span>Ejemplos</span>
+      <span class="eyebrow"><span class="en">03 — </span>Ejemplos</span>
       <h2>Los dos servicios,<br>con trabajo enseñado</h2>
       <p>Tres webs de oficios distintos y reseñas contestadas. Son ejemplos inventados: no enseño el trabajo de un cliente sin su permiso.</p>
     </div>
@@ -555,7 +580,7 @@
 <section class="sec" id="cuentas">
   <div class="marco">
     <div class="sec-cab rev">
-      <span class="eyebrow">03 — Echa la cuenta</span>
+      <span class="eyebrow">04 — Echa la cuenta</span>
       <h2>Qué te cuesta<br>la llamada que no coges</h2>
       <p>Mueve los tres mandos con tus números reales. No hace falta que me creas: sale de tu propia caja.</p>
     </div>
@@ -596,22 +621,6 @@
   </div>
 </section>
 
-<section class="sec" id="metodo">
-  <div class="marco">
-    <div class="sec-cab rev">
-      <span class="eyebrow">04 — Cómo trabajo</span>
-      <h2>Lo ves montado<br>antes de pagar nada</h2>
-      <p>Vale para los dos servicios: primero te lo enseño funcionando con lo tuyo, y si no te convence, ahí se acaba.</p>
-    </div>
-    <div class="pasos">
-      <article class="paso rev"><span class="dia">DÍA 0</span><span class="num">01</span><h3 class="t4">Veinte minutos</h3><p>Me cuentas qué te preguntan cada día por teléfono y qué te roba más tiempo. Sin presentación ni PowerPoint.</p></article>
-      <article class="paso rev d1"><span class="dia">DÍA 1</span><span class="num">02</span><h3 class="t4">La muestra, hecha</h3><p>La portada montada o diez respuestas a reseñas tuyas de verdad. Lo que toque.</p></article>
-      <article class="paso rev d2"><span class="dia">DÍA 2</span><span class="num">03</span><h3 class="t4">Montaje y ajustes</h3><p>Lo dejo funcionando con tus datos y tu tono, y tú corriges lo que no suene a ti. Los cambios del mismo día van en el día.</p></article>
-      <article class="paso rev d3"><span class="dia">DÍA 3</span><span class="num">04</span><h3 class="t4">En marcha y tuyo</h3><p>Publicado, con los accesos a tu nombre y enseñado en diez minutos para que lo lleves tú.</p></article>
-    </div>
-  </div>
-</section>
-
 <section class="sec" id="garantias">
   <div class="marco">
     <div class="sec-cab rev">
@@ -620,7 +629,7 @@
     </div>
     <div class="gars">
       <div class="gar rev"><h3 class="t4">Que suba el precio</h3><p>Precio cerrado antes de empezar. Si a mitad quieres algo más, se presupuesta aparte y decides tú.</p></div>
-      <div class="gar rev d1"><h3 class="t4">Que pagues por adelantado</h3><p>50 % al aceptar y 50 % a la entrega, cuando ya lo has visto funcionando.</p></div>
+      <div class="gar rev d1"><h3 class="t4">Que pagues a ciegas</h3><p>Primero ves tu boceto gratis. Si seguimos, 50 % al aceptar y 50 % a la entrega.</p></div>
       <div class="gar rev d2"><h3 class="t4">Que te quedes atado</h3><p>Catorce días para arrepentirte y cuotas que se cancelan cuando quieras, sin penalización.</p></div>
       <div class="gar rev"><h3 class="t4">Que los accesos sean míos</h3><p>Dominio, correo y cuentas se contratan a tu nombre. El día que te lo quieras llevar, no hay nada que te ate.</p></div>
       <div class="gar rev d1"><h3 class="t4">Que hables con un becario</h3><p>No hay cuenta, ni ticket, ni comercial. El que coge el teléfono es el que hace el trabajo.</p></div>
@@ -658,8 +667,8 @@
     </div>
     <div class="faq rev">
       <details>
-        <summary><span class="mas"></span>¿Tengo que pagar algo por adelantado?</summary>
-        <p class="resp">No. Monto tu web o tus respuestas a reseñas y te lo enseño funcionando con tus datos reales. Si no te convence, no pagas y no me debes nada. Se cobra al entregar.</p>
+        <summary><span class="mas"></span>¿El boceto es gratis de verdad?</summary>
+        <p class="resp">Sí. Te lo preparo con tus datos reales y te lo mando por WhatsApp. No te pido tarjeta ni datos de pago, y si no te convence, ahí se acaba. Solo pagas si decides seguir: 50 % al aceptar y 50 % a la entrega.</p>
       </details>
       <details>
         <summary><span class="mas"></span>¿Cuánto se tarda de verdad?</summary>
@@ -671,11 +680,11 @@
       </details>
       <details>
         <summary><span class="mas"></span>¿Qué pasa si quiero cambiar cosas después?</summary>
-        <p class="resp">Los primeros 14 días, los cambios que quieras sin coste. Después, los textos y las fotos los cambias tú desde el panel; si quieres una página nueva, son 60 € + IVA cada una.</p>
+        <p class="resp">Los primeros 14 días, los cambios que quieras sin coste. Después, con la cuota de 19 €/mes, los cambios pequeños (textos, fotos, horarios, precios) te los hago yo, hasta media hora al mes. Una página nueva son 60 € + IVA.</p>
       </details>
       <details>
         <summary><span class="mas"></span>¿Hay cuota mensual obligatoria?</summary>
-        <p class="resp">Solo la del dominio, el alojamiento y el mantenimiento, desde 15 €/mes + IVA, y puedes contratarlos tú por tu cuenta si prefieres. Las reseñas sí llevan cuota, desde 59 €/mes + IVA y sin coste de alta, porque se contestan todos los días; se cancela cuando quieras. El arreglo de una web no lleva cuota.</p>
+        <p class="resp">En la web, 19 €/mes + IVA: alojamiento, dominio y cambios pequeños incluidos. Si prefieres contratar tú el alojamiento por tu cuenta, también se puede. Las reseñas sí llevan cuota, desde 59 €/mes + IVA y sin coste de alta, porque se contestan todos los días; se cancela cuando quieras. El arreglo de una web no lleva cuota.</p>
       </details>
       <details>
         <summary><span class="mas"></span>¿Las respuestas a las reseñas suenan a robot?</summary>
@@ -696,9 +705,9 @@
 <section class="sec" id="contacto">
   <div class="marco contacto">
     <div class="rev">
-      <span class="eyebrow">08 — Contacto</span>
-      <h2 style="font-size:clamp(2.1rem,5.2vw,3.8rem);text-transform:uppercase;margin-top:14px">Cuéntame qué<br>necesitas</h2>
-      <p style="color:var(--tinta-2);max-width:52ch;margin-top:16px">Rellena esto en un minuto y te contesto el mismo día con precio cerrado y fecha de entrega. Si veo que no te compensa, te lo digo y no insisto.</p>
+      <span class="eyebrow">08 — Tu boceto</span>
+      <h2 style="font-size:clamp(2.1rem,5.2vw,3.8rem);text-transform:uppercase;margin-top:14px">Pide tu<br>boceto gratis</h2>
+      <p style="color:var(--tinta-2);max-width:52ch;margin-top:16px">Rellena esto en un minuto y te preparo el boceto de tu web con tus datos. Te lo mando por WhatsApp, gratis y sin compromiso. Si veo que no te compensa, te lo digo y no insisto.</p>
 
       <form class="form" id="form-contacto" style="margin-top:24px" novalidate>
         <div class="form-rej">
@@ -721,8 +730,8 @@
           <div class="campo ancho">
             <label for="f-servicio">Qué te interesa</label>
             <select id="f-servicio" name="servicio">
+              <option>Web nueva: quiero ver mi boceto gratis</option>
               <option>Arreglar la web que ya tengo</option>
-              <option>Web nueva (básica o completa)</option>
               <option>Reseñas de Google contestadas</option>
               <option>Todavía no lo sé, quiero que me lo digas tú</option>
             </select>
@@ -732,38 +741,38 @@
             <input type="text" id="f-webactual" name="web" inputmode="url" placeholder="www.tunegocio.es · o escribe «no tengo»">
           </div>
           <div class="campo ancho">
-            <label for="f-texto">Qué te gustaría quitarte de encima</label>
+            <label for="f-texto">Algo que quieras que tenga tu web <i>opcional</i></label>
             <textarea id="f-texto" name="mensaje" placeholder="Ejemplo: se me escapan las llamadas por la tarde y no tengo dónde mandar a la gente que me pide precios."></textarea>
           </div>
         </div>
         <div class="pie-f">
-          <button class="btn spot" type="submit">Enviar y que me llames <span class="fl">→</span></button>
-          <p class="nota">Se abre tu correo con todo escrito. No guardo tus datos en ningún sitio ni te apunto a ninguna lista.</p>
+          <button class="btn spot" type="submit">Pedir mi boceto gratis <span class="fl">→</span></button>
+          <p class="nota">Se abre WhatsApp con todo escrito y solo tienes que enviarlo. No guardo tus datos en ningún sitio ni te apunto a ninguna lista.</p>
         </div>
       </form>
     </div>
 
     <div class="rev d1">
-      <h3 style="font-size:1.15rem;letter-spacing:-.02em">Lo que necesito de ti para empezar</h3>
+      <h3 style="font-size:1.15rem;letter-spacing:-.02em">Lo que necesito de ti</h3>
       <ul class="necesito">
-        <li><span class="n">01</span><span><b>El nombre y a quién pregunto</b>Nada más para la primera llamada de veinte minutos.</span></li>
-        <li><span class="n">02</span><span><b>Qué haces y qué no</b>Los cuatro o cinco servicios que quieres que salgan, con precio si quieres que aparezca.</span></li>
+        <li><span class="n">01</span><span><b>Para el boceto, solo el nombre</b>El de tu negocio y tu ciudad. Lo demás lo saco de tu ficha de Google.</span></li>
+        <li><span class="n">02</span><span><b>Si seguimos: qué haces y qué no</b>Los cuatro o cinco servicios que quieres que salgan, con precio si quieres que aparezca.</span></li>
         <li><span class="n">03</span><span><b>Horarios, dirección y teléfono</b>Tal y como quieres que salgan escritos.</span></li>
         <li><span class="n">04</span><span><b>Ocho fotos</b>Fachada, sala, un trabajo hecho, alguien trabajando y tu cara. Si no las tienes, te digo cómo hacerlas con el móvil.</span></li>
         <li><span class="n">05</span><span><b>Acceso a tu ficha de Google</b>Solo para las reseñas y para enlazar la web. Se hace en dos minutos y no hace falta que me des tu contraseña.</span></li>
       </ul>
 
       <div class="ficha">
-        <div class="fl-d"><span>Contesto en</span><b>Menos de 24 h laborables</b></div>
+        <div class="fl-d"><span>Se paga</span><b>50 % al aceptar, 50 % al entregar</b></div>
         <div class="fl-d"><span>Entrega</span><b>3 días desde que tengo el material</b></div>
         <div class="fl-d"><span>Zona</span><b>Toda España, en remoto</b></div>
         <div class="fl-d"><span>Horario</span><b>L a V · 9:00 a 20:00</b></div>
-        <div class="fl-d"><span>Se paga</span><b>Al entregar, no antes</b></div>
+        <div class="fl-d"><span>Boceto</span><b class="ok">Gratis, sin compromiso</b></div>
         <div class="fl-d"><span>Garantía</span><b class="ok">14 días</b></div>
       </div>
 
       <div class="canales" style="margin-top:18px">
-        <a class="canal" href="https://wa.me/34688655465?text=Hola%20Guillem%2C%20vengo%20de%20tu%20web" target="_blank" rel="noopener"><span><span class="k">WhatsApp · lo más rápido</span><br><span class="v mono">688 65 54 65</span></span><span class="fl">→</span></a>
+        <a class="canal" href="https://wa.me/34688655465?text=Hola%20Guillem%2C%20quiero%20ver%20mi%20web%20gratis.%20Mi%20negocio%20es%3A%20" target="_blank" rel="noopener"><span><span class="k">WhatsApp · lo más rápido</span><br><span class="v mono">688 65 54 65</span></span><span class="fl">→</span></a>
         <a class="canal" href="tel:+34688655465"><span><span class="k">Llamar</span><br><span class="v mono">688 65 54 65</span></span><span class="fl">→</span></a>
         <a class="canal" href="mailto:guillem@guillempolo.es"><span><span class="k">Correo</span><br><span class="v">guillem@guillempolo.es</span></span><span class="fl">→</span></a>
         <a class="canal" href="/condiciones"><span><span class="k">Condiciones</span><br><span class="v">Pagos, plazos y garantía</span></span><span class="fl">→</span></a>
@@ -777,7 +786,7 @@
 <footer>
   <div class="marco">
     <div class="pie-grid">
-      <div style="max-width:32ch"><strong style="color:var(--tinta)">Guillem Polo</strong><br>Webs y reseñas de Google para negocios.</div>
+      <div style="max-width:32ch"><strong style="color:var(--tinta)">Guillem Polo</strong><br>Webs para negocios. Primero ves tu boceto gratis.</div>
       <div><a href="/paginas-web">Páginas web</a> · <a href="/resenas-google">Reseñas</a></div>
       <div><a href="/socios">Programa de socios</a> · <a href="/condiciones">Condiciones y devoluciones</a><br><a href="/aviso-legal">Aviso legal</a> · <a href="/privacidad">Privacidad</a> · <a href="/cookies">Cookies</a></div>
     </div>
@@ -1050,12 +1059,11 @@
         'Le interesa: ' + v('f-servicio'),
         'Web actual: ' + (v('f-webactual') || '(no lo ha puesto)'),
         '',
-        'Qué quiere quitarse de encima:',
+        'Lo que quiere en su web:',
         v('f-texto') || '(no ha escrito nada)'
       ].join('\n');
-      var asunto = 'Presupuesto · ' + v('f-negocio');
-      window.location.href = 'mailto:guillem@guillempolo.es?subject=' +
-        encodeURIComponent(asunto) + '&body=' + encodeURIComponent(cuerpo);
+      var texto = 'Hola Guillem, quiero ver mi web gratis.\n\n' + cuerpo;
+      window.open('https://wa.me/34688655465?text=' + encodeURIComponent(texto), '_blank', 'noopener');
     });
   }
 
@@ -1087,5 +1095,15 @@
 })();
 </script>
 
+<a class="wa-flota" id="wa-flota" href="https://wa.me/34688655465?text=Hola%20Guillem%2C%20quiero%20ver%20mi%20web%20gratis.%20Mi%20negocio%20es%3A%20" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.02c-.24.68-1.42 1.3-1.95 1.34-.5.05-.97.23-3.27-.68-2.77-1.09-4.52-3.93-4.66-4.11-.13-.18-1.1-1.47-1.1-2.8 0-1.33.7-1.99.95-2.26.24-.27.53-.34.71-.34l.51.01c.16.01.38-.06.6.46.24.55.8 1.9.87 2.04.07.14.12.3.02.48-.09.18-.14.3-.27.46-.14.16-.29.36-.41.48-.14.14-.28.29-.12.56.16.27.71 1.17 1.52 1.9 1.05.93 1.93 1.22 2.2 1.36.27.14.43.11.59-.07.16-.18.68-.79.86-1.06.18-.27.36-.23.61-.14.25.09 1.58.75 1.85.88.27.14.45.2.52.32.07.11.07.66-.17 1.33z"/></svg><span>Ver mi web gratis ya</span></a>
+<style>
+.wa-flota{position:fixed;right:24px;bottom:24px;z-index:70;display:flex;align-items:center;gap:10px;padding:14px 20px 14px 16px;border-radius:999px;background:#177A43;color:#fff;font-family:"Instrument Sans",sans-serif;font-weight:700;font-size:.98rem;text-decoration:none;box-shadow:0 10px 30px rgba(23,122,67,.35);opacity:0;transform:translateY(16px);pointer-events:none;transition:opacity .35s ease,transform .35s ease,background .2s}
+.wa-flota svg{width:22px;height:22px;flex:none}
+.wa-flota.dentro{opacity:1;transform:none;pointer-events:auto}
+.wa-flota:hover{background:#136638}
+@media (max-width:760px){.wa-flota{display:none}}
+@media (prefers-reduced-motion:reduce){.wa-flota{transition:none}}
+</style>
+<script>(function(){var f=document.getElementById('wa-flota');if(!f)return;var v=function(){f.classList.toggle('dentro',window.scrollY>480)};v();window.addEventListener('scroll',v,{passive:true});})();</script>
 </body>
 </html>

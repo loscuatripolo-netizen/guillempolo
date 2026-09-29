@@ -414,7 +414,7 @@ details p a{color:var(--fram-2);font-weight:700}
 <section class="confianza" aria-label="Datos de la tienda">
   <div class="envol conf-in">
     <div class="conf"><b>4,8 <span class="estrellas" role="img" aria-label="4,8 de 5 estrellas"><svg viewBox="0 0 20 20" aria-hidden="true"><polygon points="10.0,1.0 12.5,7.0 19.0,7.6 14.1,11.8 15.6,18.2 10.0,14.8 4.4,18.2 5.9,11.8 1.0,7.6 7.5,7.0" fill="currentColor"/></svg><svg viewBox="0 0 20 20" aria-hidden="true"><polygon points="10.0,1.0 12.5,7.0 19.0,7.6 14.1,11.8 15.6,18.2 10.0,14.8 4.4,18.2 5.9,11.8 1.0,7.6 7.5,7.0" fill="currentColor"/></svg><svg viewBox="0 0 20 20" aria-hidden="true"><polygon points="10.0,1.0 12.5,7.0 19.0,7.6 14.1,11.8 15.6,18.2 10.0,14.8 4.4,18.2 5.9,11.8 1.0,7.6 7.5,7.0" fill="currentColor"/></svg><svg viewBox="0 0 20 20" aria-hidden="true"><polygon points="10.0,1.0 12.5,7.0 19.0,7.6 14.1,11.8 15.6,18.2 10.0,14.8 4.4,18.2 5.9,11.8 1.0,7.6 7.5,7.0" fill="currentColor"/></svg><svg viewBox="0 0 20 20" aria-hidden="true"><polygon points="10.0,1.0 12.5,7.0 19.0,7.6 14.1,11.8 15.6,18.2 10.0,14.8 4.4,18.2 5.9,11.8 1.0,7.6 7.5,7.0" fill="currentColor"/></svg></span></b><small>128 reseñas en Google</small></div>
-    <div class="conf" data-estado><b><i class="luz"></i><span data-estado-txt>Horario</span></b><small>L–V 10:00–13:30 y 17:30–20:00 · Sáb. 10:30–13:00</small></div>
+    <div class="conf" data-estado><b><i class="luz"></i><span data-estado-txt>Horario</span></b><small>L–V 10:00–13:30 y 17:30–20:00 · Sáb. 10:30–⁠13:00</small></div>
     <div class="conf"><b>Pozo Amarillo, 28</b><small>Centro · junto al Mercado Central</small></div>
     <div class="conf"><b>Hecho a mano</b><small>Tartas por encargo, con flores pequeñas y su nombre</small></div>
   </div>
@@ -445,7 +445,7 @@ details p a{color:var(--fram-2);font-weight:700}
           <svg class="trazo" viewBox="0 0 120 10" aria-hidden="true"><path d="M2 5C40 9 80 1 118 6"/></svg>
           <ul>
             <li><b>Cupcakes</b><span><q>Deliciosos</q>, dicen en Google.</span></li>
-            <li><b>Muffins y magdalenas</b><span><q>Una magdalena de plátano y estaba buenísima</q>.</span></li>
+            <li><b>Muffins y magdalenas</b><span><q>Compramos una magdalena de plátano y estaba buenísima</q>.</span></li>
             <li><b>Cookies</b></li>
             <li><b>Brownies</b></li>
           </ul>
@@ -489,11 +489,11 @@ details p a{color:var(--fram-2);font-weight:700}
     <div class="op-grid">
       <figure class="res res-destacada rev">
         <span class="comilla" aria-hidden="true">“</span>
-        <blockquote>Un espacio coqueto, tranquilo, pequeño, en el que nada más entrar se percibe el aroma de la mejor repostería artesanal… Y su hacedora, Toni, siempre cuidando que una tarta de cumpleaños no sólo sea magnífica por su apariencia (flores pequeñas, un nombre etc) sino <mark>recordada por su buen sabor</mark>. Mis hijos aún no han descubierto mejor Velvet que el de ella… Merece la pena muchísimo!</blockquote>
+        <blockquote>Un espacio coqueto, tranquilo, pequeño, en el que nada más entrar se percibe el aroma de la mejor repostería artesanal… Y su hacedora, Toni, siempre cuidando que una tarta de cumpleaños no solo sea magnífica por su apariencia (flores pequeñas, un nombre, etc.) sino <mark>recordada por su buen sabor</mark>. Mis hijos aún no han descubierto mejor Velvet que el de ella… ¡Merece la pena muchísimo!</blockquote>
         <footer><span class="ini" aria-hidden="true">I</span><div><b>Isabel De Páiz</b><br><span>hace 4 meses</span></div><span class="google">Reseña en Google</span></footer>
       </figure>
       <figure class="res rev">
-        <blockquote>«La tarta buenísima e hizo exactamente lo que le pedí. Súper contenta con el trato y el buen trabajo. Repetiremos seguro!»</blockquote>
+        <blockquote>«La tarta buenísima e hizo exactamente lo que le pedí. Súper contenta con el trato y el buen trabajo. ¡Repetiremos seguro!»</blockquote>
         <footer><span class="ini" aria-hidden="true">E</span><div><b>Elena Rico García</b><br><span>hace 3 semanas</span></div></footer>
       </figure>
       <figure class="res rev">
@@ -651,8 +651,8 @@ details p a{color:var(--fram-2);font-weight:700}
   var revs=[].slice.call(document.querySelectorAll('.rev'));
   if(reducido||!('IntersectionObserver' in window)){ revs.forEach(function(r){r.classList.add('dentro')}); }
   else{
-    var io=new IntersectionObserver(function(es){es.forEach(function(en){ if(en.isIntersecting){ var el=en.target,k=[].indexOf.call(el.parentNode.children,el)%3; setTimeout(function(){el.classList.add('dentro')},k*110); io.unobserve(el);} })},{rootMargin:'0px 0px -8% 0px',threshold:.08});
-    revs.forEach(function(r){io.observe(r)});
+    var io=new IntersectionObserver(function(es){es.forEach(function(en){ if(en.isIntersecting){ var el=en.target; if(el.classList.contains('pizarra')){ el=el.querySelector('.tabla'); } var k=[].indexOf.call(el.parentNode.children,el)%3; setTimeout(function(){el.classList.add('dentro')},k*110); io.unobserve(en.target);} })},{rootMargin:'0px 0px -8% 0px',threshold:.08});
+    revs.forEach(function(r){io.observe(r.classList.contains('tabla')?r.parentNode:r)});
   }
 
   /* ---- formulario → WhatsApp ---- */

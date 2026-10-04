@@ -18,11 +18,14 @@
 
   listo(function(){
 
+    /* si la portada tiene entrada (gp-intro), el titular ya llega colocado: aquí solo entra el resto */
+    var intro = window.__gpIntro === true;
+
     /* ---------- 1. portada: titular letra a letra ---------- */
     var h1 = document.querySelector('.hero h1');
-    var tl = g.timeline({defaults:{ease:'power4.out'}});
+    var tl = g.timeline({defaults:{ease:'power4.out'}, paused:intro});
 
-    if(h1){
+    if(h1 && !intro){
       var lineas = h1.querySelectorAll('.l > span');
       var chars = null;
       if(Split && lineas.length){
@@ -39,8 +42,8 @@
       }
     }
 
-    tl.from('.hero .eyebrow', {y:14, opacity:0, duration:.7}, .05)
-      .to('.hero-sub',   {opacity:1, duration:.8}, .4)
+    if(!intro) tl.from('.hero .eyebrow', {y:14, opacity:0, duration:.7}, .05);
+    tl.to('.hero-sub',   {opacity:1, duration:.8}, .4)
       .from('.hero-sub', {y:20, duration:.9}, .4)
       .to('.hero-cta',   {opacity:1, duration:.6}, .55)
       .from('.hero-cta > *', {y:18, opacity:0, duration:.8, stagger:.09}, .55)
@@ -50,7 +53,8 @@
 
     /* red de seguridad: pase lo que pase, a los 3 segundos la portada está entera.
        En un móvil lento o en una pestaña en segundo plano nadie se queda mirando un hueco. */
-    setTimeout(function(){ if(tl.progress() < 1) tl.progress(1); }, 3000);
+    if(intro) document.addEventListener('gp-intro-fin', function(){ tl.play(0); }, {once:true});
+    setTimeout(function(){ if(tl.progress() < 1) tl.progress(1); }, intro ? 7000 : 3000);
 
 
     /* la escena del hero entra detrás del titular */

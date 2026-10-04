@@ -75,6 +75,14 @@
   ]
 }
 </script>
+<style id="gp-intro-css">html.gp-pre body{visibility:hidden}html.gp-pre .gp-telon{visibility:visible}
+.gp-telon{position:fixed;inset:0;z-index:2147483000;overflow:hidden;cursor:pointer}
+.gp-fondo{position:absolute;inset:0}
+.gp-pieza{position:fixed!important;margin:0!important;box-sizing:border-box;transform-origin:0 0;z-index:1;pointer-events:none}
+.gp-ch{display:inline-block;transform:translateY(112%);animation:gp-sube .85s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes gp-sube{to{transform:none}}
+@media (prefers-reduced-motion:reduce){.gp-telon{display:none!important}}</style>
+<script>try{if(/^\/(index\.html)?$/.test(location.pathname)&&!location.hash&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!navigator.webdriver&&sessionStorage.getItem('gp-intro')!=='1'){document.documentElement.classList.add('gp-pre');setTimeout(function(){if(!window.__gpIntro)document.documentElement.classList.remove('gp-pre')},1300)}}catch(e){}</script>
 </head>
 <body>
 <a class="salta" href="#contacto">Saltar al contacto</a>
@@ -1105,5 +1113,6 @@ a.q{text-decoration:none;color:inherit}
 @media (prefers-reduced-motion:reduce){.wa-flota{transition:none}}
 </style>
 <script>(function(){var f=document.getElementById('wa-flota');if(!f)return;var v=function(){f.classList.toggle('dentro',window.scrollY>480)};v();window.addEventListener('scroll',v,{passive:true});})();</script>
+<script src="/gp-intro.js"></script>
 </body>
 </html>

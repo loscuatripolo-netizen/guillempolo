@@ -6,7 +6,7 @@
   function fin() { H.classList.remove('gp-pre'); window.__gpIntro = false; d.dispatchEvent(new Event('gp-intro-fin')); }
   if (!H.classList.contains('gp-pre')) return;
   var h1 = d.querySelector('.hero h1'), logo = d.querySelector('.barra .logo'), ceja = d.querySelector('.hero .eyebrow');
-  if (!h1 || !logo || performance.now() > 1200) { fin(); return; }
+  if (!h1 || !logo || performance.now() > 1200||(navigator.connection&&(navigator.connection.saveData||/2g/.test(navigator.connection.effectiveType||'')))) { fin(); return; }
   window.__gpIntro = true;
   try { sessionStorage.setItem('gp-intro', '1'); } catch (e) {}
 

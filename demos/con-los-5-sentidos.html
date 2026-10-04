@@ -445,6 +445,23 @@ legend,.lbl{font:800 13px var(--txt);letter-spacing:.1em;text-transform:uppercas
 .mapa.con-foto>img{position:absolute;inset:0}
 @media (prefers-reduced-motion:reduce){.js .escena.con-foto .marco-hero{opacity:1!important;transform:none!important}}
 @media (max-width:640px){.hero .escena{display:none}}
+/* compacto (04/10): 5 sentidos en tarjetas pequeñas y títulos más contenidos */
+.sentidos{height:auto!important}
+.sentidos-fijo{position:relative!important;height:auto!important;padding:clamp(64px,8vw,96px) 0!important;overflow:visible!important}
+.barra-sent{display:none!important}
+.pista{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;max-width:1260px;width:100%!important;min-width:0!important;box-sizing:border-box;margin:0 auto!important;padding:0 20px!important;transform:none!important}
+.panel{width:auto!important;min-height:0!important;display:flex!important;flex-direction:column;align-items:flex-start!important;gap:10px;padding:22px!important;border-radius:24px!important}
+.panel svg{order:-1;width:52px!important;height:52px!important;max-width:none!important;margin:0!important}
+.panel .n{font-size:11px!important}
+.panel h3{font-size:clamp(24px,2vw,30px)!important;margin:2px 0 6px!important}
+.panel p{font-size:15px!important;line-height:1.5}
+.panel blockquote{font-size:13.5px!important;margin-top:12px!important;padding-left:12px!important}
+@media (max-width:980px){.pista{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:minmax(240px,74%);overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px!important;scrollbar-width:none}.pista::-webkit-scrollbar{display:none}.panel{scroll-snap-align:center}}
+.hero h1{font-size:clamp(40px,4.8vw,68px)!important}
+.cabeza h2{font-size:clamp(30px,3.4vw,48px)!important}
+.sentidos-cab h2,.carrusel-cab h2{font-size:clamp(28px,2.8vw,40px)!important}
+.final h2{font-size:clamp(36px,4.8vw,68px)!important}
+@media (max-width:640px){.hero h1{font-size:clamp(34px,9.4vw,42px)!important}.cabeza h2{font-size:29px!important}.sentidos-cab h2,.carrusel-cab h2{font-size:26px!important}.final h2{font-size:34px!important}}
 </style>
 <style id="wow-css">
 :root{--wow1:#333;--wow2:#999;--wow-curva:cubic-bezier(.16,1,.3,1)}

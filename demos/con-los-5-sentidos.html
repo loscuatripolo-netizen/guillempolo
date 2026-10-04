@@ -503,7 +503,7 @@ a:hover>.wow-brillo,button:hover>.wow-brillo{animation:wow-brilla .9s var(--wow-
 html.wow-pre body{visibility:hidden}html.wow-pre .wow-telon{visibility:visible}
 @media (prefers-reduced-motion:reduce){.wow-telon,.wow-luz,.wow-barra,.wow-brillo,.wow-glare{display:none!important}.wow-c,.wow-img,.wow-h .wp>span{opacity:1!important;transform:none!important;filter:none!important;clip-path:none!important}}
 </style>
-<script>try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!navigator.webdriver&&sessionStorage.getItem('wow-telon')!=='1'){document.documentElement.classList.add('wow-pre');setTimeout(function(){if(document.documentElement.classList.contains('wow-pre')){document.documentElement.classList.remove('wow-pre');window.__wowTarde=1}},1200)}}catch(e){}</script>
+<script>try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!navigator.webdriver&&!(navigator.connection&&(navigator.connection.saveData||/2g/.test(navigator.connection.effectiveType||'')))&&sessionStorage.getItem('wow-telon')!=='1'){document.documentElement.classList.add('wow-pre');setTimeout(function(){if(document.documentElement.classList.contains('wow-pre')){document.documentElement.classList.remove('wow-pre');window.__wowTarde=1}},1200)}}catch(e){}</script>
 </head>
 <body>
 
@@ -794,7 +794,7 @@ html.wow-pre body{visibility:hidden}html.wow-pre .wow-telon{visibility:visible}
 </script>
 <script id="wow-js">
 (function(){
-var R=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches; if(R||navigator.webdriver){document.documentElement.classList.remove('wow-pre');return}
+var R=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches; if(R||navigator.webdriver||(navigator.connection&&(navigator.connection.saveData||/2g/.test(navigator.connection.effectiveType||'')))){document.documentElement.classList.remove('wow-pre');return}
 var d=document, H=d.documentElement, fino=matchMedia('(hover:hover) and (pointer:fine)').matches;
 function col(s){var c=getComputedStyle(s);return c.backgroundColor}
 function op(c){var m=(c||'').match(/rgba?\(([^)]+)\)/);if(!m)return 0;var p=m[1].split(',');return p.length>3?+p[3]:1}

@@ -315,7 +315,79 @@ p{margin:0}
   .js .trazo path{stroke-dashoffset:0}
   .js .papel .hoja{transform:none}
 }
+
+@media (max-width:600px){.polaroid{max-width:92%;margin-inline:auto}}
+/* carrusel de opiniones (05/10) */
+.carr{position:relative}
+.carr-pista{display:flex;gap:26px;overflow-x:auto;scroll-snap-type:x mandatory;padding:22px 6px 30px;margin:0 -6px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.carr-pista::-webkit-scrollbar{display:none}
+.carr-pista .nota{flex:0 0 calc((100% - 52px)/3);scroll-snap-align:start}
+.carr-ctrl{display:flex;justify-content:center;gap:12px;margin-top:6px}
+.carr-btn{width:46px;height:46px;border-radius:50%;border:1.5px solid currentColor;background:transparent;color:var(--tinta);display:grid;place-items:center;cursor:pointer;transition:background .3s,color .3s}
+.carr-btn:hover{background:var(--tinta);color:#fff}
+.carr-btn svg{width:20px;height:20px}
+.mas-opiniones{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+@media (max-width:900px){.carr-pista .nota{flex-basis:calc((100% - 26px)/2)}}
+@media (max-width:600px){.carr-pista .nota{flex-basis:84%}.carr-pista{gap:16px}}
 </style>
+<style id="wow-css">
+:root{--wow1:#333;--wow2:#999;--wow-curva:cubic-bezier(.16,1,.3,1)}
+.wow-barra{position:fixed;left:0;top:0;height:3px;width:100%;z-index:2147483000;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--wow1),var(--wow2));pointer-events:none}
+.wow-telon{position:fixed;inset:0;z-index:2147483001;pointer-events:auto;overflow:hidden;cursor:pointer}
+.wt-fondo{position:absolute;inset:0;transition:opacity .8s cubic-bezier(.65,0,.35,1) .1s}
+.wt-tintes{position:absolute;inset:0;animation:wt-respira 5s ease-in-out infinite alternate}
+.wt-pieza{position:fixed;margin:0!important;box-sizing:border-box;transform-origin:0 0;will-change:transform,opacity;pointer-events:none}
+.wt-pieza .wp{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.1em;margin-bottom:-.1em}
+.wt-pieza .wp>span{display:inline-block;transform:translateY(108%);animation:wt-letra .9s cubic-bezier(.16,1,.3,1) forwards}
+.wt-part{position:absolute;inset:0;pointer-events:none}
+.wt-part i{position:absolute;display:block;opacity:0;animation:wt-pop .7s cubic-bezier(.34,1.56,.64,1) forwards,wt-flota 3.4s ease-in-out infinite alternate;transition:transform .9s cubic-bezier(.16,1,.3,1),opacity .6s}
+.wt-part .p0{border-radius:50%}
+.wt-part .p1{border-radius:50%;background:none!important;border:2.5px solid var(--c)}
+.wt-part .p2{background:none!important}.wt-part .p2::before,.wt-part .p2::after{content:"";position:absolute;left:40%;top:0;width:20%;height:100%;border-radius:2px;background:var(--c)}.wt-part .p2::after{transform:rotate(90deg)}
+.wt-part .p3{border-radius:2px;height:auto!important;aspect-ratio:3.2/1}
+.wt-part .p4{border-radius:50% 50% 50% 0}
+.wt-nota{position:fixed;left:50%;display:inline-flex;align-items:center;gap:10px;padding:8px 16px 8px 8px;border-radius:999px;background:#fff;color:var(--wt-tinta);font:700 15px/1 var(--wt-letra,inherit);white-space:nowrap;box-shadow:0 1px 0 rgba(0,0,0,.04),0 14px 34px -16px rgba(0,0,0,.35);border:1px solid color-mix(in srgb,var(--wt-tinta) 10%,transparent);opacity:0;transform:translate(-50%,16px) scale(.92);animation:wt-nota .7s cubic-bezier(.34,1.56,.64,1) .85s forwards;transition:opacity .4s,transform .5s cubic-bezier(.16,1,.3,1)}
+.wt-nota b{display:inline-grid;place-items:center;height:28px;padding:0 10px;border-radius:999px;background:var(--p1);color:var(--p1-txt,#fff)}
+.wt-nota i{font-style:normal;color:#F5B301;letter-spacing:1px;font-size:14px}
+.wt-carga{position:absolute;left:50%;bottom:clamp(22px,5vh,48px);width:min(200px,46vw);height:3px;transform:translateX(-50%);border-radius:3px;background:color-mix(in srgb,var(--wt-tinta) 10%,transparent);overflow:hidden;transition:opacity .3s}
+.wt-carga i{display:block;height:100%;background:linear-gradient(90deg,var(--p1),var(--p2),var(--p3));transform-origin:0 50%;transform:scaleX(0);animation:wt-cinta 2s cubic-bezier(.65,0,.35,1) .1s forwards}
+.wow-telon.fuera{pointer-events:none}
+.wow-telon.fuera .wt-fondo{opacity:0}
+.wow-telon.fuera .wt-carga{opacity:0}
+.wow-telon.fuera .wt-nota{opacity:0;transform:translate(-50%,-10px) scale(.9);transition:opacity .2s,transform .3s}
+@keyframes wt-letra{to{transform:none}}
+@keyframes wt-nota{to{opacity:1;transform:translate(-50%,0) scale(1)}}
+@keyframes wt-cinta{to{transform:scaleX(1)}}
+@keyframes wt-pop{from{opacity:0;scale:0}to{opacity:var(--o,.9);scale:1}}
+@keyframes wt-flota{to{translate:var(--dx) var(--dy);rotate:var(--r)}}
+@keyframes wt-respira{to{transform:scale(1.08);opacity:.85}}
+.wow-h .wp{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em;margin-bottom:-.08em}
+.wow-h .wp>span{display:inline-block;transform:translateY(105%);transition:transform 1s var(--wow-curva)}
+.wow-h.wow-in .wp>span{transform:none}
+.wow-c{opacity:0;transform:translateY(28px);transition:opacity .9s var(--wow-curva),transform 1.1s var(--wow-curva)}
+.wow-c.wow-in{opacity:1;transform:none;filter:none}
+.wow-tilt{transform-style:preserve-3d;will-change:transform}
+.wow-tilt.wow-in{transition:transform .5s var(--wow-curva),box-shadow .5s var(--wow-curva)}
+.wow-tilt.wow-on{box-shadow:0 30px 60px -28px color-mix(in srgb,var(--wow1) 55%,transparent)!important}
+.wow-glare{position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .4s;background:radial-gradient(420px circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.55),transparent 45%);mix-blend-mode:soft-light;z-index:5}
+.wow-tilt.wow-on .wow-glare{opacity:1}
+.wow-img{opacity:0;transform:scale(1.04);transition:opacity 1.1s var(--wow-curva),transform 1.6s var(--wow-curva)}
+.wow-img.wow-in{opacity:1;transform:none}
+.wow-brillo{position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.55) 48%,transparent 66%) no-repeat;background-size:250% 100%;background-position:150% 0;mix-blend-mode:overlay}
+a:hover>.wow-brillo,button:hover>.wow-brillo{animation:wow-brilla .9s var(--wow-curva)}
+@keyframes wow-brilla{to{background-position:-60% 0}}
+.wow-onda{position:absolute;border-radius:50%;pointer-events:none;transform:scale(0);opacity:.45;background:currentColor;animation:wow-onda .7s ease-out forwards}
+@keyframes wow-onda{to{transform:scale(1);opacity:0}}
+.wow-luz{position:fixed;left:0;top:0;width:520px;height:520px;margin:-260px 0 0 -260px;border-radius:50%;pointer-events:none;z-index:0;opacity:0;transition:opacity .6s;background:radial-gradient(circle,color-mix(in srgb,var(--wow2) 22%,transparent),transparent 65%);filter:blur(10px)}
+.wow-luz.on{opacity:1}
+.wow-pulso{animation:wow-pulso 1.1s var(--wow-curva)}
+@keyframes wow-pulso{0%{box-shadow:inset 0 0 0 0 color-mix(in srgb,var(--wow1) 0%,transparent)}30%{box-shadow:inset 0 0 0 4px color-mix(in srgb,var(--wow1) 45%,transparent)}100%{box-shadow:inset 0 0 0 0 transparent}}
+.wow-subraya{background-image:linear-gradient(color-mix(in srgb,var(--wow2) 45%,transparent),color-mix(in srgb,var(--wow2) 45%,transparent));background-repeat:no-repeat;background-size:0% .32em;background-position:0 88%;transition:background-size 1.1s var(--wow-curva) .35s}
+.wow-in .wow-subraya,.wow-subraya.wow-in{background-size:100% .32em}
+html.wow-pre body{visibility:hidden}html.wow-pre .wow-telon{visibility:visible}
+@media (prefers-reduced-motion:reduce){.wow-telon,.wow-luz,.wow-barra,.wow-brillo,.wow-glare{display:none!important}.wow-c,.wow-img,.wow-h .wp>span{opacity:1!important;transform:none!important;filter:none!important;clip-path:none!important}}
+</style>
+<script>try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!navigator.webdriver&&!(navigator.connection&&(navigator.connection.saveData||/2g/.test(navigator.connection.effectiveType||'')))&&sessionStorage.getItem('wow-telon')!=='1'){document.documentElement.classList.add('wow-pre');setTimeout(function(){if(document.documentElement.classList.contains('wow-pre')){document.documentElement.classList.remove('wow-pre');window.__wowTarde=1}},1200)}}catch(e){}</script>
 </head>
 <body>
 
@@ -514,26 +586,55 @@ p{margin:0}
     <div class="cabeza rev">
       <p class="antetitulo">Lo que dicen en Google</p>
       <h2>4,7 de media en 151 opiniones</h2>
-      <p>Tres de las últimas, tal y como las escribieron.</p>
+      <p>Algunas de las últimas, tal y como las escribieron.</p>
     </div>
-    <div class="notas">
-      <figure class="nota rev" style="--r:-2deg;margin:0">
-        <span class="estrellas" aria-label="5 de 5 estrellas">★★★★★</span>
-        <blockquote>«Atención inmejorable. Asesoramiento en pintura y papel de 10. Muy buenos profesionales.»</blockquote>
-        <footer><b>Irati I.</b> · Google · noviembre de 2025</footer>
-      </figure>
-      <figure class="nota rev" style="--r:1.5deg;margin:0">
-        <span class="estrellas" aria-label="5 de 5 estrellas">★★★★★</span>
-        <blockquote>«Siempre te atienden con una sonrisa y te guían de la mejor manera. Comercio local de toda la vida muy recomendable.»</blockquote>
-        <footer><b>O.</b> · Local Guide en Google · febrero de 2026</footer>
-      </figure>
-      <figure class="nota rev" style="--r:-1deg;margin:0">
-        <span class="estrellas" aria-label="5 de 5 estrellas">★★★★★</span>
-        <blockquote>«Atención muy profesional, trato y asesoramiento inmejorable.»</blockquote>
-        <footer><b>Javier Angulo González</b> · Google · julio de 2026</footer>
-      </figure>
+    <div class="carr rev">
+      <div class="carr-pista" tabindex="0" aria-label="Opiniones de clientes en Google">
+        <figure class="nota" style="--r:-2deg;margin:0">
+          <span class="estrellas" aria-label="5 de 5 estrellas">★★★★★</span>
+          <blockquote>«Atención muy profesional, trato y asesoramiento inmejorable.»</blockquote>
+          <footer><b>Javier Angulo González</b> · Google · hace 2 meses</footer>
+        </figure>
+        <figure class="nota" style="--r:1.5deg;margin:0">
+          <span class="estrellas" aria-label="5 de 5 estrellas">★★★★★</span>
+          <blockquote>«Siempre te atienden con una sonrisa y te guían de la mejor manera. Comercio local de toda la vida muy recomendable.»</blockquote>
+          <footer><b>O.</b> · Google · hace 8 meses</footer>
+        </figure>
+        <figure class="nota" style="--r:-1deg;margin:0">
+          <span class="estrellas" aria-label="5 de 5 estrellas">★★★★★</span>
+          <blockquote>«Atención inmejorable. Asesoramiento en pintura y papel de 10. Cristina fue muy paciente y me explicó muy bien, me ha ayudado muchísimo en las elecciones.»</blockquote>
+          <footer><b>Irati I.</b> · Google · hace 10 meses</footer>
+        </figure>
+        <figure class="nota" style="--r:2deg;margin:0">
+          <span class="estrellas" aria-label="5 de 5 estrellas">★★★★★</span>
+          <blockquote>«En atención al cliente son encantadores. Buen asesoramiento en temas de pinturas.»</blockquote>
+          <footer><b>Iker S. G.</b> · Google · hace 9 meses</footer>
+        </figure>
+        <figure class="nota" style="--r:-1.5deg;margin:0">
+          <span class="estrellas" aria-label="5 de 5 estrellas">★★★★★</span>
+          <blockquote>«Estamos arreglando nuestra casa y nos están ayudando un montón. No tenemos ni idea de pinturas ni técnica pero gracias a ellos está resultando muy fácil.»</blockquote>
+          <footer><b>Nuria Sandoval</b> · Google · hace 4 años</footer>
+        </figure>
+        <figure class="nota" style="--r:1deg;margin:0">
+          <span class="estrellas" aria-label="5 de 5 estrellas">★★★★★</span>
+          <blockquote>«Muy buena atención y amabilidad para todo el tema de pinturas, siempre con una atención increíble.»</blockquote>
+          <footer><b>Natalia Marin</b> · Google · hace un año</footer>
+        </figure>
+        <figure class="nota" style="--r:-2deg;margin:0">
+          <span class="estrellas" aria-label="5 de 5 estrellas">★★★★★</span>
+          <blockquote>«El hombre que atiende es muy eficiente y simpático. Tiene horario amplio y siempre me he sentido bien atendido.»</blockquote>
+          <footer><b>Miguel Ortega Ortega</b> · Google · hace un año</footer>
+        </figure>
+      </div>
+      <div class="carr-ctrl">
+        <button class="carr-btn" type="button" data-dir="-1" aria-label="Opinión anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="carr-btn" type="button" data-dir="1" aria-label="Opinión siguiente"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
     </div>
-    <p class="mas-opiniones rev"><a class="btn btn-linea" href="https://www.google.com/maps/search/?api=1&amp;query=Pinturas%20Gernikako%20Barakaldo" target="_blank" rel="noopener">Leer las 151 opiniones en Google</a></p>
+    <p class="mas-opiniones rev">
+      <a class="btn btn-rojo" href="https://search.google.com/local/writereview?placeid=ChIJ_QJGGXRaTg0Rm9RkQ6-bJEg" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 1.8l3.1 6.5 7.1.9-5.2 4.9 1.3 7-6.3-3.4-6.3 3.4 1.3-7L1.8 9.2l7.1-.9z"/></svg>Deja tu reseña</a>
+      <a class="btn btn-linea" href="https://search.google.com/local/reviews?placeid=ChIJ_QJGGXRaTg0Rm9RkQ6-bJEg" target="_blank" rel="noopener">Leer las 151 opiniones</a>
+    </p>
   </div>
 </section>
 
@@ -782,6 +883,146 @@ p{margin:0}
     location.href = 'mailto:pinturasgernikako@gmail.com?subject=' + encodeURIComponent('Consulta desde la web') + '&body=' + encodeURIComponent(cuerpo);
     document.querySelector('[data-ok]').classList.add('ver');
   });
+})();
+</script>
+<script>(function(){var p=document.querySelector('.carr-pista');if(!p)return;document.querySelectorAll('.carr-btn').forEach(function(b){b.addEventListener('click',function(){var n=p.querySelector('.nota');var w=n?n.getBoundingClientRect().width+26:300;p.scrollBy({left:w*(+b.dataset.dir),behavior:'smooth'})})})})();</script>
+<script id="wow-js">
+(function(){
+var R=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches; if(R||navigator.webdriver||(navigator.connection&&(navigator.connection.saveData||/2g/.test(navigator.connection.effectiveType||'')))){document.documentElement.classList.remove('wow-pre');return}
+var d=document, H=d.documentElement, fino=matchMedia('(hover:hover) and (pointer:fine)').matches;
+function col(s){var c=getComputedStyle(s);return c.backgroundColor}
+function op(c){var m=(c||'').match(/rgba?\(([^)]+)\)/);if(!m)return 0;var p=m[1].split(',');return p.length>3?+p[3]:1}
+/* colores de la marca: los más vivos entre botones, acentos del titular y theme-color */
+function rgb(c){var m=(c||'').match(/rgba?\(([^)]+)\)/);if(m){var p=m[1].split(',').map(parseFloat);return p.length>3&&p[3]<.6?null:p.slice(0,3)}
+  m=(c||'').match(/^#([0-9a-f]{6})$/i);return m?[0,2,4].map(function(i){return parseInt(m[1].substr(i,2),16)}):null}
+function hsl(p){var r=p[0]/255,g=p[1]/255,b=p[2]/255,mx=Math.max(r,g,b),mn=Math.min(r,g,b),l=(mx+mn)/2,s=mx===mn?0:(l>.5?(mx-mn)/(2-mx-mn):(mx-mn)/(mx+mn));return [s,l]}
+var cand=[];function mete(c,peso){var p=rgb(c);if(!p)return;var x=hsl(p);cand.push({c:'rgb('+p.join(',')+')',p:p,s:x[0],l:x[1],v:(x[0]*(x[1]>.12&&x[1]<.72?1:.25)+.001)*peso})}
+var tm=d.querySelector('meta[name="theme-color"]'); if(tm) mete(tm.content,1.2);
+[].slice.call(d.querySelectorAll('a[href*="wa.me"],.btn,button[type=submit],[class*="boton"],[class*="cta"]')).slice(0,12).forEach(function(e){mete(col(e),1.1)});
+[].slice.call(d.querySelectorAll('h1 *,h2 em,h2 span,.marca *,[class*="acento"]')).slice(0,30).forEach(function(e){mete(getComputedStyle(e).color,1.3)});
+cand.sort(function(a,b){return b.v-a.v});
+var c1=cand[0],c2=cand.filter(function(x){return c1&&Math.abs(x.p[0]-c1.p[0])+Math.abs(x.p[1]-c1.p[1])+Math.abs(x.p[2]-c1.p[2])>90&&x.s>.25})[0]||c1;
+if(c1){H.style.setProperty('--wow1',c1.l>.42?'color-mix(in srgb,'+c1.c+' 72%,#000)':c1.c);H.style.setProperty('--wow2',c2.c)}
+var hf=d.querySelector('h1'); if(hf) H.style.setProperty('--wow-fuente',getComputedStyle(hf).fontFamily);
+/* telón de entrada (solo la primera vez por sesión) */
+var visto=false; try{visto=sessionStorage.getItem('wow-telon')==='1';sessionStorage.setItem('wow-telon','1')}catch(e){}
+/* si la web ha tardado en llegar (móvil con poca cobertura), no se hace esperar más: sin entrada */
+if(window.__wowTarde||!H.classList.contains('wow-pre')||performance.now()>1150){visto=true;H.classList.remove('wow-pre')}
+if(!visto){ try{
+  /* ---- telón: la portada de la propia web se «monta» delante y luego cada pieza vuela a su sitio ---- */
+  var h1=d.querySelector('h1'), marca=d.querySelector('header .marca, .marca, header a[href="#inicio"], header a[href="#"]');
+  var heroS=h1&&(h1.closest('section,.hero,header+*')||h1.parentElement);
+  /* paleta de la web: botones, acentos, ilustraciones */
+  var pal=[];function dist(a,b){return Math.abs(a[0]-b[0])+Math.abs(a[1]-b[1])+Math.abs(a[2]-b[2])}
+  function anade(c,w){var p=rgb(c);if(!p)return;var x=hsl(p);if(x[0]<.25||x[1]<.2||x[1]>.85)return;for(var k=0;k<pal.length;k++)if(dist(pal[k].p,p)<80){pal[k].n+=w||1;return}pal.push({p:p,n:w||1,c:'rgb('+p.join(',')+')'})}
+  cand.forEach(function(x){anade(x.c,3)});
+  [].slice.call((heroS||d).querySelectorAll('svg path,svg circle,svg rect,svg ellipse,svg polygon,svg stop')).slice(0,900).forEach(function(e){var cs=getComputedStyle(e);
+    if(e.tagName.toLowerCase()==='stop'){anade(cs.stopColor);return}var r=e.getBoundingClientRect();if(r.width*r.height<60)return;anade(cs.fill);if(!/url|none/.test(cs.stroke))anade(cs.stroke)});
+  pal.sort(function(a,b){return b.n-a.n});var P=pal.slice(0,5).map(function(x){return x.c});
+  var tinta=h1?getComputedStyle(h1).color:'#222'; if(!P.length)P.push(tinta);
+  while(P.length<3)P.push(P[P.length-1]);
+  /* fondo = el de la portada real (color + degradados), para que al irse no se note el cambio */
+  function opaco(e){var c=e&&getComputedStyle(e).backgroundColor;return c&&op(c)>.95?c:null}
+  var fondoC=opaco(heroS)||opaco(d.querySelector('main'))||opaco(d.body)||opaco(H)||'#fff', fondoI=heroS?getComputedStyle(heroS).backgroundImage:'none';
+  var t=d.createElement('div'); t.className='wow-telon'; t.setAttribute('aria-hidden','true');
+  ['--p1','--p2','--p3'].forEach(function(v,k){t.style.setProperty(v,P[k])}); t.style.setProperty('--wt-tinta',tinta);
+  var p1=rgb(P[0]); if(p1&&hsl(p1)[1]>.62)t.style.setProperty('--p1-txt',tinta);
+  if(h1)t.style.setProperty('--wt-letra',getComputedStyle(h1).fontFamily);
+  var tint='';P.slice(0,4).forEach(function(c,k){var q=[[12,18],[88,14],[82,86],[16,84]][k];tint+=(tint?',':'')+'radial-gradient(42% 46% at '+q[0]+'% '+q[1]+'%,color-mix(in srgb,'+c+' 26%,transparent),transparent 72%)'});
+  t.innerHTML='<div class="wt-fondo" style="background-color:'+fondoC+';background-image:'+(fondoI&&fondoI!=='none'?fondoI:'none')+'"><div class="wt-tintes" style="background-image:'+tint+'"></div></div><div class="wt-part"></div>';
+  d.body.appendChild(t); H.classList.remove('wow-pre');
+  var vw=innerWidth,vh=innerHeight,movil=vw<700,nt=null,piezas=[];
+  function monta(){ if(montado)return; montado=true; try{
+  /* copia una pieza real con sus estilos calculados (para que sea idéntica fuera de su sitio) */
+  var PROPS=['color','font-family','font-size','font-weight','font-style','font-variant','letter-spacing','word-spacing','line-height','text-transform','text-align','text-decoration-line','text-decoration-color','text-decoration-style','text-decoration-thickness','text-underline-offset','text-shadow','white-space','background-color','background-image','background-size','background-position','background-repeat','-webkit-background-clip','background-clip','-webkit-text-fill-color','display','padding-top','padding-right','padding-bottom','padding-left','margin-top','margin-right','margin-bottom','margin-left','border-radius','border-top','border-right','border-bottom','border-left','box-shadow','gap','align-items','justify-content','flex-direction','vertical-align','width','height'];
+  var SVGP=['fill','stroke','stroke-width','fill-opacity','stroke-opacity','opacity','stop-color','stop-opacity'];
+  function copiaEst(o,c,raiz){var cs=getComputedStyle(o),st=c.style,sv=o instanceof SVGElement;
+    (sv?SVGP:PROPS).forEach(function(k){if(raiz&&(k==='width'||k==='height'||/^margin/.test(k)))return;if(!sv&&(k==='width'||k==='height')&&cs.display.indexOf('inline')===0)return;st.setProperty(k,cs.getPropertyValue(k))});
+    if(!sv){st.opacity='1';st.transform='none';st.translate='none';st.scale='none';st.rotate='none';st.transition='none';st.animation='none';st.filter='none';st.visibility='visible'}
+    else{st.transition='none';st.animation='none'}
+    for(var k=0;k<o.children.length&&k<c.children.length;k++)copiaEst(o.children[k],c.children[k],false)}
+  function pieza(o,k,cx,cy,palabras){var r=o.getBoundingClientRect();if(r.width<4||r.height<4)return null;var c=o.cloneNode(true);c.removeAttribute('id');[].slice.call(c.querySelectorAll('[id]')).forEach(function(e){if(e.tagName.toLowerCase()!=='svg')e.removeAttribute('id')});
+    copiaEst(o,c,true);c.classList.add('wt-pieza');c.style.left=r.left+'px';c.style.top=r.top+'px';c.style.width=r.width+'px';c.style.height=r.height+'px';
+    if(palabras){var w=d.createTreeWalker(c,NodeFilter.SHOW_TEXT,null),ns=[],n,i=0;while(n=w.nextNode())if(n.nodeValue.trim())ns.push(n);
+      ns.forEach(function(n){var f=d.createDocumentFragment();n.nodeValue.split(/(\s+)/).forEach(function(q){if(!q)return;if(/^\s+$/.test(q)){f.appendChild(d.createTextNode(q));return}
+        var a=d.createElement('span'),b=d.createElement('span');a.className='wp';b.textContent=q;b.style.animationDelay=((movil?120:260)+i++*(movil?45:75))+'ms';a.appendChild(b);f.appendChild(a)});n.parentNode.replaceChild(f,n)})}
+    var dx=cx-(r.left+r.width*k/2),dy=cy-(r.top+r.height*k/2);
+    c.style.transform='translate('+dx+'px,'+dy+'px) scale('+k+')';t.appendChild(c);
+    var real=o.style.visibility;o.style.visibility='hidden';var pz={o:o,c:c,r:r,dx:dx,dy:dy,k:k,real:real};piezas.push(pz);return pz}
+  /* ilustración principal de la portada */
+  var ilus=null;if(heroS){var mejor=0;[].slice.call(heroS.querySelectorAll('svg,img,picture,canvas')).forEach(function(e){if(e.closest('a,button,header,nav')||e.contains(h1)||(e.parentElement&&e.parentElement.closest('svg')))return;var r=e.getBoundingClientRect(),a=r.width*r.height;if(a>mejor&&r.width>120&&r.height>100&&r.top<vh*1.4){mejor=a;ilus=e}})}
+  /* reparto vertical: marca · titular · nota · ilustración */
+  var rm=marca&&marca.getBoundingClientRect(),rh=h1&&h1.getBoundingClientRect(),ri=ilus&&ilus.getBoundingClientRect();
+  ri=null;
+  var km=rm?Math.min(movil?1.25:1.6,vw*.7/rm.width):0, kh=rh?Math.min(movil?1.05:1.25,vw*.9/rh.width,vh*.36/rh.height):0, ki=ri?Math.min(1,vw*(movil?.7:.42)/ri.width,vh*(movil?.24:.3)/ri.height):0;
+  var notaH=movil?0:46,gap=movil?18:26,alto=(rm?rm.height*km+gap:0)+(rh?rh.height*kh+gap:0)+notaH+(ri?gap+ri.height*ki:0);
+  if(alto>vh*.86&&ri){ki=Math.max(0,ki-(alto-vh*.86)/ri.height);alto=vh*.86}
+  var y=(vh-alto)/2;
+  if(rm){pieza(marca,km,vw/2,y+rm.height*km/2);y+=rm.height*km+gap}
+  if(rh){pieza(h1,kh,vw/2,y+rh.height*kh/2,true);y+=rh.height*kh+gap}
+  var ld=null;try{[].slice.call(d.querySelectorAll('script[type="application/ld+json"]')).forEach(function(s){var j=JSON.parse(s.textContent);var a=j&&(j.aggregateRating||(j['@graph']||[]).map(function(x){return x.aggregateRating}).filter(Boolean)[0]);if(a&&a.ratingValue&&!ld)ld=a})}catch(e){}
+  if(false){nt=d.createElement('div');nt.className='wt-nota';nt.style.top=y+'px';nt.innerHTML='<b>'+String(ld.ratingValue).replace('.',',')+'</b><i>★★★★★</i>'+(ld.reviewCount?ld.reviewCount+' reseñas en Google':'en Google');t.appendChild(nt)}
+  y+=notaH+gap;
+  if(false){var pi=pieza(ilus,ki,vw/2,y+ri.height*ki/2);if(pi){pi.c.style.opacity='0';pi.c.animate([{opacity:0,transform:pi.c.style.transform+' translateY(30px) scale(.9)'},{opacity:1,transform:pi.c.style.transform}],{duration:900,delay:500,easing:'cubic-bezier(.16,1,.3,1)',fill:'forwards'})}}
+  piezas.forEach(function(pz,i){if(pz.o===ilus)return;pz.c.animate([{opacity:0,transform:pz.c.style.transform+' translateY(24px)'},{opacity:1,transform:pz.c.style.transform}],{duration:800,delay:i*120,easing:'cubic-bezier(.16,1,.3,1)',fill:'backwards'})});
+  setTimeout(salir,movil?900:1400);
+  }catch(e){fallo()} }
+  var montado=false,fin=false;
+  function acaba(){piezas.forEach(function(pz){pz.o.style.visibility=pz.real||''});t.remove()}
+  function salir(){if(fin)return;fin=true;t.classList.add('fuera');
+    if(nt){nt.getAnimations().forEach(function(a){a.cancel()});nt.animate([{opacity:1,transform:'translate(-50%,0)'},{opacity:0,transform:'translate(-50%,-12px) scale(.92)'}],{duration:220,fill:'forwards'})}
+    [].slice.call(t.querySelectorAll('.wt-part i')).forEach(function(e){var r=e.getBoundingClientRect(),ex=r.left-vw/2,ey=r.top-vh/2,m=Math.hypot(ex,ey)||1;e.style.transform='translate('+(ex/m*vw*.35).toFixed(0)+'px,'+(ey/m*vh*.35).toFixed(0)+'px) scale(.4)';e.style.opacity='0'});
+    piezas.forEach(function(pz,i){var r=pz.o.getBoundingClientRect(),c=pz.c;c.getAnimations().forEach(function(a){a.finish()});
+      if(r.bottom<0||r.top>vh){c.animate([{opacity:1},{opacity:0}],{duration:400,fill:'forwards'});return}
+      c.style.left=r.left+'px';c.style.top=r.top+'px';
+      c.animate([{transform:c.style.transform,opacity:1},{transform:'none',opacity:1}],{duration:movil?700:950,delay:i*70,easing:'cubic-bezier(.76,0,.24,1)',fill:'forwards'})});
+    setTimeout(acaba,(movil?850:1150)+piezas.length*70)}
+  function fallo(){var tt=d.querySelector('.wow-telon');if(tt)tt.remove();H.classList.remove('wow-pre');piezas.forEach(function(pz){pz.o.style.visibility=pz.real||''});[h1,marca].forEach(function(x){if(x)x.style.visibility=''})}
+  t.addEventListener('pointerdown',function(){monta();salir()});
+  /* medir cuando las fuentes ya están puestas (si no, el titular cambia de tamaño al final) */
+  var fr=d.fonts&&d.fonts.ready?d.fonts.ready:Promise.resolve();
+  Promise.race([fr,new Promise(function(r){setTimeout(r,movil?350:800)})]).then(function(){requestAnimationFrame(monta)});
+  setTimeout(function(){if(d.body.contains(t)){fin=true;acaba()}},6000);
+ }catch(e){var tt=d.querySelector('.wow-telon');if(tt)tt.remove();H.classList.remove('wow-pre');[h1,marca].forEach(function(x){if(x)x.style.visibility=''})}
+}
+/* barra de progreso */
+
+/* títulos: palabras que suben desde una máscara */
+function partir(el){var w=d.createTreeWalker(el,NodeFilter.SHOW_TEXT,null),ns=[],n;while(n=w.nextNode())if(n.nodeValue.trim())ns.push(n);
+  var i=0;ns.forEach(function(n){var f=d.createDocumentFragment();n.nodeValue.split(/(\s+)/).forEach(function(p){if(!p)return;if(/^\s+$/.test(p)){f.appendChild(d.createTextNode(p));return}
+    var o=d.createElement('span'),s=d.createElement('span');o.className='wp';s.textContent=p;s.style.transitionDelay=(i++*55)+'ms';o.appendChild(s);f.appendChild(o)});n.parentNode.replaceChild(f,n)});el.classList.add('wow-h')}
+var tit=[].slice.call(d.querySelectorAll('section h2, main h2, .wow-titulo')).filter(function(h){return !h.closest('header,nav,footer,details')&&h.textContent.length<120});
+tit.forEach(partir);
+tit.forEach(function(h){var e=h.querySelector('em,mark,b,strong,i:not(.wow-glare)');if(e&&e.textContent.length<40)e.classList.add('wow-subraya')});
+/* grupos de tarjetas: hijos parecidos de un mismo contenedor */
+var tarjetas=[];
+[].slice.call(d.querySelectorAll('main *, section *')).forEach(function(c){
+  if(c.children.length<3||c.closest('header,nav,footer,form,details,svg,.wow-telon'))return; var cs=getComputedStyle(c);
+  if(!/grid|flex/.test(cs.display))return;
+  var hs=[].slice.call(c.children).filter(function(k){return k.offsetWidth>120&&k.offsetHeight>90});
+  if(hs.length<3)return; var firma=function(k){return k.tagName+'.'+(k.className&&k.className.baseVal===undefined?String(k.className).split(' ')[0]:'')};
+  var f0=firma(hs[0]); if(hs.filter(function(k){return firma(k)===f0}).length<3)return;
+  if(c.scrollWidth>c.clientWidth+20)return; /* carruseles: no */
+  hs.forEach(function(k,i){if(tarjetas.indexOf(k)<0&&!tarjetas.some(function(t){return t.contains(k)||k.contains(t)})){k.dataset.wowI=i%4;tarjetas.push(k)}});
+});
+tarjetas.forEach(function(k){ if(!k.matches('.rev,[data-rev],.reveal,.aparece')&&!k.closest('.rev,[data-rev],.reveal,.aparece')){k.classList.add('wow-c');k.style.transitionDelay=(k.dataset.wowI*80)+'ms'} });
+/* imágenes e ilustraciones grandes: se destapan */
+var imgs=[].slice.call(d.querySelectorAll('section img, section picture, main img, section figure>svg, section .lienzo, section [class*="foto"], section [class*="ilus"]')).filter(function(m){
+  return m.offsetWidth>220&&m.offsetHeight>160&&!m.closest('header,nav,.wow-c,.wow-img,.rev,[data-rev],.reveal,.aparece')&&m.getBoundingClientRect().top>innerHeight*.9});
+imgs.forEach(function(m){m.classList.add('wow-img')});
+/* aparecer al entrar en pantalla */
+var todo=tit.concat(tarjetas.filter(function(k){return k.classList.contains('wow-c')}),imgs);
+if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('wow-in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});todo.forEach(function(e){io.observe(e)})}
+else todo.forEach(function(e){e.classList.add('wow-in')});
+setTimeout(function(){tarjetas.forEach(function(k){k.classList.add('wow-in')})},50); /* el tilt necesita la transición puesta */
+/* hero: paralaje y salida suave */
+var h1=d.querySelector('h1'),cab=h1&&h1.parentElement; if(cab&&cab.closest('header'))cab=null;
+var tk=false;function scroll(){tk=false;var y=scrollY,h=H.scrollHeight-innerHeight;
+  if(cab){var k=Math.min(1,y/(innerHeight*.9));cab.style.opacity=(1-k*.85).toFixed(3);cab.style.scale=(1-k*.06).toFixed(4)}
+  /* lo que ya quedó atrás (scroll rápido o salto a un ancla) se muestra igualmente */
+  var ahora=Date.now(); if(ahora-ult>150){ult=ahora;todo=todo.filter(function(e){if(e.classList.contains('wow-in'))return false;if(e.getBoundingClientRect().top<innerHeight*.95){e.classList.add('wow-in');return false}return true})}}
+var ult=0;
+addEventListener('scroll',function(){if(!tk){tk=true;requestAnimationFrame(scroll)}},{passive:true});scroll();
 })();
 </script>
 </body>

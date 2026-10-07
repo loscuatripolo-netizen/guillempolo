@@ -31,7 +31,11 @@ var NS='gpbocetos-k7q2',API='https://abacus.jasoncameron.dev/get/'+NS+'/',HIT='h
 function nombre(s){return s.replace(/-/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase()})}
 function dia(off){var d=new Date(Date.now()-off*864e5);return new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid'}).format(d).replace(/-/g,'').slice(2)}
 function txtDia(off){return off===0?'hoy':off===1?'ayer':'hace '+off+' días'}
-function get(k){return fetch(API+k).then(function(r){return r.ok?r.json():{value:0}}).then(function(j){return j.value||0}).catch(function(){return 0})}
+var cola=[],activas=0;function turno(){if(activas>=3||!cola.length)return;activas++;var t=cola.shift();t().finally(function(){activas--;turno()})}
+function lim(fn){return new Promise(function(ok,ko){cola.push(function(){return fn().then(ok,ko)});turno()})}
+function espera(ms){return new Promise(function(r){setTimeout(r,ms)})}
+async function get1(k){for(var i=0;i<5;i++){try{var r=await fetch(API+k,{cache:'no-store'});if(r.status===404)return 0;if(r.ok){var j=await r.json();return j.value||0}}catch(e){}await espera(600*(i+1))}return 0}
+function get(k){return lim(function(){return get1(k)})}
 function esc(s){return s.replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 async function cargar(){
  var L=document.getElementById('lista');L.className='cargando';L.textContent='Cargando…';

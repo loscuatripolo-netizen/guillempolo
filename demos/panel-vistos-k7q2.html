@@ -17,6 +17,7 @@ h2{font-size:15px;text-transform:uppercase;letter-spacing:.08em;color:var(--g);m
 .chip{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:2px 9px;margin-right:6px}
 .hoy{background:#E3F4EA;color:var(--v)}.ayer{background:#FFF1DC;color:var(--a)}.mucho{background:#1D1C1A;color:#fff}
 .sin .f{opacity:.65}.cargando{color:var(--g)}
+button.mio{font-size:12px;padding:3px 10px;margin-left:6px}
 button{font:inherit;border:1px solid var(--l);background:var(--b);border-radius:999px;padding:7px 14px;cursor:pointer}
 </style></head><body><div class="w">
 <h1>Bocetos abiertos</h1>
@@ -26,7 +27,7 @@ button{font:inherit;border:1px solid var(--l);background:var(--b);border-radius:
 </div>
 <script>
 (function(){try{localStorage.setItem('gp_yo','1')}catch(e){}
-var NS='gpbocetos-k7q2',API='https://abacus.jasoncameron.dev/get/'+NS+'/';
+var NS='gpbocetos-k7q2',API='https://abacus.jasoncameron.dev/get/'+NS+'/',HIT='https://abacus.jasoncameron.dev/hit/'+NS+'/';
 function nombre(s){return s.replace(/-/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase()})}
 function dia(off){var d=new Date(Date.now()-off*864e5);return new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid'}).format(d).replace(/-/g,'').slice(2)}
 function txtDia(off){return off===0?'hoy':off===1?'ayer':'hace '+off+' días'}
@@ -37,16 +38,16 @@ async function cargar(){
  var slugs=[];
  try{var j=await fetch('https://api.github.com/repos/loscuatripolo-netizen/guillempolo/contents/demos').then(function(r){return r.json()});
   slugs=j.filter(function(x){return x.type==='file'&&/\.html$/.test(x.name)&&x.name.indexOf('panel-')!==0}).map(function(x){return x.name.replace(/\.html$/,'')})}catch(e){L.textContent='No he podido leer la lista de bocetos.';return}
- var filas=await Promise.all(slugs.map(async function(s){var c=s.slice(0,57),tot=await get(c),dias=[];
-  if(tot>0){for(var o=0;o<10;o++){dias.push(await get(c+'-'+dia(o)))}}
+ var filas=await Promise.all(slugs.map(async function(s){var c=s.slice(0,57),y=s.slice(0,54)+'-y',tot=Math.max(0,(await get(c))-(await get(y))),dias=[];
+  if(tot>0){for(var o=0;o<10;o++){dias.push(Math.max(0,(await get(c+'-'+dia(o)))-(await get(y+dia(o)))))}}
   var ult=dias.findIndex(function(v){return v>0});return {s:s,tot:tot,dias:dias,ult:ult}}));
  filas.sort(function(a,b){var ua=a.ult<0?99:a.ult,ub=b.ult<0?99:b.ult;return (a.tot>0?0:1)-(b.tot>0?0:1)||ua-ub||b.tot-a.tot||a.s.localeCompare(b.s)});
  var abiertos=filas.filter(function(f){return f.tot>0}),hoy=filas.filter(function(f){return f.ult===0});
  document.getElementById('res').innerHTML='<div><b>'+abiertos.length+'</b><span>abiertos de '+filas.length+'</span></div><div><b>'+hoy.length+'</b><span>abiertos hoy</span></div><div><b>'+filas.filter(function(f){return f.tot>=3}).length+'</b><span>3 veces o más</span></div>';
  function fila(f){var ch='';if(f.ult===0)ch+='<span class="chip hoy">Hoy</span>';else if(f.ult===1)ch+='<span class="chip ayer">Ayer</span>';if(f.tot>=3)ch+='<span class="chip mucho">Interesado</span>';
   var det=f.tot>0?(f.ult>=0?'Última vez: '+txtDia(f.ult)+(f.dias[0]?' · hoy '+f.dias[0]+' vez'+(f.dias[0]>1?'es':''):''):'Abierto hace más de 10 días'):'Todavía sin abrir';
-  return '<div class="f"><a href="/demos/'+esc(f.s)+'" target="_blank" rel="noopener">'+esc(nombre(f.s))+'</a><div class="n">'+f.tot+'<small>'+(f.tot===1?'vez':'veces')+'</small></div><div class="d">'+ch+det+'</div></div>'}
- L.className='';L.innerHTML='<h2>Abiertos</h2>'+(abiertos.map(fila).join('')||'<p class="d">Ninguno todavía.</p>')+'<div class="sin"><h2>Sin abrir</h2>'+filas.filter(function(f){return !f.tot}).map(fila).join('')+'</div>';
+  return '<div class="f"><a href="/demos/'+esc(f.s)+'" target="_blank" rel="noopener">'+esc(nombre(f.s))+'</a><div class="n">'+f.tot+'<small>'+(f.tot===1?'vez':'veces')+'</small></div><div class="d">'+ch+det+(f.ult===0?' <button class="mio" data-s="'+esc(f.s)+'">Fue mío, quitar 1</button>':'')+'</div></div>'}
+ L.className='';L.onclick=async function(e){var b=e.target.closest('.mio');if(!b)return;b.disabled=true;b.textContent='Quitando…';var y=b.dataset.s.slice(0,54)+'-y';await fetch(HIT+y);await fetch(HIT+y+dia(0));cargar()};L.innerHTML='<h2>Abiertos</h2>'+(abiertos.map(fila).join('')||'<p class="d">Ninguno todavía.</p>')+'<div class="sin"><h2>Sin abrir</h2>'+filas.filter(function(f){return !f.tot}).map(fila).join('')+'</div>';
 }
 document.getElementById('re').onclick=cargar;cargar();})();
 </script></body></html>

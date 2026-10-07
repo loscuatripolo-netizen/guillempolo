@@ -554,4 +554,10 @@ else{B=GP.bucle(el,function(t,dt){if(!GP.R&&!quieto){esp+=dt;if(esp>K.int)ir(cur
 if('ResizeObserver' in window)new ResizeObserver(function(){if(GP.R&&B)B.forzar()}).observe(esc)})();(function(){var h=document.getElementById("a04-vivo");if(!h||matchMedia('(prefers-reduced-motion: reduce)').matches)return;var L=[].slice.call(h.querySelectorAll('.tv-l')),MI=300,MA=700,raf=0,mx=-1e4,my=-1e4,ola=!matchMedia('(hover:hover)').matches;
 function pinta(){raf=0;var R=Math.max(140,innerWidth*.16);L.forEach(function(l){var r=l.getBoundingClientRect(),d=Math.hypot(r.left+r.width/2-mx,r.top+r.height/2-my),k=Math.max(0,1-d/R);l.style.setProperty('--w',Math.round(MI+(MA-MI)*k*k))})}
 if(!ola){addEventListener('pointermove',function(e){mx=e.clientX;my=e.clientY;if(!raf)raf=requestAnimationFrame(pinta)},{passive:true})}
-else{var t0=performance.now();(function bucle(t){var n=L.length;L.forEach(function(l,i){var k=(Math.sin((t-t0)/700-i*.55)+1)/2;l.style.setProperty('--w',Math.round(MI+(MA-MI)*k*k*k))});requestAnimationFrame(bucle)})(t0)}})();</script></body></html>
+else{var t0=performance.now();(function bucle(t){var n=L.length;L.forEach(function(l,i){var k=(Math.sin((t-t0)/700-i*.55)+1)/2;l.style.setProperty('--w',Math.round(MI+(MA-MI)*k*k*k))});requestAnimationFrame(bucle)})(t0)}})();</script><!-- gp-visto --><script>(function(){try{if(navigator.webdriver||!/^https?:$/.test(location.protocol)||/^(localhost|127\.)/.test(location.hostname))return;
+var s=location.pathname.split('/').pop().replace(/\.html$/,'');if(!s||s.indexOf('panel-')===0)return;
+var ls=window.localStorage;if(/[?&]yo=1/.test(location.search))ls.setItem('gp_yo','1');if(ls.getItem('gp_yo'))return;
+var k='gp_v_'+s,t=Date.now();if(t-(+ls.getItem(k)||0)<18e5)return;ls.setItem(k,String(t));
+var d=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid'}).format(new Date()).replace(/-/g,'').slice(2);
+var b='https://abacus.jasoncameron.dev/hit/gpbocetos-k7q2/',c=s.slice(0,57);
+fetch(b+c,{mode:'no-cors',keepalive:true});fetch(b+c+'-'+d,{mode:'no-cors',keepalive:true});}catch(e){}})();</script></body></html>

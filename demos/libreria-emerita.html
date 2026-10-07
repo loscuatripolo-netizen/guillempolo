@@ -497,4 +497,10 @@ function poner(){var hechos=[];
 });}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',poner);else poner();
 })();</script>
-</body></html>
+<!-- gp-visto --><script>(function(){try{if(navigator.webdriver||!/^https?:$/.test(location.protocol)||/^(localhost|127\.)/.test(location.hostname))return;
+var s=location.pathname.split('/').pop().replace(/\.html$/,'');if(!s||s.indexOf('panel-')===0)return;
+var ls=window.localStorage;if(/[?&]yo=1/.test(location.search))ls.setItem('gp_yo','1');if(ls.getItem('gp_yo'))return;
+var k='gp_v_'+s,t=Date.now();if(t-(+ls.getItem(k)||0)<18e5)return;ls.setItem(k,String(t));
+var d=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid'}).format(new Date()).replace(/-/g,'').slice(2);
+var b='https://abacus.jasoncameron.dev/hit/gpbocetos-k7q2/',c=s.slice(0,57);
+fetch(b+c,{mode:'no-cors',keepalive:true});fetch(b+c+'-'+d,{mode:'no-cors',keepalive:true});}catch(e){}})();</script></body></html>

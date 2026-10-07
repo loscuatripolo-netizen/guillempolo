@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Bocetos abiertos</title>
+<style>
+:root{--f:#F6F3EE;--t:#1D1C1A;--g:#6B675F;--l:#E4DED3;--v:#1F7A4D;--a:#B26B00;--b:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--f);color:var(--t);font:16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+.w{max-width:760px;margin:0 auto;padding:22px 16px 60px}
+h1{font-size:26px;margin:0 0 4px}.sub{color:var(--g);margin:0 0 18px;font-size:14px}
+.res{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.res div{background:var(--b);border:1px solid var(--l);border-radius:14px;padding:10px 14px;min-width:100px}
+.res b{display:block;font-size:24px}.res span{font-size:13px;color:var(--g)}
+h2{font-size:15px;text-transform:uppercase;letter-spacing:.08em;color:var(--g);margin:24px 0 8px}
+.f{display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:center;background:var(--b);border:1px solid var(--l);border-radius:14px;padding:12px 14px;margin-bottom:8px}
+.f a{color:var(--t);font-weight:650;text-decoration:none}.f a:hover{text-decoration:underline}
+.n{font-weight:800;font-size:20px;text-align:right}.n small{display:block;font-size:11px;font-weight:500;color:var(--g)}
+.d{grid-column:1/-1;font-size:13px;color:var(--g)}
+.chip{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:2px 9px;margin-right:6px}
+.hoy{background:#E3F4EA;color:var(--v)}.ayer{background:#FFF1DC;color:var(--a)}.mucho{background:#1D1C1A;color:#fff}
+.sin .f{opacity:.65}.cargando{color:var(--g)}
+button{font:inherit;border:1px solid var(--l);background:var(--b);border-radius:999px;padding:7px 14px;cursor:pointer}
+</style></head><body><div class="w">
+<h1>Bocetos abiertos</h1>
+<p class="sub">Cuántas veces ha abierto cada cliente su boceto (no cuentan tus aparatos: este ya queda marcado como tuyo). <button id="re">Actualizar</button></p>
+<div class="res" id="res"></div>
+<div id="lista" class="cargando">Cargando…</div>
+</div>
+<script>
+(function(){try{localStorage.setItem('gp_yo','1')}catch(e){}
+var NS='gpbocetos-k7q2',API='https://abacus.jasoncameron.dev/get/'+NS+'/';
+function nombre(s){return s.replace(/-/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase()})}
+function dia(off){var d=new Date(Date.now()-off*864e5);return new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid'}).format(d).replace(/-/g,'').slice(2)}
+function txtDia(off){return off===0?'hoy':off===1?'ayer':'hace '+off+' días'}
+function get(k){return fetch(API+k).then(function(r){return r.ok?r.json():{value:0}}).then(function(j){return j.value||0}).catch(function(){return 0})}
+function esc(s){return s.replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+async function cargar(){
+ var L=document.getElementById('lista');L.className='cargando';L.textContent='Cargando…';
+ var slugs=[];
+ try{var j=await fetch('https://api.github.com/repos/loscuatripolo-netizen/guillempolo/contents/demos').then(function(r){return r.json()});
+  slugs=j.filter(function(x){return x.type==='file'&&/\.html$/.test(x.name)&&x.name.indexOf('panel-')!==0}).map(function(x){return x.name.replace(/\.html$/,'')})}catch(e){L.textContent='No he podido leer la lista de bocetos.';return}
+ var filas=await Promise.all(slugs.map(async function(s){var c=s.slice(0,57),tot=await get(c),dias=[];
+  if(tot>0){for(var o=0;o<10;o++){dias.push(await get(c+'-'+dia(o)))}}
+  var ult=dias.findIndex(function(v){return v>0});return {s:s,tot:tot,dias:dias,ult:ult}}));
+ filas.sort(function(a,b){var ua=a.ult<0?99:a.ult,ub=b.ult<0?99:b.ult;return (a.tot>0?0:1)-(b.tot>0?0:1)||ua-ub||b.tot-a.tot||a.s.localeCompare(b.s)});
+ var abiertos=filas.filter(function(f){return f.tot>0}),hoy=filas.filter(function(f){return f.ult===0});
+ document.getElementById('res').innerHTML='<div><b>'+abiertos.length+'</b><span>abiertos de '+filas.length+'</span></div><div><b>'+hoy.length+'</b><span>abiertos hoy</span></div><div><b>'+filas.filter(function(f){return f.tot>=3}).length+'</b><span>3 veces o más</span></div>';
+ function fila(f){var ch='';if(f.ult===0)ch+='<span class="chip hoy">Hoy</span>';else if(f.ult===1)ch+='<span class="chip ayer">Ayer</span>';if(f.tot>=3)ch+='<span class="chip mucho">Interesado</span>';
+  var det=f.tot>0?(f.ult>=0?'Última vez: '+txtDia(f.ult)+(f.dias[0]?' · hoy '+f.dias[0]+' vez'+(f.dias[0]>1?'es':''):''):'Abierto hace más de 10 días'):'Todavía sin abrir';
+  return '<div class="f"><a href="/demos/'+esc(f.s)+'" target="_blank" rel="noopener">'+esc(nombre(f.s))+'</a><div class="n">'+f.tot+'<small>'+(f.tot===1?'vez':'veces')+'</small></div><div class="d">'+ch+det+'</div></div>'}
+ L.className='';L.innerHTML='<h2>Abiertos</h2>'+(abiertos.map(fila).join('')||'<p class="d">Ninguno todavía.</p>')+'<div class="sin"><h2>Sin abrir</h2>'+filas.filter(function(f){return !f.tot}).map(fila).join('')+'</div>';
+}
+document.getElementById('re').onclick=cargar;cargar();})();
+</script></body></html>

@@ -492,4 +492,10 @@ if(!R&&matchMedia('(hover:hover) and (pointer:fine)').matches){var tx=0,ty=0,cx=
 pint();})();(function(){var s=document.getElementById('a07-curva');if(!s)return;var tp=s.querySelector('textPath'),t=s.querySelector('text'),pa=document.getElementById('a07-curva-p'),R=matchMedia('(prefers-reduced-motion: reduce)').matches,raf=0;
 function hueco(){return Math.max(0,pa.getTotalLength()-t.getComputedTextLength()-4)}
 function p(){raf=0;var r=s.getBoundingClientRect(),k=Math.max(0,Math.min(1,(innerHeight-r.top)/(innerHeight+r.height)));tp.setAttribute('startOffset',(hueco()*(1-k)).toFixed(1))}
-if(R){tp.setAttribute('startOffset',(hueco()/2).toFixed(1))}else{addEventListener('scroll',function(){if(!raf)raf=requestAnimationFrame(p)},{passive:true});addEventListener('resize',p);p();if(document.fonts)document.fonts.ready.then(p)}})();</script></body></html>
+if(R){tp.setAttribute('startOffset',(hueco()/2).toFixed(1))}else{addEventListener('scroll',function(){if(!raf)raf=requestAnimationFrame(p)},{passive:true});addEventListener('resize',p);p();if(document.fonts)document.fonts.ready.then(p)}})();</script><!-- gp-visto --><script>(function(){try{if(navigator.webdriver||!/^https?:$/.test(location.protocol)||/^(localhost|127\.)/.test(location.hostname))return;
+var s=location.pathname.split('/').pop().replace(/\.html$/,'');if(!s||s.indexOf('panel-')===0)return;
+var ls=window.localStorage;if(/[?&]yo=1/.test(location.search))ls.setItem('gp_yo','1');if(ls.getItem('gp_yo'))return;
+var k='gp_v_'+s,t=Date.now();if(t-(+ls.getItem(k)||0)<18e5)return;ls.setItem(k,String(t));
+var d=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid'}).format(new Date()).replace(/-/g,'').slice(2);
+var b='https://abacus.jasoncameron.dev/hit/gpbocetos-k7q2/',c=s.slice(0,57);
+fetch(b+c,{mode:'no-cors',keepalive:true});fetch(b+c+'-'+d,{mode:'no-cors',keepalive:true});}catch(e){}})();</script></body></html>

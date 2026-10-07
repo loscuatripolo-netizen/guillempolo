@@ -83,7 +83,16 @@
 @keyframes gp-sube{to{transform:none}}
 @media (prefers-reduced-motion:reduce){.gp-telon{display:none!important}}</style>
 <script>try{if(/^\/(index\.html)?$/.test(location.pathname)&&!location.hash&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!navigator.webdriver&&sessionStorage.getItem('gp-intro')!=='1'){document.documentElement.classList.add('gp-pre');setTimeout(function(){if(!window.__gpIntro)document.documentElement.classList.remove('gp-pre')},1300)}}catch(e){}</script>
-</head>
+<style>
+.plan.premium{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:12px 40px;align-items:start;padding:28px;margin-top:14px;background:linear-gradient(var(--papel-2),var(--papel-2)) padding-box,linear-gradient(135deg,var(--cobre),var(--bosque) 55%,#1C6B4D) border-box;border:1.5px solid transparent}
+.planes .plan.premium{grid-column:1/-1;margin-top:0}
+.premium .pr-col{display:flex;flex-direction:column;gap:10px;min-width:0}
+.premium .plan-eti{color:var(--cobre)}
+.premium .pr-nuevo{display:inline-block;margin-right:8px;padding:3px 9px;border-radius:999px;background:var(--cobre);color:#fff;letter-spacing:.1em}
+.premium .pr-lista{margin:0}
+.premium .pr-lista li b{font-weight:700}
+@media (max-width:860px){.plan.premium{grid-template-columns:1fr;padding:20px}}
+</style></head>
 <body>
 <a class="salta" href="#contacto">Saltar al contacto</a>
 <link rel="stylesheet" href="/sitio.css">
@@ -325,7 +334,8 @@ a.q{text-decoration:none;color:inherit}
                 <p class="cuota">Después, 19 €/mes + IVA: alojamiento, dominio y cambios pequeños incluidos.</p>
                 <ul><li class="mas">Todo lo anterior, y además:</li><li>Hasta 6 páginas, una por servicio</li><li>Panel para cambiarla tú</li><li>Medición de visitas y llamadas</li></ul>
                 <a class="enlace-f" href="/paginas-web#precio">Ver la página completa <span class="fl">→</span></a>
-              </article>
+              </article> <article class="plan premium tilt"> <div class="pr-col"><span class="plan-eti"><span class="pr-nuevo">Nueva</span>Opción C · para destacar de verdad</span><h4>Web premium</h4> <p class="precio"><span class="antes">1.100 €</span>890 €<small>+ IVA · pago único</small></p>
+      <span class="ahorro">Ahorras 210 €</span> <p class="cuota">Después, 29 €/mes + IVA: alojamiento, dominio, cambios pequeños y el asistente de la web incluidos.</p> <a class="enlace-f" href="/paginas-web#premium">Ver todo lo que incluye <span class="fl">→</span></a> <a class="enlace-f" href="/demos/canteli-premium" target="_blank" rel="noopener">Ver un ejemplo premium <span class="fl">→</span></a></div> <ul class="pr-lista"><li class="mas">Todo lo de la completa, y además:</li><li>Diseño a medida, sin plantilla</li><li>Efectos que se recuerdan: carrusel en 3D, titulares que se mueven</li><li>Asistente que contesta a tus clientes al momento</li><li>Tu producto estrella en 3D, en su mesa con la cámara</li><li>Hasta 10 páginas y un segundo idioma</li></ul> </article>
             </div>
             <p class="arreglo-nota">¿Ya tienes web y lo que falla es cómo se ve? <a class="enlace-f" href="/paginas-web#precio">La arreglo desde 190 € + IVA, sin cuota <span class="fl">→</span></a></p>
             <p class="arreglo-nota">Extras que puedes probar ya: calculadora de presupuesto, citas online, antes y después, euskera, carta con QR y panel para editarla. <a class="enlace-f" href="/paginas-web#extras">Pruébalos <span class="fl">→</span></a></p>

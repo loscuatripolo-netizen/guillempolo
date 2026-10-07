@@ -31,22 +31,39 @@ var NS='gpbocetos-k7q2',API='https://abacus.jasoncameron.dev/get/'+NS+'/',HIT='h
 function nombre(s){return s.replace(/-/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase()})}
 function dia(off){var d=new Date(Date.now()-off*864e5);return new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid'}).format(d).replace(/-/g,'').slice(2)}
 function txtDia(off){return off===0?'hoy':off===1?'ayer':'hace '+off+' días'}
-// abacus admite 30 lecturas cada 10 s por IP: se lee de una en una, con pausa, y se guarda en este aparato
-var ultima=0,leidas=0;function espera(ms){return new Promise(function(r){setTimeout(r,ms)})}
-async function get(k){for(var i=0;i<6;i++){var dt=Date.now()-ultima;if(dt<380)await espera(380-dt);ultima=Date.now();
- try{var r=await fetch(API+k,{cache:'no-store'});if(r.status===404){leidas++;prog();return 0}if(r.ok){var j=await r.json();leidas++;prog();return j.value||0}if(r.status===429){await espera(10500);continue}}catch(e){}await espera(1500)}leidas++;prog();return 0}
+// abacus admite 30 lecturas cada 10 s por IP: se lee de una en una, con pausa.
+// Los contadores solo suben: se guarda el último valor leído de cada clave y nunca se baja por un fallo de lectura.
+var ultima=0,leidas=0,fallos=0,RAW={};try{RAW=JSON.parse(localStorage.getItem('gp_raw')||'{}')}catch(e){}
+function espera(ms){return new Promise(function(r){setTimeout(r,ms)})}
+async function leer(k){for(var i=0;i<6;i++){var dt=Date.now()-ultima;if(dt<450)await espera(450-dt);ultima=Date.now();
+ try{var r=await fetch(API+k,{cache:'no-store'});if(r.status===404)return 0;if(r.ok){var j=await r.json();return j.value||0}if(r.status===429){await espera(11000);continue}}catch(e){}await espera(2000)}return null}
+async function get(k){var v=await leer(k);leidas++;prog();if(v===null){fallos++;return RAW[k]||0}v=Math.max(v,RAW[k]||0);RAW[k]=v;return v}
 function prog(){var L=document.getElementById('lista');if(L.className==='cargando')L.textContent='Leyendo contadores… '+leidas}
 function esc(s){return s.replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+// un solo panel leyendo a la vez (si hay varias pestañas abiertas se pisaban y salía todo a 0)
+function bloqueado(){try{var t=+localStorage.getItem('gp_lock')||0;return Date.now()-t<120000&&sessionStorage.getItem('gp_soy')!=='1'}catch(e){return false}}
+function bloquear(on){try{if(on){localStorage.setItem('gp_lock',String(Date.now()));sessionStorage.setItem('gp_soy','1')}else{localStorage.removeItem('gp_lock');sessionStorage.removeItem('gp_soy')}}catch(e){}}
+var leyendo=false;
 async function cargar(){
- var L=document.getElementById('lista');if(!L.querySelector('.f')){L.className='cargando';L.textContent='Leyendo contadores… (tarda unos 30 segundos)'}
+ if(leyendo)return;if(bloqueado()){pintarCache('Otra pestaña del panel está actualizando. Se pinta aquí al terminar.');return}
+ leyendo=true;bloquear(true);
+ var L=document.getElementById('lista');if(!L.querySelector('.f')){L.className='cargando';L.textContent='Leyendo contadores… (tarda alrededor de un minuto)'}
  var slugs=[];
  try{var j=await fetch('https://api.github.com/repos/loscuatripolo-netizen/guillempolo/contents/demos').then(function(r){return r.json()});
-  slugs=j.filter(function(x){return x.type==='file'&&/\.html$/.test(x.name)&&x.name.indexOf('panel-')!==0}).map(function(x){return x.name.replace(/\.html$/,'')})}catch(e){L.textContent='No he podido leer la lista de bocetos.';return}
- leidas=0;var filas=[];for(var q=0;q<slugs.length;q++){filas.push(await (async function(s){var c=s.slice(0,57),y=s.slice(0,54)+'-y',bruto=await get(c),yo=bruto>0?await get(y):0,tot=Math.max(0,bruto-yo),dias=[];
+  slugs=j.filter(function(x){return x.type==='file'&&/\.html$/.test(x.name)&&x.name.indexOf('panel-')!==0}).map(function(x){return x.name.replace(/\.html$/,'')})}catch(e){}
+ if(!slugs.length){try{slugs=JSON.parse(localStorage.getItem('gp_panel')).filas.map(function(f){return f.s})}catch(e){}}
+ if(!slugs.length){L.textContent='No he podido leer la lista de bocetos.';leyendo=false;bloquear(false);return}
+ leidas=0;fallos=0;var filas=[];for(var q=0;q<slugs.length;q++){filas.push(await (async function(s){var c=s.slice(0,57),y=s.slice(0,54)+'-y',bruto=await get(c),yo=bruto>0?await get(y):0,tot=Math.max(0,bruto-yo),dias=[];
   if(tot>0){for(var o=0;o<7;o++){var v=await get(c+'-'+dia(o));dias.push(Math.max(0,v-(yo>0&&v>0?await get(y+dia(o)):0)))}}
-  var ult=dias.findIndex(function(v){return v>0});return {s:s,tot:tot,dias:dias,ult:ult}})(slugs[q]))}
- pintar(filas,'');try{localStorage.setItem('gp_panel',JSON.stringify({t:Date.now(),filas:filas}))}catch(e){}
+  var ult=dias.findIndex(function(v){return v>0});return {s:s,tot:tot,dias:dias,ult:ult}})(slugs[q]))
+  if(q%8===7)bloquear(true)}
+ try{localStorage.setItem('gp_raw',JSON.stringify(RAW));localStorage.setItem('gp_panel',JSON.stringify({t:Date.now(),filas:filas}))}catch(e){}
+ leyendo=false;bloquear(false);
+ pintar(filas,fallos?('Actualizado a las '+hora(Date.now())+'. '+fallos+' lecturas no respondieron: se muestra el último valor conocido.'):'Actualizado a las '+hora(Date.now())+'.');
 }
+function hora(t){return new Date(t).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Madrid'})}
+function pintarCache(nota){try{var c=JSON.parse(localStorage.getItem('gp_panel')||'null');if(c){pintar(c.filas,nota||('Datos de las '+hora(c.t)+'.'));return true}}catch(e){}return false}
+window.addEventListener('storage',function(e){if(e.key==='gp_panel'&&!leyendo)pintarCache()});
 function pintar(filas,nota){var L=document.getElementById('lista');
  filas.sort(function(a,b){var ua=a.ult<0?99:a.ult,ub=b.ult<0?99:b.ult;return (a.tot>0?0:1)-(b.tot>0?0:1)||ua-ub||b.tot-a.tot||a.s.localeCompare(b.s)});
  var abiertos=filas.filter(function(f){return f.tot>0}),hoy=filas.filter(function(f){return f.ult===0});
@@ -57,5 +74,5 @@ function pintar(filas,nota){var L=document.getElementById('lista');
  L.className='';L.onclick=async function(e){var b=e.target.closest('.mio');if(!b)return;b.disabled=true;b.textContent='Quitando…';var y=b.dataset.s.slice(0,54)+'-y';await fetch(HIT+y);await fetch(HIT+y+dia(0));cargar()};L.innerHTML='<h2>Abiertos</h2>'+(abiertos.map(fila).join('')||'<p class="d">Ninguno todavía.</p>')+'<div class="sin"><h2>Sin abrir</h2>'+filas.filter(function(f){return !f.tot}).map(fila).join('')+'</div>';
 
  if(nota)L.insertAdjacentHTML('afterbegin','<p class="d">'+nota+'</p>')}
-document.getElementById('re').onclick=cargar;try{var c=JSON.parse(localStorage.getItem('gp_panel')||'null');if(c){pintar(c.filas,'Datos de hace '+Math.round((Date.now()-c.t)/60000)+' min. Actualizando…')}}catch(e){}cargar();})();
+document.getElementById('re').onclick=cargar;pintarCache();cargar();})();
 </script></body></html>

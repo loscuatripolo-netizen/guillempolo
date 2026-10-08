@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nos encargamos de tu posición en Google · 99 €/mes</title>
+<meta name="description" content="Reseñas contestadas, más reseñas nuevas y tu ficha de Google a punto para salir antes que tu competencia en Google Maps. 99 € + IVA al mes.">
+<meta name="robots" content="noindex, follow">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" content="Guillem Polo">
+<meta property="og:title" content="Nos encargamos de tu posición en Google">
+<meta property="og:description" content="Reseñas contestadas, reseñas nuevas y tu ficha a punto. 99 € + IVA al mes, con informe de posiciones cada mes.">
+<meta property="og:image" content="https://guillempolo.es/og-resenas-google.png">
+<meta name="theme-color" content="#F7F7F3">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" as="font" type="font/woff2" href="/fuentes/archivo.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fuentes/instrument-sans.woff2" crossorigin>
+<style>
+@font-face{font-family:"Archivo";src:url("/fuentes/archivo.woff2") format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"Instrument Sans";src:url("/fuentes/instrument-sans.woff2") format("woff2");font-weight:100 800;font-display:swap}
+@font-face{font-family:"Space Grotesk";src:url("/fuentes/space-grotesk.woff2") format("woff2");font-weight:300 700;font-display:swap}
+:root{
+  color-scheme:light;
+  --papel:#F7F7F3;--papel-2:#F1F1EA;--sup:#FFFFFF;--linea:#E1E1D7;--linea-2:#CFCFC2;
+  --tinta:#14181A;--tinta-2:#4C554F;--tinta-3:#646E66;
+  --bosque:#10402F;--bosque-2:#1C6B4D;--bosque-agua:rgba(16,64,47,.08);--cobre:#A35925;--ambar:#C08419;--ambar-2:#FBF3E4;--estrella:#E2A41B;
+  --g-azul:#1A73E8;--g-rojo:#D93025;
+  --t:"Instrument Sans",system-ui,sans-serif;--d:"Archivo",system-ui,sans-serif;--m:"Space Grotesk",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html,body{max-width:100%;overflow-x:hidden}
+body{margin:0;background:var(--papel);color:var(--tinta);font:16.5px/1.6 var(--t);-webkit-font-smoothing:antialiased;padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+h1,h2,h3{margin:0;font-family:var(--d);letter-spacing:-.015em;text-wrap:balance;font-weight:800}
+p{margin:0}
+a{color:inherit}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--bosque);outline-offset:3px;border-radius:6px}
+.w{max-width:600px;margin:0 auto;padding-inline:18px;padding-block:0 30px}
+.eyebrow{font:500 .7rem/1 var(--m);letter-spacing:.2em;text-transform:uppercase;color:var(--bosque)}
+.cab{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:16px}
+.cab .marca{font:800 1.05rem/1 var(--d);text-decoration:none}
+.cab .marca span{color:var(--bosque-2)}
+.cab .wa{font:600 .88rem/1 var(--t);text-decoration:none;color:var(--bosque);border:1px solid var(--linea-2);border-radius:99px;padding:8px 13px;background:var(--sup)}
+
+/* hero */
+.hero{display:grid;gap:12px;padding-block:14px 6px}
+.hero h1{font-size:clamp(2rem,8.6vw,2.9rem);line-height:1.02}
+.hero h1 em{font-style:normal;color:var(--bosque-2)}
+.hero .sub{color:var(--tinta-2);font-size:1.05rem;max-width:46ch}
+
+/* mapa de ejemplo */
+.mapa{margin-top:18px;background:var(--sup);border:1px solid var(--linea);border-radius:20px;overflow:hidden;box-shadow:0 2px 4px rgba(20,24,26,.04),0 16px 36px -20px rgba(20,24,26,.25)}
+.mapa .busca{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--linea);font-size:.95rem;color:var(--tinta-2)}
+.mapa .busca svg{width:18px;height:18px;color:var(--tinta-3)}
+.mapa .busca b{color:var(--tinta)}
+.mapa ol{list-style:none;margin:0;padding:6px 0;position:relative}
+.mapa li{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 14px;font-size:.93rem;transition:transform .6s cubic-bezier(.16,1,.3,1),background .4s}
+.mapa li .n{font:700 .85rem/1 var(--m);color:var(--tinta-3);text-align:center}
+.mapa li b{display:block;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mapa li small{color:var(--tinta-3);font-size:.8rem}
+.mapa li small i{font-style:normal;color:var(--estrella)}
+.mapa li .pin{width:22px;height:22px;color:var(--g-rojo)}
+.mapa li.tu{background:var(--bosque-agua)}
+.mapa li.tu b{color:var(--bosque)}
+.mapa .pie-m{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid var(--linea);font-size:.82rem;color:var(--tinta-3)}
+.mapa .pie-m button{font:600 .8rem/1 var(--t);color:var(--bosque);background:var(--bosque-agua);border:0;border-radius:99px;padding:7px 11px;cursor:pointer}
+@media (prefers-reduced-motion:reduce){.mapa li{transition:none}}
+
+/* secciones */
+section{padding-top:36px}
+section h2{font-size:1.6rem;line-height:1.1;margin:8px 0 14px}
+.inc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:440px){.inc{grid-template-columns:1fr}}
+.inc div{background:var(--sup);border:1px solid var(--linea);border-radius:16px;padding:14px;display:grid;gap:6px;align-content:start}
+.inc svg{width:26px;height:26px;color:var(--bosque-2)}
+.inc b{font-size:1rem;line-height:1.25}
+.inc span{font-size:.9rem;color:var(--tinta-2);line-height:1.45}
+.inc .top{grid-column:1/-1;background:var(--bosque);border-color:var(--bosque);color:var(--papel)}
+.inc .top svg{color:#9FD9BD}
+.inc .top span{color:rgba(247,247,243,.82)}
+
+/* garantía */
+.garantia{margin-top:12px;display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:center;background:var(--ambar-2);border-radius:16px;padding:14px}
+.garantia svg{width:40px;height:40px;color:var(--ambar)}
+.garantia b{display:block}
+.garantia span{font-size:.92rem;color:#5A4210}
+
+/* prueba reseña */
+.caja{background:var(--sup);border:1px solid var(--linea);border-radius:20px;padding:16px;display:grid;gap:12px}
+.estrellas{display:flex;gap:4px}
+.estrellas button{background:none;border:0;padding:2px;cursor:pointer;font-size:2rem;line-height:1;color:var(--linea-2)}
+.estrellas button.on{color:var(--estrella)}
+.caja input,.caja textarea{width:100%;font:inherit;font-size:16px;color:var(--tinta);background:var(--papel);border:1px solid var(--linea);border-radius:12px;padding:12px 14px}
+.caja textarea{min-height:90px;resize:vertical}
+.ejemplos{display:flex;gap:6px;flex-wrap:wrap}
+.ejemplos button{font:600 .82rem/1 var(--t);color:var(--bosque);background:var(--bosque-agua);border:0;border-radius:99px;padding:8px 11px;cursor:pointer}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;font:700 1.05rem/1 var(--t);color:var(--papel);background:var(--bosque);border:0;border-radius:14px;padding:17px 20px;text-decoration:none;cursor:pointer}
+.btn:active{transform:scale(.98)}
+.res{margin-top:14px;background:var(--sup);border:1px solid var(--linea);border-radius:20px;overflow:hidden}
+.res .rv{padding:14px 16px;display:grid;gap:5px}
+.res .quien{display:flex;align-items:center;gap:9px;font-size:.93rem}
+.res .av{width:30px;height:30px;border-radius:50%;background:var(--papel-2);display:grid;place-items:center;font-weight:700;color:var(--tinta-2)}
+.res .est{color:var(--estrella);letter-spacing:1px}
+.res .rp{border-top:1px solid var(--linea);padding:14px 16px;display:grid;gap:8px;background:var(--bosque-agua)}
+.res .rp.parada{background:var(--ambar-2)}
+.estado{font:600 .72rem/1 var(--m);letter-spacing:.1em;text-transform:uppercase;color:var(--bosque)}
+.parada .estado{color:#8A5A00}
+.res .txt{white-space:pre-line}
+.res .aviso{font-size:.88rem;color:#5A4210}
+.escribe{color:var(--tinta-3);font-style:italic}
+.simu{font-size:.8rem;color:var(--tinta-3);margin-top:8px}
+
+/* precio */
+.precio{margin-top:36px;background:var(--sup);border:1.5px solid var(--bosque);border-radius:22px;padding:20px;display:grid;gap:14px;box-shadow:0 2px 4px rgba(20,24,26,.05),0 14px 34px -14px rgba(20,24,26,.2)}
+.precio .fila{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.precio .cifra{font:700 3.1rem/1 var(--m);letter-spacing:-.03em}
+.precio .por{color:var(--tinta-2)}
+.precio .iva{font-size:.88rem;color:var(--tinta-3)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips span{font:600 .8rem/1 var(--t);background:var(--bosque-agua);color:var(--bosque);border-radius:99px;padding:7px 10px}
+.pagos{font-size:.83rem;color:var(--tinta-3);text-align:center;line-height:1.5}
+.pasos{list-style:none;margin:0;padding:0;display:grid;gap:10px;counter-reset:p}
+.pasos li{display:grid;grid-template-columns:38px 1fr;gap:12px;align-items:start;background:var(--sup);border:1px solid var(--linea);border-radius:16px;padding:13px}
+.pasos li::before{counter-increment:p;content:counter(p);width:38px;height:38px;border-radius:11px;background:var(--bosque);color:var(--papel);display:grid;place-items:center;font:700 1.05rem/1 var(--m)}
+.pasos b{display:block}
+.pasos span{font-size:.92rem;color:var(--tinta-2)}
+.letra{background:var(--sup);border:1px solid var(--linea);border-radius:16px;padding:4px 16px}
+.letra div{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;padding:11px 0;border-bottom:1px solid var(--linea);font-size:.95rem}
+.letra div:last-child{border-bottom:0}
+.letra span{color:var(--tinta-2)}
+.letra b{text-align:right}
+details{background:var(--sup);border:1px solid var(--linea);border-radius:14px;margin-bottom:8px}
+summary{cursor:pointer;list-style:none;padding:14px 16px;font-weight:700;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font:500 1.3rem/1 var(--m);color:var(--tinta-3)}
+details[open] summary::after{content:"–"}
+details p{padding:0 16px 14px;color:var(--tinta-2);font-size:.95rem}
+.final{margin-top:34px;text-align:center;display:grid;gap:12px;padding:24px 20px;background:var(--bosque);color:var(--papel);border-radius:22px}
+.final h2{color:var(--papel);margin:0;font-size:1.5rem}
+.final p{color:rgba(247,247,243,.82)}
+.final .btn{background:var(--papel);color:var(--bosque)}
+.final .dudas a{color:var(--papel);font-weight:700}
+.pie{padding-top:26px;font-size:.8rem;color:var(--tinta-3);text-align:center;display:grid;gap:6px}
+.barra{position:fixed;left:0;right:0;bottom:0;z-index:20;background:rgba(247,247,243,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--linea);padding:10px 18px calc(10px + env(safe-area-inset-bottom,0px));transform:translateY(110%);transition:transform .3s ease}
+.barra.ver{transform:none}
+.barra .in{max-width:600px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.barra .p{font:700 1.15rem/1.1 var(--m);white-space:nowrap}
+.barra .p small{display:block;font:500 .72rem/1.2 var(--t);color:var(--tinta-3)}
+.barra .btn{padding:14px 16px;font-size:1rem}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4V5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+<symbol id="i-estrella" viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+<symbol id="i-tarjeta" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2.5"/><path d="M7 10h3v3H7z"/><path d="M13 10h4M13 13h3"/></g></symbol>
+<symbol id="i-capas" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5"/></g></symbol>
+<symbol id="i-web" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9h18"/><path d="m12 12 1.2 2.4 2.6.4-1.9 1.8.5 2.6-2.4-1.3-2.4 1.3.5-2.6-1.9-1.8 2.6-.4L12 12Z" stroke-width="1.5"/></g></symbol>
+<symbol id="i-bot" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4V5Z"/><path d="M9 10h.01M12 10h.01M15 10h.01" stroke-linecap="round" stroke-width="2.6"/></g></symbol>
+<symbol id="i-red" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="18" r="2.5"/><circle cx="19" cy="18" r="2.5"/><path d="M11 7.3 6.2 15.8M13 7.3l4.8 8.5M7.5 18h9"/></g></symbol>
+<symbol id="i-graf" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V4M4 20h16"/><path d="m7 15 4-4 3 3 5-6"/></g></symbol>
+<symbol id="i-foto" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="2.5"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></g></symbol>
+<symbol id="i-escudo" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/><path d="m9 12 2 2 4-4" stroke-linecap="round"/></g></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 22s7-6.4 7-12a7 7 0 0 0-14 0c0 5.6 7 12 7 12Z" fill="currentColor"/><circle cx="12" cy="10" r="2.6" fill="#fff"/></symbol>
+<symbol id="i-lupa" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.3-4.3"/></g></symbol>
+</defs></svg>
+
+<div class="w">
+  <header class="cab">
+    <a class="marca" href="/">Guillem <span>Polo</span></a>
+    <a class="wa" href="https://wa.me/34688655465?text=Hola%20Guillem%2C%20tengo%20una%20duda%20sobre%20la%20posici%C3%B3n%20en%20Google" target="_blank" rel="noopener">¿Dudas? WhatsApp</a>
+  </header>
+
+  <main>
+    <div class="hero">
+      <span class="eyebrow">Google Maps · Reseñas · Ficha</span>
+      <h1 id="titulo">Nos encargamos de tu <em>posición en Google.</em></h1>
+      <p class="sub">Contestamos tus reseñas, te conseguimos más y dejamos tu ficha a punto para que, cuando alguien busque lo tuyo en tu zona, te elija a ti. 99 € + IVA al mes.</p>
+    </div>
+
+    <div class="mapa" aria-label="Ejemplo de resultados en Google Maps">
+      <div class="busca"><svg><use href="#i-lupa"/></svg><span><b id="mBusca">dentista en tu zona</b></span></div>
+      <ol id="mLista"></ol>
+      <div class="pie-m"><span id="mPie">Hoy: sales el 5.º</span><button type="button" id="mBtn">Ver con nosotros</button></div>
+    </div>
+    <p class="simu">Ejemplo para que veas la idea. Antes de empezar te enseñamos tu posición real en tus búsquedas.</p>
+
+    <section>
+      <span class="eyebrow">Qué hacemos cada mes</span>
+      <h2>Todo lo que mueve tu ficha, hecho por nosotros</h2>
+      <div class="inc">
+        <div class="top"><svg><use href="#i-chat"/></svg><b>Contestamos todas tus reseñas</b><span>Con tu tono y en el idioma del cliente. También las del último año sin respuesta. Las de 1 y 2 estrellas no se publican sin tu OK.</span></div>
+        <div><svg><use href="#i-tarjeta"/></svg><b>Tarjetas de reseñas para el mostrador</b><span>Con QR directo a escribir tu reseña. Tu cliente la deja en 20 segundos.</span></div>
+        <div><svg><use href="#i-estrella"/></svg><b>Más reseñas nuevas</b><span>Mensaje después de cada visita o trabajo, para que no se quede en «ya la pondré».</span></div>
+        <div><svg><use href="#i-capas"/></svg><b>Categorías y ficha al día</b><span>Categoría principal y secundarias, servicios, horarios, festivos y atributos. Lo primero que mira Google.</span></div>
+        <div><svg><use href="#i-foto"/></svg><b>Publicaciones y fotos</b><span>Novedades y fotos reales en tu ficha cada mes, para que se vea viva.</span></div>
+        <div><svg><use href="#i-web"/></svg><b>Botón «Déjanos tu reseña» en tu web</b><span>Al lado de tus reseñas, abre directamente la ventana de Google.</span></div>
+        <div><svg><use href="#i-bot"/></svg><b>Asistente en tu web</b><span>Responde horarios, servicios, precios y dónde estáis, a cualquier hora.</span></div>
+        <div><svg><use href="#i-red"/></svg><b>Tus datos iguales en todas partes</b><span>Apple Maps, Bing, Páginas Amarillas y Facebook con el mismo nombre, dirección y teléfono. Fuera duplicados.</span></div>
+        <div><svg><use href="#i-graf"/></svg><b>Informe de posiciones cada mes</b><span>En qué puesto sales en tus 3 búsquedas clave, frente a tu competencia, y cuántas llamadas y visitas te llegan desde Google.</span></div>
+      </div>
+      <div class="garantia"><svg><use href="#i-escudo"/></svg><div><b>Garantía de 90 días</b><span>Si en 3 meses no mejoras en ninguna de tus 3 búsquedas clave, el cuarto mes no lo pagas.</span></div></div>
+    </section>
+
+    <section>
+      <span class="eyebrow">Pruébalo</span>
+      <h2>Escribe una reseña y mira cómo la contestamos</h2>
+      <form class="caja" id="form">
+        <div class="estrellas" role="radiogroup" aria-label="Estrellas" id="est"></div>
+        <input id="nom" autocomplete="off" placeholder="Nombre del cliente (p. ej. Marta)" aria-label="Nombre del cliente">
+        <textarea id="txt" placeholder="Lo que escribiría tu cliente…" aria-label="Texto de la reseña"></textarea>
+        <div class="ejemplos">
+          <button type="button" data-e="5|Marta|Muy contenta con el trato, súper amables y rápidos. Repetiré seguro.">Una buena</button>
+          <button type="button" data-e="4|Carlos|Buen trabajo y buen precio, aunque tuve que esperar bastante a que me atendieran.">Con pega</button>
+          <button type="button" data-e="1|Javier|Me cobraron más de lo que me dijeron por teléfono y nadie me avisó.">Una queja</button>
+        </div>
+        <button class="btn" type="submit">Contestar esta reseña</button>
+      </form>
+      <div id="salida" aria-live="polite"></div>
+    </section>
+
+    <div class="precio" id="contratar">
+      <div>
+        <div class="fila"><span class="cifra">99 €</span><span class="por">/ mes</span></div>
+        <p class="iva">+ IVA (119,79 € en total)</p>
+        <div class="chips" style="margin-top:10px"><span>Alta gratis con tarjetas incluidas</span><span>Mínimo 3 meses</span><span>Garantía 90 días</span></div>
+      </div>
+      <a class="btn" href="#" data-pagar>Que se encarguen · 99 €/mes</a>
+      <p class="pagos">Pago seguro con Stripe · tarjeta o domiciliación bancaria · se cobra solo cada mes y te llega la factura</p>
+    </div>
+
+    <section>
+      <span class="eyebrow">Cómo empezar</span>
+      <h2>En una semana está todo funcionando</h2>
+      <ol class="pasos">
+        <li><div><b>Te das de alta aquí</b><span>Con tarjeta o con la cuenta del banco. Dos minutos.</span></div></li>
+        <li><div><b>Nos añades como gestor de tu ficha</b><span>Sin darnos tu contraseña. Te decimos cómo, en dos minutos, y nos cuentas tu tono.</span></div></li>
+        <li><div><b>Te mandamos tu informe de partida</b><span>En qué puesto sales hoy en tus 3 búsquedas clave. Es el punto desde el que medimos.</span></div></li>
+        <li><div><b>Ponemos todo en marcha</b><span>Ficha, categorías, reseñas atrasadas, tarjetas, botón y asistente en tu web. Y cada mes, tu informe.</span></div></li>
+      </ol>
+    </section>
+
+    <section>
+      <span class="eyebrow">Condiciones</span>
+      <h2>Claro desde el principio</h2>
+      <div class="letra">
+        <div><span>Precio</span><b>99 €/mes + IVA</b></div>
+        <div><span>Alta</span><b>Gratis, con tarjetas incluidas</b></div>
+        <div><span>Permanencia</span><b>3 meses</b></div>
+        <div><span>Después</span><b>Mes a mes</b></div>
+        <div><span>Cancelar</span><b>Avisando antes del siguiente cobro</b></div>
+        <div><span>Garantía</span><b>Mes 4 gratis si no mejoras</b></div>
+        <div><span>Cómo se paga</span><b>Tarjeta o domiciliación</b></div>
+        <div><span>Tu contraseña</span><b>No la necesitamos</b></div>
+        <div><span>Reseñas falsas</span><b>Nunca</b></div>
+      </div>
+    </section>
+
+    <section>
+      <span class="eyebrow">Preguntas</span>
+      <h2>Lo que suelen preguntar</h2>
+      <details><summary>¿Me garantizáis salir el primero?</summary><p>No, y desconfía de quien te lo prometa: Google también tiene en cuenta lo cerca que está quien busca. Lo que sí garantizamos es hacer todo lo que mueve tu ficha y enseñarte cada mes en qué puesto estás. Si en 90 días no mejoras en ninguna de tus 3 búsquedas, el cuarto mes no lo pagas.</p></details>
+      <details><summary>¿Y si no tengo web?</summary><p>Todo lo de Google funciona igual. El botón de reseñas y el asistente van en tu web; si no tienes, te la podemos hacer aparte.</p></details>
+      <details><summary>¿Cuándo se nota?</summary><p>Las reseñas contestadas y la ficha completa se ven desde la primera semana. La posición suele moverse en semanas, según lo trabajada que esté tu competencia.</p></details>
+      <details><summary>¿Escribís reseñas falsas?</summary><p>Nunca. Solo pedimos reseñas a tus clientes reales y contestamos las que dejan. Las falsas son ilegales y Google castiga las fichas que las tienen.</p></details>
+      <details><summary>¿Necesitáis mi contraseña de Google?</summary><p>No. Nos añades como gestor desde tu propia ficha y puedes quitarnos cuando quieras.</p></details>
+    </section>
+
+    <div class="final">
+      <h2>Que tu competencia no te pase por delante en Google</h2>
+      <p>99 €/mes + IVA · alta gratis · garantía de 90 días</p>
+      <a class="btn" href="#" data-pagar>Que se encarguen · 99 €/mes</a>
+      <p class="dudas">¿Prefieres hablarlo antes? <a href="https://wa.me/34688655465?text=Hola%20Guillem%2C%20tengo%20una%20duda%20sobre%20la%20posici%C3%B3n%20en%20Google" target="_blank" rel="noopener">Escríbeme por WhatsApp</a></p>
+    </div>
+  </main>
+
+  <footer class="pie">
+    <p><a href="/condiciones">Condiciones</a> · <a href="/privacidad">Privacidad</a> · <a href="/aviso-legal">Aviso legal</a></p>
+    <p>Guillem Polo Santisteban · NIF 79439688B · Bilbao · 688 65 54 65 · guillem@guillempolo.es</p>
+  </footer>
+</div>
+
+<div class="barra" id="barra" aria-hidden="true"><div class="in"><div class="p">99 €/mes<small>+ IVA · alta gratis</small></div><a class="btn" href="#" data-pagar tabindex="-1">Que se encarguen</a></div></div>
+
+<script>
+(function(){
+  /* Enlace de pago de Stripe (99 €/mes). Vacío = los botones abren WhatsApp. */
+  var STRIPE = "";
+  var q=new URLSearchParams(location.search);
+  var NEG=(q.get("n")||"").trim().slice(0,60);
+  var BUSCA=(q.get("b")||"").trim().slice(0,50);
+  if(NEG){var t=document.getElementById("titulo");t.textContent="";t.appendChild(document.createTextNode(NEG+": nos encargamos de tu "));var em=document.createElement("em");em.textContent="posición en Google.";t.appendChild(em);document.title=NEG+" · tu posición en Google · 99 €/mes"}
+
+  /* ---------- mapa de ejemplo ---------- */
+  var listaM=document.getElementById("mLista"),pieM=document.getElementById("mPie"),btnM=document.getElementById("mBtn");
+  if(BUSCA)document.getElementById("mBusca").textContent=BUSCA;
+  var otros=[["Competidor A","4,6","212"],["Competidor B","4,4","98"],["Competidor C","4,7","64"],["Competidor D","4,2","150"]];
+  var tu=[NEG||"Tu negocio","4,8","180"];
+  var antes=[otros[0],otros[1],otros[2],otros[3],tu],despues=[otros[0],tu,otros[1],otros[2],otros[3]];
+  var vista=0;
+  function pintarMapa(arr){
+    listaM.innerHTML="";
+    arr.forEach(function(r,i){var li=document.createElement("li");if(r===tu)li.className="tu";
+      li.innerHTML='<span class="n">'+(i+1)+'</span><span><b></b><small><i>★</i> '+r[1]+' · '+r[2]+' reseñas</small></span><svg class="pin"><use href="#i-pin"/></svg>';
+      li.querySelector("b").textContent=r[0];listaM.appendChild(li)});
+  }
+  function alternar(){vista=1-vista;pintarMapa(vista?despues:antes);pieM.textContent=vista?"Con la ficha trabajada: sube posiciones":"Hoy: sales el 5.º";btnM.textContent=vista?"Ver antes":"Ver con nosotros"}
+  pintarMapa(antes);btnM.onclick=alternar;
+  if(!matchMedia("(prefers-reduced-motion: reduce)").matches)setTimeout(function(){if(vista===0)alternar()},2600);
+
+  /* ---------- estrellas y ejemplos ---------- */
+  var est=5,box=document.getElementById("est");
+  for(var i=1;i<=5;i++){(function(n){var b=document.createElement("button");b.type="button";b.textContent="★";b.setAttribute("role","radio");b.setAttribute("aria-label",n+(n===1?" estrella":" estrellas"));b.onclick=function(){est=n;pintarEst()};box.appendChild(b)})(i)}
+  function pintarEst(){[].forEach.call(box.children,function(b,i){b.classList.toggle("on",i<est);b.setAttribute("aria-checked",i+1===est)})}
+  pintarEst();
+  document.querySelectorAll("[data-e]").forEach(function(b){b.onclick=function(){var p=b.dataset.e.split("|");est=+p[0];pintarEst();document.getElementById("nom").value=p[1];document.getElementById("txt").value=p[2]}});
+
+  /* ---------- redactor de respuestas (simulación) ---------- */
+  function norm(s){return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")}
+  function h(s){var x=0;for(var i=0;i<s.length;i++)x=(x*31+s.charCodeAt(i))>>>0;return x}
+  function elige(arr,seed){return arr[seed%arr.length]}
+  var TEMAS=[
+    {re:/trato|amabl|simpatic|atent|majo|maja|cercan|atencion|profesional|encantador/,f:["que te sintieras a gusto con el trato","que te atendiéramos como te mereces"]},
+    {re:/a tiempo|puntual|en el dia|justo a la hora/,f:["que todo llegara a tiempo"]},
+    {re:/rapid|enseguida|al momento|en nada|sin esperar/,f:["que todo fuera rápido","que no tuvieras que esperar"]},
+    {re:/\bprecio\b|barat|economic|presupuesto|buen precio/,f:["que el precio te pareciera justo"]},
+    {re:/impecable|perfect|genial|calidad|buen trabajo|excelente|de diez|fenomenal|precios[ao]s|bonit|espectacular|maravill/,f:["que te gustara tanto el resultado","que el resultado te convenciera"]},
+    {re:/comida|plato|\brico|delicios|sabor|tarta|pastel|cafe|menu/,f:["que disfrutaras de lo que probaste"]},
+    {re:/limpi|ordenad|agradable|ambiente/,f:["que te encontraras a gusto en el local"]}
+  ];
+  var PEGAS=[
+    {re:/esper|retraso|\btard|cola|lent|demor/,txt:"la espera",acc:"tomamos nota para organizarnos mejor y que no vuelva a pasar"},
+    {re:/cobr|\bcaro|factura|mas de lo que/,txt:"el precio",acc:"queremos revisarlo contigo, porque el precio tiene que ser siempre el que se dice"},
+    {re:/sucio|poco limpi/,txt:"la limpieza",acc:"lo hemos hablado con el equipo para que esté siempre como tiene que estar"},
+    {re:/maleducad|borde|grosero|mal trato|desagradable|antipatic/,txt:"el trato",acc:"no es como queremos tratar a nadie y lo hemos hablado con el equipo"},
+    {re:/no funciona|roto|mal hecho|averi|fallo|otra vez|volvio a/,txt:"cómo quedó el trabajo",acc:"queremos revisarlo y dejarlo bien"},
+    {re:/nadie|no contest|no cogen|no me llam|no avis/,txt:"que no te avisáramos",acc:"tienes razón en que hay que avisar siempre"}
+  ];
+  function nombre(s){s=(s||"").trim().split(/\s+/)[0]||"";return s?s.charAt(0).toUpperCase()+s.slice(1).toLowerCase():""}
+  function lista(a){return a.length<2?a.join(""):a.slice(0,-1).join(", ")+" y "+a[a.length-1]}
+  function cap1(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+  function redactar(n,e,t){
+    var nt=norm(t),seed=h(t+n+e),nm=nombre(n),hola=nm?", "+nm:"";
+    var hayPero=/\bpero\b|aunque|lo unico|eso si|una pega|a mejorar|un poco/.test(nt);
+    var pegas=(e<=3||hayPero)?PEGAS.filter(function(x){return x.re.test(nt)}).slice(0,2):[];
+    var buenas=TEMAS.filter(function(x){return x.re.test(nt)}).map(function(x,i){return elige(x.f,seed+i)});
+    if(pegas.length){buenas=buenas.filter(function(f){return !pegas.some(function(p){return (p.txt==="el precio"&&/precio/.test(f))||(p.txt==="la espera"&&/rápido|esperar/.test(f))||(p.txt==="el trato"&&/trato|atendiéramos/.test(f))})})}
+    buenas=buenas.slice(0,2);
+    var vuelve=/volver|repetir|repetire|recomiend|sin duda/.test(nt);
+    var corta=t.trim().split(/\s+/).length<4;
+    var firma=NEG?"\n"+(e<=3?"Un saludo, el equipo de ":elige(["Un saludo, el equipo de ","Un abrazo, el equipo de "],seed))+NEG:"";
+    if(e<=2){
+      var x=elige(["Hola"+hola+". Sentimos mucho tu experiencia","Hola"+hola+", gracias por contárnoslo y perdona por la experiencia"],seed);
+      x+=pegas.length?" con "+lista(pegas.map(function(p){return p.txt}))+". "+cap1(pegas[0].acc)+".":". No es lo que queremos para nadie que confía en nosotros.";
+      x+=" ¿Nos escribes o nos llamas y lo vemos contigo? Queremos solucionarlo.";
+      return {parada:true,txt:x+firma};
+    }
+    var gr=e===5?elige(["¡Muchas gracias"+hola+"!","¡Gracias de corazón"+hola+"!","¡Qué alegría leerte"+hola+"!"],seed):e===4?elige(["Muchas gracias por tu reseña"+hola+".","Gracias por tomarte el tiempo"+hola+"."],seed):"Gracias por tu sinceridad"+hola+".";
+    var cuerpo="";
+    if(corta&&!buenas.length&&!pegas.length){cuerpo=e>=4?" Gracias por las "+(e===5?"cinco":"cuatro")+" estrellas.":""}
+    else if(buenas.length){cuerpo=" Nos alegra mucho "+lista(buenas)+"."}
+    else if(e>=4&&!pegas.length){cuerpo=" "+elige(["Nos alegra mucho que saliera todo bien.","Es un gusto saber que quedaste contento."],seed)}
+    if(pegas.length){cuerpo+=" Y tienes razón con "+lista(pegas.map(function(p){return p.txt}))+": "+pegas[0].acc+"."}
+    else if(e===3){cuerpo+=" Si hay algo que podamos hacer mejor, nos encantará que nos lo cuentes."}
+    var cierre=" "+(vuelve?elige(["¡Te esperamos en la próxima!","Aquí nos tienes para la próxima."],seed+3):elige(["Te esperamos pronto.","Aquí nos tienes para lo que necesites."],seed+3));
+    return {parada:e===3&&pegas.length>0,txt:gr+cuerpo+cierre+firma};
+  }
+
+
+  var sal=document.getElementById("salida");
+  document.getElementById("form").addEventListener("submit",function(ev){
+    ev.preventDefault();
+    var n=document.getElementById("nom").value.trim()||"Cliente",t=document.getElementById("txt").value.trim();
+    if(!t){document.getElementById("txt").focus();return}
+    var r=redactar(n,est,t);
+    sal.innerHTML="";
+    var c=document.createElement("div");c.className="res";
+    c.innerHTML='<div class="rv"><div class="quien"><span class="av"></span><b></b><span class="est"></span></div><p></p></div><div class="rp'+(r.parada?' parada':'')+'"><span class="estado"></span><p class="txt escribe">escribiendo…</p></div>';
+    c.querySelector(".av").textContent=n.charAt(0).toUpperCase();c.querySelector(".quien b").textContent=n;
+    c.querySelector(".est").textContent="★★★★★".slice(0,est)+"☆☆☆☆☆".slice(0,5-est);
+    c.querySelector(".rv p").textContent=t;
+    c.querySelector(".estado").textContent=r.parada?"Parada · te llega a ti antes de publicarse":"Contestada · con tu tono";
+    sal.appendChild(c);
+    var p=c.querySelector(".txt");
+    setTimeout(function(){p.classList.remove("escribe");p.textContent=r.txt;
+      if(r.parada){var a=document.createElement("p");a.className="aviso";a.textContent="Con una queja no se publica nada solo: te llega al móvil con esta respuesta preparada y decides si se manda, se cambia o llamas tú antes.";c.querySelector(".rp").appendChild(a)}
+      var s=document.createElement("p");s.className="simu";s.textContent="Simulación para que veas el criterio. En tu negocio la respuesta se escribe con tu tono, tu firma y lo que más os nombran tus clientes.";sal.appendChild(s);
+    },700);
+    c.scrollIntoView({behavior:"smooth",block:"nearest"});
+  });
+
+
+  /* ---------- pago ---------- */
+  function slug(s){return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,60)}
+  var dest=STRIPE?STRIPE+(NEG?(STRIPE.indexOf("?")>=0?"&":"?")+"client_reference_id="+encodeURIComponent(slug(NEG)):""):"https://wa.me/34688655465?text="+encodeURIComponent("Hola Guillem, quiero que os encarguéis de mi posición en Google (99 €/mes)"+(NEG?" para "+NEG:"")+".");
+  document.querySelectorAll("[data-pagar]").forEach(function(a){a.href=dest;if(!STRIPE){a.target="_blank";a.rel="noopener"}});
+
+  /* barra fija */
+  var barra=document.getElementById("barra"),tarjeta=document.getElementById("contratar");
+  if("IntersectionObserver" in window){new IntersectionObserver(function(e){var fuera=!e[0].isIntersecting&&e[0].boundingClientRect.top<0;barra.classList.toggle("ver",fuera);barra.setAttribute("aria-hidden",fuera?"false":"true");barra.querySelector("a").tabIndex=fuera?0:-1}).observe(tarjeta)}
+})();
+</script>
+</body>
+</html>

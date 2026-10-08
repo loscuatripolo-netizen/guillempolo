@@ -299,7 +299,8 @@ details p{padding:0 16px 14px;color:var(--tinta-2);font-size:.95rem}
   var listaM=document.getElementById("mLista"),pieM=document.getElementById("mPie"),btnM=document.getElementById("mBtn");
   if(BUSCA)document.getElementById("mBusca").textContent=BUSCA;
   var otros=[["Competidor A","4,6","212"],["Competidor B","4,4","98"],["Competidor C","4,7","64"],["Competidor D","4,2","150"]];
-  var tu=[NEG||"Tu negocio","4,8","180"];
+  var NOTA=(q.get("r")||"").replace(".",","),NUM=(q.get("c")||"");
+  var tu=[NEG||"Tu negocio",/^[1-5](,\d)?$/.test(NOTA)?NOTA:"4,8",/^\d{1,5}$/.test(NUM)?NUM:"180"];
   var antes=[otros[0],otros[1],otros[2],otros[3],tu],despues=[otros[0],tu,otros[1],otros[2],otros[3]];
   var vista=0;
   function pintarMapa(arr){

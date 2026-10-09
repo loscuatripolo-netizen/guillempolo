@@ -407,6 +407,7 @@ a.btn{color:inherit}
 #toast{transition:opacity .25s,transform .45s var(--muelle)}
 #toast:before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:#39D37A;margin-right:9px;vertical-align:1px}
 @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}.tecleo,.notif{display:none}}
+@media (max-width:860px){body:has(.clin) #toast{bottom:calc(86px + env(safe-area-inset-bottom,0px))}}
 </style>
 </head>
 <body>

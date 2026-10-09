@@ -441,6 +441,15 @@ body.solo .seg,body.solo #plan-top{display:none}
 .wm.out.nuevo{transform-origin:right top}
 .wm.nuevo.tarde{animation-delay:.8s}
 .wm.nuevo.tarde2{animation-delay:1.35s}
+/* respuestas en el WhatsApp del paciente */
+.wa-btns{display:flex;flex-direction:column;gap:4px;align-self:flex-start;width:84%;margin-top:-3px}
+.wa-btns button{border:0;background:#fff;border-radius:8px;padding:9px 8px;font:600 13px var(--f-b);color:#027EB5;box-shadow:0 1px .5px rgba(0,0,0,.13)}
+.wa-btns.sug{flex-direction:row;flex-wrap:wrap;width:100%}
+.wa-btns.sug button{flex:none;border-radius:99px;padding:6px 11px;font-size:12.5px;color:var(--acc-ink)}
+.wa-btns.tarde{animation:sube .4s 1s var(--ease) both}
+.wa-msg.nuevo.tarde{animation-delay:.8s}
+.wa-msg.yo small svg{color:#53BDEB}
+.wa-in{background:#F0F2F5!important}
 </style>
 </head>
 <body>
@@ -580,13 +589,13 @@ function nuevoPac(diaAlta,origen){var p={id:nid('p'),n:pick(NOMS)+' '+pick(APS),
 for(var i0=0;i0<45;i0++)nuevoPac(iso(addD(HOY,-60-Math.floor(rnd()*200))));
 
 (function generar(){
-  for(var k=-28;k<=8;k++){
+  for(var k=-70;k<=8;k++){
     var d=addD(HOY,k);if(!abre(d))continue;var di=iso(d);
-    var occ=k<0?.76:k===0?.8:Math.max(.25,.74-k*.06);
+    var occ=k<-28?.2:k<0?.76:k===0?.8:Math.max(.25,.74-k*.06);
     slots(d).forEach(function(h){
       CFG.pros.forEach(function(pr){
         if(rnd()>occ)return;
-        var nuevo=rnd()<(k<0?.1:.12),p;
+        var nuevo=rnd()<(k<-28?.04:k<0?.1:.12),p;
         if(nuevo)p=nuevoPac(di);else{var cand=S.pac.filter(function(x){return x.alta<=di&&x.pro===pr.id});p=cand.length?pick(cand):pick(S.pac)}
         var srv=nuevo?'val':(rnd()<.7?'fis':pick(CFG.servicios).id);
         var est;
@@ -610,14 +619,13 @@ for(var i0=0;i0<45;i0++)nuevoPac(iso(addD(HOY,-60-Math.floor(rnd()*200))));
   var pc={id:nid('p'),n:'Carmen López',tel:'611 24 87 30',alta:iso(addD(HOY,-40)),origen:'Google',pro:CFG.pros[0].id,bono:null};S.pac.push(pc);
   var hs=slots(MANANA),hC=hs.filter(function(h){return toMin(h)>=16*60})[1]||hs[Math.floor(hs.length/2)]||'10:00';
   S.citas=S.citas.filter(function(c){return !(c.f===iso(MANANA)&&c.h===hC&&c.pro===pc.pro)});
-  var cc={id:nid('c'),pac:pc.id,srv:'fis',pro:pc.pro,f:iso(MANANA),h:hC,est:'confirmada',orig:'Recepción',nuevo:false,rec:'confirmada',resena:null};S.citas.push(cc);
+  var cc={id:nid('c'),pac:pc.id,srv:'fis',pro:pc.pro,f:iso(MANANA),h:hC,est:'pendiente',orig:'Recepción',nuevo:false,rec:'enviado',resena:null};S.citas.push(cc);
   var ant=addD(HOY,-6);
   var w=function(txt,dir,h,dia,link){S.wa.push({pid:pc.id,txt:txt,dir:dir,h:h,dia:dia,link:link,tipo:'ej'})};
   w('Gracias por venir hoy, Carmen. Si te hemos ayudado, ¿nos dejas una reseña en Google? Es un minuto.','out','19:42',cap1(fC(ant)),'Escribir reseña en Google');
   w('Tu próxima cita en '+CFG.nombre+': '+fD(MANANA)+' a las '+hC+' con '+CFG.pros[0].n+'. Si no puedes venir, contesta a este mensaje y te damos otra hora.','out','19:43');
   w(fill(CFG.plantillaRec,{nombre:'Carmen',hora:hC,fisio:CFG.pros[0].n,clinica:CFG.nombre}),'out','10:00','Hoy');
-  w('1','in','10:04');
-  w('¡Perfecto, Carmen! Te esperamos mañana a las '+hC+'.','out','10:04');
+  S.wa[S.wa.length-1].btns=['1 · Confirmo','2 · No puedo ir'];
   S.demoPac=pc.id;
 })();
 
@@ -664,7 +672,7 @@ function libres(d,proId){
   return o;
 }
 function log(txt,tipo){S.log.unshift({h:hhmm(),txt:txt,tipo:tipo||'info'})}
-function wa(p,txt,tipo,dir,link){S.wa.push({pid:p.id,to:p.n,txt:txt,tipo:tipo,dir:dir||'out',h:hhmm(),link:link})}
+function wa(p,txt,tipo,dir,link){S.wa.push({pid:p.id,to:p.n,txt:dir==='in'?txt:sin0(txt),tipo:tipo,dir:dir||'out',h:hhmm(),link:link})}
 function toast(t){var e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(e._t);e._t=setTimeout(function(){e.classList.remove('on')},3000)}
 
 /* ---------- acciones ---------- */
@@ -695,7 +703,7 @@ function aceptarOferta(o){
 }
 function enviarRecs(){
   var l=S.citas.filter(function(c){return c.f===iso(MANANA)&&c.rec==='por enviar'&&c.est!=='anulada'});
-  l.forEach(function(c){var p=P(c.pac);c.rec='enviado';wa(p,fill(CFG.plantillaRec,{nombre:nombre1(p),hora:c.h,fisio:PRO(c.pro).n,clinica:CFG.nombre}),'recordatorio')});
+  l.forEach(function(c){var p=P(c.pac);c.rec='enviado';wa(p,fill(CFG.plantillaRec,{nombre:nombre1(p),hora:c.h,fisio:PRO(c.pro).n,clinica:CFG.nombre}),'recordatorio');S.wa[S.wa.length-1].btns=['1 · Confirmo','2 · No puedo ir']});
   if(l.length){log(l.length+' recordatorios de mañana enviados por WhatsApp','acc');
     l.forEach(function(c,i){if(i%3!==2){c.rec='confirmada';c.est='confirmada';wa(P(c.pac),'1','recordatorio','in')}});
     log(l.filter(function(c){return c.rec==='confirmada'}).length+' pacientes ya han confirmado','ok')}
@@ -1286,6 +1294,37 @@ function chatHoja(h){
     '<form class="wch-in" id="chat-f"><input id="chat-in" placeholder="'+esc(ph)+'" autocomplete="off" aria-label="Mensaje"'+(CV&&CV.preg==='tel'?' inputmode="tel"':'')+'><button aria-label="Enviar">'+ENVIAR+'</button></form></div></div>';
 }
 
+/* ---------- el paciente contesta por WhatsApp: 1 confirma, 2 anula y se le ofrece otra hora ---------- */
+var WAE=null;
+function proxCita(p){return S.citas.filter(function(z){return z.pac===p.id&&z.f>=iso(HOY)&&(z.est==='confirmada'||z.est==='pendiente')}).sort(function(a,b){return (a.f+a.h).localeCompare(b.f+b.h)})[0]}
+function waR(p,txt,q){wa(p,sin0(txt),'respuesta');if(q)S.wa[S.wa.length-1].q=q.map(sin0)}
+function waIn(txt){
+  var p=P(S.demoPac);if(!p)return;
+  wa(p,txt,'respuesta','in');
+  var t=' '+norm(txt).replace(/[¿?¡!,.;]/g,' ')+' ',e=extraer(txt),c=proxCita(p),n=nombre1(p);
+  if(WAE){var o=null,O=WAE.ofertas;
+    if(e.ord!=null)o=O[e.ord<0?O.length-1:e.ord];
+    else if(e.h)o=O.find(function(x){return x.h===e.h&&(!e.dia||x.dia===iso(e.dia))});
+    else if(e.dia){var cs=O.filter(function(x){return x.dia===iso(e.dia)});if(cs.length===1)o=cs[0]}
+    else if(e.si&&O.length===1)o=O[0];
+    if(!o&&(e.dia||e.fr||e.masTarde||e.asap)){var desde=e.dia?iso(e.dia):WAE.desde;var nu2=primeros(3,e.fr||null,null,desde).filter(function(x){return !(x.dia===WAE.libre.dia&&x.h===WAE.libre.h)});
+      if(nu2.length){WAE.ofertas=nu2;waR(p,'Te puedo dar '+lista(nu2.map(function(x){return diaTxt(deIso(x.dia))+' a las '+x.h}))+'. ¿Te va alguna?',nu2.map(function(x){return cap1(diaTxt(deIso(x.dia)))+' a las '+x.h}));return}}
+    if(o){var l=libres(deIso(o.dia)).find(function(x){return x.h===o.h});if(!l){waR(p,'Esa hora se acaba de ocupar. ¿Te va otra de las que te dije?',O.map(function(x){return cap1(diaTxt(deIso(x.dia)))+' a las '+x.h}));return}
+      var nc=crearCita(p,WAE.srv,l.pro,o.dia,o.h,'WhatsApp');nc.rec=o.dia===iso(MANANA)?'confirmada':null;S.wa[S.wa.length-1].tipo='respuesta';
+      log(p.n+' cambia su cita por WhatsApp: ahora '+fD(deIso(o.dia))+' a las '+o.h,'ok');WAE=null;return}
+    if(e.no){WAE=null;waR(p,'Sin problema, '+n+'. Cuando quieras otra cita, escríbenos por aquí o pídela en la web.');return}
+    waR(p,'¿Cuál te viene mejor? Puedes contestar «la primera», la hora o el día que prefieras.',O.map(function(x){return cap1(diaTxt(deIso(x.dia)))+' a las '+x.h}));return}
+  if(c&&/^ *(1|si|vale|ok|confirmo|confirmado|perfecto|alli estare|alli estaremos|de acuerdo)\b/.test(t)){
+    c.est='confirmada';c.rec='confirmada';waR(p,'¡Perfecto, '+n+'! Te esperamos '+diaTxt(deIso(c.f))+' a las '+c.h+'.');log(p.n+' confirma su cita por WhatsApp','ok');return}
+  if(c&&(/^ *2\b/.test(t)||/no puedo|no podre|no voy a poder|anul|cancel|cambi|otro dia|otra hora|mover/.test(t))){
+    var libre={dia:c.f,h:c.h},srv=c.srv;c.rec='anulada';anular(c,'contestó por WhatsApp');
+    var ofs=primeros(3,e.fr||null,null,e.dia?iso(e.dia):c.f).filter(function(x){return !(x.dia===libre.dia&&x.h===libre.h)});
+    WAE={ofertas:ofs,srv:srv,libre:libre,desde:c.f};
+    waR(p,'Sin problema, '+n+', la he anulado. Te puedo dar '+lista(ofs.map(function(x){return diaTxt(deIso(x.dia))+' a las '+x.h}))+'. ¿Te va alguna? Si prefieres otro día, dímelo.',ofs.map(function(x){return cap1(diaTxt(deIso(x.dia)))+' a las '+x.h}));return}
+  if(!c&&(e.cita||e.dia||e.h)){waR(p,'¡Claro! Puedes pedirla aquí mismo en la web con el botón «Pedir cita», o te la damos nosotros: dime qué día te viene bien.');log('Mensaje de '+p.n+' por WhatsApp: «'+txt+'»','acc');return}
+  waR(p,'Gracias, '+n+'. Se lo paso a la clínica y te contestan en cuanto puedan.');log('Mensaje de '+p.n+' por WhatsApp pasado a la clínica: «'+txt+'»','acc');
+}
+
 /* ---------- lo que ve el paciente ---------- */
 function abiertoTxt(){var b=CFG.horario[HOY.getDay()]||[];var r=b.find(function(x){return NOW>=toMin(x[0])&&NOW<toMin(x[1])});
   if(r)return '<span class="vivo"></span><b>Abierto</b> · Cierra a las '+r[1].replace(/^0/,'');
@@ -1298,9 +1337,9 @@ function vPac(){
   var cols=[
     ['Le encuentran en Google',movGoogle(),LIG?'El botón «Reservar» de Google lleva directo a vuestro '+esc(CFG.sistema)+'.':'El botón «Reservar» de Google abre vuestra agenda. Sin llamadas.'],
     ['Entran en vuestra web',movWeb(),LIG?'Asistente que contesta a cualquier hora y manda a reservar.':'«Pedir cita» abre un chat tipo WhatsApp que da la cita al momento, también de noche.'],
-    LIG?['Al salir, la reseña',movQR(),'QR en recepción y enlace: la reseña en 20 segundos, en Google.']:['Y les llega por WhatsApp',movWa(),'Confirmación, recordatorio y petición de reseña. Solos.']
+    LIG?['Al salir, la reseña',movQR(),'QR en recepción y enlace: la reseña en 20 segundos, en Google.']:['Y les llega por WhatsApp',movWa(),'Pruébalo: contesta al recordatorio como si fueras el paciente.']
   ];
-  return '<div class="esc"><div class="esc-h"><div><span class="eyebrow">Lo que ve el paciente</span><h1>'+(LIG?'Google, vuestra web y la reseña':'Google, vuestra web y su WhatsApp')+'</h1><p>'+(LIG?'Prueba a pulsar «Reservar» en Google o pregunta algo al asistente. Todo acaba en vuestro '+esc(CFG.sistema)+', y las reseñas, en Google.':(SOLO?'Pruébalo como si fueras un paciente: reserva desde Google o desde la web y mira el WhatsApp que te llega.':'Prueba a reservar desde Google o desde la web y mira cómo llega el WhatsApp. Todo lo que pasa aquí aparece en el panel.'))+'</p></div>'+
+  return '<div class="esc"><div class="esc-h"><div><span class="eyebrow">Lo que ve el paciente</span><h1>'+(LIG?'Google, vuestra web y la reseña':'Google, vuestra web y su WhatsApp')+'</h1><p>'+(LIG?'Prueba a pulsar «Reservar» en Google o pregunta algo al asistente. Todo acaba en vuestro '+esc(CFG.sistema)+', y las reseñas, en Google.':(SOLO?'Pruébalo como si fueras un paciente: reserva desde Google, pide cita escribiendo en el chat de la web o contesta al recordatorio de WhatsApp.':'Reserva desde Google, pide cita escribiendo en el chat de la web o contesta al recordatorio de WhatsApp. Todo lo que pasa aquí aparece en el panel.'))+'</p></div>'+
     (SOLO?'':'<button class="btn" id="v-clin2">Ver el panel</button>')+'</div>'+
     '<div class="movtabs" role="group" aria-label="Pantalla">'+cols.map(function(c,i){return '<button data-mov="'+(i+1)+'" aria-pressed="'+(t===i+1)+'"'+(i===2&&t!==3&&!LIG&&S.wa.some(function(m){return m.pid===S.demoPac&&nu(m)})?' class="ping"':'')+'>'+(i+1)+' · '+['Google','Web',LIG?'Reseña':'WhatsApp'][i]+'</button>'}).join('')+'</div>'+
     '<div class="tres">'+cols.map(function(c,i){return '<div class="'+(t===i+1?'on':'')+'"><div class="cap"><span>'+(i+1)+'</span>'+c[0]+'</div><div class="mov"><div class="pant">'+c[1]+'</div></div><p class="nota-pie">'+c[2]+'</p></div>'}).join('')+'</div></div>';
@@ -1322,10 +1361,13 @@ function movWeb(){
 function movWa(){
   var p=P(S.demoPac),ms=S.wa.filter(function(m){return m.pid===S.demoPac});
   var h='';ms.forEach(function(m,i){if(m.dia)h+='<span class="dia">'+esc(m.dia)+'</span>';else if(i===0)h+='<span class="dia">Hoy</span>';
-    h+='<div class="wa-msg'+(m.dir==='in'?' yo':'')+nu(m)+'">'+esc(m.txt)+(m.link?'<span class="link">'+esc(m.link)+'</span>':'')+'<small>'+m.h+'</small></div>'});
-  var ul=ms[ms.length-1],noti=ul&&nu(ul)&&ul.dir==='out'?'<div class="notif"><span class="av" style="background:var(--acc)">'+esc($('#logo').textContent||'F')+'</span><span style="min-width:0"><b>'+esc(CFG.nombre)+'</b><small>'+esc(ul.txt)+'</small></span><i>ahora</i></div>':'';
+    var resp=m.dir==='out'&&nu(m)&&i>0&&ms[i-1].dir==='in'&&nu(ms[i-1]);
+    h+='<div class="wa-msg'+(m.dir==='in'?' yo':'')+nu(m)+(resp?' tarde':'')+'">'+esc(m.txt)+(m.link?'<span class="link">'+esc(m.link)+'</span>':'')+'<small>'+m.h+(m.dir==='in'?' '+TICK:'')+'</small></div>';
+    var opc=i===ms.length-1&&m.dir==='out'&&!LIG?(m.btns||m.q):null;
+    if(opc)h+='<div class="wa-btns'+(m.btns?'':' sug')+(resp?' tarde':'')+'">'+opc.map(function(x){return '<button data-wa="'+esc(x)+'">'+esc(x)+'</button>'}).join('')+'</div>'});
+  var ul=ms[ms.length-1],esResp=ms.some(function(m){return m.dir==='in'&&nu(m)}),noti=ul&&nu(ul)&&ul.dir==='out'&&!esResp?'<div class="notif"><span class="av" style="background:var(--acc)">'+esc($('#logo').textContent||'F')+'</span><span style="min-width:0"><b>'+esc(CFG.nombre)+'</b><small>'+esc(ul.txt)+'</small></span><i>ahora</i></div>':'';
   return noti+barraEstado()+'<div class="wp-top">'+I.atras+'<span class="av" style="background:var(--acc)">'+esc($('#logo').textContent||'F')+'</span><span style="min-width:0"><b style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+esc(CFG.nombre)+'</b><small>Cuenta de empresa</small></span></div><div class="wp">'+h+'</div>'+
-  '<div class="chat-in" style="background:#F7F7F7"><input disabled placeholder="Mensaje" aria-label="Mensaje (demo)"><button disabled style="opacity:.5">Enviar</button></div>';
+  '<form class="wch-in wa-in" id="wa-f"><input id="wa-txt" placeholder="Contesta como si fueras '+esc(p?nombre1(p):'el paciente')+'" autocomplete="off" aria-label="Mensaje"><button aria-label="Enviar">'+ENVIAR+'</button></form>';
 }
 function movQR(){
   return barraEstado()+'<div class="scroll"><div class="qr-p"><span class="logo" style="width:54px;height:54px;font-size:22px;border-radius:16px">'+esc($('#logo').textContent||'F')+'</span><h3>¿Qué tal tu sesión en '+esc(CFG.nombre)+'?</h3><p class="muted">Tu opinión ayuda a otras personas a encontrarnos. Es un minuto.</p>'+
@@ -1385,6 +1427,7 @@ document.addEventListener('click',function(ev){
   if(b.dataset.rdia&&S.rv){S.rv.dia=b.dataset.rdia;render();return}
   if(b.dataset.rh&&S.rv){S.rv.h=b.dataset.rh;S.rv.hp=b.dataset.rhp;S.rv.paso=3;render();return}
   if(b.dataset.q){chatIn(b.dataset.q);render();return}
+  if(b.dataset.wa){waIn(b.dataset.wa);render();return}
   var a=b.dataset.act,id=b.dataset.id,c=id&&S.citas.find(function(z){return z.id===id});
   switch(a){
     case 'atendida':c.est='hecha';var p=P(c.pac);if(p.bono&&p.bono.usadas<p.bono.total)p.bono.usadas++;pedirResena(c);log(p.n+' atendida · petición de reseña enviada','ok');toast('Atendida. Le ha salido el WhatsApp para pedir la reseña');break;
@@ -1424,7 +1467,7 @@ document.addEventListener('click',function(ev){
   }
   render();
 });
-document.addEventListener('submit',function(ev){if(ev.target.id==='chat-f'){ev.preventDefault();var i=$('#chat-in');var v=i.value.trim().slice(0,200);if(v){chatIn(v);render();var j=$('#chat-in');if(j)j.focus()}}});
+document.addEventListener('submit',function(ev){if(ev.target.id==='wa-f'){ev.preventDefault();var w=$('#wa-txt'),v=w.value.trim().slice(0,200);if(v){waIn(v);render();var j=$('#wa-txt');if(j)j.focus()}return}if(ev.target.id==='chat-f'){ev.preventDefault();var i=$('#chat-in');var v=i.value.trim().slice(0,200);if(v){chatIn(v);render();var j=$('#chat-in');if(j)j.focus()}}});
 function reservar(){
   var rv=S.rv,ni=$('#r-n'),ti=$('#r-t');rv.nom=ni.value;rv.tel=ti.value;
   var nom=rv.nom.trim(),tel=rv.tel.replace(/\D/g,'');
@@ -1449,7 +1492,7 @@ function tour(k){
   if(k==='anula'){
     S.modo='clin';S.tab='recordatorios';
     if(S.citas.some(function(c){return c.f===iso(MANANA)&&c.rec==='por enviar'}))enviarRecs();
-    var cand=S.citas.filter(function(c){return c.f===iso(MANANA)&&c.rec==='enviado'})[0]||S.citas.filter(function(c){return c.f===iso(MANANA)&&c.est!=='anulada'&&c.pac!==S.demoPac})[0];
+    var cand=S.citas.filter(function(c){return c.f===iso(MANANA)&&c.rec==='enviado'&&c.pac!==S.demoPac})[0]||S.citas.filter(function(c){return c.f===iso(MANANA)&&c.est!=='anulada'&&c.pac!==S.demoPac})[0];
     if(cand){cand.rec='anulada';wa(P(cand.pac),'2','recordatorio','in');anular(cand,'contestó 2 al recordatorio');toast(nombre1(P(cand.pac))+' no puede venir: el hueco ya se ha ofrecido a la lista de espera')}
   }
   if(k==='reserva'){S.modo='pac';if(LIG){S.hoja={m:1,tipo:'doc'};S.movTab=1;S.clicsRes++;toast('Pulsa «Reservar» en Google y acaba en vuestro '+CFG.sistema)}else{abrirReserva(1,'val');toast('Elige día y hora: en cuatro toques está reservada')}}

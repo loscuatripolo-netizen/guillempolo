@@ -408,6 +408,9 @@ a.btn{color:inherit}
 #toast:before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:#39D37A;margin-right:9px;vertical-align:1px}
 @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}.tecleo,.notif{display:none}}
 @media (max-width:860px){body:has(.clin) #toast{bottom:calc(86px + env(safe-area-inset-bottom,0px))}}
+/* solo lo que ve el paciente (?solo=paciente) */
+body.solo .seg,body.solo #plan-top{display:none}
+@media (max-width:600px){body.solo .mov{padding:0;background:none;box-shadow:none;border-radius:0}body.solo .pant{height:calc(100svh - 150px);min-height:560px;border-radius:18px}body.solo .esc-h p{display:none}body.solo .esc{padding-top:14px}}
 </style>
 </head>
 <body>
@@ -436,6 +439,7 @@ var F=window.FICHA||{};
 var REAL=!!(F.empresa||F.nombre);
 var PLAN=((Q.get('plan')||window.PLAN||'completo')==='ligero')?'ligero':'completo';
 var LIG=PLAN==='ligero';
+var SOLO=(Q.get('solo')||window.SOLO||'')==='paciente';
 var limpio=function(v,max){return (v||'').trim().slice(0,max)};
 var pad=function(n){return String(n).padStart(2,'0')};
 var norm=function(s){return String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')};
@@ -538,7 +542,7 @@ var pick=function(a){return a[Math.floor(rnd()*a.length)]};
 var NOMS=['María','Carmen','Ana','Laura','Lucía','Marta','Elena','Paula','Sara','Cristina','Isabel','Raquel','Pilar','Rosa','Nuria','Javier','David','Daniel','Carlos','Miguel','Alejandro','Pablo','Sergio','Jorge','Alberto','Juan','Antonio','Iker','Rubén','Ainhoa','Irene','Andrés','Óscar','Beatriz'];
 var APS=['García','Fernández','González','Rodríguez','López','Martínez','Sánchez','Pérez','Gómez','Martín','Jiménez','Ruiz','Hernández','Díaz','Moreno','Álvarez','Romero','Navarro','Torres','Domínguez','Gil','Vázquez','Serrano','Ramos','Blanco'];
 var ORIG=['Google','Google','Google','Web','Recomendación','Recomendación','Teléfono','WhatsApp'];
-var S={plan:PLAN,autoRes:true,resMes:14,modo:'clin',tab:'hoy',pac:[],citas:[],espera:[],resenas:[],wa:[],log:[],ofertas:[],preg:[],rec:{n:7,e:315},
+var S={plan:PLAN,autoRes:true,resMes:14,modo:SOLO?'pac':'clin',tab:'hoy',pac:[],citas:[],espera:[],resenas:[],wa:[],log:[],ofertas:[],preg:[],rec:{n:7,e:315},
   agDia:iso(HOY),sel:null,nuevoHueco:null,filtroPac:'todos',movTab:1,hoja:null,rv:null,chat:[],chatEstado:null,demoPac:null,clicsRes:23};
 var uid=0;var nid=function(p){uid++;return p+uid};
 function telAl(){var t='6';for(var i=0;i<8;i++)t+=Math.floor(rnd()*10);return t.slice(0,3)+' '+t.slice(3,5)+' '+t.slice(5,7)+' '+t.slice(7)}
@@ -744,7 +748,9 @@ var pctCont=function(){return Math.round(S.resenas.filter(function(r){return r.r
 /* ---------- render ---------- */
 var TOURS=LIG?[['resena','Llega una reseña de 5 ★'],['resena-mala','Llega una de 2 ★'],['noche','Preguntan a las 23:40'],['reserva','Reservan desde Google']]
   :[['anula','Un paciente anula'],['reserva','Reservan desde Google'],['resena','Llega una reseña de 5 ★'],['resena-mala','Llega una de 2 ★'],['noche','Preguntan a las 23:40']];
+if(SOLO)TOURS=TOURS.filter(function(t){return t[0]==='reserva'||t[0]==='noche'}).map(function(t){return [t[0],t[0]==='reserva'?'Reserva desde Google':'Pregunta a las 23:40']});
 function render(){
+  if(SOLO){S.modo='pac';document.body.classList.add('solo')}
   var ent=sellar();
   $('#nom-top').textContent=CFG.nombre;
   $('#logo').textContent=(CFG.nombre.replace(/^(cl[ií]nica|fisioterapia|centro|fisio)\s+(de\s+)?/i,'')[0]||'F').toUpperCase();
@@ -1050,8 +1056,8 @@ function vPac(){
     ['Entran en vuestra web',movWeb(),LIG?'Asistente que contesta a cualquier hora y manda a reservar.':'Botón fijo para pedir cita y asistente que contesta 24 h.'],
     LIG?['Al salir, la reseña',movQR(),'QR en recepción y enlace: la reseña en 20 segundos, en Google.']:['Y les llega por WhatsApp',movWa(),'Confirmación, recordatorio y petición de reseña. Solos.']
   ];
-  return '<div class="esc"><div class="esc-h"><div><span class="eyebrow">Lo que ve el paciente</span><h1>'+(LIG?'Google, vuestra web y la reseña':'Google, vuestra web y su WhatsApp')+'</h1><p>'+(LIG?'Prueba a pulsar «Reservar» en Google o pregunta algo al asistente. Todo acaba en vuestro '+esc(CFG.sistema)+', y las reseñas, en Google.':'Prueba a reservar desde Google o desde la web y mira cómo llega el WhatsApp. Todo lo que pasa aquí aparece en el panel.')+'</p></div>'+
-    '<button class="btn" id="v-clin2">Ver el panel</button></div>'+
+  return '<div class="esc"><div class="esc-h"><div><span class="eyebrow">Lo que ve el paciente</span><h1>'+(LIG?'Google, vuestra web y la reseña':'Google, vuestra web y su WhatsApp')+'</h1><p>'+(LIG?'Prueba a pulsar «Reservar» en Google o pregunta algo al asistente. Todo acaba en vuestro '+esc(CFG.sistema)+', y las reseñas, en Google.':(SOLO?'Pruébalo como si fueras un paciente: reserva desde Google o desde la web y mira el WhatsApp que te llega.':'Prueba a reservar desde Google o desde la web y mira cómo llega el WhatsApp. Todo lo que pasa aquí aparece en el panel.'))+'</p></div>'+
+    (SOLO?'':'<button class="btn" id="v-clin2">Ver el panel</button>')+'</div>'+
     '<div class="movtabs" role="group" aria-label="Pantalla">'+cols.map(function(c,i){return '<button data-mov="'+(i+1)+'" aria-pressed="'+(t===i+1)+'"'+(i===2&&t!==3&&!LIG&&S.wa.some(function(m){return m.pid===S.demoPac&&nu(m)})?' class="ping"':'')+'>'+(i+1)+' · '+['Google','Web',LIG?'Reseña':'WhatsApp'][i]+'</button>'}).join('')+'</div>'+
     '<div class="tres">'+cols.map(function(c,i){return '<div class="'+(t===i+1?'on':'')+'"><div class="cap"><span>'+(i+1)+'</span>'+c[0]+'</div><div class="mov"><div class="pant">'+c[1]+'</div></div><p class="nota-pie">'+c[2]+'</p></div>'}).join('')+'</div></div>';
 }

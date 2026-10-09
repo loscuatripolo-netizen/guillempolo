@@ -195,7 +195,8 @@ th{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--mute
     <span>Pruébalo:</span>
     <button data-tour="anula">Un paciente anula su cita</button>
     <button data-tour="reserva">Un paciente reserva desde Google</button>
-    <button data-tour="resena">Llega una reseña nueva</button>
+    <button data-tour="resena">Llega una reseña de 5 ★</button>
+    <button data-tour="resena-mala">Llega una reseña de 2 ★</button>
     <button data-tour="noche">Pregunta a las 23:40</button>
   </div>
 </header>
@@ -262,7 +263,7 @@ var pick=function(a){return a[Math.floor(rnd()*a.length)]};
 var NOMS=['María','Carmen','Ana','Laura','Lucía','Marta','Elena','Paula','Sara','Cristina','Isabel','Raquel','Pilar','Rosa','Nuria','Javier','David','Daniel','Carlos','Miguel','Alejandro','Pablo','Sergio','Jorge','Alberto','Juan','Antonio','Iker','Unai','Rubén','Ainhoa','Irene','Andrés','Óscar','Beatriz'];
 var APS=['García','Fernández','González','Rodríguez','López','Martínez','Sánchez','Pérez','Gómez','Martín','Jiménez','Ruiz','Hernández','Díaz','Moreno','Álvarez','Romero','Navarro','Torres','Domínguez','Gil','Vázquez','Serrano','Ramos','Blanco'];
 var ORIG=['Google','Google','Google','Web','Recomendación','Recomendación','Teléfono','WhatsApp'];
-var S={modo:'clin',tab:'hoy',pac:[],citas:[],espera:[],resenas:[],wa:[],log:[],ofertas:[],rec:{n:7,e:315},agDia:iso(HOY),sel:null,nuevoHueco:null,filtroPac:'todos',ph:{tab:'reservar',paso:1,srv:null,pro:null,dia:null,h:null,hecho:null},chat:[],chatEstado:null};
+var S={autoRes:true,resMes:14,modo:'clin',tab:'hoy',pac:[],citas:[],espera:[],resenas:[],wa:[],log:[],ofertas:[],rec:{n:7,e:315},agDia:iso(HOY),sel:null,nuevoHueco:null,filtroPac:'todos',ph:{tab:'reservar',paso:1,srv:null,pro:null,dia:null,h:null,hecho:null},chat:[],chatEstado:null};
 var uid=0;var nid=function(p){uid++;return p+uid};
 function telAl(){var t='6';for(var i=0;i<8;i++)t+=Math.floor(rnd()*10);return t.slice(0,3)+' '+t.slice(3,5)+' '+t.slice(5,7)+' '+t.slice(7)}
 function nuevoPac(diaAlta,origen){var p={id:nid('p'),n:pick(NOMS)+' '+pick(APS),tel:telAl(),alta:diaAlta,origen:origen||pick(ORIG),pro:pick(CFG.pros).id,bono:null};if(rnd()<.35)p.bono={total:CFG.bono.sesiones,usadas:0};S.pac.push(p);return p}
@@ -379,11 +380,16 @@ function respuesta(r,v){
     if(k)a.push('Nos alegra mucho que notes mejoría en '+Z[k]+'.');
     else if(/deport|lesi|correr|fútbol|futbol/.test(t))a.push('Nos alegra que vuelvas a entrenar sin molestias.');
     if(pro)a.push('Se lo diremos a '+pro.n+', le hará mucha ilusión.');
-    if(/hora|esper|cambi/.test(t)&&r.s<5)a.push('Tomamos nota de lo de los cambios de hora: ahora los avisos salen con más antelación.');
+    if(/hora|esper|cambi/.test(t)&&r.s<5)a.push('Tomamos nota de lo que nos cuentas para mejorar.');
     a.push(['Te esperamos en la próxima sesión.','Aquí estamos para lo que necesites.','¡Hasta pronto!'][v%3]);
     return a.join(' ')+firma;
   }
-  return ['Hola '+n+', sentimos que tu experiencia no haya sido la que esperabas.','Nos gustaría saber qué pasó para arreglarlo: ¿nos escribes al '+CFG.tel+' o nos llamas?','Gracias por decírnoslo.'].join(' ')+firma;
+  var b=['Hola '+n+', gracias por contárnoslo y perdona las molestias.'];
+  if(/espera|tard|retras|puntual/.test(t))b.push('Tienes razón en que no debiste esperar: lo estamos revisando para que no vuelva a pasar.');
+  if(/cambi|anul|cita/.test(t))b.push('Sentimos los cambios de hora; con los avisos por WhatsApp queremos que no vuelva a pasar.');
+  if(/precio|caro|cobr/.test(t))b.push('Si algo del precio no te quedó claro, te lo explicamos sin problema.');
+  b.push('Nos gustaría hablarlo contigo: escríbenos al '+CFG.tel+' y lo vemos.');
+  return b.join(' ')+firma;
 }
 
 /* ---------- iconos ---------- */
@@ -412,7 +418,7 @@ function render(){
 function vClin(){
   var sinRes=S.resenas.filter(function(r){return !r.resp}).length;
   var porEnv=S.citas.filter(function(c){return c.f===iso(MANANA)&&c.rec==='por enviar'&&c.est!=='anulada'}).length+S.ofertas.filter(function(o){return o.est==='esperando'}).length;
-  var tabs=[['hoy','Hoy',I.hoy],['agenda','Agenda',I.agenda],['recordatorios','Avisos',I.rec,porEnv],['pacientes','Pacientes',I.pac],['resenas','Reseñas',I.res,sinRes],['informe','Informe',I.inf],['ajustes','Ajustes',I.aj]];
+  var tabs=[['hoy','Hoy',I.hoy],['resenas','Reseñas',I.res,sinRes],['agenda','Agenda',I.agenda],['recordatorios','Avisos',I.rec,porEnv],['pacientes','Pacientes',I.pac],['informe','Informe',I.inf],['ajustes','Ajustes',I.aj]];
   var nav='<nav class="side" aria-label="Secciones">'+tabs.map(function(t){return '<button data-tab="'+t[0]+'"'+(S.tab===t[0]?' aria-current="page"':'')+'>'+t[2]+'<span>'+t[1]+'</span>'+(t[3]?'<span class="badge num">'+t[3]+'</span>':'')+'</button>'}).join('')+'</nav>';
   var V={hoy:vHoy,agenda:vAgenda,recordatorios:vRec,pacientes:vPacientes,resenas:vResenas,informe:vInforme,ajustes:vAjustes};
   return '<div class="clin">'+nav+'<main>'+V[S.tab]()+'</main></div>';
@@ -439,7 +445,7 @@ function vHoy(){
     kpi(vivas.length+' / '+cap,'citas hoy · '+Math.round(vivas.length/cap*100)+' % de ocupación')+
     kpi(manConf+' / '+man.length,'confirmadas para mañana',man.length-manConf?(man.length-manConf)+' por confirmar':'')+
     kpi(S.rec.n,'huecos recuperados este mes','+'+S.rec.e+' €')+
-    kpi(sinRes,'reseñas sin contestar')+
+    kpi(CFG.nota+' ★','en Google · '+S.resMes+' reseñas nuevas este mes',sinRes?sinRes+' esperando tu OK':'todas contestadas')+
   '</div>'+
   '<div class="grid2"><section class="card"><h2>Citas de hoy</h2><div class="list">'+(filas||'<div class="empty">Sin citas</div>')+'</div></section>'+
   '<section class="card"><h2>Lo que ha hecho el sistema</h2><div class="feed">'+feed+'</div></section></div>';
@@ -516,20 +522,31 @@ function vPacientes(){
 
 function vResenas(){
   var pend=S.citas.filter(function(c){return c.est==='hecha'&&!c.resena&&c.f>=iso(addD(HOY,-3))});
-  var sin=S.resenas.filter(function(r){return !r.resp}).length;
+  var porOk=S.resenas.filter(function(r){return !r.resp});
   var env=S.citas.filter(function(c){return c.resena==='enviada'}).length;
+  var cont=S.resenas.filter(function(r){return r.resp}).length;
   var lista=S.resenas.map(function(r){
     var est='<span class="st">'+'★★★★★'.slice(0,r.s)+'<span style="color:var(--line)">'+'★★★★★'.slice(r.s)+'</span></span>';
-    var cuerpo=r.resp?'<div class="resp"><b>Respuesta publicada</b><br>'+esc(r.resp).replace(/\n/g,'<br>')+'</div>':
-      '<label class="muted" for="rp-'+r.id+'" style="font-size:13px;font-weight:600">Respuesta propuesta'+(r.s<=2?' · las de 1–2 estrellas no se publican sin tu OK':'')+'</label><textarea id="rp-'+r.id+'">'+esc(r.borr||respuesta(r))+'</textarea><div class="acts"><button class="btn p s" data-act="publicar" data-id="'+r.id+'">Publicar respuesta</button><button class="btn s" data-act="otra" data-id="'+r.id+'">Otra versión</button></div>';
+    var cuerpo;
+    if(r.resp)cuerpo='<div class="resp"><b>'+(r.auto?'Contestada sola en 2 minutos':'Respuesta publicada')+'</b><br>'+esc(r.resp).replace(/\n/g,'<br>')+'</div>';
+    else cuerpo='<div class="pill wa" style="align-self:flex-start">'+(r.s<=3?'Esperando tu OK · te ha llegado por WhatsApp':'Pendiente de publicar')+'</div><label class="muted" for="rp-'+r.id+'" style="font-size:13px;font-weight:600">Respuesta propuesta</label><textarea id="rp-'+r.id+'">'+esc(r.borr||respuesta(r))+'</textarea><div class="acts"><button class="btn p s" data-act="publicar" data-id="'+r.id+'">Aprobar y publicar</button><button class="btn s" data-act="otra" data-id="'+r.id+'">Otra versión</button></div>';
     return '<div class="rs"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><b>'+esc(r.a)+'</b><span class="muted" style="font-size:13px">'+esc(r.f)+'</span></div>'+est+'<div>'+esc(r.t)+'</div>'+cuerpo+'</div>';
   }).join('');
-  return '<div class="h"><div><h1>Reseñas de Google</h1><p>Después de cada sesión se pide la reseña por WhatsApp. Las respuestas salen escritas con vuestro tono; tú solo revisas y publicas.</p></div></div>'+
-  '<div class="kpis">'+kpi(CFG.nota+' ★','nota en Google (ejemplo)')+kpi(CFG.nresenas,'reseñas en total (ejemplo)')+kpi(sin,'sin contestar')+kpi(env,'peticiones enviadas esta semana')+'</div>'+
+  var sw=function(id,on,txt,sub){return '<button class="opt" data-act="'+id+'" aria-pressed="'+on+'" style="margin-bottom:8px"><span><b>'+txt+'</b><small>'+sub+'</small></span><span class="pill '+(on?'ok':'n')+'">'+(on?'Activado':'Desactivado')+'</span></button>'};
+  return '<div class="h"><div><h1>Reseñas de Google</h1><p>Se piden solas después de cada sesión y se contestan solas con vuestro tono. Las malas no salen sin tu OK.</p></div></div>'+
+  '<div class="kpis">'+kpi(CFG.nota+' ★','nota en Google (ejemplo)')+kpi(S.resMes,'reseñas nuevas este mes (ejemplo)')+kpi(Math.round(cont/S.resenas.length*100)+' %','contestadas')+kpi(S.autoRes?'2 min':'—','tiempo medio de respuesta')+kpi(env,'peticiones enviadas esta semana')+'</div>'+
+  (porOk.length?'<section class="card" style="margin-bottom:16px;border-color:var(--warn)"><h2>Necesitan tu OK · '+porOk.length+'</h2><p class="muted" style="margin:0">Las de 1 a 3 estrellas te llegan por WhatsApp con la respuesta escrita. Contestas «SÍ» o la cambias aquí.</p></section>':'')+
   '<div class="grid2"><section class="card"><h2>Reseñas recientes <span class="muted" style="font:500 13px var(--f-b)">· de ejemplo</span></h2><div style="display:flex;flex-direction:column;gap:12px">'+lista+'</div></section>'+
-  '<section class="card"><h2>Pedir reseña a los de hoy</h2><p class="muted" style="margin-top:0">Pacientes atendidos estos días a los que aún no se les ha pedido.</p><div class="list">'+(pend.length?pend.slice(0,8).map(function(c){var p=P(c.pac);return '<div class="row"><div class="who"><b>'+esc(p.n)+'</b><small>'+fD(deIso(c.f))+' · '+c.h+'</small></div></div>'}).join('')+'</div><button class="btn wa" style="margin-top:10px" data-act="pedir-todas">Pedir reseña a los '+pend.length+' por WhatsApp</button>':'<div class="empty">Todos tienen ya su petición</div></div>')+'</section></div>';
+  '<div style="display:flex;flex-direction:column;gap:16px;min-width:0">'+
+  '<section class="card"><h2>Respuesta automática</h2>'+sw('auto-res',S.autoRes,'4 y 5 estrellas: se publican solas','Respuesta personal: nombra al fisio y lo que cuenta el paciente')+
+    '<button class="opt" aria-pressed="true" disabled style="cursor:default"><span><b>1 a 3 estrellas: te pide permiso</b><small>Te llega por WhatsApp la respuesta propuesta; no sale sin tu OK</small></span><span class="pill ok">Siempre</span></button></section>'+
+  '<section class="card"><h2>Más reseñas, sin trampas</h2><div class="list">'+
+    '<div class="row"><div class="who"><b>WhatsApp después de cada sesión</b><small>Con el enlace directo a escribir la reseña. A todos los pacientes por igual: Google prohíbe pedirla solo a los contentos.</small></div></div>'+
+    '<div class="row"><div class="who"><b>QR en recepción</b><small>El paciente lo escanea al pagar y la deja en 20 segundos.</small></div></div>'+
+    '<div class="row"><div class="who"><b>Botón «Deja tu reseña» en la web</b><small>Al lado de las reseñas que ya tenéis.</small></div></div>'+
+    '<div class="row"><div class="who"><b>Nada de regalos ni descuentos a cambio</b><small>Google lo prohíbe y puede borrar las reseñas.</small></div></div></div></section>'+
+  '<section class="card"><h2>Pedir reseña a los de estos días</h2><div class="list">'+(pend.length?pend.slice(0,6).map(function(c){var p=P(c.pac);return '<div class="row"><div class="who"><b>'+esc(p.n)+'</b><small>'+fD(deIso(c.f))+' · '+c.h+'</small></div></div>'}).join('')+'</div><button class="btn wa" style="margin-top:10px" data-act="pedir-todas">Pedir reseña a los '+pend.length+' por WhatsApp</button>':'<div class="empty">Todos tienen ya su petición</div></div>')+'</section></div></div>';
 }
-
 function vInforme(){
   var desde=iso(addD(HOY,-28)),hasta=iso(addD(HOY,-1));
   var cs=S.citas.filter(function(c){return c.f>=desde&&c.f<=hasta});
@@ -668,6 +685,7 @@ document.addEventListener('click',function(ev){
     case 'vuelta':var ina=S.pac.filter(function(p){var cs=S.citas.filter(function(z){return z.pac===p.id});var ult=cs.filter(function(z){return z.est==='hecha'}).map(function(z){return z.f}).sort().pop();var prox=cs.some(function(z){return z.f>=iso(HOY)&&(z.est==='confirmada'||z.est==='pendiente')});return ult&&!prox&&(HOY-deIso(ult))/864e5>=30});
       ina.forEach(function(p){wa(p,'Hola '+nombre1(p)+', hace tiempo que no te vemos por '+CFG.nombre+'. ¿Qué tal estás? Si quieres retomar las sesiones, contesta y te buscamos hueco.','vuelta')});log(ina.length+' pacientes inactivos avisados por WhatsApp','acc');toast(ina.length+' mensajes de vuelta enviados');break;
     case 'publicar':var r=S.resenas.find(function(z){return z.id===id});r.resp=$('#rp-'+id).value.trim();log('Respuesta publicada a la reseña de '+r.a,'ok');toast('Respuesta publicada en Google');break;
+    case 'auto-res':S.autoRes=!S.autoRes;toast(S.autoRes?'Las de 4 y 5 estrellas se contestarán solas':'Todas las respuestas esperarán tu OK');break;
     case 'otra':var r2=S.resenas.find(function(z){return z.id===id});r2.v=(r2.v||0)+1;r2.borr=respuesta(r2,r2.v);break;
     case 'pedir-todas':var pend=S.citas.filter(function(z){return z.est==='hecha'&&!z.resena&&z.f>=iso(addD(HOY,-3))});pend.forEach(pedirResena);log(pend.length+' peticiones de reseña enviadas por WhatsApp','acc');toast(pend.length+' peticiones enviadas');break;
     case 'aplicar':aplicar();toast('Cambios guardados');break;
@@ -698,6 +716,14 @@ function aplicar(){
   CFG.pros.forEach(function(p){var n=v('pr-'+p.id);if(n)p.n=n.slice(0,20)});var r=v('cf-rec');if(r)CFG.plantillaRec=r.slice(0,400);
 }
 
+/* ---------- reseñas nuevas ---------- */
+function nuevaRes(a,st,t){
+  var r={id:nid('r'),a:a,s:st,f:'hace un momento',t:t,resp:null};S.resenas.unshift(r);S.resMes++;
+  if(st>=4&&S.autoRes){r.resp=respuesta(r);r.auto=true;log('Reseña de '+a+' ('+st+' ★) contestada sola en 2 minutos','ok')}
+  else{var cli={n:CFG.nombre+' (tu WhatsApp)',tel:CFG.tel};wa(cli,'Nueva reseña de '+st+' ★ de '+a+'. Respuesta propuesta:\n«'+respuesta(r)+'»\n¿La publico? Contesta SÍ o cámbiala en el panel.','reseña');log('Reseña de '+a+' ('+st+' ★): respuesta enviada a tu WhatsApp para que la apruebes','bad')}
+  return r;
+}
+
 /* ---------- recorrido guiado ---------- */
 function tour(k){
   if(k==='anula'){
@@ -707,7 +733,8 @@ function tour(k){
     if(cand){cand.rec='anulada';wa(P(cand.pac),'2','recordatorio','in');anular(cand,'contestó 2 al recordatorio');toast(nombre1(P(cand.pac))+' no puede venir: el hueco ya se ha ofrecido a la lista de espera')}
   }
   if(k==='reserva'){S.modo='pac';S.ph={tab:'reservar',paso:1,srv:'val',pro:null,dia:null,h:null,hecho:null};toast('Elige día y hora: en cuatro toques está reservado')}
-  if(k==='resena'){S.resenas.unshift({id:nid('r'),a:'Lucía Torres',s:5,f:'hace un momento',t:'Vine por una contractura en el cuello que llevaba semanas arrastrando y salí nueva. '+CFG.pros[0].n+' me explicó qué ejercicios hacer en casa. Muy recomendable.',resp:null});S.modo='clin';S.tab='resenas';toast('Reseña nueva: la respuesta ya está escrita, solo falta publicarla')}
+  if(k==='resena'){var r=nuevaRes('Lucía Torres',5,'Vine por una contractura en el cuello que llevaba semanas arrastrando y salí nueva. '+CFG.pros[0].n+' me explicó qué ejercicios hacer en casa. Muy recomendable.');S.modo='clin';S.tab='resenas';toast(S.autoRes?'Reseña de 5 estrellas: contestada sola en 2 minutos':'Reseña nueva: la respuesta ya está escrita, falta tu OK')}
+  if(k==='resena-mala'){nuevaRes('Roberto Sanz',2,'Me cambiaron la cita dos veces y el último día esperé más de 20 minutos. El tratamiento bien, pero la organización mejorable.');S.modo='clin';S.tab='resenas';toast('Reseña de 2 estrellas: te ha llegado por WhatsApp con la respuesta propuesta')}
   if(k==='noche'){S.modo='pac';S.ph.tab='chat';NOW=23*60+40;
     var dT=MANANA,ops=[],g=0;while(g<10){ops=libres(dT).filter(function(x){return toMin(x.h)>=15*60}).slice(0,6);if(ops.length)break;dT=sigLab(dT);g++}
     var esMan=iso(dT)===iso(MANANA);
@@ -718,6 +745,7 @@ function tour(k){
   render();window.scrollTo(0,0);
 }
 
+S.resenas.forEach(function(r){if(!r.resp&&r.s>=4){r.resp=respuesta(r);r.auto=true}});
 log('Recepción automática activada','info');
 render();
 })();

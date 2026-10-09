@@ -411,6 +411,36 @@ a.btn{color:inherit}
 /* solo lo que ve el paciente (?solo=paciente) */
 body.solo .seg,body.solo #plan-top{display:none}
 @media (max-width:600px){body.solo .mov{padding:0;background:none;box-shadow:none;border-radius:0}body.solo .pant{height:calc(100svh - 150px);min-height:560px;border-radius:18px}body.solo .esc-h p{display:none}body.solo .esc{padding-top:14px}}
+/* chat de la web tipo WhatsApp */
+.hoja .in.wchat{background:#EFE7DD;height:94%;max-height:94%;overflow:hidden}
+.wch-top{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#fff;border-bottom:1px solid #E6E6E6;flex:none}
+.wch-top button{border:0;background:none;width:30px;height:34px;display:grid;place-items:center;color:var(--acc);margin-left:-6px}
+.wch-top .av{width:36px;height:36px;background:var(--acc);font-size:14px}
+.wch-n{min-width:0}.wch-n b{display:block;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wch-n small{display:block;font-size:11.5px;color:#1FA855;font-weight:600}
+.hoja .bd.wch-bd{background:#EFE7DD;padding:10px 10px 6px;gap:5px;display:flex;flex-direction:column;overflow:auto;scrollbar-width:none}
+.wch-bd::-webkit-scrollbar{display:none}
+.wch-aviso{align-self:center;background:#FFF3C4;color:#54656F;font-size:11px;padding:5px 10px;border-radius:8px;text-align:center;max-width:92%;margin:2px 0 8px;line-height:1.35}
+.wm{max-width:84%;padding:6px 9px 5px;border-radius:10px;font-size:13.5px;line-height:1.4;box-shadow:0 1px .5px rgba(0,0,0,.13);white-space:pre-line;word-wrap:break-word}
+.wm.in{background:#fff;align-self:flex-start;border-top-left-radius:3px}
+.wm.out{background:#D9FDD3;align-self:flex-end;border-top-right-radius:3px}
+.wm small{display:flex;justify-content:flex-end;margin:3px -2px -1px 14px;font-size:10.5px;color:#667781;gap:3px;align-items:center;line-height:1}
+.wm.out small svg{color:#53BDEB}
+.wm-cta{display:block;width:calc(100% + 18px);margin:8px -9px -5px;border:0;border-top:1px solid #E9EDEF;background:none;color:#027EB5;font-weight:650;padding:10px;font-size:13.5px;clear:both}
+.wch-sug{display:flex;gap:6px;overflow-x:auto;padding:6px 10px 2px;background:#EFE7DD;scrollbar-width:none;flex:none}
+.wch-sug::-webkit-scrollbar{display:none}
+.wch-sug button{flex:none;border:1px solid #D1D7DB;background:#fff;border-radius:99px;padding:6px 12px;font-size:12.5px;font-weight:600;color:var(--acc-ink)}
+.wch-sug.tarde{animation:sube .4s .95s var(--ease) both}
+.wch-in{display:flex;gap:6px;padding:8px 8px 10px;background:#EFE7DD;flex:none}
+.wch-in input{flex:1;border:0;border-radius:99px;padding:11px 15px;background:#fff;font-size:14px;box-shadow:0 1px .5px rgba(0,0,0,.1);min-width:0}
+.wch-in input:focus{outline:2px solid var(--acc-line)}
+.wch-in button{width:44px;height:44px;border-radius:50%;border:0;background:var(--acc);color:#fff;display:grid;place-items:center;flex:none}
+.wch-in button:active{transform:scale(.92)}
+.wch-bd .tecleo{background:#fff;box-shadow:0 1px .5px rgba(0,0,0,.13);border-radius:3px 10px 10px 10px}
+.wm.nuevo{animation:pop .38s var(--muelle) both;transform-origin:left top}
+.wm.out.nuevo{transform-origin:right top}
+.wm.nuevo.tarde{animation-delay:.8s}
+.wm.nuevo.tarde2{animation-delay:1.35s}
 </style>
 </head>
 <body>
@@ -1042,6 +1072,220 @@ function segInd(){
 }
 window.addEventListener('resize',function(){segInd()});
 
+/* ---------- chat de la web, tipo WhatsApp: se escribe normal y entiende día, hora, fisio y tratamiento ---------- */
+var CV=null; /* la cita que se está montando en el chat */
+var MESES_N=MES.map(norm);
+var NUMW={una:1,uno:1,dos:2,tres:3,cuatro:4,cinco:5,seis:6,siete:7,ocho:8,nueve:9,diez:10,once:11,doce:12};
+function QUICK(){return LIG?['Quiero pedir cita','¿Qué horario tenéis?','¿Cuánto cuesta?','¿Dónde estáis?','¿Trabajáis con mutuas?','Cambiar mi cita']
+  :['Quiero pedir cita','¿Qué horario tenéis?','¿Cuánto cuesta?','¿Dónde estáis?','Anular mi cita','¿Trabajáis con mutuas?']}
+function sin0(x){return x.replace(/(^|[^\d])0(\d):(\d\d)/g,'$1$2:$3')}
+function bot(t,q,btn){S.chat.push({yo:false,t:sin0(t),q:q&&q.map(sin0),btn:btn,h:hhmm()})}
+function regPreg(q,r,tipo){S.preg.unshift({h:hhmm(),dia:'Hoy',q:q,r:r,tipo:tipo||'ok'})}
+function saludo(){return LIG
+  ?'¡Hola! Soy el asistente de '+CFG.nombre+'. Escríbeme como en WhatsApp: horarios, precios, cómo llegar… y si quieres cita, te llevo directo a reservarla.'
+  :'¡Hola! Soy el asistente de '+CFG.nombre+'. Escríbeme como en WhatsApp, por ejemplo «quiero cita el jueves por la tarde», y te la doy al momento.'}
+function abrirChat(cita){
+  S.hoja={m:2,tipo:'chat'};S.movTab=2;
+  if(!S.chat.length)bot(saludo(),QUICK());
+  if(cita&&!LIG&&!CV){CV={};S.chat.push({yo:true,t:'Quiero pedir cita',h:hhmm()});avanzar()}
+  else if(cita&&LIG){chatIn('Quiero pedir cita')}
+}
+
+/* --- leer lo que escribe --- */
+function proximoDia(dw,sig){var x=new Date(HOY);for(var g=0;g<14;g++){if(x.getDay()===dw&&(g>0||libres(x,CV&&CV.pro).length||sig===false))break;x=addD(x,1)}if(sig)x=addD(x,7);return x}
+function extraer(txt){
+  var raw=norm(txt),t=' '+raw.replace(/[¿?¡!,;"«»()]/g,' ').replace(/\s+/g,' ')+' ',e={};
+  /* teléfono */
+  var mt=txt.match(/(?:\+?34[\s.-]?)?([679](?:[\s.-]?\d){8})(?!\d)/);if(mt)e.tel=mt[1].replace(/\D/g,'');
+  /* tratamiento */
+  if(/primera vez|nunca he (ido|venido)|no he (ido|venido) nunca|soy nuev|valoraci|primera visita|primera consulta/.test(t))e.srv='val';
+  else if(/ya he (ido|venido)|ya soy paciente|ya fui|ya vine|seguimiento|otra sesion|continuar/.test(t))e.srv='fis';
+  CFG.servicios.forEach(function(s){if(e.srv)return;var w=norm(s.n).split(/\s+/).filter(function(x){return x.length>4&&['sesion','primera','visita','fisioterapia'].indexOf(x)<0});if(w.some(function(x){return t.indexOf(' '+x)>-1}))e.srv=s.id});
+  if(!e.srv&&/puncion|aguja/.test(t))e.srv=(CFG.servicios.find(function(s){return /punci/i.test(norm(s.n))})||{}).id;
+  if(!e.srv&&/pelvic|postparto|embaraz/.test(t))e.srv=(CFG.servicios.find(function(s){return /pelvic/.test(norm(s.n))})||{}).id;
+  if(!e.srv&&/deport|correr|futbol|running|gimnasio|entreno/.test(t))e.srv=(CFG.servicios.find(function(s){return /deport/.test(norm(s.n))})||{}).id;
+  if(!e.srv&&/\b(fisio|sesion|masaje|espalda|cuello|lumbar|cervical|rodilla|hombro|tobillo|contractura|dolor|ciatica|tendinitis|esguince)/.test(t))e.srv='fis';
+  /* fisio */
+  CFG.pros.forEach(function(p){if(new RegExp(' '+norm(p.n)+' ').test(t))e.pro=p.id});
+  if(/me da igual|cualquiera|con quien sea|quien sea|el que (sea|haya)|la que (sea|haya)/.test(t))e.proIgual=true;
+  /* mañana / tarde */
+  var sinM=t.replace(/(por|de|a media|durante) la manana|las mananas|por las mananas|de manana|a primera hora/g,' MANANAFR ');
+  if(/MANANAFR|temprano/.test(sinM))e.fr='m';
+  if(/(por|de|a) la tarde|las tardes|esta tarde|por las tardes|\btarde\b/.test(t)&&!/mas tarde|un poco tarde/.test(t))e.fr='t';
+  if(/mas tarde|un poco despues|algo despues/.test(t))e.masTarde=true;
+  if(/mas pronto|algo antes|un poco antes/.test(t))e.masPronto=true;
+  /* día */
+  if(/pasado manana/.test(t))e.dia=addD(HOY,2);
+  else if(/ manana /.test(sinM.replace(/pasado manana/g,'')))e.dia=addD(HOY,1);
+  if(/ hoy |esta tarde|esta manana/.test(t))e.dia=new Date(HOY);
+  var dw=t.match(/ (lunes|martes|miercoles|jueves|viernes|sabado|domingo) /);
+  if(dw)e.dia=proximoDia(DN.indexOf(dw[1]),/que viene|proximo|siguiente/.test(t)&&!/semana que viene/.test(t));
+  if(/semana que viene|proxima semana|la otra semana/.test(t)&&!dw){var x=new Date(HOY);do{x=addD(x,1)}while(x.getDay()!==1);e.dia=x;e.semana=true}
+  var dm=t.match(/ (?:el|dia|lunes|martes|miercoles|jueves|viernes|sabado|domingo) (\d{1,2})(?: de ([a-z]+))? /)||t.match(/ (\d{1,2}) de ([a-z]+) /)||t.match(/ (\d{1,2})\/(\d{1,2}) /);
+  if(dm&&!/^\d{1,2}:/.test(t.slice(t.indexOf(dm[0])+dm[0].length))){var dd=+dm[1],mm=dm[2]!=null?(isNaN(+dm[2])?MESES_N.indexOf(dm[2]):+dm[2]-1):null;
+    if(dd>=1&&dd<=31&&(mm==null||mm>=0)){var c=new Date(HOY.getFullYear(),mm!=null&&mm>=0?mm:HOY.getMonth(),dd);if(c<HOY)c=mm!=null&&mm>=0?new Date(c.getFullYear()+1,c.getMonth(),dd):new Date(HOY.getFullYear(),HOY.getMonth()+1,dd);e.dia=c}}
+  if(/lo antes posible|cuanto antes|primer hueco|lo primero que (tengas|haya)|lo mas pronto|urgente|ya mismo|lo que (tengas|haya) antes/.test(t)){e.asap=true;delete e.dia}
+  /* hora */
+  var mh=raw.match(/(\d{1,2})\s*[:.h]\s*(\d{2})(?!\d)/),hm=null;
+  if(mh)hm=(+mh[1])*60+(+mh[2]);
+  else{var mw=t.match(/ (?:a las|sobre las|hacia las|las|a la|tipo|para las) (\d{1,2}|una|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|once|doce)(?: (y media|y cuarto|menos cuarto))?/);
+    if(mw){var hh=isNaN(+mw[1])?NUMW[mw[1]]:+mw[1];hm=hh*60+(mw[2]==='y media'?30:mw[2]==='y cuarto'?15:mw[2]==='menos cuarto'?-15:0)}}
+  if(hm!=null){var hh2=Math.floor(hm/60);if(/de la tarde|de la noche/.test(t)&&hh2<12)hm+=720;else if(hh2>=1&&hh2<8&&!/de la manana/.test(t))hm+=720;if(hm>=6*60&&hm<23*60){e.h=toH(hm);if(!e.fr)e.fr=hm>=15*60?'t':'m'}}
+  /* elegir entre lo ofrecido */
+  var mo=t.match(/ (?:la |el )?(primera|primero|1a|segunda|segundo|2a|tercera|tercero|3a|ultima|ultimo) /);
+  if(mo)e.ord={primera:0,primero:0,'1a':0,segunda:1,segundo:1,'2a':1,tercera:2,tercero:2,'3a':2,ultima:-1,ultimo:-1}[mo[1]];
+  var lim=raw.replace(/[¿?¡!.,]/g,'').trim();
+  e.si=/^(si|sii|vale|ok|okay|perfecto|genial|de acuerdo|claro|me va bien|me viene bien|esa|ese|venga|dale|guay|correcto|confirmo|confirmala|reservala|perfecta)\b/.test(lim);
+  e.no=/^(no|nop|mejor no|ninguna|ninguno|no me va|no me viene)\b/.test(lim);
+  /* nombre */
+  var mn=txt.match(/(?:me llamo|mi nombre es|a nombre de|soy)\s+([A-Za-zÁÉÍÓÚÑáéíóúñü]+(?:\s+[A-Za-zÁÉÍÓÚÑáéíóúñü]+){0,2})/i);
+  if(mn&&!/^(nuev|paciente|de |la |el |un |una )/i.test(mn[1]))e.nom=mn[1].replace(/\s+(y|mi|movil|telefono|tel)\b.*$/i,'');
+  e.cita=/cita|reserv|hueco|hora para|pedir hora|apuntar|apunta|quiero ir|quiero venir|quisiera ir|me podeis (atender|ver)|teneis (algo|sitio|hora|hueco)|disponib|cuando (podeis|teneis)|dar hora|darme hora/.test(t);
+  e.anular=/anul|cancel|no (puedo|podre) (ir|venir)|cambiar (la|mi) cita|mover (la|mi) cita|cambiar la hora/.test(t);
+  return e;
+}
+function nombreLimpio(s){return s.trim().split(/\s+/).slice(0,3).map(function(w){return w.charAt(0).toUpperCase()+w.slice(1).toLowerCase()}).join(' ').slice(0,40)}
+function diaTxt(d){var di=iso(d);if(di===iso(HOY))return 'hoy';if(di===iso(addD(HOY,1)))return 'mañana';return 'el '+DIAS[d.getDay()]+' '+d.getDate()}
+function lista(a){return a.length>1?a.slice(0,-1).join(', ')+' o '+a[a.length-1]:a[0]}
+function enFranja(h,fr){var m=toMin(h);return !fr||(fr==='m'?m<15*60:m>=15*60)}
+function primeros(n,fr,pro,desde){var o=[],x=desde?new Date(desde):new Date(HOY);for(var g=0;o.length<n&&g<30;g++){if(abre(x)){var ls=libres(x,pro).filter(function(s){return enFranja(s.h,fr)});
+  /* uno o dos por día para no ofrecer tres horas seguidas del mismo día */
+  ls.slice(0,o.length?1:2).forEach(function(s){if(o.length<n)o.push({dia:iso(x),h:s.h,pro:s.pro})})}x=addD(x,1)}return o}
+function repartidos(ls,n){if(ls.length<=n)return ls;var o=[];for(var i=0;i<n;i++)o.push(ls[Math.round(i*(ls.length-1)/(n-1))]);return o}
+
+/* --- conversación --- */
+function respInfo(t,e){
+  if(/horario|a que hora (abr|cerr)|abris|cerrais|abierto|que horas? (abr|teneis)|cuando abr/.test(t)&&!e.cita)return ['Nuestro horario:\n'+horarioTxt(),'Horario'];
+  if(/precio|cuesta|cuanto (es|vale|sale|cobr)|tarifa|cobrais|vale la/.test(t)){var s=e.srv&&SRV(e.srv);var txt=s?s.n+': '+s.precio+' € ('+s.min+' minutos).':CFG.servicios.map(function(s){return s.n+': '+s.precio+' €'}).join('\n');
+    return [txt+(CFG.preciosEj&&REAL?'\n\n(Precios de ejemplo: aquí irían los vuestros.)':'')+(LIG?'':'\n\n¿Te busco hueco?'),'Precios']}
+  if(/donde (estais|esta)|direcc|como (llego|voy|se llega)|ubicacion|en que calle/.test(t))return ['Estamos en '+CFG.direccion+'.','Dirección y cómo llegar'];
+  if(/bono/.test(t))return ['Tenemos bono de '+CFG.bono.sesiones+' sesiones por '+CFG.bono.precio+' €. Se paga en la clínica y lo vas gastando en cada sesión.','Bonos'];
+  if(/cuanto dura|duracion/.test(t))return ['Las sesiones duran '+CFG.min+' minutos.','Duración'];
+  if(/que (tratais|haceis|tratamientos|servicios)|tratais|haceis puncion/.test(t)&&!e.cita)return ['Hacemos: '+CFG.servicios.map(function(s){return s.n.toLowerCase()}).join(', ')+'.','Tratamientos'];
+  return null;
+}
+function chatIn(txt){
+  txt=String(txt).slice(0,300);S.chat.push({yo:true,t:txt,h:hhmm()});
+  var e=extraer(txt),t=' '+norm(txt).replace(/[¿?¡!,.;]/g,' ')+' ',E=S.chatEstado;
+  /* anular */
+  if(E&&E.paso==='anular-tel'){if(!e.tel){bot('Necesito el móvil con el que reservaste (9 cifras).');return}
+    var c=S.citas.find(function(z){return z.est!=='anulada'&&z.f>=iso(HOY)&&P(z.pac).tel.replace(/\D/g,'')===e.tel});
+    if(!c){S.chatEstado=null;bot('No encuentro ninguna cita con ese móvil. Escríbenos al '+CFG.tel+' y lo miramos.',QUICK());return}
+    S.chatEstado={paso:'anular-ok',cita:c.id};bot('Tienes cita '+diaTxt(deIso(c.f))+' a las '+c.h+' con '+PRO(c.pro).n+'. ¿La anulo o prefieres cambiarla de día?',['Anúlala','Cambiarla de día','Déjala como está']);return}
+  if(E&&E.paso==='anular-ok'){var c2=S.citas.find(function(z){return z.id===E.cita});S.chatEstado=null;
+    if(/cambi|otro dia|otra hora|mover/.test(t)){var p2=P(c2.pac);anular(c2,'la cambia desde el chat');CV={srv:c2.srv,pro:c2.pro,nom:p2.n,tel:p2.tel.replace(/\D/g,'')};bot('Hecho, la he liberado. ¿Qué día te viene mejor?',['Lo antes posible','Mañana por la tarde','La semana que viene']);return}
+    if(e.si||/anula|si /.test(t)){anular(c2,'desde el chat de la web');bot('Anulada. Gracias por avisar: así ese hueco lo aprovecha otra persona. Si quieres otra cita, dímelo cuando quieras.',['Quiero pedir cita']);return}
+    bot('Perfecto, la dejamos como está. ¡Te esperamos!',QUICK());return}
+  if(e.anular&&!LIG){S.chatEstado={paso:'anular-tel'};CV=null;bot('Claro. ¿Con qué móvil hiciste la reserva?');return}
+  if(e.anular&&LIG){bot('Puedes cambiarla o anularla desde tu cita de '+CFG.sistema+', o escribiendo al '+CFG.tel+'.',null,['Ir a mi cita','d-ir']);regPreg(txt,'Enlace a '+CFG.sistema);return}
+  /* preguntas de información (también a mitad de una reserva) */
+  var pend=S.pendBuscar;S.pendBuscar=null;
+  if(pend&&e.si&&!CV&&!LIG){CV={};if(pend!==true)CV.srv=pend;regPreg('Pedir cita','Cita por el chat','cita');avanzar();return}
+  var info=respInfo(t,e);
+  if(info&&!(e.dia||e.h||e.asap)&&!(CV&&CV.preg&&(e.si||e.no))){
+    if(!CV&&!LIG&&/Te busco hueco/.test(info[0]))S.pendBuscar=e.srv||true;
+    bot(info[0],CV?null:(LIG?['Quiero pedir cita','¿Dónde estáis?']:(S.pendBuscar?['Sí, búscame hueco','¿Dónde estáis?']:['Quiero pedir cita','¿Qué horario tenéis?'])));regPreg(txt,info[1]);
+    if(CV&&!LIG)avanzar(true);return}
+  if(/mutua|seguro|sanitas|adeslas|asisa|dkv|mapfre|aseguradora/.test(t)){bot('Eso prefiero que te lo confirme la clínica, para no decirte nada que no sea. Ya les he pasado tu pregunta y te contestan por WhatsApp.',CV?null:['Quiero pedir cita','¿Cuánto cuesta?']);regPreg(txt,'Pasada a vuestro WhatsApp','wa');log('Pregunta del chat pasada a tu WhatsApp: «'+txt+'»','acc');if(CV)avanzar(true);return}
+  if(/^ *(gracias|muchas gracias|mil gracias|genial gracias)/.test(t)&&!CV){bot('¡A ti! Aquí estoy para lo que necesites.');return}
+  var quiereCita=e.cita||e.dia||e.h||e.asap||CV;
+  if(!quiereCita){
+    if(/^ *(hola|buenas|buenos dias|buenas tardes|buenas noches|hey)\b/.test(t)){bot('¡Hola! ¿En qué te ayudo? Puedo darte cita, decirte precios, horario o cómo llegar.',QUICK());return}
+    if(e.srv){bot('Sí, lo hacemos. ¿Quieres que te busque hueco?',['Sí, búscame hueco','¿Cuánto cuesta?']);S.pendBuscar=e.srv;return}
+    bot('Eso no lo sé seguro y no quiero inventármelo. Ya se lo he pasado a la clínica y te contestan por WhatsApp.',QUICK());regPreg(txt,'Pasada a vuestro WhatsApp','wa');return}
+  if(LIG){S.clicsRes++;var cuando=e.dia?' '+diaTxt(e.dia)+(e.fr?(e.fr==='t'?' por la tarde':' por la mañana'):''):'';
+    bot('¡Claro! Puedes elegir día y hora'+cuando+' ahora mismo, con los huecos libres de verdad:',null,['Ver huecos y reservar','d-ir']);regPreg(txt,'Le manda a reservar en '+CFG.sistema,'cita');log('El chat ha mandado a reservar a '+CFG.sistema+' («'+txt+'»)','acc');return}
+  if(!CV)regPreg(txt,'Cita por el chat','cita');
+  CV=CV||{};var C=CV;
+  /* respuestas a lo que se le acaba de preguntar */
+  C.preg0=C.preg;
+  if(C.preg==='nom'&&!e.nom&&!e.tel&&/^[A-Za-zÁÉÍÓÚÑáéíóúñü' ]{2,40}$/.test(txt.trim())&&!e.si&&!e.no)e.nom=txt;
+  if(C.preg==='srv'&&!e.srv&&/primer/.test(t)){e.srv='val';delete e.ord}
+  if(C.preg==='srv'&&!e.srv&&!e.dia&&!e.h&&!e.asap){C.srvN=(C.srvN||0)+1;if(C.srvN>=2||e.si)e.srv='fis'}
+  var antes=JSON.stringify([C.dia,C.h,C.pro,C.fr,C.asap]),antesD=JSON.stringify([C.srv,C.nom,C.tel]);
+  /* juntar lo nuevo */
+  if(e.srv)C.srv=e.srv;
+  if(e.pro){C.pro=e.pro;if(C.hp&&C.hp!==e.pro){C.h=null;C.hp=null}}
+  if(e.proIgual)C.pro=null;
+  if(e.fr&&e.fr!==C.fr){C.fr=e.fr;if(!e.h)C.h=null}
+  if(e.dia){C.dia=iso(e.dia);C.asap=false;if(!e.h)C.h=null}
+  if(e.asap){C.asap=true;C.dia=null;C.h=null}
+  if(e.h)C.h=e.h;
+  if(e.nom)C.nom=nombreLimpio(e.nom);
+  if(e.tel)C.tel=e.tel;
+  /* elegir una de las opciones ofrecidas */
+  if(C.ofertas&&C.ofertas.length&&!(e.dia&&e.h)){var o=null;
+    if(e.ord!=null)o=C.ofertas[e.ord<0?C.ofertas.length-1:e.ord];
+    else if(e.h)o=C.ofertas.find(function(x){return x.h===e.h&&(!e.dia||x.dia===iso(e.dia))});
+    else if(e.dia){var cs=C.ofertas.filter(function(x){return x.dia===iso(e.dia)});if(cs.length===1&&!e.fr)o=cs[0]}
+    else if(e.si&&C.ofertas.length===1)o=C.ofertas[0];
+    else if(e.si){bot('¿Cuál de ellas? Escríbeme la hora o pulsa una.',C.ofertas.map(function(x){return C.ofertas.every(function(y){return y.dia===x.dia})?x.h:cap1(diaTxt(deIso(x.dia)))+' a las '+x.h}));return}
+    if(o){C.dia=o.dia;C.h=o.h;C.hp=o.pro;if(!C.pro&&e.pro)C.pro=e.pro}}
+  /* más tarde / más pronto */
+  if((e.masTarde||e.masPronto)&&(C.h||(C.ofertas&&C.ofertas.length))){var ref=C.h?{dia:C.dia,h:C.h}:C.ofertas[e.masTarde?C.ofertas.length-1:0];
+    var d0=deIso(ref.dia),ls=libres(d0,C.pro).filter(function(s){return e.masTarde?toMin(s.h)>toMin(ref.h):toMin(s.h)<toMin(ref.h)});
+    C.dia=ref.dia;C.h=null;C.ofertas=null;
+    if(ls.length){var op=e.masTarde?ls.slice(0,3):ls.slice(-3);C.ofertas=op.map(function(s){return {dia:ref.dia,h:s.h,pro:s.pro}});C.preg='hora';
+      bot((e.masTarde?'Más tarde ':'Antes ')+diaTxt(d0)+' tengo '+lista(op.map(function(s){return s.h}))+'. ¿Cuál prefieres?',op.map(function(s){return s.h}));return}
+    if(e.masTarde){C.dia=null;C.desde=iso(addD(d0,1))}}
+  if(C.preg==='hora'&&!e.no&&!e.masTarde&&!e.masPronto&&JSON.stringify([C.dia,C.h,C.pro,C.fr,C.asap])===antes&&C.ofertas&&C.ofertas.length){
+    bot((JSON.stringify([C.srv,C.nom,C.tel])!==antesD?'Apuntado. ':'')+'¿Cuál te viene mejor? Escríbeme la hora, «la primera», «la segunda»… o dime otro día.',C.ofertas.map(function(x){return C.ofertas.every(function(y){return y.dia===x.dia})?x.h:cap1(diaTxt(deIso(x.dia)))+' a las '+x.h}));return}
+  if(e.no&&C.preg==='hora'){C.h=null;C.ofertas=null;C.preg='dia';bot('Sin problema. ¿Qué día u hora te vendría mejor?',['Lo antes posible','Mañana por la tarde','La semana que viene']);return}
+  avanzar();
+}
+function avanzar(retomar){
+  var C=CV,pre=retomar?'Seguimos con tu cita: ':'';
+  if(C.dia){var d=deIso(C.dia);
+    if(!abre(d)){var sig=sigLab(addD(d,-1));bot('El '+DIAS[d.getDay()]+' '+d.getDate()+' la clínica está cerrada.');C.dia=null;C.h=null;C.desde=iso(sig)}
+    else if(C.h){var l=libres(d,C.pro).find(function(x){return x.h===C.h});
+      if(!l){var ls=libres(d,C.pro);C.ofertas=null;
+        if(ls.length){var cer=ls.slice().sort(function(a,b){return Math.abs(toMin(a.h)-toMin(C.h))-Math.abs(toMin(b.h)-toMin(C.h))}).slice(0,3).sort(function(a,b){return toMin(a.h)-toMin(b.h)});
+          var hPed=C.h;C.h=null;C.ofertas=cer.map(function(s){return {dia:C.dia,h:s.h,pro:s.pro}});C.preg='hora';
+          var bl=CFG.horario[d.getDay()],dentro=bl.some(function(r){return toMin(hPed)>=toMin(r[0])&&toMin(hPed)<toMin(r[1])});
+          if(!dentro&&C.fr&&!cer.some(function(s){return enFranja(s.h,C.fr)}))C.fr=null;
+          bot((!dentro?cap1(diaTxt(d))+' abrimos '+bl.map(function(r){return 'de '+r[0].replace(/^0/,'')+' a '+r[1].replace(/^0/,'')}).join(' y ')+'. ':!slots(d).includes(hPed)?'Las citas van cada '+CFG.min+' minutos. ':'A las '+hPed+' ya no me queda'+(C.pro?' con '+PRO(C.pro).n:'')+'. ')+cap1(diaTxt(d))+' tengo '+lista(cer.map(function(s){return s.h}))+'. ¿Te va alguna?',cer.map(function(s){return s.h}));return}
+        bot(cap1(diaTxt(d))+' ya no me queda ningún hueco'+(C.pro?' con '+PRO(C.pro).n:'')+'.');C.h=null;C.dia=null;C.desde=iso(addD(d,1))}
+      else{C.hp=l.pro}}
+    else{var lsF=libres(d,C.pro).filter(function(s){return enFranja(s.h,C.fr)});
+      if(lsF.length){var op=repartidos(lsF,5);C.ofertas=op.map(function(s){return {dia:C.dia,h:s.h,pro:s.pro}});C.preg='hora';
+        bot(pre+cap1(diaTxt(d))+(C.fr?(C.fr==='t'?' por la tarde':' por la mañana'):'')+(C.pro?' con '+PRO(C.pro).n:'')+' tengo '+lista(op.map(function(s){return s.h}))+'. ¿Cuál te viene mejor?',op.map(function(s){return s.h}));return}
+      bot(cap1(diaTxt(d))+(C.fr?(C.fr==='t'?' por la tarde':' por la mañana'):'')+' ya no me queda hueco'+(C.pro?' con '+PRO(C.pro).n:'')+'.');C.dia=null;C.desde=iso(addD(d,1))}
+  }
+  if(!C.dia){var ofs=primeros(3,C.fr,C.pro,C.desde);C.desde=null;
+    if(!ofs.length){bot('Ahora mismo no veo huecos'+(C.pro?' con '+PRO(C.pro).n:'')+'. Escríbenos al '+CFG.tel+' y te buscamos uno.');CV=null;return}
+    C.ofertas=ofs;C.preg='hora';
+    var txts=ofs.map(function(o){return diaTxt(deIso(o.dia))+' a las '+o.h});
+    bot(pre+(C.asap?'Lo primero que tengo':'Te puedo dar')+(C.fr?(C.fr==='t'?' por la tarde':' por la mañana'):'')+(C.pro?' con '+PRO(C.pro).n:'')+': '+lista(txts)+'. ¿Te va alguna? Si prefieres otro día, dímelo.',txts.map(cap1));return}
+  C.ofertas=null;
+  var res=diaTxt(deIso(C.dia))+' a las '+C.h+' con '+PRO(C.hp).n;
+  if(!C.srv){C.preg='srv';bot(pre+'¡Perfecto! Te guardo '+res+'. ¿Es tu primera vez con nosotros o ya has venido antes?',['Es mi primera vez','Ya he venido'].concat(CFG.servicios.filter(function(s){return s.id!=='val'&&s.id!=='fis'}).slice(0,2).map(function(s){return s.n})));return}
+  if(!C.nom){C.preg='nom';bot(pre+(C.preg0==='srv'?'Apuntado: '+SRV(C.srv).n.toLowerCase()+'. ':'¡Perfecto! Te guardo '+res+' ('+SRV(C.srv).n.toLowerCase()+'). ')+'¿A nombre de quién la pongo?');return}
+  if(!C.tel){C.preg='tel';bot(pre+'Gracias, '+C.nom.split(' ')[0]+'. ¿Me dejas tu móvil? Te mando ahí la confirmación por WhatsApp.');return}
+  /* reservar */
+  var l2=libres(deIso(C.dia),C.pro).find(function(x){return x.h===C.h});if(!l2){C.h=null;avanzar();return}
+  var p=S.pac.find(function(x){return x.tel.replace(/\D/g,'')===C.tel});
+  if(!p){p={id:nid('p'),n:C.nom,tel:C.tel.replace(/(\d{3})(\d{2})(\d{2})(\d{2})/,'$1 $2 $3 $4'),alta:iso(HOY),origen:'Chat de la web',pro:l2.pro,bono:null};S.pac.push(p)}
+  var c=crearCita(p,C.srv,l2.pro,C.dia,C.h,'Chat de la web');S.demoPac=p.id;
+  log('El chat de la web ha reservado: '+p.n+', '+fD(deIso(C.dia))+' a las '+C.h,'ok');regPreg('Pedir cita','Cita reservada: '+fC(deIso(C.dia))+', '+C.h,'cita');
+  bot('¡Hecho, '+C.nom.split(' ')[0]+'! Tu cita es '+diaTxt(deIso(C.dia))+' a las '+C.h+' con '+PRO(l2.pro).n+'. Te acaba de llegar la confirmación por WhatsApp. Si un día no puedes venir, contesta a ese mensaje y te damos otra hora.',['¿Dónde estáis?','Gracias'],['Ver el WhatsApp','ver-wa']);
+  CV=null;
+}
+
+/* --- cómo se ve: un chat tipo WhatsApp dentro de su web --- */
+var TICK='<svg width="16" height="11" viewBox="0 0 16 11" aria-hidden="true"><path d="M1 6l3 3 6-7M6 9l1 1 7-8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+var ENVIAR='<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12.6 2-12.6 2z" fill="currentColor"/></svg>';
+function chatHoja(h){
+  if(!S.chat.length)bot(saludo(),QUICK());
+  var ult=S.chat.length-1,u=S.chat[ult];
+  var msgs=S.chat.map(function(m,i){var esp=!m.yo&&nu(m)&&i>0&&S.chat[i-1].yo,seg=!m.yo&&nu(m)&&i>1&&!S.chat[i-1].yo&&nu(S.chat[i-1])&&S.chat[i-2].yo;
+    return (esp?'<div class="tecleo"><i></i><i></i><i></i></div>':'')+'<div class="wm '+(m.yo?'out':'in')+nu(m)+(esp?' tarde':seg?' tarde2':'')+'">'+esc(m.t)+'<small>'+(m.h||hhmm())+(m.yo?' '+TICK:'')+'</small>'+(m.btn?'<button class="wm-cta" data-act="'+m.btn[1]+'">'+esc(m.btn[0])+'</button>':'')+'</div>'}).join('');
+  var sug=!u.yo&&u.q?'<div class="wch-sug'+(nu(u)&&ult>0&&S.chat[ult-1].yo?' tarde':'')+'">'+u.q.map(function(x){return '<button data-q="'+esc(x)+'">'+esc(x)+'</button>'}).join('')+'</div>':'';
+  var ph=CV&&CV.preg==='nom'?'Tu nombre y apellido':CV&&CV.preg==='tel'?'Tu móvil':LIG?'Escribe tu pregunta':'Ej.: jueves por la tarde con '+CFG.pros[0].n;
+  return '<div class="hoja'+nu(h)+'"><div class="in wchat"><div class="wch-top"><button data-act="cerrar-hoja" aria-label="Cerrar el chat">'+I.atras+'</button><span class="av">'+esc($('#logo').textContent||'F')+'</span><span class="wch-n"><b>'+esc(CFG.nombre)+'</b><small>en línea · contesta al momento</small></span></div>'+
+    '<div class="bd chatbd wch-bd"><div class="wch-aviso">Asistente automático de '+esc(CFG.nombre)+'. Para una urgencia, llama al '+esc(CFG.tel)+'.</div>'+msgs+'</div>'+sug+
+    '<form class="wch-in" id="chat-f"><input id="chat-in" placeholder="'+esc(ph)+'" autocomplete="off" aria-label="Mensaje"'+(CV&&CV.preg==='tel'?' inputmode="tel"':'')+'><button aria-label="Enviar">'+ENVIAR+'</button></form></div></div>';
+}
+
 /* ---------- lo que ve el paciente ---------- */
 function abiertoTxt(){var b=CFG.horario[HOY.getDay()]||[];var r=b.find(function(x){return NOW>=toMin(x[0])&&NOW<toMin(x[1])});
   if(r)return '<span class="vivo"></span><b>Abierto</b> · Cierra a las '+r[1].replace(/^0/,'');
@@ -1053,7 +1297,7 @@ function vPac(){
   var t=S.movTab;
   var cols=[
     ['Le encuentran en Google',movGoogle(),LIG?'El botón «Reservar» de Google lleva directo a vuestro '+esc(CFG.sistema)+'.':'El botón «Reservar» de Google abre vuestra agenda. Sin llamadas.'],
-    ['Entran en vuestra web',movWeb(),LIG?'Asistente que contesta a cualquier hora y manda a reservar.':'Botón fijo para pedir cita y asistente que contesta 24 h.'],
+    ['Entran en vuestra web',movWeb(),LIG?'Asistente que contesta a cualquier hora y manda a reservar.':'«Pedir cita» abre un chat tipo WhatsApp que da la cita al momento, también de noche.'],
     LIG?['Al salir, la reseña',movQR(),'QR en recepción y enlace: la reseña en 20 segundos, en Google.']:['Y les llega por WhatsApp',movWa(),'Confirmación, recordatorio y petición de reseña. Solos.']
   ];
   return '<div class="esc"><div class="esc-h"><div><span class="eyebrow">Lo que ve el paciente</span><h1>'+(LIG?'Google, vuestra web y la reseña':'Google, vuestra web y su WhatsApp')+'</h1><p>'+(LIG?'Prueba a pulsar «Reservar» en Google o pregunta algo al asistente. Todo acaba en vuestro '+esc(CFG.sistema)+', y las reseñas, en Google.':(SOLO?'Pruébalo como si fueras un paciente: reserva desde Google o desde la web y mira el WhatsApp que te llega.':'Prueba a reservar desde Google o desde la web y mira cómo llega el WhatsApp. Todo lo que pasa aquí aparece en el panel.'))+'</p></div>'+
@@ -1092,6 +1336,7 @@ function movQR(){
 /* hoja que sube dentro del móvil: reserva, asistente o paso a Doctoralia */
 function hoja(){
   var h=S.hoja,tit,cuerpo,pie='',prog='';
+  if(h.tipo==='chat')return chatHoja(h);
   if(h.tipo==='doc'){tit='Reservar cita';
     cuerpo='<div class="okb" style="padding-top:6px"><span class="logo" style="width:46px;height:46px;border-radius:14px">'+esc($('#logo').textContent||'F')+'</span><b style="font:650 17px var(--f-d)">'+esc(CFG.nombre)+'</b><p class="muted" style="margin:0;font-size:13.5px">Las citas se reservan en '+esc(CFG.sistema)+'. Te llevamos directo a su agenda, con los huecos libres de hoy.</p></div><button class="btn p" data-act="d-ir" style="justify-content:center;padding:13px">Elegir día y hora '+I.ext+'</button><p class="muted" style="font-size:12px;text-align:center;margin:0">Se abre '+esc(CFG.sistema)+'</p>'}
   else if(h.tipo==='chat'){tit='Asistente de '+esc(CFG.nombre);
@@ -1122,40 +1367,6 @@ function pasoReserva(){
 function abrirReserva(m,srv){S.rv={paso:srv?2:1,srv:srv||null,pro:null,dia:null,h:null,hp:null,nom:'Marta Ruiz',tel:'612 34 56 78',hecho:null,m:m};S.hoja={m:m,tipo:'reserva'};S.movTab=m}
 
 /* ---------- asistente ---------- */
-function QUICK(){return LIG?['Pedir cita','Horario','Precios','¿Dónde estáis?','¿Trabajáis con mutuas?']:['Pedir cita','Horario','Precios','¿Dónde estáis?','Anular mi cita','¿Trabajáis con mutuas?']}
-function bot(t,q,btn){S.chat.push({yo:false,t:t,q:q,btn:btn})}
-function regPreg(q,r,tipo){S.preg.unshift({h:hhmm(),dia:'Hoy',q:q,r:r,tipo:tipo||'ok'})}
-function chatIn(txt){
-  S.chat.push({yo:true,t:txt});var t=norm(txt),E=S.chatEstado;
-  if(E&&E.paso==='nombre'){E.nom=txt.slice(0,40);E.paso='tel';bot('Gracias, '+E.nom.split(' ')[0]+'. ¿Me dejas tu móvil para mandarte la confirmación por WhatsApp?');return}
-  if(E&&E.paso==='tel'){var tel=txt.replace(/\D/g,'');if(tel.length<9){bot('Necesito un móvil de 9 cifras. ¿Me lo repites?');return}
-    var p={id:nid('p'),n:E.nom,tel:tel.slice(-9).replace(/(\d{3})(\d{2})(\d{2})(\d{2})/,'$1 $2 $3 $4'),alta:iso(HOY),origen:'Asistente',pro:E.pro,bono:null};S.pac.push(p);
-    crearCita(p,E.srv,E.pro,E.dia,E.h,'Asistente');S.demoPac=p.id;S.chatEstado=null;log('El asistente ha reservado: '+p.n+', '+fD(deIso(E.dia))+' a las '+E.h,'ok');regPreg('Pedir cita','Cita reservada: '+fC(deIso(E.dia))+', '+E.h,'cita');
-    bot('¡Hecho! Tienes cita el '+fD(deIso(E.dia))+' a las '+E.h+' con '+PRO(E.pro).n+'. Te acaba de llegar la confirmación por WhatsApp.',['Horario','¿Dónde estáis?'],['Ver el WhatsApp','ver-wa']);return}
-  if(E&&E.paso==='anular-tel'){var d=txt.replace(/\D/g,'').slice(-9);var c=S.citas.find(function(z){return z.est!=='anulada'&&z.f>=iso(HOY)&&P(z.pac).tel.replace(/\D/g,'')===d});
-    if(!c){S.chatEstado=null;bot('No encuentro ninguna cita con ese móvil. Escríbenos al '+CFG.tel+' y lo miramos.',QUICK());return}
-    S.chatEstado={paso:'anular-ok',cita:c.id};bot('Tienes cita el '+fD(deIso(c.f))+' a las '+c.h+' con '+PRO(c.pro).n+'. ¿La anulo?',['Sí, anúlala','No, déjala']);return}
-  if(E&&E.paso==='anular-ok'){var c2=S.citas.find(function(z){return z.id===E.cita});S.chatEstado=null;
-    if(/^si|anula/.test(t)){anular(c2,'desde el asistente');bot('Anulada. Si quieres otra hora, dime «Pedir cita».',['Pedir cita','Horario'])}else bot('Perfecto, la dejamos como está.',QUICK());return}
-  if(E&&E.paso==='srv'){var s=CFG.servicios.find(function(z){return norm(z.n)===t});if(s){var ds=[],x=addD(HOY,-1);for(var g=0;ds.length<4&&g<30;g++){x=addD(x,1);if(abre(x)&&libres(x).length)ds.push(x)}E.srv=s.id;E.paso='dia';E.dias=ds.map(iso);bot('¿Qué día te va mejor?',ds.map(function(d){return DCORTO[d.getDay()]+' '+d.getDate()}));return}}
-  if(E&&E.paso==='dia'){var i=E.dias.findIndex(function(di){var d=deIso(di);return (DCORTO[d.getDay()]+' '+d.getDate())===txt});if(i>-1){E.dia=E.dias[i];E.paso='hora';bot('Estos son los huecos libres:',libres(deIso(E.dia)).slice(0,8).map(function(z){return z.h}));return}}
-  if(E&&E.paso==='hora'&&/^\d\d:\d\d$/.test(txt)){var l=libres(deIso(E.dia)).find(function(z){return z.h===txt});if(l){E.h=txt;E.pro=l.pro;E.paso='nombre';E.srv=E.srv||'fis';bot('Te reservo el '+fD(deIso(E.dia))+' a las '+txt+' con '+PRO(l.pro).n+'. ¿A nombre de quién?');return}}
-  if(/hora|abr|cierr|abiert/.test(t)&&!/cita|reserv|hueco/.test(t)){bot('Nuestro horario:\n'+horarioTxt(),['Pedir cita','¿Dónde estáis?']);regPreg(txt,'Horario');return}
-  if(/precio|cuest|cuant|tarifa|vale/.test(t)){bot(CFG.servicios.map(function(s){return s.n+': '+s.precio+' €'}).join('\n')+(CFG.preciosEj&&REAL?'\n\n(Precios de ejemplo: aquí irían los vuestros.)':''),['Pedir cita','Horario']);regPreg(txt,'Precios');return}
-  if(/donde|direcc|llegar|aparc|ubica/.test(t)){bot('Estamos en '+CFG.direccion+'. Si necesitas algo más para llegar, escríbenos al '+CFG.tel+'.',['Pedir cita','Horario']);regPreg(txt,'Dirección y cómo llegar');return}
-  if(/mutua|seguro|sanitas|adeslas|asisa|dkv|mapfre/.test(t)){bot('Eso prefiero que te lo confirme la clínica, para no decirte nada que no sea. Ya les he pasado tu pregunta; también puedes escribirles al '+CFG.tel+'.',['Pedir cita','Precios']);regPreg(txt,'Pasada a vuestro WhatsApp','wa');log('Pregunta del asistente pasada a tu WhatsApp: «'+txt+'»','acc');return}
-  if(/anul|cambi|mover/.test(t)){if(LIG){bot('Puedes cambiarla o anularla desde tu cita de '+CFG.sistema+', o escribiendo al '+CFG.tel+'.',['Pedir cita','Horario'],['Ir a mi cita','d-ir']);regPreg(txt,'Enlace a '+CFG.sistema);return}S.chatEstado={paso:'anular-tel'};bot('Claro. ¿Con qué móvil hiciste la reserva?');return}
-  if(/trat|lesion|dolor|espalda|rodilla|hombro|suelo|deport|puncion|cuello/.test(t)&&!/cita|reserv/.test(t)){bot('Tratamos: '+CFG.servicios.slice(1).map(function(s){return s.n.toLowerCase()}).join(', ')+'. Si es tu primera vez, se empieza con una valoración.',['Pedir cita','Precios']);regPreg(txt,'Tratamientos');return}
-  if(/cita|reserv|hueco|pedir|manana|tarde|jueves|lunes|martes|miercoles|viernes/.test(t)){
-    if(LIG){S.clicsRes++;bot('¡Claro! Puedes elegir día y hora ahora mismo, con los huecos libres de verdad:',['Horario','Precios'],['Ver huecos y reservar','d-ir']);regPreg(txt,'Le manda a reservar en '+CFG.sistema,'cita');log('El asistente ha mandado a reservar a '+CFG.sistema+' («'+txt+'»)','acc');return}
-    var tarde=/tarde/.test(t),man=/manana/.test(t);
-    if(man){var ops=libres(MANANA).filter(function(x){return !tarde||toMin(x.h)>=15*60}).slice(0,6);
-      if(ops.length){S.chatEstado={paso:'hora',srv:'fis',dia:iso(MANANA)};bot('Mañana'+(tarde?' por la tarde':'')+' tengo estos huecos. ¿Cuál te viene bien?',ops.map(function(x){return x.h}));return}
-      S.chatEstado={paso:'srv'};bot('Mañana'+(tarde?' por la tarde':'')+' no me queda hueco. Te busco otro día: ¿qué necesitas?',CFG.servicios.map(function(s){return s.n}));return}
-    S.chatEstado={paso:'srv'};bot('¡Vamos! ¿Qué necesitas?',CFG.servicios.map(function(s){return s.n}));return}
-  bot('Eso no lo sé seguro y no quiero inventármelo. Ya se lo he pasado a la clínica; también puedes escribirles al '+CFG.tel+'.',QUICK());regPreg(txt,'Pasada a vuestro WhatsApp','wa');
-}
-
 /* ---------- eventos ---------- */
 function irWa(){S.hoja=null;S.movTab=3;render();var t=$('.tres>div:nth-child(3) .mov');if(t&&innerWidth>1080){t.classList.add('brilla');setTimeout(function(){t.classList.remove('brilla')},1600)}}
 document.addEventListener('click',function(ev){
@@ -1200,8 +1411,8 @@ document.addEventListener('click',function(ev){
     case 'guardar-faq':var dv=$('#cf-doc');if(dv&&/^https?:\/\/\S+$/.test(dv.value.trim())&&dv.value.indexOf('…')<0)CFG.doctoralia=dv.value.trim();toast('Guardado. El asistente ya lo sabe');return;
     case 'copiar':var u=$('#url-demo').textContent;if(navigator.clipboard)navigator.clipboard.writeText(u).then(function(){toast('Enlace copiado')},function(){toast('Selecciona el enlace y cópialo')});else toast('Selecciona el enlace y cópialo');return;
     case 'g-reservar':if(LIG){S.hoja={m:1,tipo:'doc'};S.clicsRes++;log('Alguien ha pulsado «Reservar» en Google → '+CFG.sistema,'acc')}else abrirReserva(1);break;
-    case 'w-cita':if(LIG){S.hoja={m:2,tipo:'doc'};S.clicsRes++}else abrirReserva(2);break;
-    case 'w-chat':S.hoja={m:2,tipo:'chat'};break;
+    case 'w-cita':if(LIG){S.hoja={m:2,tipo:'doc'};S.clicsRes++}else abrirChat(true);break;
+    case 'w-chat':abrirChat(false);break;
     case 'g-otro':toast('En la ficha real, esto abre el mapa o la llamada');return;
     case 'g-escribir':case 'q-google':toast('Aquí se abre la ventana para escribir la reseña en Google');return;
     case 'd-ir':toast(CFG.doctoralia?'Aquí se abre vuestra agenda de '+CFG.sistema:'Aquí se abre vuestra agenda de '+CFG.sistema+' (el enlace se pone en Asistente)');return;
@@ -1244,16 +1455,7 @@ function tour(k){
   if(k==='reserva'){S.modo='pac';if(LIG){S.hoja={m:1,tipo:'doc'};S.movTab=1;S.clicsRes++;toast('Pulsa «Reservar» en Google y acaba en vuestro '+CFG.sistema)}else{abrirReserva(1,'val');toast('Elige día y hora: en cuatro toques está reservada')}}
   if(k==='resena'){nuevaRes('Lucía Torres',5,'Vine por una contractura en el cuello que llevaba semanas arrastrando y salí nueva. '+CFG.pros[0].n+' me explicó qué ejercicios hacer en casa. Muy recomendable.');S.modo='clin';S.tab='resenas';toast(S.autoRes?'Reseña de 5 estrellas: contestada sola en 2 minutos':'Reseña nueva: la respuesta ya está escrita, falta tu OK')}
   if(k==='resena-mala'){nuevaRes('Roberto Sanz',2,'Me cambiaron la cita dos veces y el último día esperé más de 20 minutos. El tratamiento bien, pero la organización mejorable.');S.modo='clin';S.tab='resenas';toast('Reseña de 2 estrellas: te ha llegado por WhatsApp con la respuesta escrita')}
-  if(k==='noche'){S.modo='pac';S.movTab=2;S.hoja={m:2,tipo:'chat'};NOW=23*60+40;
-    if(!S.chat.length)S.chat.push({yo:false,t:'¡Hola! Soy el asistente de '+CFG.nombre+'. Te contesto al momento, a cualquier hora. ¿En qué te ayudo?'});
-    if(LIG){chatIn('¿Tenéis hueco mañana por la tarde?')}
-    else{var dT=MANANA,ops=[];for(var g=0;g<10;g++){ops=libres(dT).filter(function(x){return toMin(x.h)>=15*60}).slice(0,6);if(ops.length)break;dT=sigLab(dT)}
-      if(!ops.length){dT=MANANA;ops=libres(dT).slice(0,6)}
-      var esMan=iso(dT)===iso(MANANA);
-      S.chat.push({yo:true,t:esMan?'¿Tenéis hueco mañana por la tarde?':'¿Tenéis hueco el '+DIAS[dT.getDay()]+' por la tarde?'});
-      S.chatEstado={paso:'hora',srv:'fis',dia:iso(dT)};
-      bot('¡Sí! El '+fD(dT)+' tengo estos huecos. ¿Cuál te viene bien?',ops.map(function(x){return x.h}));
-      regPreg('¿Hueco mañana por la tarde?','Le ofrece '+ops.length+' horas','cita')}
+  if(k==='noche'){S.modo='pac';NOW=23*60+40;S.chat=[];CV=null;abrirChat(false);chatIn('Hola, ¿tenéis hueco mañana por la tarde?');
     S.preg[0].h='23:40';
     log('El asistente ha contestado a las 23:40, con la clínica cerrada','acc');
     toast('Son las 23:40, la clínica está cerrada y ya tiene respuesta');

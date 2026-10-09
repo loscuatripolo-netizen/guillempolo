@@ -1,0 +1,726 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Recepción automática para clínicas · Demo</title>
+<meta name="description" content="Agenda, reserva online, recordatorios por WhatsApp, lista de espera, asistente 24 h y reseñas para clínicas de fisioterapia. Demo con datos de ejemplo.">
+<style>
+@font-face{font-family:"Archivo";src:url("/fuentes/archivo.woff2") format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"Instrument Sans";src:url("/fuentes/instrument-sans.woff2") format("woff2");font-weight:400 700;font-display:swap}
+/* Layout: barra superior con el cambio Clínica/Paciente; clínica = menú lateral (abajo en móvil) + panel; paciente = móvil con reserva y asistente + lo que llega a la clínica */
+:root{
+  --bg:#F3F6F5; --panel:#FFFFFF; --ink:#11201D; --muted:#5B6B67; --line:#DDE5E2; --soft:#EEF3F1;
+  --acc:#0F7B6C; --acc-2:#0B5F54; --acc-soft:#DDF0EC;
+  --ok:#1E8A4C; --ok-soft:#E1F3E8; --warn:#B7790F; --warn-soft:#FBF0DA; --bad:#C2462B; --bad-soft:#FBE6E0; --wa:#1FA855;
+  --f-d:"Archivo","Helvetica Neue",Arial,sans-serif; --f-b:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --r:10px; --sh:0 1px 2px rgba(17,32,29,.06),0 8px 24px rgba(17,32,29,.06);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--f-b);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--f-d);margin:0;line-height:1.15;text-wrap:balance}
+button{font:inherit;cursor:pointer;color:inherit}
+input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+
+/* barra superior */
+.top{position:sticky;top:0;z-index:30;background:var(--panel);border-bottom:1px solid var(--line)}
+.top .in{display:flex;align-items:center;gap:14px;padding:10px 18px;flex-wrap:wrap}
+.marca{display:flex;align-items:center;gap:10px;min-width:0}
+.logo{width:34px;height:34px;border-radius:9px;background:var(--acc);color:#fff;display:grid;place-items:center;font:800 15px var(--f-d);flex:none}
+.marca b{font:700 16px var(--f-d);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:46vw}
+.marca small{color:var(--muted);font-size:12px}
+.chip-demo{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;background:var(--warn-soft);color:var(--warn);padding:3px 8px;border-radius:99px}
+.seg{display:flex;background:var(--soft);border-radius:99px;padding:3px;margin-left:auto}
+.seg button{border:0;background:none;padding:7px 14px;border-radius:99px;font-weight:600;font-size:14px;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--panel);color:var(--ink);box-shadow:var(--sh)}
+.tour{display:flex;gap:8px;flex-wrap:wrap;padding:0 18px 10px}
+.tour button{border:1px dashed var(--acc);background:var(--acc-soft);color:var(--acc-2);border-radius:99px;padding:6px 12px;font-size:13px;font-weight:600}
+.tour span{font-size:12px;color:var(--muted);align-self:center}
+
+/* clínica */
+.clin{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 110px)}
+.side{border-right:1px solid var(--line);background:var(--panel);padding:14px 10px;display:flex;flex-direction:column;gap:2px}
+.side button{display:flex;align-items:center;gap:10px;border:0;background:none;text-align:left;padding:10px 12px;border-radius:8px;font-weight:600;color:var(--muted)}
+.side button svg{width:18px;height:18px;flex:none}
+.side button[aria-current="page"]{background:var(--acc-soft);color:var(--acc-2)}
+.side .badge{margin-left:auto;background:var(--bad);color:#fff;font-size:11px;border-radius:99px;padding:1px 7px}
+main{padding:22px clamp(16px,3vw,32px) 90px;min-width:0}
+.h{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.h h1{font-size:clamp(22px,3vw,28px)}
+.h p{margin:4px 0 0;color:var(--muted)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:18px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.kpi b{display:block;font:800 26px/1.1 var(--f-d);font-variant-numeric:tabular-nums}
+.kpi span{color:var(--muted);font-size:13px}
+.kpi em{font-style:normal;font-size:12px;font-weight:600;color:var(--ok)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px;min-width:0}
+.card h2{font-size:17px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.grid2{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:16px}
+.btn{border:1px solid var(--line);background:var(--panel);padding:8px 13px;border-radius:8px;font-weight:600;font-size:14px}
+.btn.p{background:var(--acc);border-color:var(--acc);color:#fff}
+.btn.wa{background:var(--wa);border-color:var(--wa);color:#fff}
+.btn.s{padding:5px 9px;font-size:13px}
+.btn:disabled{opacity:.45;cursor:default}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:2px 9px;border-radius:99px;white-space:nowrap}
+.pill.ok{background:var(--ok-soft);color:var(--ok)} .pill.wa{background:var(--warn-soft);color:var(--warn)}
+.pill.bad{background:var(--bad-soft);color:var(--bad)} .pill.n{background:var(--soft);color:var(--muted)} .pill.ac{background:var(--acc-soft);color:var(--acc-2)}
+.muted{color:var(--muted)}
+.list{display:flex;flex-direction:column}
+.row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.row:last-child{border-bottom:0}
+.row .t{font:700 15px var(--f-d);width:48px;font-variant-numeric:tabular-nums}
+.row .who{flex:1;min-width:150px}
+.row .who b{display:block}
+.row .who small{color:var(--muted)}
+.acts{display:flex;gap:6px;flex-wrap:wrap}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none}
+.feed{display:flex;flex-direction:column;gap:8px;max-height:430px;overflow:auto}
+.ev{display:flex;gap:10px;font-size:14px;align-items:flex-start}
+.ev i{font-style:normal;font-size:12px;color:var(--muted);width:42px;flex:none;padding-top:2px;font-variant-numeric:tabular-nums}
+.ev .ic{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;flex:none;font-size:12px;font-weight:700}
+.empty{padding:18px;text-align:center;color:var(--muted);font-size:14px}
+
+/* agenda */
+.ag-w{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--panel)}
+.ag{display:grid;min-width:720px}
+.ag .c{border-bottom:1px solid var(--line);border-right:1px solid var(--line);padding:4px;min-height:46px}
+.ag .hd{font-weight:700;font-size:13px;padding:8px;background:var(--soft);position:sticky;top:0}
+.ag .hr{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;padding:6px 8px}
+.slot{width:100%;height:100%;min-height:38px;border:0;border-radius:6px;text-align:left;padding:4px 7px;font-size:12px;line-height:1.25;display:block}
+.slot.libre{background:transparent;color:transparent}
+.slot.libre:hover,.slot.libre:focus-visible{background:var(--acc-soft);color:var(--acc-2)}
+.slot b{display:block;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.slot.anulada{background:repeating-linear-gradient(45deg,var(--bad-soft),var(--bad-soft) 6px,var(--panel) 6px,var(--panel) 12px);color:var(--bad)}
+.ag-nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.leyenda{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:10px}
+
+/* tablas */
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:620px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.bar{height:6px;border-radius:9px;background:var(--soft);overflow:hidden;width:90px}
+.bar i{display:block;height:100%;background:var(--acc)}
+
+/* WhatsApp */
+.wa-box{background:#E9F2EC;border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.wa-msg{background:#fff;border-radius:10px 10px 10px 2px;padding:8px 10px;font-size:13.5px;max-width:92%;box-shadow:0 1px 1px rgba(0,0,0,.05);white-space:pre-line}
+.wa-msg.yo{align-self:flex-end;background:#D7F5DE;border-radius:10px 10px 2px 10px}
+.wa-msg small{display:block;color:var(--muted);font-size:11px;text-align:right}
+
+/* reseñas */
+.rs{border:1px solid var(--line);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:8px}
+.st{color:#E8A317;letter-spacing:1px}
+.rs textarea{width:100%;min-height:86px;border:1px solid var(--line);border-radius:8px;padding:9px;background:var(--soft);resize:vertical}
+.rs .resp{background:var(--acc-soft);border-radius:8px;padding:9px 11px;font-size:14px}
+
+/* paciente */
+.pat{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:28px;padding:24px clamp(16px,3vw,32px) 60px;align-items:start;max-width:1150px;margin:0 auto}
+.phone{background:var(--panel);border:1px solid var(--line);border-radius:30px;box-shadow:var(--sh);overflow:hidden;display:flex;flex-direction:column;height:min(760px,calc(100vh - 150px));min-height:560px}
+.ph-top{padding:16px 18px 10px;border-bottom:1px solid var(--line)}
+.ph-top b{font:700 17px var(--f-d)}
+.ph-top small{display:block;color:var(--muted)}
+.ph-tabs{display:flex;gap:6px;margin-top:10px}
+.ph-tabs button{flex:1;border:1px solid var(--line);background:var(--panel);border-radius:99px;padding:7px;font-weight:600;font-size:14px}
+.ph-tabs button[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#fff}
+.ph-body{flex:1;overflow:auto;padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.opt{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--panel);text-align:left;width:100%}
+.opt[aria-pressed="true"]{border-color:var(--acc);background:var(--acc-soft)}
+.opt small{color:var(--muted);display:block}
+.days{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+.day{flex:none;width:58px;border:1px solid var(--line);border-radius:12px;padding:8px 4px;text-align:center;background:var(--panel)}
+.day b{display:block;font:700 18px var(--f-d)}
+.day small{font-size:11px;color:var(--muted);text-transform:capitalize}
+.day[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#fff}
+.day[aria-pressed="true"] small{color:#fff}
+.horas{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.hora{border:1px solid var(--line);border-radius:10px;padding:9px 4px;background:var(--panel);font-weight:600;font-variant-numeric:tabular-nums}
+.hora[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#fff}
+.fld{display:flex;flex-direction:column;gap:4px}
+.fld label{font-size:13px;font-weight:600}
+.fld input,.fld select{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--panel)}
+.step{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--acc)}
+.ok-big{text-align:center;padding:20px 6px;display:flex;flex-direction:column;gap:10px;align-items:center}
+.ok-big .ck{width:56px;height:56px;border-radius:50%;background:var(--ok-soft);color:var(--ok);display:grid;place-items:center;font-size:28px}
+.chat{display:flex;flex-direction:column;gap:8px}
+.bub{max-width:86%;padding:9px 12px;border-radius:14px 14px 14px 4px;background:var(--soft);font-size:14.5px;white-space:pre-line}
+.bub.yo{align-self:flex-end;background:var(--acc);color:#fff;border-radius:14px 14px 4px 14px}
+.quick{display:flex;flex-wrap:wrap;gap:6px}
+.quick button{border:1px solid var(--acc);color:var(--acc-2);background:var(--panel);border-radius:99px;padding:6px 11px;font-size:13px;font-weight:600}
+.ph-in{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--line)}
+.ph-in input{flex:1;border:1px solid var(--line);border-radius:99px;padding:10px 14px;background:var(--soft);min-width:0}
+.lado h2{font-size:20px;margin-bottom:6px}
+.lado p{color:var(--muted);margin:0 0 14px;max-width:60ch}
+
+/* ajustes */
+.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.form .fld input{width:100%}
+
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:11px 18px;border-radius:12px;font-weight:600;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:60;max-width:calc(100vw - 32px)}
+#toast.on{opacity:1;transform:translateX(-50%)}
+
+@media (max-width:860px){
+  .clin{grid-template-columns:1fr}
+  .side{position:fixed;left:0;right:0;bottom:0;z-index:40;flex-direction:row;border-right:0;border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));overflow-x:auto;gap:0}
+  .side button{flex-direction:column;gap:3px;font-size:11px;padding:6px 4px;flex:1 0 auto;min-width:60px;position:relative;white-space:nowrap}
+  .top .in{padding:8px 16px;gap:8px}
+  .chip-demo{order:3}
+  .tour{flex-wrap:nowrap;overflow-x:auto;padding:0 16px 8px;scrollbar-width:none}
+  .tour button{flex:none;font-size:12px;padding:5px 10px}
+  .tour span{flex:none}
+  .side .badge{position:absolute;top:2px;right:8px;margin:0}
+  .side .sp{display:none}
+  .grid2,.pat{grid-template-columns:1fr}
+  .phone{height:640px}
+  .marca b{max-width:40vw}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="in">
+    <div class="marca"><div class="logo" id="logo">F</div><div><b id="nom-top">Clínica</b><small id="sub-top">Recepción automática</small></div></div>
+    <span class="chip-demo">Demo · datos de ejemplo</span>
+    <div class="seg" role="group" aria-label="Vista">
+      <button id="v-clin" aria-pressed="true">Clínica</button>
+      <button id="v-pac" aria-pressed="false">Paciente</button>
+    </div>
+  </div>
+  <div class="tour" id="tour">
+    <span>Pruébalo:</span>
+    <button data-tour="anula">Un paciente anula su cita</button>
+    <button data-tour="reserva">Un paciente reserva desde Google</button>
+    <button data-tour="resena">Llega una reseña nueva</button>
+    <button data-tour="noche">Pregunta a las 23:40</button>
+  </div>
+</header>
+<div id="app"></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+'use strict';
+var $=function(s){return document.querySelector(s)};
+var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+var Q=new URLSearchParams(location.search);
+var limpio=function(v,max){return (v||'').trim().slice(0,max)};
+
+/* ---------- configuración de la clínica (se cambia en Ajustes o por enlace: ?n=Nombre&c=Ciudad&d=Dirección&t=Teléfono) ---------- */
+var CFG={
+  nombre: limpio(Q.get('n'),50)||'Fisioterapia Ejemplo',
+  ciudad: limpio(Q.get('c'),40)||'tu ciudad',
+  direccion: limpio(Q.get('d'),80)||'Calle Mayor, 12',
+  tel: limpio(Q.get('t'),20)||'600 000 000',
+  horario:{1:[['09:00','14:00'],['16:00','20:30']],2:[['09:00','14:00'],['16:00','20:30']],3:[['09:00','14:00'],['16:00','20:30']],4:[['09:00','14:00'],['16:00','20:30']],5:[['09:00','14:00'],['16:00','20:30']],6:[['09:00','13:30']]},
+  servicios:[
+    {id:'val',n:'Primera visita y valoración',min:45,precio:50},
+    {id:'fis',n:'Sesión de fisioterapia',min:45,precio:45},
+    {id:'pun',n:'Punción seca',min:45,precio:50},
+    {id:'sue',n:'Suelo pélvico',min:45,precio:55},
+    {id:'dep',n:'Fisioterapia deportiva',min:45,precio:45}
+  ],
+  pros:[
+    {id:'L',n:'Laura',ap:'Martín',color:'#0F7B6C',esp:'General y suelo pélvico'},
+    {id:'J',n:'Javier',ap:'Ruiz',color:'#3D6FB6',esp:'Deportiva y punción seca'},
+    {id:'N',n:'Nerea',ap:'Gómez',color:'#B5577B',esp:'Fisioterapia general'}
+  ],
+  bono:{sesiones:10,precio:400},
+  nota:'4,8', nresenas:126,
+  plantillaRec:'Hola {nombre}, te recordamos tu cita de mañana a las {hora} con {fisio} en {clinica}. Responde 1 para confirmar o 2 si no puedes venir.'
+};
+
+/* ---------- fechas ---------- */
+var pad=function(n){return String(n).padStart(2,'0')};
+var iso=function(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())};
+var addD=function(d,n){var x=new Date(d);x.setDate(x.getDate()+n);return x};
+var deIso=function(s){var p=s.split('-');return new Date(+p[0],+p[1]-1,+p[2])};
+var DIAS=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+var DCORTO=['dom','lun','mar','mié','jue','vie','sáb'];
+var MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+var fD=function(d){return DIAS[d.getDay()]+' '+d.getDate()+' de '+MES[d.getMonth()]};
+var toMin=function(h){var p=h.split(':');return (+p[0])*60+(+p[1])};
+var toH=function(m){return pad(Math.floor(m/60))+':'+pad(m%60)};
+var abre=function(d){return !!CFG.horario[d.getDay()]};
+
+var HOY=new Date();HOY.setHours(0,0,0,0);
+while(!abre(HOY)||HOY.getDay()===6)HOY=addD(HOY,1);
+var esHoyReal=iso(HOY)===iso(new Date());
+var ahoraReal=new Date().getHours()*60+new Date().getMinutes();
+var NOW=esHoyReal?Math.min(Math.max(ahoraReal,9*60+50),19*60+40):11*60+5;
+var sigLab=function(d){var x=addD(d,1);while(!abre(x))x=addD(x,1);return x};
+var MANANA=sigLab(HOY);
+
+function slots(d){var b=CFG.horario[d.getDay()];if(!b)return[];var o=[];b.forEach(function(r){for(var m=toMin(r[0]);m+45<=toMin(r[1]);m+=45)o.push(toH(m))});return o}
+
+/* ---------- datos de ejemplo ---------- */
+var seed=11;var rnd=function(){seed=(seed*16807)%2147483647;return (seed-1)/2147483646};
+var pick=function(a){return a[Math.floor(rnd()*a.length)]};
+var NOMS=['María','Carmen','Ana','Laura','Lucía','Marta','Elena','Paula','Sara','Cristina','Isabel','Raquel','Pilar','Rosa','Nuria','Javier','David','Daniel','Carlos','Miguel','Alejandro','Pablo','Sergio','Jorge','Alberto','Juan','Antonio','Iker','Unai','Rubén','Ainhoa','Irene','Andrés','Óscar','Beatriz'];
+var APS=['García','Fernández','González','Rodríguez','López','Martínez','Sánchez','Pérez','Gómez','Martín','Jiménez','Ruiz','Hernández','Díaz','Moreno','Álvarez','Romero','Navarro','Torres','Domínguez','Gil','Vázquez','Serrano','Ramos','Blanco'];
+var ORIG=['Google','Google','Google','Web','Recomendación','Recomendación','Teléfono','WhatsApp'];
+var S={modo:'clin',tab:'hoy',pac:[],citas:[],espera:[],resenas:[],wa:[],log:[],ofertas:[],rec:{n:7,e:315},agDia:iso(HOY),sel:null,nuevoHueco:null,filtroPac:'todos',ph:{tab:'reservar',paso:1,srv:null,pro:null,dia:null,h:null,hecho:null},chat:[],chatEstado:null};
+var uid=0;var nid=function(p){uid++;return p+uid};
+function telAl(){var t='6';for(var i=0;i<8;i++)t+=Math.floor(rnd()*10);return t.slice(0,3)+' '+t.slice(3,5)+' '+t.slice(5,7)+' '+t.slice(7)}
+function nuevoPac(diaAlta,origen){var p={id:nid('p'),n:pick(NOMS)+' '+pick(APS),tel:telAl(),alta:diaAlta,origen:origen||pick(ORIG),pro:pick(CFG.pros).id,bono:null};if(rnd()<.35)p.bono={total:CFG.bono.sesiones,usadas:0};S.pac.push(p);return p}
+for(var i=0;i<45;i++)nuevoPac(iso(addD(HOY,-60-Math.floor(rnd()*200))));
+
+(function generar(){
+  for(var k=-28;k<=8;k++){
+    var d=addD(HOY,k);if(!abre(d))continue;var di=iso(d);
+    var occ=k<0?.76:k===0?.8:Math.max(.25,.74-k*.06);
+    slots(d).forEach(function(h){
+      CFG.pros.forEach(function(pr){
+        if(rnd()>occ)return;
+        var nuevo=rnd()<(k<0?.1:.12);var p;
+        if(nuevo)p=nuevoPac(di);else{var cand=S.pac.filter(function(x){return x.alta<=di&&x.pro===pr.id});p=cand.length?pick(cand):pick(S.pac)}
+        var srv=nuevo?'val':(rnd()<.7?'fis':pick(['pun','sue','dep','fis']));
+        var est;
+        if(k<0)est=rnd()<(k<-14?.16:.11)?'novino':'hecha';
+        else if(k===0)est=toMin(h)+45<=NOW?(rnd()<.06?'novino':'hecha'):'confirmada';
+        else est='pendiente';
+        var c={id:nid('c'),pac:p.id,srv:srv,pro:pr.id,f:di,h:h,est:est,orig:nuevo?p.origen:(rnd()<.5?'Teléfono':'Web'),nuevo:nuevo,rec:di===iso(MANANA)?'por enviar':null,resena:null};
+        if(est==='hecha'&&p.bono&&p.bono.usadas<p.bono.total)p.bono.usadas++;
+        if(est==='hecha'&&k>=-3)c.resena=rnd()<.6?'enviada':null;
+        S.citas.push(c);
+      });
+    });
+  }
+  // la cita de mañana de cada paciente en lista de espera tiene que existir para el ejemplo
+  var esperaP=S.pac.slice(0,3);
+  S.espera=[
+    {id:nid('e'),pac:esperaP[0].id,srv:'fis',pref:'tardes',desde:iso(addD(HOY,-3))},
+    {id:nid('e'),pac:esperaP[1].id,srv:'pun',pref:'mañanas',desde:iso(addD(HOY,-2))},
+    {id:nid('e'),pac:esperaP[2].id,srv:'fis',pref:'cualquiera',desde:iso(addD(HOY,-1))}
+  ];
+  S.resenas=[
+    {id:nid('r'),a:'Irene Navarro',s:5,f:'hace 2 días',t:'Llegué con un dolor de espalda que no me dejaba dormir y en tres sesiones con Laura noté muchísimo la diferencia. Te explican todo y el trato es muy cercano.',resp:null},
+    {id:nid('r'),a:'Andrés Gil',s:4,f:'hace 4 días',t:'Muy buenos profesionales, Javier me trató la rodilla después de una lesión jugando al fútbol. Alguna vez me han tenido que cambiar la hora, pero muy contento.',resp:null},
+    {id:nid('r'),a:'Pilar Ramos',s:5,f:'hace 1 semana',t:'Encantada con Nerea. Puntuales, limpios y te dan ejercicios para casa.',resp:'¡Muchas gracias, Pilar! Se lo diremos a Nerea, le hará mucha ilusión. Te esperamos en la próxima sesión.'},
+    {id:nid('r'),a:'Óscar Blanco',s:5,f:'hace 2 semanas',t:'Muy recomendable para fisioterapia deportiva.',resp:'Gracias, Óscar. ¡A seguir entrenando sin molestias!'}
+  ];
+})();
+
+var P=function(id){return S.pac.find(function(p){return p.id===id})};
+var PRO=function(id){return CFG.pros.find(function(p){return p.id===id})};
+var SRV=function(id){return CFG.servicios.find(function(s){return s.id===id})};
+var nombre1=function(p){return p.n.split(' ')[0]};
+var hhmm=function(){return toH(NOW)};
+var hexA=function(h,a){return h+a};
+
+function libres(d,proId){
+  var di=iso(d),o=[];
+  slots(d).forEach(function(h){
+    if(di===iso(HOY)&&toMin(h)<NOW+30)return;
+    var pros=proId?[proId]:CFG.pros.map(function(p){return p.id});
+    var lib=pros.filter(function(pid){return !S.citas.some(function(c){return c.f===di&&c.h===h&&c.pro===pid&&c.est!=='anulada'})});
+    if(lib.length)o.push({h:h,pro:lib[0]});
+  });
+  return o;
+}
+function log(txt,tipo){S.log.unshift({h:hhmm(),txt:txt,tipo:tipo||'info'});}
+function wa(p,txt,tipo,dir){S.wa.unshift({to:p.n,tel:p.tel,txt:txt,tipo:tipo,dir:dir||'out',h:hhmm()});}
+function toast(t){var e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(e._t);e._t=setTimeout(function(){e.classList.remove('on')},2800)}
+function fill(t,o){return t.replace(/\{(\w+)\}/g,function(_,k){return o[k]!=null?o[k]:''})}
+
+/* ---------- acciones de negocio ---------- */
+function crearCita(p,srv,pro,di,h,orig){
+  var c={id:nid('c'),pac:p.id,srv:srv,pro:pro,f:di,h:h,est:'confirmada',orig:orig,nuevo:p.alta===iso(HOY),rec:null,resena:null};
+  S.citas.push(c);
+  wa(p,'Hola '+nombre1(p)+', tu cita en '+CFG.nombre+' está reservada: '+fD(deIso(di))+' a las '+h+' con '+PRO(pro).n+'. Si no puedes venir, contesta a este mensaje y te damos otra hora.','confirmación');
+  return c;
+}
+function anular(c,motivo){
+  c.est='anulada';var p=P(c.pac);
+  log(p.n+' anula su cita de '+fD(deIso(c.f))+' a las '+c.h+(motivo?' ('+motivo+')':''),'bad');
+  ofrecerHueco(c);
+}
+function ofrecerHueco(c){
+  var m=toMin(c.h),tarde=m>=15*60;
+  var cand=S.espera.find(function(e){return e.pref==='cualquiera'||(e.pref==='tardes')===tarde});
+  if(!cand){log('Hueco libre '+c.h+' publicado en la reserva online','info');return null}
+  var p=P(cand.pac);
+  wa(p,'Hola '+nombre1(p)+', se ha liberado un hueco '+fD(deIso(c.f))+' a las '+c.h+' con '+PRO(c.pro).n+'. ¿Lo quieres? Responde SÍ y es tuyo.','hueco');
+  var o={id:nid('o'),cita:c.id,esp:cand.id,pac:p.id,est:'esperando'};S.ofertas.unshift(o);
+  log('Hueco de las '+c.h+' ofrecido a '+p.n+' (lista de espera)','acc');
+  return o;
+}
+function aceptarOferta(o){
+  var c=S.citas.find(function(x){return x.id===o.cita});var p=P(o.pac);var e=S.espera.find(function(x){return x.id===o.esp});
+  wa(p,'SÍ','hueco','in');
+  var n=crearCita(p,e?e.srv:'fis',c.pro,c.f,c.h,'Lista de espera');n.rec=c.f===iso(MANANA)?'confirmada':null;
+  S.espera=S.espera.filter(function(x){return x.id!==o.esp});o.est='aceptada';
+  S.rec.n++;S.rec.e+=SRV(n.srv).precio;
+  log('Hueco recuperado: '+p.n+' ocupa las '+c.h+' (+'+SRV(n.srv).precio+' €)','ok');
+  toast('Hueco recuperado sin que nadie levante el teléfono');
+}
+function enviarRecs(){
+  var l=S.citas.filter(function(c){return c.f===iso(MANANA)&&c.rec==='por enviar'&&c.est!=='anulada'});
+  l.forEach(function(c){var p=P(c.pac);c.rec='enviado';wa(p,fill(CFG.plantillaRec,{nombre:nombre1(p),hora:c.h,fisio:PRO(c.pro).n,clinica:CFG.nombre}),'recordatorio')});
+  if(l.length){log(l.length+' recordatorios de mañana enviados por WhatsApp','acc');
+    // como en la vida real, la mayoría confirma sola
+    l.forEach(function(c,i){if(i%3!==2){c.rec='confirmada';c.est='confirmada';wa(P(c.pac),'1','recordatorio','in')}});
+    var conf=l.filter(function(c){return c.rec==='confirmada'}).length;log(conf+' pacientes ya han confirmado','ok')}
+  return l.length;
+}
+function pedirResena(c){var p=P(c.pac);c.resena='enviada';wa(p,'Gracias por venir hoy, '+nombre1(p)+'. Si te hemos ayudado, ¿nos dejas una reseña en Google? Es un minuto: g.page/r/…','reseña');}
+
+function respuesta(r,v){
+  v=v||0;var n=r.a.split(' ')[0];var t=r.t.toLowerCase();
+  var pro=CFG.pros.find(function(p){return t.indexOf(p.n.toLowerCase())>-1});
+  var Z={espalda:'la espalda',lumbar:'la zona lumbar',cervical:'las cervicales',cuello:'el cuello',rodilla:'la rodilla',hombro:'el hombro',tobillo:'el tobillo'};
+  var k=Object.keys(Z).find(function(x){return t.indexOf(x)>-1});
+  var firma='\nEquipo de '+CFG.nombre;
+  if(r.s>=4){
+    var a=[['¡Muchas gracias, '+n+'!','Gracias por tu reseña, '+n+'.','¡Qué alegría leerte, '+n+'!'][v%3]];
+    if(k)a.push('Nos alegra mucho que notes mejoría en '+Z[k]+'.');
+    else if(/deport|lesi|correr|fútbol|futbol/.test(t))a.push('Nos alegra que vuelvas a entrenar sin molestias.');
+    if(pro)a.push('Se lo diremos a '+pro.n+', le hará mucha ilusión.');
+    if(/hora|esper|cambi/.test(t)&&r.s<5)a.push('Tomamos nota de lo de los cambios de hora: ahora los avisos salen con más antelación.');
+    a.push(['Te esperamos en la próxima sesión.','Aquí estamos para lo que necesites.','¡Hasta pronto!'][v%3]);
+    return a.join(' ')+firma;
+  }
+  return ['Hola '+n+', sentimos que tu experiencia no haya sido la que esperabas.','Nos gustaría saber qué pasó para arreglarlo: ¿nos escribes al '+CFG.tel+' o nos llamas?','Gracias por decírnoslo.'].join(' ')+firma;
+}
+
+/* ---------- iconos ---------- */
+var I={
+  hoy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-8 9 8v8a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>',
+  agenda:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+  rec:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.3A8 8 0 1 1 21 12z"/></svg>',
+  pac:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6M17 11a3 3 0 1 0 0-6M22 21c0-3-2-5-5-5.5"/></svg>',
+  res:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/></svg>',
+  inf:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>',
+  aj:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2V21a2 2 0 1 1-4 0v-.1A1.7 1.7 0 0 0 7 19.4a1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.7 1.7 0 0 0 1.2 14H1a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.3-1.8l-.1-.1A2 2 0 1 1 7 4.3l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>'
+};
+var EST={hecha:['ok','Atendida'],confirmada:['ac','Confirmada'],pendiente:['wa','Sin confirmar'],anulada:['bad','Anulada'],novino:['bad','No vino']};
+var pill=function(e){var x=EST[e]||['n',e];return '<span class="pill '+x[0]+'">'+x[1]+'</span>'};
+var dotPro=function(id){var p=PRO(id);return '<span class="dot" style="background:'+p.color+'"></span>'};
+
+/* ---------- render general ---------- */
+function render(){
+  $('#nom-top').textContent=CFG.nombre;$('#logo').textContent=(CFG.nombre.replace(/^(cl[ií]nica|fisioterapia|centro)\s+/i,'')[0]||'F').toUpperCase();
+  $('#sub-top').textContent=CFG.ciudad!=='tu ciudad'?'Recepción automática · '+CFG.ciudad:'Recepción automática';
+  document.title=CFG.nombre+' · Recepción automática (demo)';
+  $('#v-clin').setAttribute('aria-pressed',S.modo==='clin');$('#v-pac').setAttribute('aria-pressed',S.modo==='pac');
+  $('#app').innerHTML=S.modo==='clin'?vClin():vPac();
+  if(S.modo==='pac'){var b=$('.ph-body');if(b&&S.ph.tab==='chat')b.scrollTop=b.scrollHeight}
+}
+function vClin(){
+  var sinRes=S.resenas.filter(function(r){return !r.resp}).length;
+  var porEnv=S.citas.filter(function(c){return c.f===iso(MANANA)&&c.rec==='por enviar'&&c.est!=='anulada'}).length+S.ofertas.filter(function(o){return o.est==='esperando'}).length;
+  var tabs=[['hoy','Hoy',I.hoy],['agenda','Agenda',I.agenda],['recordatorios','Avisos',I.rec,porEnv],['pacientes','Pacientes',I.pac],['resenas','Reseñas',I.res,sinRes],['informe','Informe',I.inf],['ajustes','Ajustes',I.aj]];
+  var nav='<nav class="side" aria-label="Secciones">'+tabs.map(function(t){return '<button data-tab="'+t[0]+'"'+(S.tab===t[0]?' aria-current="page"':'')+'>'+t[2]+'<span>'+t[1]+'</span>'+(t[3]?'<span class="badge num">'+t[3]+'</span>':'')+'</button>'}).join('')+'</nav>';
+  var V={hoy:vHoy,agenda:vAgenda,recordatorios:vRec,pacientes:vPacientes,resenas:vResenas,informe:vInforme,ajustes:vAjustes};
+  return '<div class="clin">'+nav+'<main>'+V[S.tab]()+'</main></div>';
+}
+
+function vHoy(){
+  var hoy=S.citas.filter(function(c){return c.f===iso(HOY)}).sort(function(a,b){return toMin(a.h)-toMin(b.h)||a.pro.localeCompare(b.pro)});
+  var vivas=hoy.filter(function(c){return c.est!=='anulada'});
+  var cap=slots(HOY).length*CFG.pros.length;
+  var man=S.citas.filter(function(c){return c.f===iso(MANANA)&&c.est!=='anulada'});
+  var manConf=man.filter(function(c){return c.rec==='confirmada'}).length;
+  var sinRes=S.resenas.filter(function(r){return !r.resp}).length;
+  var filas=hoy.map(function(c){
+    var p=P(c.pac),pasada=toMin(c.h)<=NOW,acts='';
+    if(c.est==='confirmada'&&pasada)acts='<button class="btn s" data-act="atendida" data-id="'+c.id+'">Atendida</button><button class="btn s" data-act="novino" data-id="'+c.id+'">No ha venido</button>';
+    else if(c.est==='hecha'&&!c.resena)acts='<button class="btn s" data-act="pedir-resena" data-id="'+c.id+'">Pedir reseña</button>';
+    else if(c.est==='hecha'&&c.resena)acts='<span class="pill n">Reseña pedida</span>';
+    else if(c.est==='novino')acts='<span class="pill n">WhatsApp para reprogramar enviado</span>';
+    return '<div class="row"><span class="t">'+c.h+'</span><div class="who"><b>'+esc(p.n)+(c.nuevo?' <span class="pill ac">Nuevo</span>':'')+'</b><small>'+dotPro(c.pro)+' '+esc(PRO(c.pro).n)+' · '+esc(SRV(c.srv).n)+(p.bono?' · bono '+p.bono.usadas+'/'+p.bono.total:'')+'</small></div>'+pill(c.est)+'<div class="acts">'+acts+'</div></div>';
+  }).join('');
+  var feed=S.log.length?S.log.slice(0,14).map(evHtml).join(''):'<div class="empty">Aquí aparece lo que hace el sistema solo: confirmaciones, huecos recuperados, reseñas…</div>';
+  return '<div class="h"><div><h1>Hoy, '+fD(HOY)+'</h1><p>Son las <b class="num">'+hhmm()+'</b>. Esto es lo que tiene la clínica hoy.</p></div><button class="btn p" data-tab="agenda">Ver agenda</button></div>'+
+  '<div class="kpis">'+
+    kpi(vivas.length+' / '+cap,'citas hoy · '+Math.round(vivas.length/cap*100)+' % de ocupación')+
+    kpi(manConf+' / '+man.length,'confirmadas para mañana',man.length-manConf?(man.length-manConf)+' por confirmar':'')+
+    kpi(S.rec.n,'huecos recuperados este mes','+'+S.rec.e+' €')+
+    kpi(sinRes,'reseñas sin contestar')+
+  '</div>'+
+  '<div class="grid2"><section class="card"><h2>Citas de hoy</h2><div class="list">'+(filas||'<div class="empty">Sin citas</div>')+'</div></section>'+
+  '<section class="card"><h2>Lo que ha hecho el sistema</h2><div class="feed">'+feed+'</div></section></div>';
+}
+function kpi(b,s,em){return '<div class="kpi"><b class="num">'+b+'</b><span>'+s+'</span>'+(em?'<br><em>'+em+'</em>':'')+'</div>'}
+function evHtml(e){var c={ok:['var(--ok-soft)','var(--ok)','✓'],bad:['var(--bad-soft)','var(--bad)','!'],acc:['var(--acc-soft)','var(--acc-2)','↻'],info:['var(--soft)','var(--muted)','i']}[e.tipo]||['var(--soft)','var(--muted)','i'];
+  return '<div class="ev"><i>'+e.h+'</i><span class="ic" style="background:'+c[0]+';color:'+c[1]+'">'+c[2]+'</span><span>'+esc(e.txt)+'</span></div>'}
+
+function vAgenda(){
+  var d=deIso(S.agDia);var dias=[];var x=addD(HOY,-1);while(dias.length<7){x=addD(x,1);if(abre(x))dias.push(x)}
+  var cols=CFG.pros.length;
+  var head='<div class="c hd">Hora</div>'+CFG.pros.map(function(p){return '<div class="c hd">'+dotPro(p.id)+' '+esc(p.n)+' <span class="muted" style="font-weight:500">· '+esc(p.esp)+'</span></div>'}).join('');
+  var body=slots(d).map(function(h){
+    return '<div class="c hr">'+h+'</div>'+CFG.pros.map(function(pr){
+      var c=S.citas.filter(function(z){return z.f===S.agDia&&z.h===h&&z.pro===pr.id}).sort(function(a,b){return (a.est==='anulada')-(b.est==='anulada')})[0];
+      if(c&&c.est!=='anulada'){var p=P(c.pac);return '<div class="c"><button class="slot" data-act="ver" data-id="'+c.id+'" style="background:'+hexA(pr.color,'1F')+';box-shadow:inset 3px 0 0 '+pr.color+'"><b>'+esc(p.n)+'</b>'+esc(SRV(c.srv).n)+' · '+(EST[c.est]||['',''])[1]+'</button></div>'}
+      if(c&&c.est==='anulada')return '<div class="c"><button class="slot anulada" data-act="hueco" data-f="'+S.agDia+'" data-h="'+h+'" data-pro="'+pr.id+'"><b>Hueco libre</b>anuló '+esc(nombre1(P(c.pac)))+'</button></div>';
+      var pasado=S.agDia===iso(HOY)&&toMin(h)<NOW;
+      return '<div class="c">'+(pasado?'':'<button class="slot libre" data-act="hueco" data-f="'+S.agDia+'" data-h="'+h+'" data-pro="'+pr.id+'" aria-label="Añadir cita '+h+' con '+esc(pr.n)+'">+ Añadir</button>')+'</div>';
+    }).join('');
+  }).join('');
+  var det='';
+  if(S.sel){var c=S.citas.find(function(z){return z.id===S.sel});if(c){var p=P(c.pac);det='<section class="card" style="margin-bottom:14px"><h2>'+esc(p.n)+' '+pill(c.est)+'</h2><p class="muted" style="margin:0 0 10px">'+fD(deIso(c.f))+' · '+c.h+' · '+esc(SRV(c.srv).n)+' con '+esc(PRO(c.pro).n)+' · '+esc(p.tel)+' · llegó por '+esc(c.orig)+(p.bono?' · bono '+p.bono.usadas+'/'+p.bono.total:'')+'</p><div class="acts">'+
+    (c.est==='pendiente'?'<button class="btn s" data-act="confirmar" data-id="'+c.id+'">Marcar confirmada</button>':'')+
+    (c.est!=='anulada'&&c.est!=='hecha'?'<button class="btn s" data-act="anular" data-id="'+c.id+'">Anular y avisar a la lista de espera</button>':'')+
+    '<button class="btn s" data-act="cerrar">Cerrar</button></div></section>'}}
+  if(S.nuevoHueco){var n=S.nuevoHueco;det='<section class="card" style="margin-bottom:14px"><h2>Nueva cita · '+fD(deIso(n.f))+' a las '+n.h+' con '+esc(PRO(n.pro).n)+'</h2><div class="form">'+
+    '<div class="fld"><label for="nh-pac">Paciente</label><select id="nh-pac">'+S.pac.slice().sort(function(a,b){return a.n.localeCompare(b.n)}).map(function(p){return '<option value="'+p.id+'">'+esc(p.n)+'</option>'}).join('')+'</select></div>'+
+    '<div class="fld"><label for="nh-srv">Servicio</label><select id="nh-srv">'+CFG.servicios.map(function(s){return '<option value="'+s.id+'"'+(s.id==='fis'?' selected':'')+'>'+esc(s.n)+'</option>'}).join('')+'</select></div>'+
+    '</div><div class="acts" style="margin-top:10px"><button class="btn p" data-act="guardar-hueco">Guardar y mandar confirmación por WhatsApp</button><button class="btn" data-act="cerrar">Cancelar</button></div></section>'}
+  return '<div class="h"><div><h1>Agenda</h1><p>'+fD(d)+' · '+CFG.pros.length+' fisioterapeutas · sesiones de 45 minutos</p></div><div class="ag-nav">'+
+    dias.map(function(z){return '<button class="btn s" data-dia="'+iso(z)+'"'+(iso(z)===S.agDia?' style="background:var(--acc);color:#fff;border-color:var(--acc)"':'')+'>'+DCORTO[z.getDay()]+' '+z.getDate()+'</button>'}).join('')+'</div></div>'+det+
+    '<div class="ag-w"><div class="ag" style="grid-template-columns:64px repeat('+cols+',minmax(200px,1fr))">'+head+body+'</div></div>'+
+    '<div class="leyenda"><span>Pulsa un hueco para añadir una cita, o una cita para verla o anularla.</span><span>Las anuladas se ofrecen solas a la lista de espera.</span></div>';
+}
+
+function vRec(){
+  var man=S.citas.filter(function(c){return c.f===iso(MANANA)}).sort(function(a,b){return toMin(a.h)-toMin(b.h)});
+  var porEnv=man.filter(function(c){return c.rec==='por enviar'&&c.est!=='anulada'}).length;
+  var RP={'por enviar':['n','Por enviar'],enviado:['wa','Enviado, sin respuesta'],confirmada:['ok','Ha confirmado'],anulada:['bad','Ha anulado']};
+  var filas=man.map(function(c){var p=P(c.pac);var r=RP[c.rec]||['n','—'];var acts='';
+    if(c.rec==='enviado')acts='<button class="btn s" data-act="r1" data-id="'+c.id+'">Contesta «1»</button><button class="btn s" data-act="r2" data-id="'+c.id+'">Contesta «2»</button>';
+    return '<div class="row"><span class="t">'+c.h+'</span><div class="who"><b>'+esc(p.n)+'</b><small>'+dotPro(c.pro)+' '+esc(PRO(c.pro).n)+' · '+esc(p.tel)+'</small></div><span class="pill '+r[0]+'">'+r[1]+'</span><div class="acts">'+acts+'</div></div>'}).join('');
+  var ofs=S.ofertas.map(function(o){var c=S.citas.find(function(z){return z.id===o.cita});var p=P(o.pac);
+    return '<div class="row"><div class="who"><b>Hueco '+fD(deIso(c.f))+' · '+c.h+'</b><small>Ofrecido a '+esc(p.n)+' por WhatsApp</small></div>'+(o.est==='esperando'?'<span class="pill wa">Esperando respuesta</span><button class="btn s wa" data-act="oferta-si" data-id="'+o.id+'">'+esc(nombre1(p))+' contesta «SÍ»</button>':'<span class="pill ok">Hueco recuperado</span>')+'</div>'}).join('');
+  var esp=S.espera.map(function(e){var p=P(e.pac);return '<div class="row"><div class="who"><b>'+esc(p.n)+'</b><small>'+esc(SRV(e.srv).n)+' · prefiere '+e.pref+'</small></div><span class="pill n">En espera</span></div>'}).join('');
+  var ultimo=S.wa.find(function(m){return m.tipo==='recordatorio'&&m.dir==='out'});
+  var muestra=ultimo?ultimo.txt:fill(CFG.plantillaRec,{nombre:'Carmen',hora:'17:30',fisio:CFG.pros[0].n,clinica:CFG.nombre});
+  return '<div class="h"><div><h1>Recordatorios y lista de espera</h1><p>Cada día a las 10:00 sale un WhatsApp a las citas de mañana. Si alguien anula, el hueco se ofrece solo al primero de la lista de espera.</p></div>'+
+  (porEnv?'<button class="btn wa" data-act="enviar-recs">Enviar ahora los '+porEnv+' recordatorios de mañana</button>':'<span class="pill ok">Recordatorios de mañana enviados</span>')+'</div>'+
+  (ofs?'<section class="card" style="margin-bottom:16px"><h2>Huecos ofrecidos</h2><div class="list">'+ofs+'</div></section>':'')+
+  '<div class="grid2"><section class="card"><h2>Mañana, '+fD(MANANA)+'</h2><div class="list">'+(filas||'<div class="empty">Sin citas mañana</div>')+'</div></section>'+
+  '<div style="display:flex;flex-direction:column;gap:16px;min-width:0"><section class="card"><h2>Así le llega al paciente</h2><div class="wa-box"><div class="wa-msg">'+esc(muestra)+'<small>10:00</small></div><div class="wa-msg yo">1<small>10:04</small></div><div class="wa-msg">¡Perfecto! Te esperamos mañana.<small>10:04</small></div></div></section>'+
+  '<section class="card"><h2>Lista de espera</h2><div class="list">'+(esp||'<div class="empty">Nadie en espera</div>')+'</div></section></div></div>';
+}
+
+function vPacientes(){
+  var hoyI=iso(HOY);
+  var datos=S.pac.map(function(p){var cs=S.citas.filter(function(c){return c.pac===p.id});
+    var ult=cs.filter(function(c){return c.est==='hecha'}).map(function(c){return c.f}).sort().pop()||null;
+    var prox=cs.filter(function(c){return c.f>=hoyI&&c.est!=='anulada'&&c.est!=='hecha'&&c.est!=='novino'}).map(function(c){return c.f+' '+c.h}).sort()[0]||null;
+    var dias=ult?Math.round((HOY-deIso(ult))/864e5):null;
+    return {p:p,ult:ult,prox:prox,dias:dias}});
+  var F={todos:function(){return true},bono:function(x){return x.p.bono},inact:function(x){return !x.prox&&x.dias!=null&&x.dias>=30},nuevos:function(x){return x.p.alta>=iso(addD(HOY,-28))}};
+  var lista=datos.filter(F[S.filtroPac]).sort(function(a,b){return (b.ult||'').localeCompare(a.ult||'')});
+  var nInact=datos.filter(F.inact).length;
+  var chips=[['todos','Todos',datos.length],['bono','Con bono',datos.filter(F.bono).length],['inact','Sin venir 30+ días',nInact],['nuevos','Nuevos (28 días)',datos.filter(F.nuevos).length]];
+  var filas=lista.slice(0,60).map(function(x){var p=x.p;var b=p.bono?'<div class="bar" title="'+p.bono.usadas+' de '+p.bono.total+'"><i style="width:'+(p.bono.usadas/p.bono.total*100)+'%"></i></div><small class="muted num">'+p.bono.usadas+'/'+p.bono.total+'</small>':'<span class="muted">—</span>';
+    return '<tr><td><b>'+esc(p.n)+'</b><br><small class="muted">'+esc(p.origen)+'</small></td><td class="num">'+esc(p.tel)+'</td><td class="num">'+(x.ult?fD(deIso(x.ult)):'—')+'</td><td class="num">'+(x.prox?fD(deIso(x.prox.split(' ')[0]))+' '+x.prox.split(' ')[1]:'<span class="muted">Sin cita</span>')+'</td><td>'+b+'</td></tr>'}).join('');
+  return '<div class="h"><div><h1>Pacientes</h1><p>Quién viene, quién tiene bono y quién lleva tiempo sin venir.</p></div>'+(S.filtroPac==='inact'&&nInact?'<button class="btn wa" data-act="vuelta">Mandar WhatsApp de vuelta a los '+nInact+'</button>':'')+'</div>'+
+  '<div class="acts" style="margin-bottom:12px">'+chips.map(function(c){return '<button class="btn s" data-filtro="'+c[0]+'"'+(S.filtroPac===c[0]?' style="background:var(--acc);color:#fff;border-color:var(--acc)"':'')+'>'+c[1]+' <span class="num">'+c[2]+'</span></button>'}).join('')+'</div>'+
+  '<section class="card"><div class="tw"><table><thead><tr><th>Paciente</th><th>Teléfono</th><th>Última visita</th><th>Próxima cita</th><th>Bono</th></tr></thead><tbody>'+(filas||'<tr><td colspan="5" class="empty">Nadie en este filtro</td></tr>')+'</tbody></table></div></section>';
+}
+
+function vResenas(){
+  var pend=S.citas.filter(function(c){return c.est==='hecha'&&!c.resena&&c.f>=iso(addD(HOY,-3))});
+  var sin=S.resenas.filter(function(r){return !r.resp}).length;
+  var env=S.citas.filter(function(c){return c.resena==='enviada'}).length;
+  var lista=S.resenas.map(function(r){
+    var est='<span class="st">'+'★★★★★'.slice(0,r.s)+'<span style="color:var(--line)">'+'★★★★★'.slice(r.s)+'</span></span>';
+    var cuerpo=r.resp?'<div class="resp"><b>Respuesta publicada</b><br>'+esc(r.resp).replace(/\n/g,'<br>')+'</div>':
+      '<label class="muted" for="rp-'+r.id+'" style="font-size:13px;font-weight:600">Respuesta propuesta'+(r.s<=2?' · las de 1–2 estrellas no se publican sin tu OK':'')+'</label><textarea id="rp-'+r.id+'">'+esc(r.borr||respuesta(r))+'</textarea><div class="acts"><button class="btn p s" data-act="publicar" data-id="'+r.id+'">Publicar respuesta</button><button class="btn s" data-act="otra" data-id="'+r.id+'">Otra versión</button></div>';
+    return '<div class="rs"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><b>'+esc(r.a)+'</b><span class="muted" style="font-size:13px">'+esc(r.f)+'</span></div>'+est+'<div>'+esc(r.t)+'</div>'+cuerpo+'</div>';
+  }).join('');
+  return '<div class="h"><div><h1>Reseñas de Google</h1><p>Después de cada sesión se pide la reseña por WhatsApp. Las respuestas salen escritas con vuestro tono; tú solo revisas y publicas.</p></div></div>'+
+  '<div class="kpis">'+kpi(CFG.nota+' ★','nota en Google (ejemplo)')+kpi(CFG.nresenas,'reseñas en total (ejemplo)')+kpi(sin,'sin contestar')+kpi(env,'peticiones enviadas esta semana')+'</div>'+
+  '<div class="grid2"><section class="card"><h2>Reseñas recientes <span class="muted" style="font:500 13px var(--f-b)">· de ejemplo</span></h2><div style="display:flex;flex-direction:column;gap:12px">'+lista+'</div></section>'+
+  '<section class="card"><h2>Pedir reseña a los de hoy</h2><p class="muted" style="margin-top:0">Pacientes atendidos estos días a los que aún no se les ha pedido.</p><div class="list">'+(pend.length?pend.slice(0,8).map(function(c){var p=P(c.pac);return '<div class="row"><div class="who"><b>'+esc(p.n)+'</b><small>'+fD(deIso(c.f))+' · '+c.h+'</small></div></div>'}).join('')+'</div><button class="btn wa" style="margin-top:10px" data-act="pedir-todas">Pedir reseña a los '+pend.length+' por WhatsApp</button>':'<div class="empty">Todos tienen ya su petición</div></div>')+'</section></div>';
+}
+
+function vInforme(){
+  var desde=iso(addD(HOY,-28)),hasta=iso(addD(HOY,-1));
+  var cs=S.citas.filter(function(c){return c.f>=desde&&c.f<=hasta});
+  var hechas=cs.filter(function(c){return c.est==='hecha'}),nv=cs.filter(function(c){return c.est==='novino'});
+  var ing=hechas.reduce(function(a,c){return a+SRV(c.srv).precio},0);
+  var nuevos=cs.filter(function(c){return c.nuevo});
+  var cap=0;for(var k=-28;k<0;k++){var d=addD(HOY,k);cap+=slots(d).length*CFG.pros.length}
+  var sem=[0,1,2,3].map(function(w){var a=iso(addD(HOY,-28+w*7)),b=iso(addD(HOY,-22+w*7));var x=cs.filter(function(c){return c.f>=a&&c.f<=b});var h=x.filter(function(c){return c.est==='hecha'}).length,n=x.filter(function(c){return c.est==='novino'}).length;return {lab:'Sem. '+(w+1),h:h,n:n,pct:h+n?Math.round(n/(h+n)*100):0}});
+  var max=Math.max.apply(null,sem.map(function(s){return s.h+s.n}))||1;
+  var W=520,H=210,bw=70,gap=(W-40-bw*4)/3;
+  var bars=sem.map(function(s,i){var x=30+i*(bw+gap);var hh=(s.h/max)*(H-60),hn=(s.n/max)*(H-60);var yb=H-30;
+    return '<rect x="'+x+'" y="'+(yb-hh)+'" width="'+bw+'" height="'+hh+'" rx="4" fill="var(--acc)"/><rect x="'+x+'" y="'+(yb-hh-hn)+'" width="'+bw+'" height="'+hn+'" rx="4" fill="var(--bad)" opacity=".75"/>'+
+      '<text x="'+(x+bw/2)+'" y="'+(yb-hh-hn-6)+'" text-anchor="middle" font-size="12" fill="var(--ink)" class="num">'+s.pct+' %</text><text x="'+(x+bw/2)+'" y="'+(H-10)+'" text-anchor="middle" font-size="12" fill="var(--muted)">'+s.lab+'</text>'}).join('');
+  var porO={};nuevos.forEach(function(c){var o=P(c.pac).origen;porO[o]=(porO[o]||0)+1});
+  var oMax=Math.max.apply(null,Object.values(porO).concat([1]));
+  var origen=Object.keys(porO).sort(function(a,b){return porO[b]-porO[a]}).map(function(o){return '<div class="row"><div class="who" style="min-width:110px">'+esc(o)+'</div><div class="bar" style="width:160px"><i style="width:'+(porO[o]/oMax*100)+'%"></i></div><b class="num">'+porO[o]+'</b></div>'}).join('');
+  var porPro=CFG.pros.map(function(pr){var n=hechas.filter(function(c){return c.pro===pr.id}).length;var c2=0;for(var k=-28;k<0;k++)c2+=slots(addD(HOY,k)).length;return '<div class="row"><div class="who" style="min-width:110px">'+dotPro(pr.id)+' '+esc(pr.n)+'</div><div class="bar" style="width:160px"><i style="width:'+Math.round(n/c2*100)+'%;background:'+pr.color+'"></i></div><b class="num">'+Math.round(n/c2*100)+' %</b></div>'}).join('');
+  return '<div class="h"><div><h1>Informe de los últimos 28 días</h1><p>Lo que recibe la clínica cada mes, sin abrir ningún programa. Cifras calculadas sobre los datos de ejemplo de esta demo.</p></div></div>'+
+  '<div class="kpis">'+kpi(hechas.length,'sesiones atendidas')+kpi(Math.round(hechas.length/cap*100)+' %','de la agenda ocupada')+kpi(nv.length,'ausencias ('+Math.round(nv.length/(nv.length+hechas.length)*100)+' %)')+kpi(nuevos.length,'pacientes nuevos')+kpi(ing.toLocaleString('es-ES')+' €','facturado en sesiones')+kpi(S.rec.n,'huecos recuperados','+'+S.rec.e+' €')+'</div>'+
+  '<div class="grid2"><section class="card"><h2>Sesiones y ausencias por semana</h2><div style="overflow-x:auto"><svg viewBox="0 0 '+W+' '+H+'" width="100%" style="min-width:420px;max-width:100%" role="img" aria-label="Sesiones atendidas y ausencias por semana">'+
+  '<line x1="20" y1="'+(H-30)+'" x2="'+(W-10)+'" y2="'+(H-30)+'" stroke="var(--line)"/>'+bars+'</svg></div><div class="leyenda"><span><span class="dot" style="background:var(--acc)"></span> Atendidas</span><span><span class="dot" style="background:var(--bad)"></span> No vinieron (el % encima)</span></div></section>'+
+  '<div style="display:flex;flex-direction:column;gap:16px;min-width:0"><section class="card"><h2>De dónde llegan los nuevos</h2><div class="list">'+(origen||'<div class="empty">Sin datos</div>')+'</div></section><section class="card"><h2>Ocupación por fisio</h2><div class="list">'+porPro+'</div></section></div></div>';
+}
+
+function vAjustes(){
+  var url=location.origin+location.pathname+'?n='+encodeURIComponent(CFG.nombre)+'&c='+encodeURIComponent(CFG.ciudad);
+  return '<div class="h"><div><h1>Ajustes de la clínica</h1><p>Todo lo que usan la reserva, el asistente y los mensajes sale de aquí.</p></div><button class="btn p" data-act="aplicar">Guardar cambios</button></div>'+
+  '<section class="card" style="margin-bottom:16px"><h2>Datos de la clínica</h2><div class="form">'+
+  fld('cf-n','Nombre',CFG.nombre)+fld('cf-c','Ciudad',CFG.ciudad)+fld('cf-d','Dirección',CFG.direccion)+fld('cf-t','Teléfono / WhatsApp',CFG.tel)+'</div></section>'+
+  '<section class="card" style="margin-bottom:16px"><h2>Servicios y precios <span class="muted" style="font:500 13px var(--f-b)">· de ejemplo</span></h2><div class="form">'+CFG.servicios.map(function(s){return fld('sv-'+s.id,s.n+' (€)',s.precio,'number')}).join('')+fld('bono','Bono de '+CFG.bono.sesiones+' sesiones (€)',CFG.bono.precio,'number')+'</div></section>'+
+  '<section class="card" style="margin-bottom:16px"><h2>Fisioterapeutas</h2><div class="form">'+CFG.pros.map(function(p){return fld('pr-'+p.id,'Nombre',p.n)}).join('')+'</div></section>'+
+  '<section class="card" style="margin-bottom:16px"><h2>Mensaje de recordatorio</h2><div class="fld"><label for="cf-rec">Se envía la víspera a las 10:00. Puedes usar {nombre}, {hora}, {fisio} y {clinica}.</label><textarea id="cf-rec" style="min-height:90px;border:1px solid var(--line);border-radius:10px;padding:10px">'+esc(CFG.plantillaRec)+'</textarea></div></section>'+
+  '<section class="card"><h2>Enlace de esta demo con vuestro nombre</h2><p class="muted" style="margin-top:0;word-break:break-all" id="url-demo">'+esc(url)+'</p><button class="btn s" data-act="copiar">Copiar enlace</button></section>';
+}
+function fld(id,l,v,t){return '<div class="fld"><label for="'+id+'">'+esc(l)+'</label><input id="'+id+'" type="'+(t||'text')+'" value="'+esc(v)+'"></div>'}
+
+/* ---------- vista paciente ---------- */
+function abiertoAhora(){var b=CFG.horario[HOY.getDay()]||[];return b.some(function(r){return NOW>=toMin(r[0])&&NOW<toMin(r[1])})}
+function vPac(){
+  var ph=S.ph;
+  var cab='<div class="ph-top"><b>'+esc(CFG.nombre)+'</b><small><span class="st">★</span> '+CFG.nota+' · '+CFG.nresenas+' reseñas en Google · '+(abiertoAhora()?'<span style="color:var(--ok);font-weight:600">Abierto ahora</span>':'Cerrado ahora')+'</small><div class="ph-tabs"><button data-ph="reservar" aria-pressed="'+(ph.tab==='reservar')+'">Pedir cita</button><button data-ph="chat" aria-pressed="'+(ph.tab==='chat')+'">Preguntar</button></div></div>';
+  var cuerpo=ph.tab==='reservar'?vReserva():vChat();
+  var pie=ph.tab==='chat'?'<form class="ph-in" id="chat-f"><input id="chat-in" placeholder="Escribe tu pregunta…" autocomplete="off" aria-label="Pregunta"><button class="btn p">Enviar</button></form>':'';
+  var feed=S.log.length?S.log.slice(0,8).map(evHtml).join(''):'<div class="empty">Reserva una cita o pregunta algo en el móvil y mira cómo llega aquí.</div>';
+  var ultWa=S.wa.filter(function(m){return m.dir==='out'}).slice(0,3).map(function(m){return '<div class="wa-msg">'+esc(m.txt)+'<small>a '+esc(m.to)+' · '+m.h+'</small></div>'}).join('');
+  return '<div class="pat"><div class="phone">'+cab+'<div class="ph-body">'+cuerpo+'</div>'+pie+'</div>'+
+  '<div class="lado"><h2>Así lo ve el paciente</h2><p>Lo encuentra en Google, pide cita en cuatro toques o pregunta a cualquier hora. A la clínica le llega todo ya colocado en la agenda, sin coger el teléfono.</p>'+
+  '<section class="card" style="margin-bottom:16px"><h2>Lo que le llega a la clínica</h2><div class="feed">'+feed+'</div><button class="btn s" style="margin-top:10px" data-act="ir-agenda">Ver en la agenda</button></section>'+
+  '<section class="card"><h2>WhatsApp que salen solos</h2>'+(ultWa?'<div class="wa-box">'+ultWa+'</div>':'<div class="empty">Aún no ha salido ninguno</div>')+'</section></div></div>';
+}
+function diasReserva(){var o=[];var x=addD(HOY,-1);while(o.length<10){x=addD(x,1);if(abre(x)&&libres(x,S.ph.pro).length)o.push(x)}return o}
+function vReserva(){
+  var ph=S.ph;
+  if(ph.hecho){var c=S.citas.find(function(z){return z.id===ph.hecho});var p=P(c.pac);
+    return '<div class="ok-big"><div class="ck">✓</div><h2 style="font-size:20px">Cita reservada</h2><p style="margin:0">'+fD(deIso(c.f))+' a las <b>'+c.h+'</b><br>'+esc(SRV(c.srv).n)+' con '+esc(PRO(c.pro).n)+'</p><div class="wa-box" style="text-align:left;width:100%"><div class="wa-msg">'+esc(S.wa.find(function(m){return m.tipo==='confirmación'&&m.to===p.n}).txt)+'<small>ahora</small></div></div><p class="muted" style="font-size:13px;margin:0">La víspera le llegará el recordatorio para confirmar.</p><button class="btn" data-act="otra-reserva">Hacer otra reserva</button></div>';}
+  var h='<span class="step">1 · ¿Qué necesitas?</span>'+CFG.servicios.map(function(s){return '<button class="opt" data-srv="'+s.id+'" aria-pressed="'+(ph.srv===s.id)+'"><span><b>'+esc(s.n)+'</b><small>'+s.min+' minutos</small></span><b class="num">'+s.precio+' €</b></button>'}).join('');
+  if(ph.srv){h+='<span class="step">2 · ¿Con quién?</span><div class="quick"><button data-pro="" aria-pressed="'+(!ph.pro)+'"'+(!ph.pro?' style="background:var(--acc);color:#fff"':'')+'>Me da igual</button>'+CFG.pros.map(function(p){return '<button data-pro="'+p.id+'"'+(ph.pro===p.id?' style="background:var(--acc);color:#fff"':'')+'>'+esc(p.n)+'</button>'}).join('')+'</div>';
+    var ds=diasReserva();if(!ph.dia||!ds.some(function(d){return iso(d)===ph.dia}))ph.dia=iso(ds[0]);
+    h+='<span class="step">3 · Día y hora</span><div class="days">'+ds.map(function(d){return '<button class="day" data-dia-r="'+iso(d)+'" aria-pressed="'+(iso(d)===ph.dia)+'"><small>'+DCORTO[d.getDay()]+'</small><b>'+d.getDate()+'</b><small>'+MES[d.getMonth()].slice(0,3)+'</small></button>'}).join('')+'</div>';
+    var ls=libres(deIso(ph.dia),ph.pro);
+    h+='<div class="horas">'+ls.map(function(x){return '<button class="hora" data-h="'+x.h+'" data-hp="'+x.pro+'" aria-pressed="'+(ph.h===x.h)+'">'+x.h+'</button>'}).join('')+'</div>';
+  }
+  if(ph.h){h+='<span class="step">4 · Tus datos</span><div class="fld"><label for="r-n">Nombre y apellido</label><input id="r-n" autocomplete="name" value="'+esc(ph.nom||'')+'"></div><div class="fld"><label for="r-t">Móvil (para el WhatsApp de confirmación)</label><input id="r-t" inputmode="tel" autocomplete="tel" value="'+esc(ph.tel||'')+'"></div><button class="btn p" style="padding:12px" data-act="reservar">Reservar '+fD(deIso(ph.dia))+' a las '+ph.h+'</button><p class="muted" style="font-size:12px;margin:0">Te enviaremos la confirmación y un recordatorio por WhatsApp.</p>'}
+  return h;
+}
+var QUICK=['Horario','Precios','Pedir cita','¿Dónde estáis?','Bonos','¿Trabajáis con mutuas?','Anular o cambiar mi cita','¿Qué tratáis?'];
+function vChat(){
+  if(!S.chat.length)S.chat.push({yo:false,t:'¡Hola! Soy el asistente de '+CFG.nombre+'. Te contesto al momento, a cualquier hora. ¿En qué te ayudo?',q:QUICK});
+  var ult=S.chat.length-1;return '<div class="chat">'+S.chat.map(function(m,i){return '<div class="bub'+(m.yo?' yo':'')+'">'+esc(m.t)+'</div>'+(m.q&&!m.yo&&i===ult?'<div class="quick">'+m.q.map(function(x){return '<button data-q="'+esc(x)+'">'+esc(x)+'</button>'}).join('')+'</div>':'')}).join('')+'</div>';
+}
+function horarioTxt(){var o=[];var g={};[1,2,3,4,5,6,0].forEach(function(d){var b=CFG.horario[d];var k=b?b.map(function(r){return r[0]+'–'+r[1]}).join(' y '):'cerrado';(g[k]=g[k]||[]).push(DIAS[d])});
+  Object.keys(g).forEach(function(k){var ds=g[k];o.push((ds.length>2?ds[0]+' a '+ds[ds.length-1]:ds.join(' y '))+': '+k)});return o.join('\n')}
+function bot(t,q){S.chat.push({yo:false,t:t,q:q})}
+function chatIn(txt){
+  S.chat.push({yo:true,t:txt});var t=txt.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');var E=S.chatEstado;
+  if(E&&E.paso==='nombre'){E.nom=txt.slice(0,40);E.paso='tel';bot('Gracias, '+E.nom.split(' ')[0]+'. ¿Me dejas tu móvil para mandarte la confirmación por WhatsApp?');return}
+  if(E&&E.paso==='tel'){var tel=txt.replace(/\D/g,'');if(tel.length<9){bot('Necesito un móvil de 9 cifras para el WhatsApp. ¿Me lo repites?');return}
+    var p={id:nid('p'),n:E.nom,tel:tel.slice(-9).replace(/(\d{3})(\d{2})(\d{2})(\d{2})/,'$1 $2 $3 $4'),alta:iso(HOY),origen:'Asistente',pro:E.pro,bono:null};S.pac.push(p);
+    crearCita(p,E.srv,E.pro,E.dia,E.h,'Asistente');S.chatEstado=null;log('El asistente ha reservado: '+p.n+', '+fD(deIso(E.dia))+' a las '+E.h,'ok');
+    bot('¡Hecho! Tienes cita el '+fD(deIso(E.dia))+' a las '+E.h+' con '+PRO(E.pro).n+'. Te acaba de llegar la confirmación por WhatsApp.',['Horario','¿Dónde estáis?','Precios']);return}
+  if(E&&E.paso==='anular-tel'){var d=txt.replace(/\D/g,'').slice(-9);var c=S.citas.find(function(z){return z.est!=='anulada'&&z.f>=iso(HOY)&&P(z.pac).tel.replace(/\D/g,'')===d});
+    if(!c){S.chatEstado=null;bot('No encuentro ninguna cita con ese móvil. Te paso con recepción por WhatsApp: '+CFG.tel+'.',QUICK);return}
+    S.chatEstado={paso:'anular-ok',cita:c.id};bot('Tienes cita el '+fD(deIso(c.f))+' a las '+c.h+' con '+PRO(c.pro).n+'. ¿La anulo?',['Sí, anúlala','No, déjala']);return}
+  if(E&&E.paso==='anular-ok'){var c2=S.citas.find(function(z){return z.id===E.cita});S.chatEstado=null;
+    if(/^si|anula/.test(t)){anular(c2,'desde el asistente');bot('Anulada. Si quieres otra hora, dime «Pedir cita».',['Pedir cita','Horario'])}else bot('Perfecto, la dejamos como está.',QUICK);return}
+  if(E&&E.paso==='srv'){var s=CFG.servicios.find(function(z){return z.n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')===t});if(s){var ds=[];var x=addD(HOY,-1);while(ds.length<4){x=addD(x,1);if(abre(x)&&libres(x).length)ds.push(x)}E.srv=s.id;E.paso='dia';E.dias=ds.map(iso);bot('¿Qué día te va mejor?',ds.map(function(d){return DCORTO[d.getDay()]+' '+d.getDate()}));return}}
+  if(E&&E.paso==='dia'){var i=E.dias.findIndex(function(di){var d=deIso(di);return (DCORTO[d.getDay()]+' '+d.getDate())===txt});if(i>-1){E.dia=E.dias[i];E.paso='hora';bot('Estos son los huecos libres:',libres(deIso(E.dia)).slice(0,9).map(function(z){return z.h}));return}}
+  if(E&&E.paso==='hora'&&/^\d\d:\d\d$/.test(txt)){var l=libres(deIso(E.dia)).find(function(z){return z.h===txt});if(l){E.h=txt;E.pro=l.pro;E.paso='nombre';E.srv=E.srv||'fis';bot('Te reservo '+fD(deIso(E.dia))+' a las '+txt+' con '+PRO(l.pro).n+'. ¿A nombre de quién?');return}}
+  if(/hora|abr|cierr|abiert/.test(t)&&!/cita|reserv|hueco/.test(t)){bot('Nuestro horario:\n'+horarioTxt(),['Pedir cita','¿Dónde estáis?']);return}
+  if(/precio|cuest|cuant|tarifa|vale/.test(t)){bot(CFG.servicios.map(function(s){return s.n+': '+s.precio+' €'}).join('\n')+'\nBono de '+CFG.bono.sesiones+' sesiones: '+CFG.bono.precio+' €.',['Pedir cita','Bonos']);return}
+  if(/bono/.test(t)){bot('Tenemos bono de '+CFG.bono.sesiones+' sesiones por '+CFG.bono.precio+' €. Se paga en la clínica y lo vas gastando en cada sesión.',['Pedir cita','Precios']);return}
+  if(/donde|direcc|llegar|aparc|ubica/.test(t)){bot('Estamos en '+CFG.direccion+', '+CFG.ciudad+'. Si necesitas algo más para llegar, escríbenos al '+CFG.tel+'.',['Pedir cita','Horario']);return}
+  if(/mutua|seguro|sanitas|adeslas|asisa|dkv/.test(t)){bot('Ese dato no lo tengo y no quiero inventármelo. Te paso con recepción por WhatsApp ('+CFG.tel+') y te lo confirman.',['Pedir cita','Precios']);return}
+  if(/anul|cambi|mover/.test(t)){S.chatEstado={paso:'anular-tel'};bot('Claro. ¿Con qué móvil hiciste la reserva?');return}
+  if(/trat|lesion|dolor|espalda|rodilla|hombro|suelo|deport|puncion/.test(t)&&!/cita|reserv/.test(t)){bot('Hacemos '+CFG.servicios.slice(1).map(function(s){return s.n.toLowerCase()}).join(', ')+'. Si es tu primera vez, empezamos con una primera visita y valoración de 45 minutos.',['Pedir cita','Precios']);return}
+  if(/cita|reserv|hueco|pedir|manana|tarde/.test(t)){
+    var tarde=/tarde/.test(t),man=/manana/.test(t);
+    var dia=man?MANANA:null;var ops=[];
+    if(dia){ops=libres(dia).filter(function(x){return !tarde||toMin(x.h)>=15*60}).slice(0,6);}
+    if(ops.length){S.chatEstado={paso:'hora',srv:'fis',dia:iso(dia)};bot('Mañana '+fD(dia)+(tarde?' por la tarde':'')+' tengo estos huecos. ¿Cuál te viene bien?',ops.map(function(x){return x.h}));return}
+    if(dia){S.chatEstado={paso:'srv'};bot('Mañana '+(tarde?'por la tarde ':'')+'no me queda hueco. Te busco otro día: ¿qué necesitas?',CFG.servicios.map(function(s){return s.n}));return}
+    S.chatEstado={paso:'srv'};bot('¡Vamos! ¿Qué necesitas?',CFG.servicios.map(function(s){return s.n}));return}
+  bot('Eso no lo sé seguro y no quiero inventármelo. Te paso con recepción por WhatsApp: '+CFG.tel+'.',QUICK);
+}
+
+/* ---------- eventos ---------- */
+document.addEventListener('click',function(ev){
+  var b=ev.target.closest('button');if(!b)return;
+  if(b.id==='v-clin'){S.modo='clin';render();return}
+  if(b.id==='v-pac'){S.modo='pac';render();return}
+  if(b.dataset.tour){tour(b.dataset.tour);return}
+  if(b.dataset.tab){S.tab=b.dataset.tab;S.sel=null;S.nuevoHueco=null;S.modo='clin';render();window.scrollTo(0,0);return}
+  if(b.dataset.dia){S.agDia=b.dataset.dia;S.sel=null;S.nuevoHueco=null;render();return}
+  if(b.dataset.filtro){S.filtroPac=b.dataset.filtro;render();return}
+  if(b.dataset.ph){S.ph.tab=b.dataset.ph;render();return}
+  if(b.dataset.srv){S.ph.srv=b.dataset.srv;S.ph.h=null;render();return}
+  if(b.dataset.pro!==undefined&&b.closest('.ph-body')){S.ph.pro=b.dataset.pro||null;S.ph.h=null;render();return}
+  if(b.dataset.diaR){S.ph.dia=b.dataset.diaR;S.ph.h=null;render();return}
+  if(b.dataset.h&&b.closest('.ph-body')){keepForm();S.ph.h=b.dataset.h;S.ph.hp=b.dataset.hp;render();var i=$('#r-n');if(i)i.focus();return}
+  if(b.dataset.q){if(S.chatEstado&&S.chatEstado.paso==='hora'&&/^\d\d:\d\d$/.test(b.dataset.q)){chatIn(b.dataset.q)}else chatIn(b.dataset.q);render();return}
+  var a=b.dataset.act,id=b.dataset.id,c=id&&S.citas.find(function(z){return z.id===id});
+  switch(a){
+    case 'atendida':c.est='hecha';var p=P(c.pac);if(p.bono&&p.bono.usadas<p.bono.total)p.bono.usadas++;pedirResena(c);log(p.n+' atendida · petición de reseña enviada por WhatsApp','ok');toast('Atendida. Le ha salido el WhatsApp para pedir la reseña');break;
+    case 'novino':c.est='novino';var p2=P(c.pac);wa(p2,'Hola '+nombre1(p2)+', hoy te esperábamos a las '+c.h+'. ¿Te buscamos otra hora? Contesta a este mensaje.','ausencia');log(p2.n+' no ha venido · WhatsApp para reprogramar enviado','bad');break;
+    case 'pedir-resena':pedirResena(c);log('Petición de reseña enviada a '+P(c.pac).n,'acc');toast('Petición de reseña enviada');break;
+    case 'ver':S.sel=id;S.nuevoHueco=null;break;
+    case 'cerrar':S.sel=null;S.nuevoHueco=null;break;
+    case 'confirmar':c.est='confirmada';c.rec=c.rec?'confirmada':c.rec;log(P(c.pac).n+' confirmada a mano','ok');break;
+    case 'anular':anular(c,'desde la agenda');S.sel=null;toast('Anulada. El hueco se ha ofrecido a la lista de espera');break;
+    case 'hueco':S.nuevoHueco={f:b.dataset.f,h:b.dataset.h,pro:b.dataset.pro};S.sel=null;break;
+    case 'guardar-hueco':var n=S.nuevoHueco;var pp=P($('#nh-pac').value);crearCita(pp,$('#nh-srv').value,n.pro,n.f,n.h,'Recepción');log('Cita añadida: '+pp.n+', '+n.h+' · confirmación enviada','ok');S.nuevoHueco=null;toast('Cita guardada y confirmación enviada por WhatsApp');break;
+    case 'enviar-recs':var k=enviarRecs();toast(k+' recordatorios enviados por WhatsApp');break;
+    case 'r1':c.rec='confirmada';c.est='confirmada';wa(P(c.pac),'1','recordatorio','in');log(P(c.pac).n+' confirma su cita de mañana','ok');break;
+    case 'r2':c.rec='anulada';wa(P(c.pac),'2','recordatorio','in');anular(c,'contestó 2 al recordatorio');toast('Anulada por WhatsApp. El hueco ya se ha ofrecido a la lista de espera');break;
+    case 'oferta-si':aceptarOferta(S.ofertas.find(function(o){return o.id===id}));break;
+    case 'vuelta':var ina=S.pac.filter(function(p){var cs=S.citas.filter(function(z){return z.pac===p.id});var ult=cs.filter(function(z){return z.est==='hecha'}).map(function(z){return z.f}).sort().pop();var prox=cs.some(function(z){return z.f>=iso(HOY)&&(z.est==='confirmada'||z.est==='pendiente')});return ult&&!prox&&(HOY-deIso(ult))/864e5>=30});
+      ina.forEach(function(p){wa(p,'Hola '+nombre1(p)+', hace tiempo que no te vemos por '+CFG.nombre+'. ¿Qué tal estás? Si quieres retomar las sesiones, contesta y te buscamos hueco.','vuelta')});log(ina.length+' pacientes inactivos avisados por WhatsApp','acc');toast(ina.length+' mensajes de vuelta enviados');break;
+    case 'publicar':var r=S.resenas.find(function(z){return z.id===id});r.resp=$('#rp-'+id).value.trim();log('Respuesta publicada a la reseña de '+r.a,'ok');toast('Respuesta publicada en Google');break;
+    case 'otra':var r2=S.resenas.find(function(z){return z.id===id});r2.v=(r2.v||0)+1;r2.borr=respuesta(r2,r2.v);break;
+    case 'pedir-todas':var pend=S.citas.filter(function(z){return z.est==='hecha'&&!z.resena&&z.f>=iso(addD(HOY,-3))});pend.forEach(pedirResena);log(pend.length+' peticiones de reseña enviadas por WhatsApp','acc');toast(pend.length+' peticiones enviadas');break;
+    case 'aplicar':aplicar();toast('Cambios guardados');break;
+    case 'copiar':var u=$('#url-demo').textContent;if(navigator.clipboard)navigator.clipboard.writeText(u).then(function(){toast('Enlace copiado')},function(){toast('Selecciona el enlace y cópialo')});else toast('Selecciona el enlace y cópialo');return;
+    case 'reservar':reservar();return;
+    case 'otra-reserva':S.ph={tab:'reservar',paso:1,srv:null,pro:null,dia:null,h:null,hecho:null};break;
+    case 'ir-agenda':S.modo='clin';S.tab='agenda';var ult=S.citas[S.citas.length-1];if(ult)S.agDia=ult.f;break;
+    default:return;
+  }
+  render();
+});
+document.addEventListener('submit',function(ev){if(ev.target.id==='chat-f'){ev.preventDefault();var i=$('#chat-in');var v=i.value.trim();if(v){chatIn(v);render();var j=$('#chat-in');if(j)j.focus()}}});
+function keepForm(){var n=$('#r-n'),t=$('#r-t');if(n)S.ph.nom=n.value;if(t)S.ph.tel=t.value}
+function reservar(){
+  keepForm();var ph=S.ph;var nom=(ph.nom||'').trim(),tel=(ph.tel||'').replace(/\D/g,'');
+  if(nom.length<3){toast('Escribe tu nombre');$('#r-n').focus();return}
+  if(tel.length<9){toast('Escribe un móvil de 9 cifras');$('#r-t').focus();return}
+  var l=libres(deIso(ph.dia),ph.pro).find(function(x){return x.h===ph.h});if(!l){toast('Esa hora se acaba de ocupar. Elige otra');ph.h=null;render();return}
+  var p={id:nid('p'),n:nom.slice(0,40),tel:tel.slice(-9).replace(/(\d{3})(\d{2})(\d{2})(\d{2})/,'$1 $2 $3 $4'),alta:iso(HOY),origen:'Google',pro:l.pro,bono:null};S.pac.push(p);
+  var c=crearCita(p,ph.srv,l.pro,ph.dia,ph.h,'Google');
+  log('Nueva cita desde Google: '+p.n+', '+fD(deIso(ph.dia))+' a las '+ph.h+' con '+PRO(l.pro).n,'ok');
+  ph.hecho=c.id;render();toast('Reservada. La clínica no ha tenido que coger el teléfono');
+}
+function aplicar(){
+  var v=function(id){var e=$('#'+id);return e?e.value.trim():''};
+  CFG.nombre=v('cf-n').slice(0,50)||CFG.nombre;CFG.ciudad=v('cf-c').slice(0,40)||CFG.ciudad;CFG.direccion=v('cf-d').slice(0,80)||CFG.direccion;CFG.tel=v('cf-t').slice(0,20)||CFG.tel;
+  CFG.servicios.forEach(function(s){var n=+v('sv-'+s.id);if(n>0)s.precio=Math.round(n)});var b=+v('bono');if(b>0)CFG.bono.precio=Math.round(b);
+  CFG.pros.forEach(function(p){var n=v('pr-'+p.id);if(n)p.n=n.slice(0,20)});var r=v('cf-rec');if(r)CFG.plantillaRec=r.slice(0,400);
+}
+
+/* ---------- recorrido guiado ---------- */
+function tour(k){
+  if(k==='anula'){
+    S.modo='clin';S.tab='recordatorios';
+    if(S.citas.some(function(c){return c.f===iso(MANANA)&&c.rec==='por enviar'}))enviarRecs();
+    var cand=S.citas.filter(function(c){return c.f===iso(MANANA)&&c.rec==='enviado'})[0]||S.citas.filter(function(c){return c.f===iso(MANANA)&&(c.est==='pendiente'||c.est==='confirmada')})[0];
+    if(cand){cand.rec='anulada';wa(P(cand.pac),'2','recordatorio','in');anular(cand,'contestó 2 al recordatorio');toast(nombre1(P(cand.pac))+' no puede venir: el hueco ya se ha ofrecido a la lista de espera')}
+  }
+  if(k==='reserva'){S.modo='pac';S.ph={tab:'reservar',paso:1,srv:'val',pro:null,dia:null,h:null,hecho:null};toast('Elige día y hora: en cuatro toques está reservado')}
+  if(k==='resena'){S.resenas.unshift({id:nid('r'),a:'Lucía Torres',s:5,f:'hace un momento',t:'Vine por una contractura en el cuello que llevaba semanas arrastrando y salí nueva. '+CFG.pros[0].n+' me explicó qué ejercicios hacer en casa. Muy recomendable.',resp:null});S.modo='clin';S.tab='resenas';toast('Reseña nueva: la respuesta ya está escrita, solo falta publicarla')}
+  if(k==='noche'){S.modo='pac';S.ph.tab='chat';NOW=23*60+40;
+    var dT=MANANA,ops=[],g=0;while(g<10){ops=libres(dT).filter(function(x){return toMin(x.h)>=15*60}).slice(0,6);if(ops.length)break;dT=sigLab(dT);g++}
+    var esMan=iso(dT)===iso(MANANA);
+    S.chat.push({yo:true,t:esMan?'¿Tenéis hueco mañana por la tarde?':'¿Tenéis hueco el '+DIAS[dT.getDay()]+' por la tarde?'});
+    S.chatEstado={paso:'hora',srv:'fis',dia:iso(dT)};
+    bot('¡Hola! Sí: el '+fD(dT)+' por la tarde tengo estos huecos. ¿Cuál te viene bien?',ops.map(function(x){return x.h}));
+    log('El asistente ha contestado a las 23:40, con la clínica cerrada','acc');NOW=esHoyReal?Math.min(Math.max(ahoraReal,9*60+50),19*60+40):11*60+5;toast('Son las 23:40 y el paciente ya tiene respuesta')}
+  render();window.scrollTo(0,0);
+}
+
+log('Recepción automática activada','info');
+render();
+})();
+</script>
+</body>
+</html>

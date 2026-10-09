@@ -450,6 +450,18 @@ body.solo .seg,body.solo #plan-top{display:none}
 .wa-msg.nuevo.tarde{animation-delay:.8s}
 .wa-msg.yo small svg{color:#53BDEB}
 .wa-in{background:#F0F2F5!important}
+/* bienvenida */
+.bienv{position:fixed;inset:0;z-index:80;background:rgba(22,33,31,.42);display:grid;place-items:center;padding:16px;animation:fondo .35s both}
+.bv-in{background:var(--panel);border-radius:20px;max-width:520px;width:100%;padding:clamp(22px,4vw,34px);box-shadow:0 30px 80px -20px rgba(0,0,0,.35);animation:pop .5s var(--muelle) both;max-height:calc(100vh - 32px);overflow:auto}
+.bv-in h2{font:650 clamp(22px,3vw,27px)/1.15 var(--f-d);margin:6px 0 16px}
+.bv-in ol{list-style:none;padding:0;margin:0 0 20px;display:flex;flex-direction:column;gap:12px;counter-reset:bv}
+.bv-in li{display:grid;grid-template-columns:30px 1fr;gap:2px 12px;counter-increment:bv}
+.bv-in li:before{content:counter(bv);grid-row:span 2;width:30px;height:30px;border-radius:50%;background:var(--acc-soft);color:var(--acc-ink);display:grid;place-items:center;font:650 14px var(--f-d)}
+.bv-in li b{font-weight:650}
+.bv-in li span{color:var(--muted);font-size:14px}
+.bv-acts{display:flex;gap:8px;flex-wrap:wrap}
+.bv-acts .btn{flex:1;justify-content:center;padding:12px 14px}
+.bv-pie{font-size:12px;color:var(--muted);margin:14px 0 0;text-align:center}
 </style>
 </head>
 <body>
@@ -1511,6 +1523,32 @@ log('Recepción automática activada','info');
 if(!LIG){enviarRecs()}
 else{log('Ficha de Google revisada: horario y botón «Reservar» al día','ok');log('Pregunta de anoche (23:12) pasada a tu WhatsApp','acc')}
 render();
+
+/* ---------- bienvenida: el cliente entiende la demo sin que nadie se la explique ---------- */
+(function(){
+  if(SOLO||!(REAL||/[?&]bienvenida=1/.test(location.search)))return;
+  try{if(sessionStorage.getItem('gp_bienv'))return}catch(e){}
+  var nr=S.resenas.filter(function(r){return r.real}).length;
+  var L=LIG?[
+    ['Contesta a vuestros pacientes 24 h','Un chat en vuestra web que responde horario, precios y cómo llegar, y manda a reservar a vuestro '+CFG.sistema+'.'],
+    ['Más reseñas en Google, y todas contestadas',nr?'Ya hemos escrito la respuesta a vuestras '+nr+' últimas reseñas: miradlas en el panel.':'Con vuestro tono; las malas no salen sin vuestro OK.'],
+    ['Sin cambiar cómo trabajáis','Vuestra agenda sigue en '+CFG.sistema+'. Lo instalamos nosotros en unos días.']
+  ]:[
+    ['Da citas solo, también de noche','Desde Google, desde vuestra web y por WhatsApp. Directo a vuestra agenda.'],
+    ['Menos pacientes que no vienen','Recordatorio por WhatsApp la víspera; si alguien anula, el hueco se ofrece a la lista de espera.'],
+    ['Reseñas de Google contestadas',nr?'Ya hemos escrito la respuesta a vuestras '+nr+' últimas reseñas: miradlas en el panel.':'Con vuestro tono; las malas no salen sin vuestro OK.']
+  ];
+  var d=document.createElement('div');d.className='bienv';d.setAttribute('role','dialog');d.setAttribute('aria-modal','true');d.setAttribute('aria-labelledby','bv-t');
+  d.innerHTML='<div class="bv-in"><span class="eyebrow">Preparado para '+esc(CFG.nombre)+'</span><h2 id="bv-t">Así sería vuestra recepción automática</h2>'+
+    '<ol>'+L.map(function(x){return '<li><b>'+esc(x[0])+'</b><span>'+esc(x[1])+'</span></li>'}).join('')+'</ol>'+
+    '<div class="bv-acts"><button class="btn p" data-bv="pac">Probarlo como paciente</button><button class="btn" data-bv="clin">Ver vuestro panel</button></div>'+
+    '<p class="bv-pie">Demo con pacientes de ejemplo'+(nr?'; las reseñas son las vuestras de Google':'')+'. No se envía ni se publica nada.</p></div>';
+  document.body.appendChild(d);
+  function cerrar(m){try{sessionStorage.setItem('gp_bienv','1')}catch(e){}d.remove();if(m==='pac'){S.modo='pac';S.movTab=2}else{S.modo='clin';S.tab=S.reales?'resenas':'hoy'}render();window.scrollTo(0,0)}
+  d.addEventListener('click',function(ev){var b=ev.target.closest('[data-bv]');if(b){ev.stopPropagation();cerrar(b.dataset.bv)}else if(ev.target===d)cerrar('clin')});
+  document.addEventListener('keydown',function k(ev){if(ev.key==='Escape'&&d.isConnected){cerrar('clin');document.removeEventListener('keydown',k)}});
+  setTimeout(function(){var b=d.querySelector('.btn.p');if(b)b.focus()},50);
+})();
 })();
 
 </script>

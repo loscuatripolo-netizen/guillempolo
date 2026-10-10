@@ -514,34 +514,50 @@ function parseHorario(s){
   });
   return alguno?o:null;
 }
+var SK=norm(Q.get('s')||F.sector||F.categoria||'');
+SK=/estet|belleza|beauty|depila|laser/.test(SK)?'estetica':(/podolog|podo|pie/.test(SK)?'podologia':'fisio');
+var SECS={
+  fisio:{prof:'fisio',profs:'fisioterapeutas',Profs:'Fisioterapeutas',nombre:'Fisioterapia Ejemplo',cat:'Fisioterapeuta',
+    servicios:[{id:'val',n:'Primera visita y valoración',min:45,precio:50},{id:'fis',n:'Sesión de fisioterapia',min:45,precio:45},{id:'pun',n:'Punción seca',min:45,precio:50},{id:'sue',n:'Suelo pélvico',min:45,precio:55},{id:'dep',n:'Fisioterapia deportiva',min:45,precio:45}],
+    pros:[{id:'L',n:'Laura',ap:'Martín',esp:'General y suelo pélvico'},{id:'J',n:'Javier',ap:'Ruiz',esp:'Deportiva y punción seca'},{id:'N',n:'Nerea',ap:'Gómez',esp:'Fisioterapia general'}],
+    res:function(a,b){return ['Llegué con un dolor de espalda que no me dejaba dormir y en tres sesiones con '+a+' noté muchísimo la diferencia. Te explican todo y el trato es muy cercano.','Muy buenos profesionales, '+b+' me trató la rodilla después de una lesión jugando al fútbol. Alguna vez me han tenido que cambiar la hora, pero muy contento.','Encantada. Puntuales, limpios y te dan ejercicios para casa.','Muy recomendable para fisioterapia deportiva.']},
+    nueva:function(a){return 'Vine por una contractura en el cuello que llevaba semanas arrastrando y salí nueva. '+a+' me explicó qué ejercicios hacer en casa. Muy recomendable.'},
+    Z:{espalda:'la espalda',lumbar:'la zona lumbar',cervical:'las cervicales',cuello:'el cuello',rodilla:'la rodilla',hombro:'el hombro',tobillo:'el tobillo',cadera:'la cadera',ciatica:'la ciática',contractura:'esa contractura',pie:'el pie',muneca:'la muñeca'},
+    re:/\b(fisio|sesion|masaje|espalda|cuello|lumbar|cervical|rodilla|hombro|tobillo|contractura|dolor|ciatica|tendinitis|esguince)/},
+  estetica:{prof:'esteticista',profs:'esteticistas',Profs:'Esteticistas',nombre:'Centro de Estética Ejemplo',cat:'Centro de estética',
+    servicios:[{id:'val',n:'Diagnóstico de piel',min:30,precio:30},{id:'fis',n:'Higiene facial profunda',min:60,precio:55},{id:'rad',n:'Radiofrecuencia facial',min:45,precio:70},{id:'las',n:'Depilación láser',min:30,precio:45},{id:'cor',n:'Tratamiento corporal',min:60,precio:60}],
+    pros:[{id:'L',n:'Laura',ap:'Martín',esp:'Facial y radiofrecuencia'},{id:'A',n:'Ainhoa',ap:'Ruiz',esp:'Láser y corporal'},{id:'N',n:'Nerea',ap:'Gómez',esp:'Estética general'}],
+    res:function(a,b){return ['Llevaba tiempo con manchas en la cara y después de tres sesiones con '+a+' tengo la piel muchísimo más uniforme. Te explican todo y el trato es muy cercano.','Muy buenas profesionales, '+b+' me está haciendo la depilación láser y ya noto la diferencia. Alguna vez me han tenido que cambiar la hora, pero muy contenta.','Encantada. Puntuales, todo muy limpio y te dan pautas para casa.','Muy recomendable para tratamientos faciales.']},
+    nueva:function(a){return 'Vine por unas rojeces en la cara que no conseguía quitar y salí con la piel nueva. '+a+' me explicó qué productos usar en casa. Muy recomendable.'},
+    Z:{manchas:'las manchas',piel:'la piel',cara:'la piel de la cara',rojeces:'las rojeces',acne:'el acné',depilacion:'la depilación',laser:'la depilación',arrugas:'las arrugas',celulitis:'la celulitis',facial:'el facial'},
+    re:/\b(facial|limpieza|higiene|piel|cara|manchas|acne|depila|laser|radiofrecuencia|arrugas|celulitis|corporal|masaje|tratamiento)/},
+  podologia:{prof:'podólogo',profs:'podólogos',Profs:'Podólogos',nombre:'Clínica Podológica Ejemplo',cat:'Podólogo',
+    servicios:[{id:'val',n:'Primera visita',min:30,precio:40},{id:'fis',n:'Quiropodia',min:30,precio:35},{id:'pis',n:'Estudio de la pisada',min:60,precio:90},{id:'pla',n:'Plantillas a medida',min:30,precio:150},{id:'una',n:'Uña encarnada',min:45,precio:60}],
+    pros:[{id:'L',n:'Laura',ap:'Martín',esp:'Biomecánica y plantillas'},{id:'J',n:'Javier',ap:'Ruiz',esp:'Cirugía de la uña'},{id:'N',n:'Nerea',ap:'Gómez',esp:'Podología general'}],
+    res:function(a,b){return ['Tenía un dolor en el talón que no me dejaba caminar y con las plantillas que me hizo '+a+' noté muchísimo la diferencia. Te explican todo y el trato es muy cercano.','Muy buenos profesionales, '+b+' me quitó una uña encarnada que llevaba meses molestándome. Alguna vez me han tenido que cambiar la hora, pero muy contento.','Encantada. Puntuales, limpios y te explican cómo cuidarte los pies en casa.','Muy recomendable para el estudio de la pisada.']},
+    nueva:function(a){return 'Vine por unas durezas en el pie que llevaba meses arrastrando y salí nueva. '+a+' me explicó cómo cuidarlas en casa. Muy recomendable.'},
+    Z:{talon:'el talón',pie:'el pie',pies:'los pies',encarnada:'la uña',pisada:'la pisada',plantillas:'las plantillas',juanete:'el juanete',fascitis:'la fascitis',durezas:'las durezas',tobillo:'el tobillo',rodilla:'la rodilla'},
+    re:/\b(pie|pies|talon|encarnad|pisada|plantilla|juanete|callo|durezas|fascitis|quiropodia|podolog)/}
+};
+var SEC=SECS[SK];
 var MT=[['09:00','14:00'],['16:00','20:30']];
 var HOR_DEF={1:MT,2:MT,3:MT,4:MT,5:MT,6:[['09:00','13:30']]};
 
 var CFG={
-  nombre: limpio(Q.get('n'),50)||F.empresa||F.nombre||'Fisioterapia Ejemplo',
+  nombre: limpio(Q.get('n'),50)||F.empresa||F.nombre||SEC.nombre,
   ciudad: limpio(Q.get('c'),40)||F.ciudad||'tu ciudad',
   direccion: limpio(Q.get('d'),90)||F.direccion||'Calle Mayor, 12',
   tel: limpio(Q.get('t'),20)||F.tel||'600 000 000',
-  categoria: F.categoria||'Fisioterapeuta',
+  categoria: F.categoria||SEC.cat,
   horario: parseHorario(F.horario)||HOR_DEF,
   nota: String(F.nota||'4,8').replace('.',','),
   nresenas: +F.resenas||126,
   min: +F.min||45,
   sistema: F.sistema||'Doctoralia',
   doctoralia: F.doctoralia||'',
-  servicios: (F.servicios&&F.servicios.length&&F.servicios)||[
-    {id:'val',n:'Primera visita y valoración',min:45,precio:50},
-    {id:'fis',n:'Sesión de fisioterapia',min:45,precio:45},
-    {id:'pun',n:'Punción seca',min:45,precio:50},
-    {id:'sue',n:'Suelo pélvico',min:45,precio:55},
-    {id:'dep',n:'Fisioterapia deportiva',min:45,precio:45}
-  ],
+  servicios: (F.servicios&&F.servicios.length&&F.servicios)||SEC.servicios.map(function(x){return Object.assign({},x)}),
   preciosEj: !F.servicios||!F.servicios.length,
-  pros: F.pros||[
-    {id:'L',n:'Laura',ap:'Martín',esp:'General y suelo pélvico'},
-    {id:'J',n:'Javier',ap:'Ruiz',esp:'Deportiva y punción seca'},
-    {id:'N',n:'Nerea',ap:'Gómez',esp:'Fisioterapia general'}
-  ],
+  pros: F.pros||SEC.pros.map(function(x){return Object.assign({},x)}),
   bono:{sesiones:10,precio:400},
   plantillaRec:'Hola {nombre}, te recordamos tu cita de mañana a las {hora} con {fisio} en {clinica}. Responde 1 para confirmar o 2 si no puedes venir.'
 };
@@ -646,10 +662,10 @@ for(var i0=0;i0<45;i0++)nuevoPac(iso(addD(HOY,-60-Math.floor(rnd()*200))));
   var rr=(F.resenas_reales||[]).map(function(r){var s=parseInt(r.s,10)||5;return {id:nid('r'),a:r.a,s:s,f:cap1(r.f||'').replace(/^Hace/,'Hace'),t:r.t,resp:null,real:true}}).filter(function(r){return r.t&&r.t.length>20}).slice(0,6);
   if(rr.length){S.resenas=rr;S.reales=true}
   else S.resenas=[
-    {id:nid('r'),a:'Irene Navarro',s:5,f:'Hace 2 días',t:'Llegué con un dolor de espalda que no me dejaba dormir y en tres sesiones con '+CFG.pros[0].n+' noté muchísimo la diferencia. Te explican todo y el trato es muy cercano.',resp:null},
-    {id:nid('r'),a:'Andrés Gil',s:4,f:'Hace 4 días',t:'Muy buenos profesionales, '+(CFG.pros[1]||CFG.pros[0]).n+' me trató la rodilla después de una lesión jugando al fútbol. Alguna vez me han tenido que cambiar la hora, pero muy contento.',resp:null},
-    {id:nid('r'),a:'Pilar Ramos',s:5,f:'Hace 1 semana',t:'Encantada. Puntuales, limpios y te dan ejercicios para casa.',resp:null},
-    {id:nid('r'),a:'Óscar Blanco',s:5,f:'Hace 2 semanas',t:'Muy recomendable para fisioterapia deportiva.',resp:null}
+    {id:nid('r'),a:'Irene Navarro',s:5,f:'Hace 2 días',t:SEC.res(CFG.pros[0].n,(CFG.pros[1]||CFG.pros[0]).n)[0],resp:null},
+    {id:nid('r'),a:'Andrés Gil',s:4,f:'Hace 4 días',t:SEC.res(CFG.pros[0].n,(CFG.pros[1]||CFG.pros[0]).n)[1],resp:null},
+    {id:nid('r'),a:'Pilar Ramos',s:5,f:'Hace 1 semana',t:SEC.res(CFG.pros[0].n,(CFG.pros[1]||CFG.pros[0]).n)[2],resp:null},
+    {id:nid('r'),a:'Óscar Blanco',s:5,f:'Hace 2 semanas',t:SEC.res(CFG.pros[0].n,(CFG.pros[1]||CFG.pros[0]).n)[3],resp:null}
   ];
 })();
 
@@ -727,7 +743,7 @@ function pedirResena(c){var p=P(c.pac);c.resena='enviada';wa(p,'Gracias por veni
 function respuesta(r,v){
   v=v||0;var n=String(r.a).split(' ')[0];n=n.charAt(0).toUpperCase()+n.slice(1);var t=norm(r.t);
   var pro=CFG.pros.find(function(p){return t.indexOf(norm(p.n))>-1});
-  var Z={espalda:'la espalda',lumbar:'la zona lumbar',cervical:'las cervicales',cuello:'el cuello',rodilla:'la rodilla',hombro:'el hombro',tobillo:'el tobillo',cadera:'la cadera',ciatica:'la ciática',contractura:'esa contractura',pie:'el pie',muneca:'la muñeca'};
+  var Z=SEC.Z;
   var k=Object.keys(Z).find(function(x){return new RegExp('\\b'+x).test(t)});
   var firma='\n— Equipo de '+CFG.nombre;
   if(r.s>=4){
@@ -803,7 +819,7 @@ function render(){
   if(SOLO){S.modo='pac';document.body.classList.add('solo')}
   var ent=sellar();
   $('#nom-top').textContent=CFG.nombre;
-  $('#logo').textContent=(CFG.nombre.replace(/^(cl[ií]nica|fisioterapia|centro|fisio)\s+(de\s+)?/i,'')[0]||'F').toUpperCase();
+  $('#logo').textContent=(CFG.nombre.replace(/^(cl[ií]nica|fisioterapia|centro|fisio|est[eé]tica|podolog[ií]a|podol[oó]gica)\s+(de\s+)?((est[eé]tica|podolog[ií]a)\s+)?/i,'')[0]||'F').toUpperCase();
   $('#sub-top').textContent='Recepción automática'+(CFG.ciudad!=='tu ciudad'?' · '+CFG.ciudad:'');
   $('#plan-top').textContent=LIG?'Plan ligero':'Plan completo';
   document.title=CFG.nombre+' · Recepción automática';
@@ -820,7 +836,7 @@ function vClin(){
   var tabs=LIG?[['hoy','Hoy',I.hoy],['resenas','Reseñas',I.res,okN],['asistente','Asistente',I.asis],['informe','Informe',I.inf],['ajustes','Ajustes',I.aj]]
     :[['hoy','Hoy',I.hoy],['resenas','Reseñas',I.res,okN],['agenda','Agenda',I.agenda],['recordatorios','Avisos',I.rec,porEnv],['pacientes','Pacientes',I.pac],['informe','Informe',I.inf],['ajustes','Ajustes',I.aj]];
   var pie=LIG?'<div class="pie"><b>Plan ligero</b><br>Vuestras citas siguen en '+esc(CFG.sistema)+'. Nosotros llevamos Google, reseñas y asistente.<br><a href="'+esc(urlPlan('completo'))+'">Ver el plan completo</a></div>'
-    :'<div class="pie"><b>Recepción activa</b><br>WhatsApp conectado · '+CFG.pros.length+' fisioterapeutas<br><a href="'+esc(urlPlan('ligero'))+'">Ver el plan ligero</a></div>';
+    :'<div class="pie"><b>Recepción activa</b><br>WhatsApp conectado · '+CFG.pros.length+' '+SEC.profs+'<br><a href="'+esc(urlPlan('ligero'))+'">Ver el plan ligero</a></div>';
   var nav='<nav class="side" aria-label="Secciones">'+tabs.map(function(t){return '<button data-tab="'+t[0]+'"'+(S.tab===t[0]?' aria-current="page"':'')+'>'+t[2]+'<span>'+t[1]+'</span>'+(t[3]?'<span class="badge num">'+t[3]+'</span>':'')+'</button>'}).join('')+pie+'</nav>';
   var V={hoy:LIG?vHoyL:vHoy,agenda:vAgenda,recordatorios:vRec,pacientes:vPacientes,resenas:vResenas,informe:LIG?vInformeL:vInforme,ajustes:vAjustes,asistente:vAsistente};
   if(!V[S.tab]||(LIG&&!tabs.some(function(t){return t[0]===S.tab})))S.tab='hoy';
@@ -895,7 +911,7 @@ function vResenas(){
   '<div class="kpis">'+kpi(CFG.nota+' <span style="color:var(--star)">★</span>','nota en Google')+kpi(S.resMes,'reseñas nuevas este mes'+(S.reales?' (ejemplo)':''))+kpi(pctCont()+' %','contestadas')+kpi(S.autoRes?'2 min':'—','en contestar las buenas')+'</div>'+
   (porOk.length?'<div class="aviso" style="border-color:var(--bad-soft);background:var(--bad-soft)"><span><b style="color:var(--bad)">'+porOk.length+' '+(porOk.length>1?'necesitan':'necesita')+' tu OK.</b> Te llegan por WhatsApp con la respuesta escrita: contestas «SÍ» o la cambias aquí.</span></div>':'')+
   '<div class="grid2"><section class="card"><h2>Reseñas recientes'+(S.reales?'':' <small>· de ejemplo</small>')+'</h2><div style="display:flex;flex-direction:column;gap:12px">'+lista+'</div></section>'+
-  '<div class="col"><section class="card"><h2>Cómo se contestan</h2><div style="display:flex;flex-direction:column;gap:8px">'+sw('auto-res',S.autoRes,'4 y 5 estrellas: salen solas','Respuesta personal: el nombre, el fisio y lo que cuenta')+
+  '<div class="col"><section class="card"><h2>Cómo se contestan</h2><div style="display:flex;flex-direction:column;gap:8px">'+sw('auto-res',S.autoRes,'4 y 5 estrellas: salen solas','Respuesta personal: el nombre, quién le atendió y lo que cuenta')+
     '<div class="opt" aria-pressed="true"><span><b>1 a 3 estrellas: te piden permiso</b><small>Te llega por WhatsApp la respuesta propuesta</small></span><span class="pill ok">Siempre</span></div></div></section>'+
   (okWa?'<section class="card"><h2>Así te llega al WhatsApp</h2><div class="wa-box"><div class="wa-msg">Nueva reseña de '+okWa.s+' ★ de '+esc(okWa.a)+'.\nRespuesta propuesta:\n«'+esc(okWa.borr)+'»\n\n¿La publico? Contesta SÍ o cámbiala en el panel.<small>'+hhmm()+'</small></div></div></section>':'')+
   '<section class="card"><h2>Más reseñas, sin trampas</h2><div class="list">'+
@@ -944,7 +960,7 @@ function vAgenda(){
     '<div class="fld"><label for="nh-pac">Paciente</label><select id="nh-pac">'+S.pac.slice().sort(function(a,b){return a.n.localeCompare(b.n)}).map(function(p){return '<option value="'+p.id+'">'+esc(p.n)+'</option>'}).join('')+'</select></div>'+
     '<div class="fld"><label for="nh-srv">Servicio</label><select id="nh-srv">'+CFG.servicios.map(function(s){return '<option value="'+s.id+'"'+(s.id==='fis'?' selected':'')+'>'+esc(s.n)+'</option>'}).join('')+'</select></div>'+
     '</div><div class="acts" style="margin-top:12px"><button class="btn p" data-act="guardar-hueco">Guardar y mandar confirmación</button><button class="btn g" data-act="cerrar">Cancelar</button></div></section>'}
-  return cab('Agenda',cap1(fD(d)),CFG.pros.length+' fisioterapeutas · sesiones de '+CFG.min+' minutos','<div class="dias">'+dias.map(function(z){return '<button data-dia="'+iso(z)+'" aria-pressed="'+(iso(z)===S.agDia)+'">'+DCORTO[z.getDay()]+' '+z.getDate()+'</button>'}).join('')+'</div>')+det+
+  return cab('Agenda',cap1(fD(d)),CFG.pros.length+' '+SEC.profs+' · citas de '+CFG.min+' minutos','<div class="dias">'+dias.map(function(z){return '<button data-dia="'+iso(z)+'" aria-pressed="'+(iso(z)===S.agDia)+'">'+DCORTO[z.getDay()]+' '+z.getDate()+'</button>'}).join('')+'</div>')+det+
     '<div class="ag-w"><div class="ag" style="grid-template-columns:64px repeat('+CFG.pros.length+',minmax(190px,1fr))">'+head+body+'</div></div>'+
     '<div class="leyenda"><span>Pulsa un hueco para añadir una cita, o una cita para verla o anularla.</span><span>Lo que se anula se ofrece solo a la lista de espera.</span></div>';
 }
@@ -1009,7 +1025,7 @@ function vInforme(){
   return cab('Informe','Últimos 28 días','Lo que recibe la clínica cada mes, sin abrir ningún programa. Cifras de los datos de ejemplo de esta demo.')+
   '<div class="kpis">'+kpi(hechas.length,'sesiones atendidas')+kpi(Math.round(hechas.length/capT*100)+' %','de la agenda ocupada')+kpi(nv.length,'ausencias',Math.round(nv.length/(nv.length+hechas.length)*100)+' % de las citas','w')+kpi(nuevos.length,'pacientes nuevos')+kpi(ing.toLocaleString('es-ES')+' €','en sesiones')+'</div>'+
   '<div class="grid2"><section class="card"><h2>Sesiones y ausencias por semana</h2>'+barras(sem,'var(--acc)','#E3A08F',540,220)+'<div class="leyenda"><span><span class="dot" style="background:var(--acc)"></span> Atendidas</span><span><span class="dot" style="background:#E3A08F"></span> No vinieron (el % arriba)</span></div></section>'+
-  '<div class="col"><section class="card"><h2>De dónde llegan los nuevos</h2><div class="list">'+(origen||'<div class="empty">Sin datos</div>')+'</div></section><section class="card"><h2>Ocupación por fisio</h2><div class="list">'+porPro+'</div></section></div></div>';
+  '<div class="col"><section class="card"><h2>De dónde llegan los nuevos</h2><div class="list">'+(origen||'<div class="empty">Sin datos</div>')+'</div></section><section class="card"><h2>Ocupación por profesional</h2><div class="list">'+porPro+'</div></section></div></div>';
 }
 function vInformeL(){
   var sem=[{lab:'Sem. 1',a:2},{lab:'Sem. 2',a:4},{lab:'Sem. 3',a:3},{lab:'Sem. 4',a:5}];
@@ -1030,7 +1046,7 @@ function vAjustes(){
   return cab('Ajustes','Datos de la clínica','Todo lo que usan '+(LIG?'el asistente y las respuestas':'la reserva, el asistente y los mensajes')+' sale de aquí.','<button class="btn p" data-act="aplicar">Guardar cambios</button>')+
   '<div class="grid2"><div class="col"><section class="card"><h2>Clínica</h2><div class="form">'+fld('cf-n','Nombre',CFG.nombre)+fld('cf-c','Ciudad',CFG.ciudad)+fld('cf-d','Dirección',CFG.direccion)+fld('cf-t','Teléfono y WhatsApp',CFG.tel)+'</div></section>'+
   '<section class="card"><h2>Servicios y precios'+(CFG.preciosEj?' <small>· de ejemplo</small>':'')+'</h2><div class="form">'+CFG.servicios.map(function(s){return fld('sv-'+s.id,s.n+' (€)',s.precio,'number')}).join('')+'</div></section>'+
-  (LIG?'':'<section class="card"><h2>Fisioterapeutas</h2><div class="form">'+CFG.pros.map(function(p){return fld('pr-'+p.id,'Nombre',p.n)}).join('')+'</div></section>'+
+  (LIG?'':'<section class="card"><h2>'+SEC.Profs+'</h2><div class="form">'+CFG.pros.map(function(p){return fld('pr-'+p.id,'Nombre',p.n)}).join('')+'</div></section>'+
   '<section class="card"><h2>Recordatorio</h2><div class="fld"><label for="cf-rec">Sale la víspera a las 10:00. Puedes usar {nombre}, {hora}, {fisio} y {clinica}. Nunca el tratamiento.</label><textarea id="cf-rec" rows="3">'+esc(CFG.plantillaRec)+'</textarea></div></section>')+
   '</div><div class="col"><section class="card"><h2>Vuestro plan <span class="plan">'+(LIG?'Ligero':'Completo')+'</span></h2><div class="list">'+inc.map(function(t){return '<div class="row" style="padding:9px 0"><span style="color:var(--ok)">'+I.ok+'</span><div class="who" style="min-width:0">'+esc(t)+'</div></div>'}).join('')+'</div>'+
   (LIG?'<p class="muted" style="font-size:13.5px;margin:12px 0 0">La agenda, los recordatorios y la lista de espera siguen en '+esc(CFG.sistema)+'. Si un día queréis que lo llevemos todo, se pasa al plan completo sin empezar de cero.</p><a class="btn s" style="margin-top:10px;text-decoration:none" href="'+esc(urlPlan('completo'))+'">Ver el plan completo</a>':'')+'</section>'+
@@ -1124,7 +1140,7 @@ function extraer(txt){
   if(!e.srv&&/puncion|aguja/.test(t))e.srv=(CFG.servicios.find(function(s){return /punci/i.test(norm(s.n))})||{}).id;
   if(!e.srv&&/pelvic|postparto|embaraz/.test(t))e.srv=(CFG.servicios.find(function(s){return /pelvic/.test(norm(s.n))})||{}).id;
   if(!e.srv&&/deport|correr|futbol|running|gimnasio|entreno/.test(t))e.srv=(CFG.servicios.find(function(s){return /deport/.test(norm(s.n))})||{}).id;
-  if(!e.srv&&/\b(fisio|sesion|masaje|espalda|cuello|lumbar|cervical|rodilla|hombro|tobillo|contractura|dolor|ciatica|tendinitis|esguince)/.test(t))e.srv='fis';
+  if(!e.srv&&SEC.re.test(t))e.srv='fis';
   /* fisio */
   CFG.pros.forEach(function(p){if(new RegExp(' '+norm(p.n)+' ').test(t))e.pro=p.id});
   if(/me da igual|cualquiera|con quien sea|quien sea|el que (sea|haya)|la que (sea|haya)/.test(t))e.proIgual=true;
@@ -1508,7 +1524,7 @@ function tour(k){
     if(cand){cand.rec='anulada';wa(P(cand.pac),'2','recordatorio','in');anular(cand,'contestó 2 al recordatorio');toast(nombre1(P(cand.pac))+' no puede venir: el hueco ya se ha ofrecido a la lista de espera')}
   }
   if(k==='reserva'){S.modo='pac';if(LIG){S.hoja={m:1,tipo:'doc'};S.movTab=1;S.clicsRes++;toast('Pulsa «Reservar» en Google y acaba en vuestro '+CFG.sistema)}else{abrirReserva(1,'val');toast('Elige día y hora: en cuatro toques está reservada')}}
-  if(k==='resena'){nuevaRes('Lucía Torres',5,'Vine por una contractura en el cuello que llevaba semanas arrastrando y salí nueva. '+CFG.pros[0].n+' me explicó qué ejercicios hacer en casa. Muy recomendable.');S.modo='clin';S.tab='resenas';toast(S.autoRes?'Reseña de 5 estrellas: contestada sola en 2 minutos':'Reseña nueva: la respuesta ya está escrita, falta tu OK')}
+  if(k==='resena'){nuevaRes('Lucía Torres',5,SEC.nueva(CFG.pros[0].n));S.modo='clin';S.tab='resenas';toast(S.autoRes?'Reseña de 5 estrellas: contestada sola en 2 minutos':'Reseña nueva: la respuesta ya está escrita, falta tu OK')}
   if(k==='resena-mala'){nuevaRes('Roberto Sanz',2,'Me cambiaron la cita dos veces y el último día esperé más de 20 minutos. El tratamiento bien, pero la organización mejorable.');S.modo='clin';S.tab='resenas';toast('Reseña de 2 estrellas: te ha llegado por WhatsApp con la respuesta escrita')}
   if(k==='noche'){S.modo='pac';NOW=23*60+40;S.chat=[];CV=null;abrirChat(false);chatIn('Hola, ¿tenéis hueco mañana por la tarde?');
     S.preg[0].h='23:40';

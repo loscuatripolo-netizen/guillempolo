@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex">
-<title>Panel de citas</title>
+<title>Asistente 24/7 · Panel</title>
 <style>
 :root{--bg:#F3F5F4;--card:#fff;--ink:#16211F;--muted:#5D6A67;--line:#DCE3E0;--line2:#ECF0EE;--ac:#0D6B5F;--soft:#E5F0EC;
   --pend:#B7791F;--pend-bg:#FFF6E5;--ok:#1E7A4C;--ok-bg:#E6F4EC;--hecha:#6B7672;--hecha-bg:#EEF1F0;--no:#B23B2A;--no-bg:#FBE9E5;--fuera:#EEF1F0;
@@ -233,7 +233,7 @@ input,select,textarea{font-size:16px}
 
 <section class="login" id="v-login" hidden>
   <form id="f-login" novalidate>
-    <h1>Panel de citas</h1>
+    <h1>Asistente 24/7</h1>
     <p>Entra con el email y la contraseña de tu clínica.</p>
     <label for="l-email">Email<input id="l-email" type="email" autocomplete="username" required></label>
     <label for="l-pass">Contraseña<input id="l-pass" type="password" autocomplete="current-password" required></label>
@@ -376,7 +376,7 @@ function arrancar(){
     var elegida = null; try{ elegida = localStorage.getItem('panel-clinica') }catch(e){}
     var u = r.find(function(x){ return x.clinica_id === elegida }) || r[0]; Y = {clinica:u.clinicas, rol:u.rol, profesional_id:u.profesional_id};
     MIS = r;
-    $('marca').firstChild.nodeValue = u.clinicas.nombre;
+    $('marca').firstChild.nodeValue = u.clinicas.nombre; document.title = 'Asistente 24/7 · ' + u.clinicas.nombre;
     var sc = $('sel-clinica'); sc.hidden = r.length < 2; document.querySelector('header.barra').classList.toggle('multi', r.length > 1);
     sc.innerHTML = r.map(function(x){ return '<option value="' + x.clinica_id + '"' + (x === u ? ' selected' : '') + '>' + esc(x.clinicas.nombre) + '</option>' }).join('');
     $('marca-sub').textContent = ({dueno:'Dueño', recepcion:'Recepción', profesional:'Profesional'})[u.rol] + ' · ' + S.email;
@@ -736,7 +736,7 @@ function tokenNuevo(){ var a = new Uint8Array(16); crypto.getRandomValues(a); re
 function textoResena(nombre, cuando, enlace){
   var n = (nombre || '').trim().split(' ')[0];
   return 'Hola' + (n ? ' ' + n : '') + ', gracias por venir ' + cuando + ' a ' + Y.clinica.nombre + '. ' +
-    '¿Nos dejas tu opinión en Google? Es un minuto y nos ayuda mucho a que otras personas nos encuentren:\n' + enlace + '\n¡Gracias!';
+    '¿Nos dejas tu opinión en Google? Es un minuto y nos ayuda mucho a que otras personas nos encuentren:\n' + enlace + '\n¡Gracias!\n\nAsistente 24/7 de ' + Y.clinica.nombre;
 }
 function cuandoTxt(d){ var k = diaDe(d), hoy = diaDe(new Date()); if(k === hoy) return 'hoy'; if(k === sumaDias(hoy,-1)) return 'ayer'; return 'el ' + new Intl.DateTimeFormat('es-ES',{weekday:'long',timeZone:tz()}).format(d) }
 function cargarResenas(){
@@ -807,7 +807,7 @@ function cargarRecordatorios(){
     pend.forEach(function(c){
       var p = D.pros.find(function(x){ return x.id === c.profesional_id }) || {}, i = new Date(c.inicio), n = (c.pacientes.nombre || '').trim().split(' ')[0];
       var enlace = location.origin + '/reservar/cita?t=' + c.token;
-      var msg = 'Hola' + (n ? ' ' + n : '') + ', te recordamos tu cita en ' + Y.clinica.nombre + ' ' + cuando + ' a las ' + horaDe(i) + (p.nombre ? ' con ' + p.nombre : '') + '.\nPara confirmarla o anularla:\n' + enlace + '\n¡Hasta ' + cuando + '!';
+      var msg = 'Hola' + (n ? ' ' + n : '') + ', te recordamos tu cita en ' + Y.clinica.nombre + ' ' + cuando + ' a las ' + horaDe(i) + (p.nombre ? ' con ' + p.nombre : '') + '.\nPara confirmarla o anularla:\n' + enlace + '\n¡Hasta ' + cuando + '!\n\nAsistente 24/7 de ' + Y.clinica.nombre;
       var wa = 'https://wa.me/' + c.pacientes.telefono.replace(/\D/g,'') + '?text=' + encodeURIComponent(msg);
       h += '<div class="r-fila"><span class="n">' + esc(c.pacientes.nombre) + '</span><span class="s">' + horaDe(i) + (p.nombre ? ' · ' + esc(p.nombre) : '') + (c.estado === 'confirmada' ? ' · ya confirmada' : '') + '</span>' +
            '<a class="r-enviar r-rec" href="' + esc(wa) + '" target="_blank" rel="noopener" data-c="' + c.id + '">' + WA_ICO + 'Enviar</a><div class="msg">' + esc(msg) + '</div></div>';

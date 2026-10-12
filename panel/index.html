@@ -214,7 +214,7 @@ input,select,textarea{font-size:16px}
     <div class="tabs" role="group" aria-label="Vista">
       <button type="button" id="t-agenda" aria-pressed="true">Agenda</button>
       <button type="button" id="t-pac" aria-pressed="false">Pacientes</button>
-      <button type="button" id="t-res" aria-pressed="false">Reseñas</button>
+      <button type="button" id="t-res" aria-pressed="false">Mensajes</button>
     </div>
     <button class="icono" type="button" id="b-nueva" title="Nueva cita">+ Cita</button>
     <button class="icono" type="button" id="b-salir" title="Salir">Salir</button>
@@ -239,7 +239,7 @@ input,select,textarea{font-size:16px}
       <div class="m-lista" id="m-lista"></div>
     </section>
     <section id="v-res" hidden>
-      <div class="pac" id="res"></div>
+      <div class="pac"><div id="rec" class="pac" style="padding:0"></div><div id="res" class="pac" style="padding:0"></div></div>
     </section>
     <section id="v-pac" hidden>
       <div class="pac">
@@ -250,7 +250,7 @@ input,select,textarea{font-size:16px}
   </main>
   <nav class="m-nav" aria-label="Secciones">
     <button type="button" id="mn-agenda" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16" rx="3"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>Agenda</button>
-    <button type="button" id="mn-res" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 16.8l-5.4 2.9 1.1-6.1-4.5-4.2 6.1-.8z"/></svg>Reseñas</button>
+    <button type="button" id="mn-res" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 16.8l-5.4 2.9 1.1-6.1-4.5-4.2 6.1-.8z"/></svg>Mensajes</button>
     <button type="button" class="m-fab" id="m-fab" aria-label="Nueva cita">+</button>
     <button type="button" id="mn-pac" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>Pacientes</button>
   </nav>
@@ -648,7 +648,7 @@ function cargarResenas(){
     });
     var delMes = res.filter(function(r){ return r.pedida >= mes }), pulsadas = delMes.filter(function(r){ return r.pulsada }).length;
     var h = '<div class="r-cab"><span class="pill"><b>' + pendientes.length + '</b> por pedir</span><span class="pill"><b>' + delMes.length + '</b> pedidas este mes</span><span class="pill"><b>' + pulsadas + '</b> abrieron el enlace</span></div>';
-    h += '<p class="r-tit">Por pedir · últimos 7 días</p><div class="lista">';
+    h += '<p class="r-tit">Reseñas por pedir · últimos 7 días</p><div class="lista">';
     if(!pendientes.length) h += '<p class="vacio">No hay nadie pendiente. Las citas aparecen aquí al terminar.</p>';
     pendientes.forEach(function(c){
       var tk = tokenNuevo(), enlace = location.origin + '/resena/?t=' + tk, msg = textoResena(c.pacientes.nombre, cuandoTxt(new Date(c.inicio)), enlace);
@@ -672,11 +672,44 @@ $('res').addEventListener('click', function(ev){
     .catch(function(e){ avisar('No se ha podido apuntar el envío'); console.error(e) });
 });
 
+
+// ---------- Recordatorios del día siguiente (con un botón, hasta tener la API) ----------
+function cargarRecordatorios(){
+  var box = $('rec'); box.innerHTML = '<p class="vacio">Cargando…</p>';
+  var man = sumaDias(diaDe(new Date()), 1), desde = aFecha(man, '00:00').toISOString(), hasta = aFecha(sumaDias(man, 3), '00:00').toISOString();
+  api('citas?select=id,inicio,estado,token,recordatorio_enviado,profesional_id,paciente_id,pacientes(nombre,telefono,acepta_whatsapp)&clinica_id=eq.' + Y.clinica.id +
+      '&estado=in.(pendiente,confirmada)&inicio=gte.' + encodeURIComponent(desde) + '&inicio=lt.' + encodeURIComponent(hasta) + '&order=inicio').then(function(cs){
+    var dia1 = cs.length ? diaDe(new Date(cs[0].inicio)) : man;
+    var del = cs.filter(function(c){ return diaDe(new Date(c.inicio)) === dia1 && c.pacientes });
+    var esMan = dia1 === man, cuando = esMan ? 'mañana' : 'el ' + new Intl.DateTimeFormat('es-ES',{weekday:'long',timeZone:'UTC'}).format(new Date(dia1 + 'T12:00:00Z'));
+    var pend = del.filter(function(c){ return !c.recordatorio_enviado && c.pacientes.acepta_whatsapp !== false }), env = del.filter(function(c){ return c.recordatorio_enviado });
+    var h = '<p class="r-tit">Recordatorios para ' + esc(cuando) + ' · ' + esc(largo(dia1)) + '</p><div class="lista">';
+    if(!del.length) h += '<p class="vacio">No hay citas en los próximos días.</p>';
+    pend.forEach(function(c){
+      var p = D.pros.find(function(x){ return x.id === c.profesional_id }) || {}, i = new Date(c.inicio), n = (c.pacientes.nombre || '').trim().split(' ')[0];
+      var enlace = location.origin + '/reservar/cita?t=' + c.token;
+      var msg = 'Hola' + (n ? ' ' + n : '') + ', te recordamos tu cita en ' + Y.clinica.nombre + ' ' + cuando + ' a las ' + horaDe(i) + (p.nombre ? ' con ' + p.nombre : '') + '.\nPara confirmarla o anularla:\n' + enlace + '\n¡Hasta ' + cuando + '!';
+      var wa = 'https://wa.me/' + c.pacientes.telefono.replace(/\D/g,'') + '?text=' + encodeURIComponent(msg);
+      h += '<div class="r-fila"><span class="n">' + esc(c.pacientes.nombre) + '</span><span class="s">' + horaDe(i) + (p.nombre ? ' · ' + esc(p.nombre) : '') + (c.estado === 'confirmada' ? ' · ya confirmada' : '') + '</span>' +
+           '<a class="r-enviar r-rec" href="' + esc(wa) + '" target="_blank" rel="noopener" data-c="' + c.id + '">' + WA_ICO + 'Enviar</a><div class="msg">' + esc(msg) + '</div></div>';
+    });
+    env.forEach(function(c){ h += '<div class="r-fila"><span class="n">' + esc(c.pacientes.nombre) + '</span><span class="s">' + horaDe(new Date(c.inicio)) + (c.estado === 'confirmada' ? ' · confirmada' : ' · aún sin confirmar') + '</span><span class="r-hecha">✓ Enviado</span></div>' });
+    h += '</div>';
+    box.innerHTML = '<div class="r-cab"><span class="pill"><b>' + pend.length + '</b> recordatorios por enviar</span></div>' + h;
+  }).catch(function(e){ box.innerHTML = '<p class="error">No se han podido cargar los recordatorios.</p>'; console.error(e) });
+}
+$('rec').addEventListener('click', function(ev){
+  var a = ev.target.closest('.r-rec'); if(!a) return;
+  api('citas?id=eq.' + a.dataset.c, {metodo:'PATCH', cuerpo:{recordatorio_enviado:new Date().toISOString()}})
+    .then(function(){ var f = a.closest('.r-fila'); a.outerHTML = '<span class="r-hecha">✓ Enviado</span>'; if(f) f.querySelector('.msg').remove() })
+    .catch(function(e){ avisar('No se ha podido apuntar el envío'); console.error(e) });
+});
+
 // ---------- Pacientes ----------
 function vista(v){
   ['agenda','pac','res'].forEach(function(k){ $('t-' + k).setAttribute('aria-pressed', v === k); $('mn-' + k).setAttribute('aria-pressed', v === k); $('v-' + k).hidden = v !== k });
   $('m-fab').hidden = !gestion() || v !== 'agenda'; scrollTo(0,0);
-  if(v === 'pac') buscarPac(); if(v === 'res') cargarResenas();
+  if(v === 'pac') buscarPac(); if(v === 'res'){ cargarRecordatorios(); cargarResenas() }
 }
 $('t-agenda').onclick = function(){ vista('agenda') };
 $('t-pac').onclick = function(){ vista('pac') };

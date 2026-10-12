@@ -133,6 +133,18 @@ dialog::backdrop{background:rgba(15,25,22,.45)}
   #impresion th{font-size:9pt;text-transform:uppercase;letter-spacing:.04em}#impresion tr.b td{color:#555;font-style:italic}
   #impresion .pie{margin-top:12px;font-size:8.5pt;color:#555}
 }
+
+#b-buscar{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+#b-nueva{min-height:40px;padding:0 16px;border-radius:10px;font-size:.95rem}
+.anular{display:grid;gap:10px;border-top:1px solid var(--line2);padding-top:12px}
+.btn-anular{border:1.5px solid #E7B7AA;background:var(--no-bg);color:var(--no);font-weight:700;border-radius:10px;padding:11px 16px;min-height:46px;cursor:pointer}
+.btn-anular.lleno{background:var(--no);border-color:var(--no);color:#fff}
+.anular-ok{display:grid;gap:8px;background:var(--no-bg);border-radius:12px;padding:12px}
+.anular-ok span{color:#6d3a2b;font-size:.9rem}
+.bc-fila{display:grid;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line2)}.bc-fila:last-child{border-bottom:0}
+.bc-t{display:grid}.bc-t span{color:var(--muted);font-size:.88rem}
+.bc-b{display:flex;gap:8px;flex-wrap:wrap}.bc-b .btn,.bc-b .btn-anular{flex:1;min-height:42px}
+#bc-res{max-height:52vh;overflow:auto}
 /* ---------- Móvil ---------- */
 input,select,textarea{font-size:16px}
 .m-cab,.m-lista,.m-nav{display:none}
@@ -144,6 +156,7 @@ input,select,textarea{font-size:16px}
   main{overflow:visible}
   header.barra{padding:calc(10px + env(safe-area-inset-top,0px)) 16px 10px;gap:8px;flex-wrap:nowrap}
   header.barra .tabs,#b-nueva{display:none}
+  #b-buscar{height:36px;min-width:36px;padding:0 10px;border-radius:999px}#b-buscar .txt-b{display:none}
   header.barra.multi .marca{display:none}
   header.barra.multi #sel-clinica{flex:1;max-width:none!important;font-weight:700}
   .marca{font-size:1.05rem}
@@ -238,7 +251,8 @@ input,select,textarea{font-size:16px}
       <button type="button" id="t-pac" aria-pressed="false">Pacientes</button>
       <button type="button" id="t-res" aria-pressed="false">Mensajes</button>
     </div>
-    <button class="icono" type="button" id="b-nueva" title="Nueva cita">+ Cita</button>
+    <button class="icono" type="button" id="b-buscar" title="Buscar o anular una cita (tecla B)"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="txt-b">&nbsp;Buscar / anular cita</span></button>
+    <button class="btn" type="button" id="b-nueva" title="Nueva cita (tecla N)">+ Nueva cita</button>
     <button class="icono" type="button" id="b-salir" title="Salir">Salir</button>
   </header>
   <main>
@@ -366,7 +380,7 @@ function arrancar(){
     var sc = $('sel-clinica'); sc.hidden = r.length < 2; document.querySelector('header.barra').classList.toggle('multi', r.length > 1);
     sc.innerHTML = r.map(function(x){ return '<option value="' + x.clinica_id + '"' + (x === u ? ' selected' : '') + '>' + esc(x.clinicas.nombre) + '</option>' }).join('');
     $('marca-sub').textContent = ({dueno:'Dueño', recepcion:'Recepción', profesional:'Profesional'})[u.rol] + ' · ' + S.email;
-    $('b-nueva').hidden = !gestion(); $('m-fab').hidden = !gestion(); $('t-res').hidden = !gestion(); $('mn-res').hidden = !gestion();
+    $('b-nueva').hidden = !gestion(); $('b-buscar').hidden = !gestion(); $('m-fab').hidden = !gestion(); $('t-res').hidden = !gestion(); $('mn-res').hidden = !gestion();
     var c = 'clinica_id=eq.' + u.clinica_id;
     return Promise.all([
       api('profesionales?select=id,nombre,color,activo,orden&order=orden,nombre&' + c),
@@ -565,11 +579,12 @@ function cerrar(){ $('dlg').close() }
 $('dlg').addEventListener('click', function(ev){ if(ev.target === this) cerrar() });
 
 // ---------- Ver / cambiar una cita ----------
-function verCita(id){
-  var c = D.citas.find(function(x){ return x.id === id }); if(!c) return;
+function verCita(id, obj){
+  var c = obj || D.citas.find(function(x){ return x.id === id }); if(!c) return;
   var p = D.pros.find(function(x){ return x.id === c.profesional_id }) || {}, s = D.servs.find(function(x){ return x.id === c.servicio_id }) || {};
   var tel = c.pacientes ? c.pacientes.telefono : '', i = new Date(c.inicio);
-  var estados = gestion() ? ['pendiente','confirmada','hecha','no_vino','anulada'] : ['hecha','no_vino'];
+  var estados = gestion() ? ['pendiente','confirmada','hecha','no_vino'] : ['hecha','no_vino'];
+  var activa = c.estado === 'pendiente' || c.estado === 'confirmada';
   abrir('<h3>' + esc(c.pacientes ? c.pacientes.nombre : 'Paciente') + '</h3>' +
     '<div class="fila2"><div class="dato"><small>Cuándo</small><b>' + esc(largo(diaDe(i))) + ', ' + horaDe(i) + '–' + horaDe(new Date(c.fin)) + '</b></div>' +
     '<div class="dato"><small>Servicio</small><b>' + esc(s.nombre || '') + ' · ' + esc(p.nombre || '') + '</b></div></div>' +
@@ -579,9 +594,19 @@ function verCita(id){
       '<label for="m-pro" style="margin-top:10px">Profesional<select id="m-pro">' + D.pros.filter(function(x){ return x.activo }).map(function(x){ return '<option value="' + x.id + '"' + (x.id === c.profesional_id ? ' selected' : '') + '>' + esc(x.nombre) + '</option>' }).join('') + '</select></label>' +
       '<button class="btn sec" type="button" id="m-ok" style="margin-top:10px;width:100%">Guardar el cambio</button></details>' +
       '<label for="c-nota">Nota interna <small style="font-weight:400;color:var(--muted)">(solo organización, nada médico)</small><input type="text" id="c-nota" maxlength="200" value="' + esc(c.nota || '') + '"></label>' : '') +
+    (gestion() && activa ? '<div class="anular" id="c-anular-caja"><button class="btn-anular" type="button" id="c-anular">Anular esta cita</button>' +
+      '<div class="anular-ok" id="c-anular-ok" hidden><b>¿Anular la cita de ' + esc((c.pacientes ? c.pacientes.nombre : '').split(' ')[0]) + ' (' + esc(largo(diaDe(i))) + ', ' + horaDe(i) + ')?</b><span>El hueco vuelve a quedar libre para reservar.</span>' +
+      '<div class="fila2"><button class="btn sec" type="button" id="c-anular-no">No</button><button class="btn-anular lleno" type="button" id="c-anular-si">Sí, anular</button></div></div></div>' : '') +
+    (c.estado === 'anulada' && gestion() ? '<div class="dato"><small>Esta cita está anulada</small><button class="btn sec" type="button" id="c-reactivar">Recuperarla</button></div>' : '') +
     '<p class="error" id="c-err" hidden></p>' +
     '<div class="acciones">' + (gestion() ? '<button class="btn sec" type="button" id="c-guardar">Guardar nota</button>' : '') + '<button class="btn" type="button" id="c-cerrar">Cerrar</button></div>');
   $('c-cerrar').onclick = cerrar;
+  if($('c-anular')){
+    $('c-anular').onclick = function(){ this.hidden = true; $('c-anular-ok').hidden = false; $('c-anular-si').focus() };
+    $('c-anular-no').onclick = function(){ $('c-anular-ok').hidden = true; $('c-anular').hidden = false };
+    $('c-anular-si').onclick = function(){ this.disabled = true; cambiar(c, {estado:'anulada'}, 'Cita anulada. El hueco vuelve a estar libre.') };
+  }
+  if($('c-reactivar')) $('c-reactivar').onclick = function(){ cambiar(c, {estado:'confirmada'}, 'Cita recuperada') };
   $('c-copiar').onclick = function(){ var b = this; (navigator.clipboard ? navigator.clipboard.writeText(tel) : Promise.reject()).then(function(){ b.textContent = 'Copiado' }).catch(function(){ b.textContent = tel }) };
   $('c-est').onclick = function(ev){ var b = ev.target.closest('button'); if(!b) return; cambiar(c, {estado:b.dataset.e}, 'Cita: ' + EST[b.dataset.e]) };
   if(gestion()){
@@ -603,6 +628,49 @@ function errTexto(e){
   if(e.code === '23505') return 'Ya hay un paciente con ese teléfono.';
   if(e.message === 'SIN_PERMISO' || e.code === '42501') return 'Tu usuario no tiene permiso para hacer esto.';
   return 'No se ha podido guardar. Inténtalo de nuevo.';
+}
+
+
+// ---------- Buscar o anular una cita (cuando llama un paciente) ----------
+$('b-buscar').onclick = function(){ buscarCita() };
+document.addEventListener('keydown', function(ev){
+  if($('dlg').open || /input|textarea|select/i.test((document.activeElement || {}).tagName || '') || ev.ctrlKey || ev.metaKey || ev.altKey || !gestion() || $('v-app').hidden) return;
+  if(ev.key === 'n' || ev.key === 'N'){ ev.preventDefault(); nuevaCita({dia:dia}) }
+  if(ev.key === 'b' || ev.key === 'B'){ ev.preventDefault(); buscarCita() }
+});
+function buscarCita(){
+  abrir('<h3>Buscar o anular una cita</h3><p style="margin:0;color:var(--muted);font-size:.92rem">Escribe el nombre o el teléfono de quien llama. Salen sus próximas citas.</p>' +
+    '<input type="search" id="bc-q" placeholder="Nombre o teléfono" autocomplete="off"><div id="bc-res"></div>' +
+    '<p class="error" id="c-err" hidden></p><div class="acciones"><button class="btn sec" type="button" id="bc-cerrar">Cerrar</button><button class="btn" type="button" id="bc-nueva">+ Nueva cita</button></div>');
+  $('bc-cerrar').onclick = cerrar; $('bc-nueva').onclick = function(){ nuevaCita({dia:dia}) };
+  var tq = null, res = [];
+  $('bc-q').oninput = function(){
+    var q = this.value.trim(); clearTimeout(tq);
+    if(q.length < 2){ $('bc-res').innerHTML = ''; return }
+    tq = setTimeout(function(){
+      var dig = q.replace(/\D/g,''), f = dig.length >= 3 ? 'pacientes.telefono=ilike.*' + dig + '*' : 'pacientes.nombre=ilike.*' + encodeURIComponent(q.replace(/[*,()]/g,' ')) + '*';
+      api('citas?select=id,inicio,fin,estado,origen,nota,profesional_id,servicio_id,paciente_id,pacientes!inner(nombre,telefono)&clinica_id=eq.' + Y.clinica.id +
+          '&estado=in.(pendiente,confirmada)&inicio=gte.' + encodeURIComponent(new Date(Date.now() - 2*36e5).toISOString()) + '&' + f + '&order=inicio&limit=12').then(function(r){
+        res = r;
+        $('bc-res').innerHTML = r.length ? '<div class="lista">' + r.map(function(c){
+          var i = new Date(c.inicio), p = (D.pros.find(function(x){ return x.id === c.profesional_id }) || {}).nombre || '', s = (D.servs.find(function(x){ return x.id === c.servicio_id }) || {}).nombre || '';
+          return '<div class="bc-fila" data-id="' + c.id + '"><div class="bc-t"><b>' + esc(c.pacientes.nombre) + '</b><span>' + esc(largo(diaDe(i))) + ' · ' + horaDe(i) + ' · ' + esc(s) + (p ? ' · ' + esc(p) : '') + '</span></div>' +
+                 '<div class="bc-b"><button class="btn sec" type="button" data-ver="' + c.id + '">Ver / mover</button><button class="btn-anular" type="button" data-an="' + c.id + '">Anular</button></div>' +
+                 '<div class="anular-ok" hidden><b>¿Anular esta cita?</b><span>El hueco vuelve a quedar libre.</span><div class="fila2"><button class="btn sec" type="button" data-no="1">No</button><button class="btn-anular lleno" type="button" data-si="' + c.id + '">Sí, anular</button></div></div></div>' }).join('') + '</div>'
+          : '<p class="vacio">No hay citas próximas con «' + esc(q) + '».</p>';
+      });
+    }, 250);
+  };
+  $('bc-res').onclick = function(ev){
+    var b = ev.target.closest('button'); if(!b) return; var fila = b.closest('.bc-fila');
+    if(b.dataset.an){ fila.querySelector('.bc-b').hidden = true; fila.querySelector('.anular-ok').hidden = false; return }
+    if(b.dataset.no){ fila.querySelector('.anular-ok').hidden = true; fila.querySelector('.bc-b').hidden = false; return }
+    if(b.dataset.si){ b.disabled = true; VIG.mios[b.dataset.si] = 1;
+      api('citas?id=eq.' + b.dataset.si, {metodo:'PATCH', cuerpo:{estado:'anulada'}}).then(function(){ fila.innerHTML = '<p class="vacio" style="padding:12px">✓ Cita anulada. El hueco vuelve a estar libre.</p>'; cargarDia(true) })
+        .catch(function(e){ var x = $('c-err'); x.textContent = errTexto(e); x.hidden = false; b.disabled = false }); return }
+    if(b.dataset.ver){ var c = res.find(function(x){ return x.id === b.dataset.ver }); var d = diaDe(new Date(c.inicio)); if(d !== dia){ dia = d; pintarDia() } vista('agenda'); verCita(c.id, c) }
+  };
+  setTimeout(function(){ $('bc-q').focus() }, 50);
 }
 
 // ---------- Nueva cita ----------

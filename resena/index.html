@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
+<title>Dejar una reseña</title>
+<style>body{margin:0;font:16px/1.5 'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;background:#F5F7F6;color:#16211F;display:grid;place-items:center;min-height:100vh;padding:24px;box-sizing:border-box;text-align:center}p{margin:0;max-width:320px}</style>
+</head><body><p id="t">Abriendo Google…</p>
+<script src="../reservar/config.js"></script>
+<script>
+(function(){
+  var C = window.CITAS_CFG, tk = new URLSearchParams(location.search).get('t') || '';
+  function fallo(){ document.getElementById('t').textContent = 'No hemos podido abrir la página de reseñas. Busca la clínica en Google Maps y pulsa «Escribir una reseña». ¡Gracias!' }
+  if(!/^[0-9a-f]{32}$/.test(tk)) return fallo();
+  fetch(C.url + '/rest/v1/rpc/abrir_resena', {method:'POST', headers:{apikey:C.key, 'Content-Type':'application/json'}, body:JSON.stringify({p_token:tk})})
+    .then(function(r){ return r.json() }).then(function(u){ if(typeof u === 'string' && /^https:\/\//.test(u)) location.replace(u); else fallo() }).catch(fallo);
+})();
+</script></body></html>

@@ -4,13 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex">
-<title>Tu cita</title>
+<title>Tu cita · Asistente 24/7</title>
 <style>
 :root{--ac:#0D6B5F;--bg:#F5F7F6;--card:#fff;--ink:#16211F;--muted:#5D6A67;--line:#DDE4E1;--soft:#E7F1EE;--err:#A23B22;--err-bg:#FBEAE4;--f:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif}
 *{box-sizing:border-box}html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--f);padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
 .app{max-width:520px;margin:0 auto;padding:24px 16px 48px;display:grid;gap:16px}
 h1{font-size:1.4rem;margin:0;line-height:1.2}
+.m247{margin:0 0 -8px;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ac)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;gap:12px}
 .dato{display:grid;gap:2px}.dato small{color:var(--muted);font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
 .dato b{font-size:1.1rem}
@@ -29,7 +30,7 @@ button:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
 </head>
 <body>
 <main class="app">
-  <h1 id="tit">Tu cita</h1>
+  <p class="m247" id="m247">Asistente 24/7</p><h1 id="tit">Tu cita</h1>
   <section class="card" id="card" hidden>
     <span class="estado" id="estado"></span>
     <div class="dato"><small>Cuándo</small><b id="cuando"></b></div>
@@ -60,7 +61,7 @@ function err(t){ $('err').textContent = t; $('err').hidden = false }
 var TXT = {pendiente:'Pendiente de confirmar', confirmada:'Confirmada', anulada:'Anulada', hecha:'Realizada', no_vino:'No asistida'};
 function pintar(){
   var d = new Date(C.inicio);
-  $('tit').textContent = 'Hola, ' + C.paciente;
+  $('tit').textContent = 'Hola, ' + C.paciente; $('m247').textContent = 'Asistente 24/7 de ' + C.clinica; document.title = 'Tu cita · Asistente 24/7 de ' + C.clinica;
   $('estado').textContent = TXT[C.estado] || C.estado; $('estado').className = 'estado ' + C.estado;
   $('cuando').textContent = fmt(d,{weekday:'long',day:'numeric',month:'long'}) + ' a las ' + fmt(d,{hour:'2-digit',minute:'2-digit',hour12:false});
   $('que').textContent = C.servicio + (C.profesional ? ' · con ' + C.profesional : '');

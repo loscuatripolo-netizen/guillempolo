@@ -101,6 +101,20 @@ dialog::backdrop{background:rgba(15,25,22,.45)}
   .dlg .fila2{grid-template-columns:1fr}
 }
 
+
+.r-cab{display:flex;gap:8px;flex-wrap:wrap}
+.r-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px}
+.r-card h3{margin:0;font-size:1.02rem}
+.r-card p{margin:0;color:var(--muted);font-size:.92rem}
+.r-fila{display:grid;grid-template-columns:1fr auto;gap:8px 12px;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line2)}
+.r-fila:last-child{border-bottom:0}
+.r-fila .n{font-weight:600}
+.r-fila .s{color:var(--muted);font-size:.86rem;grid-column:1}
+.r-fila .msg{grid-column:1 / -1;background:var(--bg);border-radius:12px;padding:10px 12px;font-size:.9rem;line-height:1.45;white-space:pre-wrap}
+.r-enviar{grid-row:1 / span 2;grid-column:2;display:inline-flex;align-items:center;gap:7px;border:0;background:#1FA855;color:#fff;font-weight:700;border-radius:999px;padding:10px 16px;text-decoration:none;min-height:44px;white-space:nowrap}
+.r-enviar svg{width:18px;height:18px}
+.r-hecha{color:var(--ok);font-weight:700;font-size:.85rem;grid-row:1 / span 2;grid-column:2}
+.r-tit{font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:700;margin:6px 2px 0}
 /* ---------- Móvil ---------- */
 input,select,textarea{font-size:16px}
 .m-cab,.m-lista,.m-nav{display:none}
@@ -112,6 +126,8 @@ input,select,textarea{font-size:16px}
   main{overflow:visible}
   header.barra{padding:calc(10px + env(safe-area-inset-top,0px)) 16px 10px;gap:8px;flex-wrap:nowrap}
   header.barra .tabs,#b-nueva{display:none}
+  header.barra.multi .marca{display:none}
+  header.barra.multi #sel-clinica{flex:1;max-width:none!important;font-weight:700}
   .marca{font-size:1.05rem}
   #b-salir{height:36px;min-width:0;padding:0 12px;font-size:.85rem;border-radius:999px}
   .nav-dia,.agenda-wrap{display:none}
@@ -155,11 +171,11 @@ input,select,textarea{font-size:16px}
   .m-ahora::after{content:"";flex:1;border-top:2px solid var(--no)}
   .m-vacio{text-align:center;color:var(--muted);padding:40px 16px;display:grid;gap:6px}
   .m-vacio b{color:var(--ink);font-size:1.05rem}
-  .m-nav{display:grid;grid-template-columns:1fr 72px 1fr;align-items:center;position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:6px 12px calc(6px + env(safe-area-inset-bottom,0px))}
+  .m-nav{display:grid;grid-template-columns:1fr 1fr 1fr;align-items:center;position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:6px 12px calc(6px + env(safe-area-inset-bottom,0px))}
   .m-nav button{border:0;background:none;display:grid;justify-items:center;gap:2px;font-size:.75rem;font-weight:600;color:var(--muted);padding:6px 0}
   .m-nav button svg{width:24px;height:24px}
   .m-nav button[aria-pressed="true"]{color:var(--ac)}
-  .m-nav .m-fab{width:56px;height:56px;margin:-26px auto 0;border-radius:50%;background:var(--ac);color:#fff;font-size:1.8rem;font-weight:400;place-items:center;box-shadow:0 10px 24px -8px rgba(13,107,95,.6)}
+  .m-nav .m-fab{position:fixed;right:18px;bottom:calc(84px + env(safe-area-inset-bottom,0px));width:58px;height:58px;margin:0;border-radius:50%;background:var(--ac);color:#fff;font-size:1.8rem;font-weight:400;place-items:center;box-shadow:0 10px 24px -8px rgba(13,107,95,.6)}
   .pac{padding:12px 16px 24px}
   .pac input[type=search]{border-radius:14px;padding:12px 14px}
   .lista{border-radius:16px}
@@ -194,9 +210,11 @@ input,select,textarea{font-size:16px}
 <div class="app" id="v-app" hidden>
   <header class="barra">
     <div class="marca" id="marca">Panel<small id="marca-sub"></small></div>
+    <select id="sel-clinica" aria-label="Clínica" hidden style="width:auto;max-width:44vw"></select>
     <div class="tabs" role="group" aria-label="Vista">
       <button type="button" id="t-agenda" aria-pressed="true">Agenda</button>
       <button type="button" id="t-pac" aria-pressed="false">Pacientes</button>
+      <button type="button" id="t-res" aria-pressed="false">Reseñas</button>
     </div>
     <button class="icono" type="button" id="b-nueva" title="Nueva cita">+ Cita</button>
     <button class="icono" type="button" id="b-salir" title="Salir">Salir</button>
@@ -220,6 +238,9 @@ input,select,textarea{font-size:16px}
       <div class="agenda-wrap"><div class="agenda" id="agenda"></div></div>
       <div class="m-lista" id="m-lista"></div>
     </section>
+    <section id="v-res" hidden>
+      <div class="pac" id="res"></div>
+    </section>
     <section id="v-pac" hidden>
       <div class="pac">
         <input type="search" id="p-buscar" placeholder="Buscar por nombre o teléfono" aria-label="Buscar paciente">
@@ -229,6 +250,7 @@ input,select,textarea{font-size:16px}
   </main>
   <nav class="m-nav" aria-label="Secciones">
     <button type="button" id="mn-agenda" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16" rx="3"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>Agenda</button>
+    <button type="button" id="mn-res" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 16.8l-5.4 2.9 1.1-6.1-4.5-4.2 6.1-.8z"/></svg>Reseñas</button>
     <button type="button" class="m-fab" id="m-fab" aria-label="Nueva cita">+</button>
     <button type="button" id="mn-pac" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>Pacientes</button>
   </nav>
@@ -243,6 +265,7 @@ input,select,textarea{font-size:16px}
 'use strict';
 var CFG = window.CITAS_CFG, $ = function(i){ return document.getElementById(i) };
 var S = null;           // sesión
+var MIS = [];           // clínicas del usuario
 var Y = {};             // yo: clinica, rol, profesional_id
 var D = {pros:[], servs:[], sp:[], horarios:[], citas:[]};
 var dia = null;         // 'YYYY-MM-DD' en la zona de la clínica
@@ -308,12 +331,16 @@ function gestion(){ return Y.rol === 'dueno' || Y.rol === 'recepcion' }
 
 // ---------- Arranque ----------
 function arrancar(){
-  return api('usuarios_clinica?select=clinica_id,rol,profesional_id,clinicas(id,nombre,zona_horaria,slug)&user_id=eq.' + S.uid).then(function(r){
+  return api('usuarios_clinica?select=clinica_id,rol,profesional_id,clinicas(id,nombre,zona_horaria,slug,google_resena_url)&user_id=eq.' + S.uid).then(function(r){
     if(!r.length){ $('v-login').hidden = false; $('l-err').textContent = 'Tu usuario aún no está enlazado a ninguna clínica. Avisa a Guillem.'; $('l-err').hidden = false; guardar(null); return }
-    var u = r[0]; Y = {clinica:u.clinicas, rol:u.rol, profesional_id:u.profesional_id};
+    var elegida = null; try{ elegida = localStorage.getItem('panel-clinica') }catch(e){}
+    var u = r.find(function(x){ return x.clinica_id === elegida }) || r[0]; Y = {clinica:u.clinicas, rol:u.rol, profesional_id:u.profesional_id};
+    MIS = r;
     $('marca').firstChild.nodeValue = u.clinicas.nombre;
+    var sc = $('sel-clinica'); sc.hidden = r.length < 2; document.querySelector('header.barra').classList.toggle('multi', r.length > 1);
+    sc.innerHTML = r.map(function(x){ return '<option value="' + x.clinica_id + '"' + (x === u ? ' selected' : '') + '>' + esc(x.clinicas.nombre) + '</option>' }).join('');
     $('marca-sub').textContent = ({dueno:'Dueño', recepcion:'Recepción', profesional:'Profesional'})[u.rol] + ' · ' + S.email;
-    $('b-nueva').hidden = !gestion(); $('m-fab').hidden = !gestion();
+    $('b-nueva').hidden = !gestion(); $('m-fab').hidden = !gestion(); $('t-res').hidden = !gestion(); $('mn-res').hidden = !gestion();
     var c = 'clinica_id=eq.' + u.clinica_id;
     return Promise.all([
       api('profesionales?select=id,nombre,color,activo,orden&order=orden,nombre&' + c),
@@ -583,10 +610,79 @@ function nuevaCita(pre){
   };
 }
 
+
+// ---------- Reseñas: pedirlas por WhatsApp con un botón ----------
+var WA_ICO = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.6a2.8 2.8 0 0 0 1.9-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>';
+function tokenNuevo(){ var a = new Uint8Array(16); crypto.getRandomValues(a); return Array.prototype.map.call(a, function(b){ return ('0' + b.toString(16)).slice(-2) }).join('') }
+function textoResena(nombre, cuando, enlace){
+  var n = (nombre || '').trim().split(' ')[0];
+  return 'Hola' + (n ? ' ' + n : '') + ', gracias por venir ' + cuando + ' a ' + Y.clinica.nombre + '. ' +
+    '¿Nos dejas tu opinión en Google? Es un minuto y nos ayuda mucho a que otras personas nos encuentren:\n' + enlace + '\n¡Gracias!';
+}
+function cuandoTxt(d){ var k = diaDe(d), hoy = diaDe(new Date()); if(k === hoy) return 'hoy'; if(k === sumaDias(hoy,-1)) return 'ayer'; return 'el ' + new Intl.DateTimeFormat('es-ES',{weekday:'long',timeZone:tz()}).format(d) }
+function cargarResenas(){
+  var box = $('res'), url = Y.clinica.google_resena_url;
+  if(!url){
+    box.innerHTML = '<div class="r-card"><h3>Falta el enlace de reseñas de Google</h3><p>Es el enlace que abre directamente la ventana de «Escribir una reseña» de la clínica. Se saca en el Perfil de Empresa de Google → «Pedir reseñas».</p>' +
+      (Y.rol === 'dueno' ? '<input type="text" id="r-url" placeholder="https://g.page/r/…/review"><button class="btn" type="button" id="r-url-ok">Guardar enlace</button><p class="error" id="c-err" hidden></p>' : '<p>Pídeselo al dueño de la clínica.</p>') + '</div>';
+    if(Y.rol === 'dueno') $('r-url-ok').onclick = function(){
+      var v = $('r-url').value.trim(); if(!/^https:\/\/(g\.page|search\.google\.com|www\.google\.com|maps\.app\.goo\.gl|goo\.gl)\//.test(v)){ var x = $('c-err'); x.textContent = 'Pega el enlace de Google (empieza por https://g.page/… o https://search.google.com/…).'; x.hidden = false; return }
+      api('clinicas?id=eq.' + Y.clinica.id, {metodo:'PATCH', devolver:true, cuerpo:{google_resena_url:v}}).then(function(){ Y.clinica.google_resena_url = v; avisar('Enlace guardado'); cargarResenas() });
+    };
+    return;
+  }
+  box.innerHTML = '<p class="vacio">Cargando…</p>';
+  var desde = new Date(Date.now() - 7*864e5).toISOString(), hace60 = new Date(Date.now() - 60*864e5).toISOString(), mes = aFecha(diaDe(new Date()).slice(0,8) + '01', '00:00').toISOString();
+  Promise.all([
+    api('citas?select=id,inicio,fin,estado,paciente_id,profesional_id,pacientes(nombre,telefono,acepta_whatsapp)&clinica_id=eq.' + Y.clinica.id + '&estado=in.(hecha,confirmada,pendiente)&fin=lt.' + encodeURIComponent(new Date().toISOString()) + '&inicio=gte.' + encodeURIComponent(desde) + '&order=inicio.desc'),
+    api('resenas?select=cita_id,paciente_id,pedida,pulsada&clinica_id=eq.' + Y.clinica.id + '&pedida=gte.' + encodeURIComponent(hace60))
+  ]).then(function(x){
+    var citas = x[0], res = x[1], pedidos = {}, porCita = {};
+    res.forEach(function(r){ if(r.paciente_id) pedidos[r.paciente_id] = r; if(r.cita_id) porCita[r.cita_id] = r });
+    var vistos = {}, pendientes = [], hechas = [];
+    citas.forEach(function(c){
+      if(!c.pacientes || vistos[c.paciente_id]) return; vistos[c.paciente_id] = 1;
+      if(c.estado !== 'hecha' && c.estado !== 'confirmada') return;
+      if(porCita[c.id] || pedidos[c.paciente_id]) hechas.push({c:c, r:porCita[c.id] || pedidos[c.paciente_id]});
+      else if(c.pacientes.acepta_whatsapp !== false) pendientes.push(c);
+    });
+    var delMes = res.filter(function(r){ return r.pedida >= mes }), pulsadas = delMes.filter(function(r){ return r.pulsada }).length;
+    var h = '<div class="r-cab"><span class="pill"><b>' + pendientes.length + '</b> por pedir</span><span class="pill"><b>' + delMes.length + '</b> pedidas este mes</span><span class="pill"><b>' + pulsadas + '</b> abrieron el enlace</span></div>';
+    h += '<p class="r-tit">Por pedir · últimos 7 días</p><div class="lista">';
+    if(!pendientes.length) h += '<p class="vacio">No hay nadie pendiente. Las citas aparecen aquí al terminar.</p>';
+    pendientes.forEach(function(c){
+      var tk = tokenNuevo(), enlace = location.origin + '/resena/?t=' + tk, msg = textoResena(c.pacientes.nombre, cuandoTxt(new Date(c.inicio)), enlace);
+      var wa = 'https://wa.me/' + c.pacientes.telefono.replace(/\D/g,'') + '?text=' + encodeURIComponent(msg);
+      h += '<div class="r-fila" data-c="' + c.id + '"><span class="n">' + esc(c.pacientes.nombre) + '</span><span class="s">' + esc(cuandoTxt(new Date(c.inicio))) + ' · ' + horaDe(new Date(c.inicio)) + (c.estado !== 'hecha' ? ' · sin marcar como hecha' : '') + '</span>' +
+           '<a class="r-enviar" href="' + esc(wa) + '" target="_blank" rel="noopener" data-c="' + c.id + '" data-p="' + c.paciente_id + '" data-t="' + tk + '">' + WA_ICO + 'Enviar</a>' +
+           '<div class="msg">' + esc(msg) + '</div></div>';
+    });
+    h += '</div>';
+    if(hechas.length){
+      h += '<p class="r-tit">Ya pedidas</p><div class="lista">' + hechas.map(function(o){ return '<div class="r-fila"><span class="n">' + esc(o.c.pacientes.nombre) + '</span><span class="s">Pedida ' + esc(cuandoTxt(new Date(o.r.pedida))) + (o.r.pulsada ? ' · abrió el enlace' : '') + '</span><span class="r-hecha">' + (o.r.pulsada ? '★ Abierta' : '✓ Enviada') + '</span></div>' }).join('') + '</div>';
+    }
+    h += '<p style="color:var(--muted);font-size:.85rem;margin:4px 2px">Se pide a todos los pacientes y sin ofrecer nada a cambio: es lo que permite Google. Si alguien no quiere WhatsApp, quítalo en su ficha de paciente.</p>';
+    box.innerHTML = h;
+  }).catch(function(e){ box.innerHTML = '<p class="error">No se han podido cargar las reseñas.</p>'; console.error(e) });
+}
+$('res').addEventListener('click', function(ev){
+  var a = ev.target.closest('.r-enviar'); if(!a) return;
+  api('resenas', {metodo:'POST', cuerpo:{clinica_id:Y.clinica.id, cita_id:a.dataset.c, paciente_id:a.dataset.p, token:a.dataset.t}})
+    .then(function(){ var f = a.closest('.r-fila'); a.outerHTML = '<span class="r-hecha">✓ Enviada</span>'; if(f) f.querySelector('.msg').remove(); setTimeout(cargarResenas, 4000) })
+    .catch(function(e){ avisar('No se ha podido apuntar el envío'); console.error(e) });
+});
+
 // ---------- Pacientes ----------
-function vista(v){ $('t-agenda').setAttribute('aria-pressed', v === 'agenda'); $('t-pac').setAttribute('aria-pressed', v === 'pac'); $('mn-agenda').setAttribute('aria-pressed', v === 'agenda'); $('mn-pac').setAttribute('aria-pressed', v === 'pac'); $('m-fab').hidden = !gestion(); scrollTo(0,0); $('v-agenda').hidden = v !== 'agenda'; $('v-pac').hidden = v !== 'pac'; if(v === 'pac') buscarPac() }
+function vista(v){
+  ['agenda','pac','res'].forEach(function(k){ $('t-' + k).setAttribute('aria-pressed', v === k); $('mn-' + k).setAttribute('aria-pressed', v === k); $('v-' + k).hidden = v !== k });
+  $('m-fab').hidden = !gestion() || v !== 'agenda'; scrollTo(0,0);
+  if(v === 'pac') buscarPac(); if(v === 'res') cargarResenas();
+}
 $('t-agenda').onclick = function(){ vista('agenda') };
 $('t-pac').onclick = function(){ vista('pac') };
+$('t-res').onclick = function(){ vista('res') };
+$('mn-res').onclick = function(){ vista('res') };
+$('sel-clinica').onchange = function(){ try{ localStorage.setItem('panel-clinica', this.value) }catch(e){} location.reload() };
 var tp = null; $('p-buscar').oninput = function(){ clearTimeout(tp); tp = setTimeout(buscarPac, 250) };
 function buscarPac(){
   var q = $('p-buscar').value.trim(), dig = q.replace(/\D/g,''), f = '';

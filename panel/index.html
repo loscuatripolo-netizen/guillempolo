@@ -39,7 +39,7 @@ header.barra{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10p
 .icono{border:1.5px solid var(--line);background:var(--card);border-radius:10px;min-width:40px;height:40px;display:inline-grid;place-items:center;padding:0 10px;font-weight:600}
 main{min-height:0;overflow:auto}
 .nav-dia{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px 16px}
-.nav-dia h2{margin:0 auto 0 4px;font-size:1.1rem;text-transform:capitalize}
+.nav-dia h2{margin:0 auto 0 4px;font-size:1.1rem}
 .nav-dia input[type=date]{width:auto}
 .resumen-dia{display:flex;gap:8px;flex-wrap:wrap;padding:0 16px 10px}
 .pill{font-size:.82rem;font-weight:600;border-radius:999px;padding:3px 10px;background:var(--card);border:1px solid var(--line)}
@@ -115,6 +115,24 @@ dialog::backdrop{background:rgba(15,25,22,.45)}
 .r-enviar svg{width:18px;height:18px}
 .r-hecha{color:var(--ok);font-weight:700;font-size:.85rem;grid-row:1 / span 2;grid-column:2}
 .r-tit{font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:700;margin:6px 2px 0}
+
+.bloq{position:absolute;left:4px;right:4px;z-index:2;border:1px dashed #9AA6A2;border-radius:8px;background:repeating-linear-gradient(135deg,#E9EDEB 0 8px,#F4F6F5 8px 16px);text-align:left;padding:3px 8px;font-size:.8rem;color:#45514E;overflow:hidden}
+.bloq b{display:block;font-size:.82rem}.bloq span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.avisos{position:fixed;top:calc(70px + env(safe-area-inset-top,0px));right:16px;z-index:60;display:grid;gap:10px;width:min(380px,calc(100vw - 32px))}
+.banner{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-left:5px solid var(--ac);border-radius:14px;padding:12px 12px 12px 14px;box-shadow:0 18px 40px -18px rgba(0,0,0,.4);animation:sube .25s ease}
+.banner.no{border-left-color:var(--no)}.banner.ok{border-left-color:var(--ok)}
+.banner div{flex:1;min-width:0;display:grid}.banner b{font-size:.95rem}.banner span{color:var(--muted);font-size:.86rem}
+.banner .ver{border:0;background:var(--soft);color:var(--ac);font-weight:700;border-radius:999px;padding:7px 12px}
+.banner .x{border:0;background:none;font-size:1.3rem;color:var(--muted);padding:0 4px}
+#impresion{display:none}
+@media print{
+  body>*:not(#impresion){display:none!important}
+  #impresion{display:block;font:11pt/1.4 Arial,sans-serif;color:#000}
+  #impresion h1{font-size:15pt;margin:0 0 10px;text-transform:none}
+  #impresion table{width:100%;border-collapse:collapse}#impresion th,#impresion td{border-bottom:1px solid #999;padding:5px 6px;text-align:left;vertical-align:top}
+  #impresion th{font-size:9pt;text-transform:uppercase;letter-spacing:.04em}#impresion tr.b td{color:#555;font-style:italic}
+  #impresion .pie{margin-top:12px;font-size:8.5pt;color:#555}
+}
 /* ---------- Móvil ---------- */
 input,select,textarea{font-size:16px}
 .m-cab,.m-lista,.m-nav{display:none}
@@ -165,6 +183,10 @@ input,select,textarea{font-size:16px}
   .m-t{min-width:0;display:grid;gap:1px}
   .m-t b{font-size:1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .m-t small{color:var(--muted);font-size:.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+  .m-bloq{display:grid;grid-template-columns:52px 1fr auto;align-items:center;gap:12px;width:100%;text-align:left;border-radius:16px;padding:12px 14px;border:1px dashed #9AA6A2;background:repeating-linear-gradient(135deg,#EEF1F0 0 8px,#F7F8F8 8px 16px);color:#45514E}
+  .avisos{top:calc(64px + env(safe-area-inset-top,0px));right:12px;width:calc(100vw - 24px)}
+  #d-bloq,#d-imp{display:none}
   .m-hueco{background:transparent;border:1.5px dashed var(--line);color:var(--muted)}
   .m-hueco .m-mas{width:30px;height:30px;border-radius:50%;background:var(--soft);color:var(--ac);display:grid;place-items:center;font-size:1.25rem;font-weight:700;line-height:1}
   .m-ahora{display:flex;align-items:center;gap:8px;color:var(--no);font-size:.78rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin:2px 0}
@@ -233,6 +255,8 @@ input,select,textarea{font-size:16px}
         <h2 id="d-titulo"></h2>
         <input type="date" id="d-fecha" aria-label="Ir a fecha">
         <label style="display:flex;align-items:center;gap:6px;font-weight:500;font-size:.85rem"><input type="checkbox" id="d-anuladas"> Ver anuladas</label>
+        <button class="icono" type="button" id="d-bloq">🔒 Bloquear</button>
+        <button class="icono" type="button" id="d-imp">Imprimir día</button>
       </div>
       <div class="resumen-dia" id="resumen"></div>
       <div class="agenda-wrap"><div class="agenda" id="agenda"></div></div>
@@ -258,6 +282,8 @@ input,select,textarea{font-size:16px}
 
 <dialog id="dlg"><div class="dlg" id="dlg-in"></div></dialog>
 <div class="aviso" id="aviso" role="status" hidden></div>
+<div class="avisos" id="avisos" aria-live="polite"></div>
+<div id="impresion"></div>
 
 <script src="../reservar/config.js"></script>
 <script>
@@ -267,7 +293,7 @@ var CFG = window.CITAS_CFG, $ = function(i){ return document.getElementById(i) }
 var S = null;           // sesión
 var MIS = [];           // clínicas del usuario
 var Y = {};             // yo: clinica, rol, profesional_id
-var D = {pros:[], servs:[], sp:[], horarios:[], citas:[]};
+var D = {pros:[], servs:[], sp:[], horarios:[], citas:[], aus:[]};
 var dia = null;         // 'YYYY-MM-DD' en la zona de la clínica
 var H0 = 8, H1 = 21, PX = 72; // horas visibles y píxeles por hora
 var EST = {pendiente:'Pendiente', confirmada:'Confirmada', hecha:'Hecha', no_vino:'No vino', anulada:'Anulada'};
@@ -356,26 +382,38 @@ function arrancar(){
       dia = dia || diaDe(new Date());
       pintarDia();
       clearInterval(window.__poll); window.__poll = setInterval(function(){ if(!document.hidden && !$('dlg').open) cargarDia(true) }, 60000);
+      VIG.desde = new Date(Date.now() - 2000).toISOString(); clearInterval(window.__vig); window.__vig = setInterval(vigilar, 30000);
     });
   }).catch(function(e){ if(e.message !== 'SIN_SESION'){ avisar('No se ha podido cargar el panel'); console.error(e) } });
 }
 document.addEventListener('visibilitychange', function(){ if(!document.hidden && S && dia && !$('dlg').open) cargarDia(true) });
 
 // ---------- Agenda del día ----------
+function tramoAus(a){ // [ini, fin] en minutos dentro del día visible
+  var d0 = aFecha(dia, '00:00').getTime(), d1 = aFecha(sumaDias(dia,1), '00:00').getTime();
+  var i = Math.max(new Date(a.desde).getTime(), d0), f = Math.min(new Date(a.hasta).getTime(), d1);
+  return [i === d0 ? 0 : minutosDe(new Date(i)), f === d1 ? 1440 : minutosDe(new Date(f))];
+}
+function ausDe(pid){ return D.aus.filter(function(a){ return !a.profesional_id || a.profesional_id === pid }) }
+
 function prosVisibles(){ return D.pros.filter(function(p){ return p.activo && (Y.rol !== 'profesional' || p.id === Y.profesional_id) }) }
 function cargarDia(silencio){
   var desde = aFecha(dia, '00:00').toISOString(), hasta = aFecha(sumaDias(dia,1), '00:00').toISOString();
   return api('citas?select=id,inicio,fin,estado,origen,nota,profesional_id,servicio_id,paciente_id,pacientes(nombre,telefono)&clinica_id=eq.' + Y.clinica.id +
              '&inicio=gte.' + encodeURIComponent(desde) + '&inicio=lt.' + encodeURIComponent(hasta) + '&order=inicio')
-    .then(function(c){ D.citas = c; dibujar() })
+    .then(function(c){ D.citas = c;
+      return api('ausencias?select=id,profesional_id,desde,hasta,motivo&clinica_id=eq.' + Y.clinica.id + '&desde=lt.' + encodeURIComponent(hasta) + '&hasta=gt.' + encodeURIComponent(desde)).then(function(a){ D.aus = a }).catch(function(){ D.aus = [] });
+    }).then(function(){ dibujar() })
     .catch(function(e){ if(!silencio) avisar('No se han podido cargar las citas'); console.error(e) });
 }
-function pintarDia(){ $('d-titulo').textContent = largo(dia); $('d-fecha').value = dia; cargarDia(); if(movil.matches) cargarPuntos() }
+function pintarDia(){ var lg = largo(dia); $('d-titulo').textContent = lg.charAt(0).toUpperCase() + lg.slice(1); $('d-fecha').value = dia; cargarDia(); if(movil.matches) cargarPuntos() }
 $('d-ant').onclick = function(){ dia = sumaDias(dia,-1); pintarDia() };
 $('d-sig').onclick = function(){ dia = sumaDias(dia,1); pintarDia() };
 $('d-hoy').onclick = function(){ dia = diaDe(new Date()); pintarDia() };
 $('d-fecha').onchange = function(){ if(this.value){ dia = this.value; pintarDia() } };
 $('d-anuladas').onchange = dibujar;
+$('d-imp').onclick = function(){ imprimirDia() };
+$('d-bloq').onclick = function(){ bloquear({dia:dia}) };
 
 var movil = matchMedia('(max-width: 720px)'), proSel = 'todos';
 if(movil.addEventListener) movil.addEventListener('change', function(){ if(D.citas) dibujar() });
@@ -397,6 +435,8 @@ function dibujar(){
       .map(function(x){ var a = x.inicio.split(':'), b = x.fin.split(':'); return [+a[0]*60 + +a[1], +b[0]*60 + +b[1]] }).sort(function(a,b){ return a[0]-b[0] });
     var cur = H0*60;
     bloques.concat([[H1*60, H1*60]]).forEach(function(b){ if(b[0] > cur) h += '<div class="fuera" style="top:' + ((cur - H0*60)/60*PX) + 'px;height:' + ((b[0]-cur)/60*PX) + 'px"></div>'; cur = Math.max(cur, b[1]) });
+    ausDe(p.id).forEach(function(a){ var r = tramoAus(a), i = Math.max(r[0], H0*60), f = Math.min(r[1], H1*60); if(f <= i) return;
+      h += '<button type="button" class="bloq" data-a="' + a.id + '" style="top:' + ((i - H0*60)/60*PX) + 'px;height:' + Math.max(22, (f - i)/60*PX - 2) + 'px"><b>Bloqueado</b>' + (a.motivo ? '<span>' + esc(a.motivo) + '</span>' : '') + '</button>' });
     if(gestion()) for(var q = H0*60; q < H1*60; q += 15) h += '<button class="hueco" type="button" tabindex="-1" aria-label="Nueva cita a las ' + hm(q) + ' con ' + esc(p.nombre) + '" data-h="' + hm(q) + '" style="top:' + ((q - H0*60)/60*PX) + 'px;height:' + (PX/4) + 'px"></button>';
     D.citas.filter(function(c){ return c.profesional_id === p.id && (verAn || c.estado !== 'anulada') }).forEach(function(c){
       var i = new Date(c.inicio), f = new Date(c.fin), mi = minutosDe(i), mf = minutosDe(f) || 24*60;
@@ -454,7 +494,8 @@ function dibujarMovil(){
       .map(function(x){ var a = x.inicio.split(':'), b = x.fin.split(':'); return [+a[0]*60 + +a[1], +b[0]*60 + +b[1]] }).sort(function(a,b){ return a[0]-b[0] });
     trabaja = bloques.length > 0;
     if(gestion()){
-      var ocup = D.citas.filter(function(c){ return c.profesional_id === unPro && c.estado !== 'anulada' }).map(function(c){ return [minutosDe(new Date(c.inicio)), minutosDe(new Date(c.fin)) || 1440] }).sort(function(a,b){ return a[0]-b[0] });
+      var ocup = D.citas.filter(function(c){ return c.profesional_id === unPro && c.estado !== 'anulada' }).map(function(c){ return [minutosDe(new Date(c.inicio)), minutosDe(new Date(c.fin)) || 1440] })
+        .concat(ausDe(unPro).map(tramoAus)).sort(function(a,b){ return a[0]-b[0] });
       bloques.forEach(function(b){
         var cur = b[0];
         if(esHoy) cur = Math.max(cur, Math.ceil(mAhora/15)*15);
@@ -467,10 +508,16 @@ function dibujarMovil(){
       });
     }
   }
+  D.aus.forEach(function(a){ if(proSel !== 'todos' && a.profesional_id && a.profesional_id !== proSel) return; var r = tramoAus(a); items.push({t:r[0], tipo:'bloq', a:a, r:r}) });
   items.sort(function(x, y){ return x.t - y.t || (x.tipo === 'hueco' ? 1 : -1) });
   var out = '', puesto = false;
   items.forEach(function(it){
     if(esHoy && !puesto && it.t > mAhora){ out += '<div class="m-ahora">Ahora · ' + hm(mAhora) + '</div>'; puesto = true }
+    if(it.tipo === 'bloq'){
+      var pq = it.a.profesional_id ? (D.pros.find(function(x){ return x.id === it.a.profesional_id }) || {}).nombre : 'Toda la clínica';
+      out += '<button type="button" class="m-bloq" data-a="' + it.a.id + '"><span class="m-h"><b>' + hm(it.r[0] % 1440) + '</b><small>' + hm(it.r[1] === 1440 ? 1439 : it.r[1]) + '</small></span><span class="m-t"><b>Bloqueado</b><small>' + esc(pq || '') + (it.a.motivo ? ' · ' + esc(it.a.motivo) : '') + '</small></span><span aria-hidden="true">🔒</span></button>';
+      return;
+    }
     if(it.tipo === 'hueco'){
       out += '<button type="button" class="m-hueco" data-p="' + it.p + '" data-h="' + hm(it.a) + '"><span class="m-h"><b>' + hm(it.a) + '</b></span><span>Libre hasta las ' + hm(it.b) + '</span><span class="m-mas" aria-hidden="true">+</span></button>';
       return;
@@ -494,6 +541,7 @@ $('m-pros').addEventListener('click', function(ev){ var b = ev.target.closest('b
 $('m-hoy').onclick = function(){ dia = diaDe(new Date()); pintarDia() };
 $('m-lista').addEventListener('click', function(ev){
   var c = ev.target.closest('.m-cita'); if(c) return verCita(c.dataset.c);
+  var bq = ev.target.closest('.m-bloq'); if(bq) return verBloqueo(bq.dataset.a);
   var h = ev.target.closest('.m-hueco'); if(h) return nuevaCita({profesional_id:h.dataset.p, hora:h.dataset.h, dia:dia});
 });
 $('m-fab').onclick = function(){ nuevaCita({dia:dia, profesional_id: proSel !== 'todos' ? proSel : null}) };
@@ -507,6 +555,7 @@ function cargarPuntos(){
 }
 $('agenda').addEventListener('click', function(ev){
   var c = ev.target.closest('.cita'); if(c) return verCita(c.dataset.c);
+  var bq = ev.target.closest('.bloq'); if(bq) return verBloqueo(bq.dataset.a);
   var hq = ev.target.closest('.hueco'); if(hq) return nuevaCita({profesional_id:hq.closest('.col').dataset.p, hora:hq.dataset.h, dia:dia});
 });
 
@@ -542,6 +591,7 @@ function verCita(id){
   }
 }
 function cambiar(c, campos, ok, despues){
+  VIG.mios[c.id] = 1;
   api('citas?id=eq.' + c.id, {metodo:'PATCH', cuerpo:campos, devolver:true}).then(function(r){
     if(!r || !r.length) throw new Error('SIN_PERMISO');
     cerrar(); avisar(ok); cargarDia(); if(despues) despues();
@@ -560,7 +610,7 @@ $('b-nueva').onclick = function(){ nuevaCita({dia:dia}) };
 function nuevaCita(pre){
   var pros = D.pros.filter(function(x){ return x.activo });
   var pid = pre.profesional_id || (Y.rol === 'profesional' ? Y.profesional_id : (pros[0] && pros[0].id));
-  abrir('<h3>Nueva cita</h3>' +
+  abrir('<div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><h3>Nueva cita</h3><button class="copiar" type="button" id="n-bloq">🔒 Bloquear este hueco</button></div>' +
     '<div id="n-pac"><label for="n-buscar">Paciente<input type="search" id="n-buscar" placeholder="Nombre o teléfono" autocomplete="off"></label><div class="sugs" id="n-sugs" hidden></div></div>' +
     '<div id="n-nuevo" hidden><div class="fila2"><label for="n-nombre">Nombre y apellido<input type="text" id="n-nombre" maxlength="80"></label><label for="n-tel">Móvil<input type="tel" id="n-tel" inputmode="tel"></label></div></div>' +
     '<div class="fila2"><label for="n-pro">Profesional<select id="n-pro">' + pros.map(function(x){ return '<option value="' + x.id + '"' + (x.id === pid ? ' selected' : '') + '>' + esc(x.nombre) + '</option>' }).join('') + '</select></label>' +
@@ -574,6 +624,7 @@ function nuevaCita(pre){
     $('n-serv').innerHTML = D.servs.filter(function(s){ return s.activo && ids.indexOf(s.id) > -1 }).map(function(s){ return '<option value="' + s.id + '">' + esc(s.nombre) + ' (' + s.duracion_min + ' min)</option>' }).join('') || '<option value="">Este profesional no tiene servicios</option>' }
   servs(); $('n-pro').onchange = servs;
   $('n-cancel').onclick = cerrar;
+  $('n-bloq').onclick = function(){ bloquear({profesional_id:$('n-pro').value, dia:$('n-dia').value, hora:$('n-hora').value}) };
   $('n-buscar').oninput = function(){
     var q = this.value.trim(); clearTimeout(t);
     if(q.length < 2){ $('n-sugs').hidden = true; return }
@@ -704,6 +755,83 @@ $('rec').addEventListener('click', function(ev){
     .then(function(){ var f = a.closest('.r-fila'); a.outerHTML = '<span class="r-hecha">✓ Enviado</span>'; if(f) f.querySelector('.msg').remove() })
     .catch(function(e){ avisar('No se ha podido apuntar el envío'); console.error(e) });
 });
+
+
+// ---------- Bloquear huecos (reuniones, salir antes, etc.) ----------
+function bloquear(pre){
+  var pros = D.pros.filter(function(x){ return x.activo }), h = pre.hora || '10:00', a = h.split(':'), finMin = Math.min(+a[0]*60 + +a[1] + 60, 1439);
+  abrir('<h3>Bloquear hueco</h3><p style="margin:0;color:var(--muted);font-size:.92rem">Deja de salir para reservar online y en el panel se ve como ocupado.</p>' +
+    '<label for="b-pro">¿De quién?<select id="b-pro"><option value="">Toda la clínica (festivo, cierre)</option>' + pros.map(function(x){ return '<option value="' + x.id + '"' + (x.id === pre.profesional_id ? ' selected' : '') + '>' + esc(x.nombre) + '</option>' }).join('') + '</select></label>' +
+    '<label for="b-dia">Día<input type="date" id="b-dia" value="' + (pre.dia || dia) + '"></label>' +
+    '<div class="fila2"><label for="b-ini">Desde<input type="time" id="b-ini" step="900" value="' + h + '"></label><label for="b-fin">Hasta<input type="time" id="b-fin" step="900" value="' + hm(finMin) + '"></label></div>' +
+    '<label style="display:flex;gap:8px;align-items:center;font-weight:500"><input type="checkbox" id="b-todo"> Todo el día</label>' +
+    '<label for="b-mot">Motivo <small style="font-weight:400;color:var(--muted)">(lo ve solo la clínica)</small><input type="text" id="b-mot" maxlength="80" placeholder="Reunión, salgo antes, formación…"></label>' +
+    '<p class="error" id="c-err" hidden></p><div class="acciones"><button class="btn sec" type="button" id="b-cancel">Cancelar</button><button class="btn" type="button" id="b-ok">Bloquear</button></div>');
+  $('b-cancel').onclick = cerrar;
+  $('b-todo').onchange = function(){ $('b-ini').disabled = $('b-fin').disabled = this.checked };
+  $('b-ok').onclick = function(){
+    var d = $('b-dia').value, todo = $('b-todo').checked, i = todo ? '00:00' : $('b-ini').value, f = todo ? null : $('b-fin').value, err = $('c-err');
+    if(!d || !i || (!todo && (!f || f <= i))){ err.textContent = 'Revisa el día y las horas: «hasta» tiene que ser después de «desde».'; err.hidden = false; return }
+    var desde = aFecha(d, i), hasta = todo ? aFecha(sumaDias(d,1), '00:00') : aFecha(d, f);
+    var choca = D.citas.filter(function(c){ return c.estado !== 'anulada' && (!$('b-pro').value || c.profesional_id === $('b-pro').value) && new Date(c.inicio) < hasta && new Date(c.fin) > desde });
+    this.disabled = true;
+    api('ausencias', {metodo:'POST', cuerpo:{clinica_id:Y.clinica.id, profesional_id:$('b-pro').value || null, desde:desde.toISOString(), hasta:hasta.toISOString(), motivo:$('b-mot').value.trim() || null}})
+      .then(function(){ cerrar(); avisar(choca.length && d === dia ? 'Bloqueado. Ojo: ya había ' + choca.length + (choca.length === 1 ? ' cita' : ' citas') + ' en ese tramo' : 'Hueco bloqueado'); if(d !== dia){ dia = d; pintarDia() } else cargarDia() })
+      .catch(function(e){ err.textContent = errTexto(e); err.hidden = false; $('b-ok').disabled = false });
+  };
+}
+function verBloqueo(id){
+  var a = D.aus.find(function(x){ return x.id === id }); if(!a) return;
+  var p = a.profesional_id ? (D.pros.find(function(x){ return x.id === a.profesional_id }) || {}).nombre : 'Toda la clínica', r = tramoAus(a);
+  abrir('<h3>🔒 Hueco bloqueado</h3><div class="fila2"><div class="dato"><small>De quién</small><b>' + esc(p) + '</b></div><div class="dato"><small>Cuándo</small><b>' + (r[0] === 0 && r[1] === 1440 ? 'Todo el día' : hm(r[0]) + '–' + hm(r[1] === 1440 ? 1439 : r[1])) + '</b></div></div>' +
+    (a.motivo ? '<div class="dato"><small>Motivo</small><b>' + esc(a.motivo) + '</b></div>' : '') +
+    '<p class="error" id="c-err" hidden></p><div class="acciones">' + (gestion() ? '<button class="btn peligro" type="button" id="bq-quitar">Desbloquear</button>' : '') + '<button class="btn" type="button" id="bq-cerrar">Cerrar</button></div>');
+  $('bq-cerrar').onclick = cerrar;
+  if(gestion()) $('bq-quitar').onclick = function(){ api('ausencias?id=eq.' + id, {metodo:'DELETE'}).then(function(){ cerrar(); avisar('Hueco desbloqueado'); cargarDia() }).catch(function(e){ var x = $('c-err'); x.textContent = errTexto(e); x.hidden = false }) };
+}
+
+// ---------- Avisos al momento: citas online nuevas, anuladas o confirmadas por el paciente ----------
+var VIG = {desde:null, mios:{}};
+function pitido(){ try{ var c = new (window.AudioContext || window.webkitAudioContext)(), o = c.createOscillator(), g = c.createGain(); o.connect(g); g.connect(c.destination); o.frequency.value = 880; g.gain.setValueAtTime(.0001, c.currentTime); g.gain.exponentialRampToValueAtTime(.2, c.currentTime + .02); g.gain.exponentialRampToValueAtTime(.0001, c.currentTime + .35); o.start(); o.stop(c.currentTime + .4) }catch(e){} }
+function vigilar(){
+  if(!gestion() || !Y.clinica) return;
+  var hasta = new Date(Date.now() - 2000).toISOString(), desde = VIG.desde; VIG.desde = hasta;
+  if(!desde) return;
+  api('citas?select=id,inicio,estado,origen,creada,actualizada,profesional_id,pacientes(nombre)&clinica_id=eq.' + Y.clinica.id + '&actualizada=gt.' + encodeURIComponent(desde) + '&actualizada=lte.' + encodeURIComponent(hasta) + '&order=actualizada').then(function(r){
+    var hay = false;
+    r.forEach(function(c){
+      if(VIG.mios[c.id]) return;
+      var nueva = new Date(c.creada) > new Date(desde), i = new Date(c.inicio), pro = (D.pros.find(function(x){ return x.id === c.profesional_id }) || {}).nombre, n = c.pacientes ? c.pacientes.nombre : '';
+      var cuando = new Intl.DateTimeFormat('es-ES',{weekday:'short',day:'numeric',month:'short',timeZone:tz()}).format(i) + ' · ' + horaDe(i) + (pro ? ' con ' + pro : '');
+      var tit = nueva && c.origen !== 'recepcion' ? 'Nueva cita online' : c.estado === 'anulada' ? 'Cita anulada por el paciente' : c.estado === 'confirmada' && !nueva ? 'Cita confirmada por el paciente' : null;
+      if(!tit) return; hay = true;
+      banner(tit, n + ' · ' + cuando, c.estado === 'anulada' ? 'no' : c.estado === 'confirmada' && !nueva ? 'ok' : 'nueva', diaDe(i));
+    });
+    if(hay){ pitido(); cargarDia(true) }
+  }).catch(function(){});
+}
+function banner(t, s, tipo, d){
+  var box = $('avisos'), el = document.createElement('div'); el.className = 'banner ' + tipo; el.setAttribute('role','status');
+  el.innerHTML = '<div><b></b><span></span></div><button type="button" class="ver">Ver</button><button type="button" class="x" aria-label="Cerrar">×</button>';
+  el.querySelector('b').textContent = t; el.querySelector('span').textContent = s;
+  el.querySelector('.ver').onclick = function(){ vista('agenda'); dia = d; pintarDia(); el.remove() };
+  el.querySelector('.x').onclick = function(){ el.remove() };
+  box.prepend(el); setTimeout(function(){ el.remove() }, 120000);
+}
+
+// ---------- Imprimir el día (solo para consultar) ----------
+function imprimirDia(){
+  var filas = D.citas.filter(function(c){ return c.estado !== 'anulada' }).map(function(c){ return {t:new Date(c.inicio), c:c} })
+    .concat(D.aus.map(function(a){ return {t:new Date(Math.max(new Date(a.desde), aFecha(dia,'00:00'))), a:a} })).sort(function(x,y){ return x.t - y.t });
+  var h = '<h1>' + esc(Y.clinica.nombre) + ' · ' + esc(largo(dia)) + '</h1><table><thead><tr><th>Hora</th><th>Paciente</th><th>Teléfono</th><th>Servicio</th><th>Profesional</th><th>Estado</th></tr></thead><tbody>';
+  filas.forEach(function(f){
+    if(f.a){ var r = tramoAus(f.a); h += '<tr class="b"><td>' + hm(r[0]) + '–' + hm(r[1] === 1440 ? 1439 : r[1]) + '</td><td colspan="5">Bloqueado' + (f.a.motivo ? ' · ' + esc(f.a.motivo) : '') + ' · ' + esc(f.a.profesional_id ? (D.pros.find(function(x){ return x.id === f.a.profesional_id }) || {}).nombre : 'Toda la clínica') + '</td></tr>'; return }
+    var c = f.c, s = D.servs.find(function(x){ return x.id === c.servicio_id }) || {}, p = D.pros.find(function(x){ return x.id === c.profesional_id }) || {};
+    h += '<tr><td>' + horaDe(f.t) + '–' + horaDe(new Date(c.fin)) + '</td><td>' + esc(c.pacientes ? c.pacientes.nombre : '') + '</td><td>' + esc(c.pacientes ? c.pacientes.telefono : '') + '</td><td>' + esc(s.nombre || '') + '</td><td>' + esc(p.nombre || '') + '</td><td>' + EST[c.estado] + '</td></tr>';
+  });
+  h += '</tbody></table><p class="pie">Impreso ' + new Date().toLocaleString('es-ES') + '. Solo para consultar: las citas nuevas se dan en el panel.</p>';
+  $('impresion').innerHTML = h; window.print();
+}
 
 // ---------- Pacientes ----------
 function vista(v){

@@ -57,6 +57,12 @@ form{display:grid;gap:14px}
 .ok{text-align:center;display:grid;gap:10px;justify-items:center}
 .ok .tick{width:64px;height:64px;border-radius:50%;background:var(--soft);display:grid;place-items:center}
 .ok .tick svg{width:34px;height:34px;color:var(--ac)}
+.ok-btns{display:grid;gap:10px;width:100%;margin-top:6px}
+.btn-wa,.btn-cal{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;min-height:52px;border-radius:12px;font:700 1rem var(--f);text-decoration:none;cursor:pointer}
+.btn-wa{background:#1FA855;color:#fff;border:0}
+.btn-cal{background:var(--card);color:var(--ink);border:1.5px solid var(--line)}
+.btn-wa svg,.btn-cal svg{width:20px;height:20px;flex:none}
+.btn-wa:focus-visible,.btn-cal:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
 .carga{height:56px;border-radius:12px;background:linear-gradient(90deg,var(--line),var(--bg),var(--line));background-size:200% 100%;animation:c 1.2s infinite}
 @keyframes c{to{background-position:-200% 0}}
 @media (prefers-reduced-motion:reduce){.carga{animation:none}}
@@ -97,6 +103,11 @@ form{display:grid;gap:14px}
     <h2 style="margin:0">¡Cita reservada!</h2>
     <p id="ok-txt" style="margin:0"></p>
     <p class="legal" id="ok-sub"></p>
+    <div class="ok-btns">
+      <a class="btn-wa" id="ok-wa" href="#" target="_blank" rel="noopener" hidden><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.6a2.8 2.8 0 0 0 1.9-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>Guardar mi cita en WhatsApp</a>
+      <button class="btn-cal" id="ok-cal" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16" rx="3"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4M12 13v5M9.5 15.5h5"/></svg>Añadir al calendario</button>
+    </div>
+    <p class="legal" id="ok-wa-nota" hidden>Se abre el chat de la clínica con tu cita y tu enlace ya escritos: pulsa enviar y lo tendrás siempre a mano. Por ahí también puedes escribirnos para cambiarla.</p>
     <a class="link" id="ok-gestion" href="#">Ver, confirmar o anular mi cita</a>
   </section>
   <p class="error" id="err-global" hidden></p>
@@ -248,6 +259,24 @@ $('form').addEventListener('submit', function(ev){
     $('ok-txt').textContent = r.servicio + ', el ' + fmt(d,{weekday:'long',day:'numeric',month:'long'}) + ' a las ' + hora(d) + (r.profesional ? ' con ' + r.profesional : '') + '.';
     $('ok-sub').textContent = ($('wa').checked ? 'Te mandaremos un recordatorio por WhatsApp el día antes. ' : '') + (C.direccion ? 'Te esperamos en ' + C.direccion + '.' : '');
     $('ok-gestion').href = 'cita.html?t=' + encodeURIComponent(r.token);
+    var enlace = location.origin + location.pathname.replace(/[^/]*$/, '') + 'cita.html?t=' + r.token;
+    var cuando = fmt(d,{weekday:'long',day:'numeric',month:'long'}) + ' a las ' + hora(d);
+    var waNum = String(C.whatsapp || '').replace(/\D/g,'');
+    if(waNum.length >= 9){
+      var txt = 'Hola, acabo de reservar cita:\n' + r.servicio + ', el ' + cuando + (r.profesional ? ' con ' + r.profesional : '') + '.\nA nombre de ' + n + '.\n\nMi enlace para confirmar o anular: ' + enlace;
+      $('ok-wa').href = 'https://wa.me/' + waNum + '?text=' + encodeURIComponent(txt); $('ok-wa').hidden = false; $('ok-wa-nota').hidden = false;
+    }
+    $('ok-cal').onclick = function(){
+      var f = function(x){ return x.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'') };
+      var e = function(s){ return String(s || '').replace(/[\\;,]/g, function(c){ return '\\' + c }).replace(/\n/g,'\\n') };
+      var ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Citas//ES','METHOD:PUBLISH','BEGIN:VEVENT','UID:' + r.id + '@citas',
+        'DTSTAMP:' + f(new Date()), 'DTSTART:' + f(d), 'DTEND:' + f(new Date(r.fin)),
+        'SUMMARY:' + e(r.servicio + ' · ' + C.nombre), 'LOCATION:' + e(C.direccion || ''),
+        'DESCRIPTION:' + e('Para confirmar o anular: ' + enlace + (C.telefono ? '\nTeléfono: ' + C.telefono : '')),
+        'BEGIN:VALARM','TRIGGER:-PT2H','ACTION:DISPLAY','DESCRIPTION:' + e(r.servicio),'END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
+      var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([ics], {type:'text/calendar;charset=utf-8'})); a.download = 'cita.ics';
+      document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove() }, 1500);
+    };
     ['p-servicio','p-profesional','p-hora','p-datos'].forEach(function(id){ $(id).hidden = true });
     document.querySelector('.pasos').hidden = true; $('p-ok').hidden = false; scrollTo(0,0);
   })

@@ -31,48 +31,84 @@ var NS='gpbocetos-k7q2',API='https://abacus.jasoncameron.dev/get/'+NS+'/',HIT='h
 function nombre(s){return s.replace(/-/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase()})}
 function dia(off){var d=new Date(Date.now()-off*864e5);return new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid'}).format(d).replace(/-/g,'').slice(2)}
 function txtDia(off){return off===0?'hoy':off===1?'ayer':'hace '+off+' días'}
-// abacus admite 30 lecturas cada 10 s por IP: se lee de una en una, con pausa.
-// Los contadores solo suben: se guarda el último valor leído de cada clave y nunca se baja por un fallo de lectura.
-var ultima=0,leidas=0,fallos=0,RAW={};try{RAW=JSON.parse(localStorage.getItem('gp_raw')||'{}')}catch(e){}
-function espera(ms){return new Promise(function(r){setTimeout(r,ms)})}
-async function leer(k){for(var i=0;i<6;i++){var dt=Date.now()-ultima;if(dt<450)await espera(450-dt);ultima=Date.now();
- try{var r=await fetch(API+k,{cache:'no-store'});if(r.status===404)return 0;if(r.ok){var j=await r.json();return j.value||0}if(r.status===429){await espera(11000);continue}}catch(e){}await espera(2000)}return null}
-async function get(k){var v=await leer(k);leidas++;prog();if(v===null){fallos++;return RAW[k]||0}v=Math.max(v,RAW[k]||0);RAW[k]=v;return v}
-function prog(){var L=document.getElementById('lista');if(L.className==='cargando')L.textContent='Leyendo contadores… '+leidas}
 function esc(s){return s.replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-// un solo panel leyendo a la vez (si hay varias pestañas abiertas se pisaban y salía todo a 0)
-function bloqueado(){try{var t=+localStorage.getItem('gp_lock')||0;return Date.now()-t<120000&&sessionStorage.getItem('gp_soy')!=='1'}catch(e){return false}}
-function bloquear(on){try{if(on){localStorage.setItem('gp_lock',String(Date.now()));sessionStorage.setItem('gp_soy','1')}else{localStorage.removeItem('gp_lock');sessionStorage.removeItem('gp_soy')}}catch(e){}}
-var leyendo=false;
-async function cargar(){
- if(leyendo)return;if(bloqueado()){pintarCache('Otra pestaña del panel está actualizando. Se pinta aquí al terminar.');return}
- leyendo=true;bloquear(true);
- var L=document.getElementById('lista');if(!L.querySelector('.f')){L.className='cargando';L.textContent='Leyendo contadores… (tarda alrededor de un minuto)'}
- var slugs=[];
- try{var j=await fetch('https://api.github.com/repos/loscuatripolo-netizen/guillempolo/contents/demos').then(function(r){return r.json()});
-  slugs=j.filter(function(x){return x.type==='file'&&/\.html$/.test(x.name)&&x.name.indexOf('panel-')!==0}).map(function(x){return x.name.replace(/\.html$/,'')})}catch(e){}
- if(!slugs.length){try{slugs=JSON.parse(localStorage.getItem('gp_panel')).filas.map(function(f){return f.s})}catch(e){}}
- if(!slugs.length){L.textContent='No he podido leer la lista de bocetos.';leyendo=false;bloquear(false);return}
- leidas=0;fallos=0;var filas=[];for(var q=0;q<slugs.length;q++){filas.push(await (async function(s){var c=s.slice(0,57),y=s.slice(0,54)+'-y',bruto=await get(c),yo=bruto>0?await get(y):0,tot=Math.max(0,bruto-yo),dias=[];
-  if(tot>0){for(var o=0;o<7;o++){var v=await get(c+'-'+dia(o));dias.push(Math.max(0,v-(yo>0&&v>0?await get(y+dia(o)):0)))}}
-  var ult=dias.findIndex(function(v){return v>0});return {s:s,tot:tot,dias:dias,ult:ult}})(slugs[q]))
-  if(q%8===7)bloquear(true)}
- try{localStorage.setItem('gp_raw',JSON.stringify(RAW));localStorage.setItem('gp_panel',JSON.stringify({t:Date.now(),filas:filas}))}catch(e){}
- leyendo=false;bloquear(false);
- pintar(filas,fallos?('Actualizado a las '+hora(Date.now())+'. '+fallos+' lecturas no respondieron: se muestra el último valor conocido.'):'Actualizado a las '+hora(Date.now())+'.');
-}
 function hora(t){return new Date(t).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Madrid'})}
-function pintarCache(nota){try{var c=JSON.parse(localStorage.getItem('gp_panel')||'null');if(c){pintar(c.filas,nota||('Datos de las '+hora(c.t)+'.'));return true}}catch(e){}return false}
-window.addEventListener('storage',function(e){if(e.key==='gp_panel'&&!leyendo)pintarCache()});
-function pintar(filas,nota){var L=document.getElementById('lista');
+function espera(ms){return new Promise(function(r){setTimeout(r,ms)})}
+var L=document.getElementById('lista');
+// Contadores: solo suben. Se guarda el último valor leído de cada clave y nunca se baja por un fallo de lectura.
+var RAW={};try{RAW=JSON.parse(localStorage.getItem('gp_raw')||'{}')}catch(e){}
+// Caché del panel: {t, d (día), filas}
+function cache(){try{return JSON.parse(localStorage.getItem('gp_panel')||'null')}catch(e){return null}}
+function guardar(filas){try{localStorage.setItem('gp_raw',JSON.stringify(RAW));localStorage.setItem('gp_panel',JSON.stringify({t:Date.now(),d:dia(0),filas:filas}))}catch(e){}}
+// Desfase en días entre la caché y hoy (para mover «hoy» a «ayer» si los totales no han cambiado)
+function desfase(c){if(!c||!c.d)return null;for(var o=0;o<8;o++)if(dia(o)===c.d)return o;return 8}
+function mover(dias,o){var d=(dias||[]).slice();for(var i=0;i<o;i++)d.unshift(0);return d.slice(0,7)}
+
+// Solo lee la pestaña que está a la vista. Si te vas a otra pestaña, se pausa y deja paso.
+var ultima=0,leidas=0,fallos=0,total=0,gen=0;
+function visible(){return document.visibilityState!=='hidden'}
+function esperaVisible(){return visible()?Promise.resolve():new Promise(function(r){function f(){if(visible()){document.removeEventListener('visibilitychange',f);r()}}document.addEventListener('visibilitychange',f)})}
+function cerrojo(){try{var c=JSON.parse(localStorage.getItem('gp_lock')||'null');return c&&c.id!==YO&&Date.now()-c.t<15000}catch(e){return false}}
+var YO=Math.random().toString(36).slice(2);
+function tomar(){try{localStorage.setItem('gp_lock',JSON.stringify({id:YO,t:Date.now()}))}catch(e){}}
+function soltar(){try{var c=JSON.parse(localStorage.getItem('gp_lock')||'null');if(c&&c.id===YO)localStorage.removeItem('gp_lock')}catch(e){}}
+document.addEventListener('visibilitychange',function(){if(!visible())soltar()});
+addEventListener('pagehide',soltar);
+async function leer(k,g){for(var i=0;i<6;i++){await esperaVisible();if(g!==gen)throw 'cancelado';
+  while(cerrojo()){await espera(1500);if(g!==gen)throw 'cancelado'}tomar();
+  var dt=Date.now()-ultima;if(dt<380)await espera(380-dt);ultima=Date.now();
+  try{var r=await fetch(API+k,{cache:'no-store'});if(r.status===404)return 0;if(r.ok){var j=await r.json();return j.value||0}if(r.status===429){await espera(10500);continue}}catch(e){}await espera(1500)}return null}
+async function get(k,g){var v=await leer(k,g);leidas++;estado();if(v===null){fallos++;return RAW[k]||0}v=Math.max(v,RAW[k]||0);RAW[k]=v;return v}
+function estado(){var p=document.getElementById('prog');if(p)p.textContent='Actualizando… '+leidas+(total?' / ~'+total:'')}
+
+async function cargar(){
+ var g=++gen;leidas=0;fallos=0;total=0;
+ var c=cache(),o=desfase(c),prev={};
+ if(c&&o!==null&&o<8)c.filas.forEach(function(f){prev[f.s]={tot:f.tot,dias:mover(f.dias,o),bruto:f.bruto}});
+ if(!L.querySelector('.f')){L.className='cargando';L.textContent='Leyendo contadores…'}
+ var slugs=[];
+ try{var j=await fetch('https://api.github.com/repos/loscuatripolo-netizen/guillempolo/contents/demos',{cache:'no-store'}).then(function(r){return r.json()});
+  slugs=j.filter(function(x){return x.type==='file'&&/\.html$/.test(x.name)&&x.name.indexOf('panel-')!==0}).map(function(x){return x.name.replace(/\.html$/,'')})}catch(e){}
+ if(!slugs.length&&c)slugs=c.filas.map(function(f){return f.s});
+ if(!slugs.length){L.textContent='No he podido leer la lista de bocetos.';return}
+ total=slugs.length;
+ try{
+  // 1) Totales de todos (rápido). Si un total no ha cambiado, se reutilizan sus días de la caché.
+  var filas=[],cambian=[];
+  for(var q=0;q<slugs.length;q++){var s=slugs[q],k=s.slice(0,57),y=s.slice(0,54)+'-y',bruto=await get(k,g),p=prev[s];
+   var yo=bruto>0?(p&&p.bruto===bruto?(RAW[y]||0):await get(y,g)):0,tot=Math.max(0,bruto-yo);
+   var f={s:s,bruto:bruto,tot:tot,dias:(p&&p.bruto===bruto&&p.dias)?p.dias:[0,0,0,0,0,0,0]};
+   if(tot>0&&!(p&&p.bruto===bruto&&p.dias))cambian.push(f);
+   filas.push(f)}
+  filas.forEach(function(f){f.ult=f.dias.findIndex(function(v){return v>0})});
+  pintar(filas,cambian.length?'Totales al día. Mirando qué día se abrieron '+cambian.length+'…':null);
+  // 2) Días solo de los que han cambiado
+  total=leidas+cambian.length*7;
+  for(var m=0;m<cambian.length;m++){var f=cambian[m],k=f.s.slice(0,57),y=f.s.slice(0,54)+'-y',dias=[],tieneYo=(RAW[y]||0)>0;
+   for(var o2=0;o2<7;o2++){var v=await get(k+'-'+dia(o2),g);dias.push(Math.max(0,v-(tieneYo&&v>0?await get(y+dia(o2),g):0)))}
+   f.dias=dias;f.ult=dias.findIndex(function(v){return v>0});
+   // si suma más que lo visto en 7 días, el resto es de antes: ult se queda en -1 solo si no hay ninguno
+  }
+  guardar(filas);soltar();
+  pintar(filas,(fallos?fallos+' lecturas no respondieron: se muestra el último valor conocido. ':'')+'Actualizado a las '+hora(Date.now())+'.');
+ }catch(e){if(e!=='cancelado'){soltar();throw e}}
+}
+function pintar(filas,nota){
  filas.sort(function(a,b){var ua=a.ult<0?99:a.ult,ub=b.ult<0?99:b.ult;return (a.tot>0?0:1)-(b.tot>0?0:1)||ua-ub||b.tot-a.tot||a.s.localeCompare(b.s)});
  var abiertos=filas.filter(function(f){return f.tot>0}),hoy=filas.filter(function(f){return f.ult===0});
  document.getElementById('res').innerHTML='<div><b>'+abiertos.length+'</b><span>abiertos de '+filas.length+'</span></div><div><b>'+hoy.length+'</b><span>abiertos hoy</span></div><div><b>'+filas.filter(function(f){return f.tot>=3}).length+'</b><span>3 veces o más</span></div>';
  function fila(f){var ch='';if(f.ult===0)ch+='<span class="chip hoy">Hoy</span>';else if(f.ult===1)ch+='<span class="chip ayer">Ayer</span>';if(f.tot>=3)ch+='<span class="chip mucho">Interesado</span>';
-  var det=f.tot>0?(f.ult>=0?'Última vez: '+txtDia(f.ult)+(f.dias[0]?' · hoy '+f.dias[0]+' vez'+(f.dias[0]>1?'es':''):''):'Abierto hace más de una semana'):'Todavía sin abrir';
+  var det=f.tot>0?(f.ult>=0?'Última vez: '+txtDia(f.ult)+(f.dias[0]?' · hoy '+f.dias[0]+(f.dias[0]>1?' veces':' vez'):''):'Abierto hace más de una semana'):'Todavía sin abrir';
   return '<div class="f"><a href="/demos/'+esc(f.s)+'" target="_blank" rel="noopener">'+esc(nombre(f.s))+'</a><div class="n">'+f.tot+'<small>'+(f.tot===1?'vez':'veces')+'</small></div><div class="d">'+ch+det+(f.ult===0?' <button class="mio" data-s="'+esc(f.s)+'">Fue mío, quitar 1</button>':'')+'</div></div>'}
- L.className='';L.onclick=async function(e){var b=e.target.closest('.mio');if(!b)return;b.disabled=true;b.textContent='Quitando…';var y=b.dataset.s.slice(0,54)+'-y';await fetch(HIT+y);await fetch(HIT+y+dia(0));cargar()};L.innerHTML='<h2>Abiertos</h2>'+(abiertos.map(fila).join('')||'<p class="d">Ninguno todavía.</p>')+'<div class="sin"><h2>Sin abrir</h2>'+filas.filter(function(f){return !f.tot}).map(fila).join('')+'</div>';
-
- if(nota)L.insertAdjacentHTML('afterbegin','<p class="d">'+nota+'</p>')}
-document.getElementById('re').onclick=cargar;pintarCache();cargar();})();
+ L.className='';
+ L.innerHTML=(nota?'<p class="d" id="prog">'+esc(nota)+'</p>':'')+'<h2>Abiertos</h2>'+(abiertos.map(fila).join('')||'<p class="d">Ninguno todavía.</p>')+'<div class="sin"><h2>Sin abrir</h2>'+filas.filter(function(f){return !f.tot}).map(fila).join('')+'</div>';
+}
+L.onclick=async function(e){var b=e.target.closest('.mio');if(!b)return;b.disabled=true;b.textContent='Quitando…';var y=b.dataset.s.slice(0,54)+'-y';await fetch(HIT+y);await fetch(HIT+y+dia(0));try{var c=JSON.parse(localStorage.getItem('gp_panel'));c.filas.forEach(function(f){if(f.s===b.dataset.s)f.bruto=-1});localStorage.setItem('gp_panel',JSON.stringify(c))}catch(e){}cargar()};
+window.addEventListener('storage',function(e){if(e.key==='gp_panel'&&!visible()){var c=cache();if(c)pintar(c.filas,'Datos de las '+hora(c.t)+'.')}});
+document.getElementById('re').onclick=cargar;
+var c0=cache();if(c0){var o0=desfase(c0);c0.filas.forEach(function(f){f.dias=mover(f.dias,o0===null?0:Math.min(o0,7));f.ult=f.dias.findIndex(function(v){return v>0})});pintar(c0.filas,'Datos de las '+hora(c0.t)+'. Actualizando…')}
+cargar();
+// Se refresca solo cada 2 minutos mientras está a la vista
+setInterval(function(){if(visible())cargar()},120000);
+})();
 </script></body></html>

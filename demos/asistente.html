@@ -1,0 +1,63 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Asistente</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:"Inter Tight",system-ui,sans-serif;background:#F3F1EC;color:#15171A;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.w{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;gap:5vw;padding:0 5vw;background:radial-gradient(circle at 25% 50%,var(--c2) 0,transparent 55%)}
+.tel{height:94vh;aspect-ratio:.72;background:#111;border-radius:5.5vh;padding:1.2vh;box-shadow:0 3vh 7vh rgba(0,0,0,.25);flex:none}
+.pan{height:100%;border-radius:4.5vh;overflow:hidden;display:flex;flex-direction:column;background:#EFE7DD}
+.top{background:#F7F7F7;padding:2.2vh 2.2vh 1.6vh;display:flex;align-items:center;gap:1.4vh;border-bottom:1px solid #e3e3e3}
+.av{width:5.6vh;height:5.6vh;border-radius:50%;background:var(--c);color:#fff;display:grid;place-items:center;font-weight:700;font-size:2.6vh;flex:none}
+.top b{display:block;font-size:2.3vh}.top small{font-size:1.7vh;color:#25A35A;font-weight:600}
+.chat{flex:1;padding:1.8vh 1.8vh;display:flex;flex-direction:column;gap:1.2vh;justify-content:flex-end}.hoy{align-self:center;background:#fff;border-radius:1vh;padding:.6vh 1.4vh;font-size:1.6vh;color:#5d6b67;margin-bottom:auto}
+.m{max-width:84%;padding:1.2vh 1.5vh 2.4vh;border-radius:1.6vh;font-size:2.35vh;line-height:1.3;position:relative;box-shadow:0 1px 1px rgba(0,0,0,.08)}
+.m i{position:absolute;right:1.2vh;bottom:.6vh;font-style:normal;font-size:1.35vh;color:#7d8a86}
+.p{align-self:flex-end;background:#D9FDD3}.a{align-self:flex-start;background:#fff}
+.a .n{display:block;font-size:1.6vh;font-weight:700;color:var(--c);margin-bottom:.3vh}
+.ok{background:#fff;border-left:.5vh solid #25A35A}
+.txt{max-width:46vw}
+.eti{display:inline-block;background:var(--c);color:#fff;font-weight:700;font-size:2vh;padding:.9vh 1.8vh;border-radius:99px;letter-spacing:.02em}
+h1{font-size:7.4vh;line-height:1.02;letter-spacing:-.03em;font-weight:800;margin:2.6vh 0 2.2vh}
+h1 em{font-style:normal;color:var(--c)}
+p.s{font-size:2.9vh;line-height:1.35;color:#3a3f45}
+ul{list-style:none;margin-top:3vh;display:grid;gap:1.3vh}
+li{font-size:2.5vh;font-weight:600;display:flex;gap:1.2vh;align-items:center}
+li:before{content:"✓";width:3.2vh;height:3.2vh;border-radius:50%;background:var(--c);color:#fff;display:grid;place-items:center;font-size:1.8vh;flex:none}
+.url{margin-top:3.4vh;font-size:2.2vh;color:#6a7078;font-weight:500}
+</style></head><body><div class="w" id="w"></div>
+<script>
+var C={
+'elias-ctm':{n:'Elias CTM',c:'#0C4DA2',u:'elias-ctm',chat:[
+['p','Hola, ¿tenéis hueco mañana? Me he hecho daño en la espalda','23:40'],
+['a','Hola, soy el asistente de Elias CTM. Mañana tengo libre a las 17:00 con Javi o a las 18:30 con Asier. ¿Te reservo alguna?','23:40'],
+['p','La de las 17:00','23:41'],
+['a ok','Hecho ✓ Miércoles 14 a las 17:00 con Javi, en Castor Andetxaga 7. Te aviso la víspera.','23:41']]},
+'clinica-mendiola':{n:'Clínica Mendiola',c:'#8A7567',u:'clinica-mendiola',chat:[
+['p','Buenas, ¿hacéis suelo pélvico? Querría pedir cita','23:40'],
+['a','Hola, soy el asistente de Clínica Mendiola. Sí, tenemos fisioterapia de suelo pélvico. Mañana hay hueco a las 10:00 o a las 18:00. ¿Cuál prefieres?','23:40'],
+['p','A las 18:00','23:41'],
+['a ok','Reservado ✓ Miércoles 14 a las 18:00 en Juan Ajuriaguerra 19, 1ºD. Te mando un recordatorio la víspera.','23:41']]},
+'fisionova':{n:'Fisionova',c:'#D9737F',u:'fisionova',chat:[
+['p','Hola, os he llamado antes y no lo cogíais. ¿Hay cita esta semana?','23:40'],
+['a','Hola, soy el asistente de Fisionova. Perdona, estábamos en consulta. Tengo el jueves a las 11:00 o el viernes a las 17:30. ¿Te va bien alguna?','23:40'],
+['p','El jueves','23:41'],
+['a ok','Hecho ✓ Jueves 15 a las 11:00 en Hurtado de Amezaga 10. Te aviso el día antes.','23:41']]},
+'clinica-abandoibarra':{n:'Clínica Abandoibarra',c:'#1E73BE',u:'clinica-abandoibarra',chat:[
+['p','Hola, ¿cuánto cuesta el tratamiento de ojeras?','23:40'],
+['a','Hola, soy el asistente de Clínica Abandoibarra. Depende de cada caso, por eso empezamos con una primera valoración con la Dra. Capelastegui. ¿Te viene bien el jueves a las 16:30?','23:40'],
+['p','Perfecto','23:41'],
+['a ok','Reservado ✓ Jueves 15 a las 16:30 en Henao 40, 1º izda. Te lo recuerdo la víspera.','23:41']]},
+'paula-eguizabal':{n:'Clínica Paula Eguizábal',c:'#2EA3F2',u:'paula-eguizabal',chat:[
+['p','Hola, ¿hay hueco para osteopatía esta semana?','23:40'],
+['a','Hola, soy el asistente de la clínica de Paula Eguizábal. Hay hueco el jueves a las 9:30 o el viernes a las 19:00. ¿Cuál te reservo?','23:40'],
+['p','El viernes','23:41'],
+['a ok','Hecho ✓ Viernes 16 a las 19:00 en Av. de la Paz 75. Te aviso la víspera.','23:41']]}
+};
+var k=(location.search.match(/c=([\w-]+)/)||[])[1]||'elias-ctm',d=C[k];
+document.documentElement.style.setProperty('--c',d.c);document.documentElement.style.setProperty('--c2',d.c+'22');
+var h='<div class="tel"><div class="pan"><div class="top"><div class="av">'+d.n.replace(/^Clínica /,'')[0]+'</div><div><b>'+d.n+'</b><small>Asistente · en línea</small></div></div><div class="chat"><span class="hoy">HOY</span>';
+d.chat.forEach(function(m){h+='<div class="m '+m[0]+'">'+(m[0][0]=='a'?'<span class="n">Asistente</span>':'')+m[1]+'<i>'+m[2]+'</i></div>'});
+h+='</div></div></div><div class="txt"><span class="eti">'+d.n+'</span><h1>Contesta y da citas <em>solo, 24 h</em></h1><p class="s">Aunque escriban a las 23:40 o estéis en consulta. La cita entra directa en vuestra agenda.</p><ul><li>Por WhatsApp, Google y vuestra web</li><li>Recordatorio la víspera</li><li>Sin que toquéis nada</li></ul><p class="url">guillempolo.es/demos/'+d.u+'</p></div>';
+document.getElementById('w').innerHTML=h;document.title=d.n+' · Asistente';
+</script></body></html>

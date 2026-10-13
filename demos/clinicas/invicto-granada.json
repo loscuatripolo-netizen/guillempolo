@@ -1,0 +1,106 @@
+{
+ "nombre": "Fisioterapia Invicto",
+ "corto": "Invicto",
+ "color": "#335947",
+ "telefono": "614 11 66 98",
+ "direccion": "Pl. Albert Einstein 2, local 7 · Granada",
+ "horario": {
+  "lu": [
+   8,
+   21
+  ],
+  "ma": [
+   8,
+   21
+  ],
+  "mi": [
+   8,
+   21
+  ],
+  "ju": [
+   8,
+   21
+  ],
+  "vi": [
+   8,
+   20
+  ]
+ },
+ "profesionales": {
+  "jm": "Juan Miguel",
+  "jl": "Juan Luis",
+  "ja": "Javier",
+  "ir": "Irene",
+  "ch": "Christian",
+  "in": "Inmaculada",
+  "al": "Alejandro"
+ },
+ "servicios": [
+  {
+   "nombre": "Primera valoración de fisioterapia",
+   "sub": "Conversación, exploración y objetivos",
+   "min": 60,
+   "pros": [
+    "jm",
+    "jl",
+    "ja"
+   ]
+  },
+  {
+   "nombre": "Sesión de fisioterapia",
+   "sub": "Seguimiento de tu tratamiento",
+   "pros": [
+    "jm",
+    "jl",
+    "ja"
+   ]
+  },
+  {
+   "nombre": "Fisioterapia con ecografía",
+   "sub": "Valoración ecoguiada",
+   "pros": [
+    "jm",
+    "jl",
+    "ja"
+   ]
+  },
+  {
+   "nombre": "Rehabilitación tras cirugía",
+   "sub": "Readaptación con ejercicio",
+   "pros": [
+    "jm",
+    "jl",
+    "ja"
+   ]
+  },
+  {
+   "nombre": "Suelo pélvico",
+   "sub": "Mujeres y hombres · embarazo y posparto",
+   "pros": [
+    "ir"
+   ]
+  },
+  {
+   "nombre": "Nutrición",
+   "sub": "Hábitos, composición corporal y deporte",
+   "pros": [
+    "ch"
+   ]
+  },
+  {
+   "nombre": "Educación en diabetes",
+   "sub": "Diabetes tipo 1 en adultos",
+   "pros": [
+    "in"
+   ]
+  },
+  {
+   "nombre": "Psicología",
+   "sub": "Atención individual a adultos",
+   "min": 50,
+   "pros": [
+    "al"
+   ]
+  }
+ ]
+}

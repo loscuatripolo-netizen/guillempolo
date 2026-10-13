@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#335947">
+<title>Asistente 24/7 · Pedir cita</title>
+<style>
+:root{--ac:#0D6B5F;--ac-txt:#fff;--bg:#F5F7F6;--card:#fff;--ink:#16211F;--muted:#5D6A67;--line:#DDE4E1;--soft:#E7F1EE;--err:#A23B22;--err-bg:#FBEAE4;
+  --f:'Segoe UI',system-ui,-apple-system,Roboto,'Helvetica Neue',Arial,sans-serif;--r:14px}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--f);-webkit-font-smoothing:antialiased;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+.app{max-width:560px;margin:0 auto;padding:20px 16px 48px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+header.cab{display:grid;gap:2px}
+header.cab small{color:var(--muted);font-size:.9rem}
+.marca247{display:inline-flex;align-items:center;gap:7px;width:max-content;font-size:.8rem;font-weight:700;letter-spacing:.01em;color:var(--ac);background:var(--soft);border-radius:999px;padding:4px 10px;margin-bottom:4px}
+.marca247 i{width:7px;height:7px;border-radius:50%;background:#1FA855;box-shadow:0 0 0 3px rgba(31,168,85,.2)}
+h1{font-size:1.45rem;line-height:1.2;margin:0;font-weight:700;letter-spacing:-.01em}
+h2{font-size:1.05rem;margin:0 0 10px;font-weight:700}
+.pasos{display:flex;gap:6px}
+.pasos i{flex:1;height:4px;border-radius:4px;background:var(--line)}
+.pasos i.on{background:var(--ac)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.opciones{display:grid;gap:8px}
+.op{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;text-align:left;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:14px;font:inherit;cursor:pointer;min-height:56px}
+.op b{font-weight:600}
+.op small{color:var(--muted);display:block;font-size:.88rem}
+.op .p{color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.op[aria-pressed="true"]{border-color:var(--ac);background:var(--soft)}
+.op:focus-visible,.dia:focus-visible,.hora:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.dias{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x mandatory;scrollbar-width:thin}
+.dia{flex:none;scroll-snap-align:start;width:64px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:8px 0;font:inherit;cursor:pointer;display:grid;justify-items:center;gap:0}
+.dia span{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.dia b{font-size:1.25rem;line-height:1.3}
+.dia em{font-style:normal;font-size:.72rem;color:var(--muted)}
+.dia:disabled{opacity:.38;cursor:default}
+.dia[aria-pressed="true"]{border-color:var(--ac);background:var(--ac);color:var(--ac-txt)}
+.dia[aria-pressed="true"] span,.dia[aria-pressed="true"] em{color:var(--ac-txt)}
+.franja{margin:14px 0 6px;font-size:.82rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.horas{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:8px}
+.hora{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;padding:11px 0;font:600 1rem var(--f);font-variant-numeric:tabular-nums;cursor:pointer}
+.hora[aria-pressed="true"]{border-color:var(--ac);background:var(--ac);color:var(--ac-txt)}
+label{display:grid;gap:5px;font-weight:600;font-size:.95rem}
+label small{font-weight:400;color:var(--muted)}
+input[type=text],input[type=tel],input[type=email]{font:inherit;font-weight:400;width:100%;border:1.5px solid var(--line);border-radius:10px;padding:12px;background:var(--card);color:var(--ink)}
+input:focus{border-color:var(--ac);outline:none}
+.check{display:flex;gap:10px;align-items:flex-start;font-weight:400;font-size:.92rem}
+.check input{width:20px;height:20px;margin-top:2px;accent-color:var(--ac);flex:none}
+form{display:grid;gap:14px}
+.resumen{background:var(--soft);border-radius:12px;padding:12px 14px;font-size:.95rem}
+.resumen b{display:block;font-size:1.05rem}
+.btn{width:100%;border:0;background:var(--ac);color:var(--ac-txt);font:700 1.05rem var(--f);border-radius:12px;padding:16px;cursor:pointer;min-height:54px}
+.btn:disabled{opacity:.6;cursor:progress}
+.link{background:none;border:0;color:var(--ac);font:600 .95rem var(--f);padding:6px 0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.error{background:var(--err-bg);color:var(--err);border-radius:10px;padding:10px 12px;font-size:.93rem;margin:0}
+.vacio{color:var(--muted);margin:6px 0 0}
+.legal{color:var(--muted);font-size:.8rem;margin:0}
+.ok{text-align:center;display:grid;gap:10px;justify-items:center}
+.ok .tick{width:64px;height:64px;border-radius:50%;background:var(--soft);display:grid;place-items:center}
+.ok .tick svg{width:34px;height:34px;color:var(--ac)}
+.ok-btns{display:grid;gap:10px;width:100%;margin-top:6px}
+.btn-wa,.btn-cal{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;min-height:52px;border-radius:12px;font:700 1rem var(--f);text-decoration:none;cursor:pointer}
+.btn-wa{background:#1FA855;color:#fff;border:0}
+.btn-cal{background:var(--card);color:var(--ink);border:1.5px solid var(--line)}
+.btn-wa svg,.btn-cal svg{width:20px;height:20px;flex:none}
+.btn-wa:focus-visible,.btn-cal:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.carga{height:56px;border-radius:12px;background:linear-gradient(90deg,var(--line),var(--bg),var(--line));background-size:200% 100%;animation:c 1.2s infinite}
+@keyframes c{to{background-position:-200% 0}}
+@media (prefers-reduced-motion:reduce){.carga{animation:none}}
+[hidden]{display:none!important}
+.demo{background:#335947;color:#fff;font-size:.82rem;line-height:1.4;padding:10px 16px;text-align:center}.demo b{font-weight:700}</style>
+</head>
+<body>
+<div class="demo"><b>Demo preparada para Invicto</b> · Así pediría cita un paciente desde Google o vuestra web, a cualquier hora. Las citas de esta demo no se guardan.</div>
+<main class="app" id="app">
+  <header class="cab"><span class="marca247"><i aria-hidden="true"></i>Abierto ahora · reserva al momento</span><h1 id="cab-nombre">Cargando…</h1><small id="cab-sub">Pide tu cita a cualquier hora</small></header>
+  <div class="pasos" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></div>
+
+  <section class="card" id="p-servicio"><h2>¿Qué necesitas?</h2><div class="opciones" id="servicios"><div class="carga"></div><div class="carga"></div></div></section>
+
+  <section class="card" id="p-profesional" hidden><h2>¿Con quién?</h2><div class="opciones" id="profesionales"></div></section>
+
+  <section class="card" id="p-hora" hidden>
+    <h2>Elige día y hora</h2>
+    <div class="dias" id="dias" role="group" aria-label="Días"></div>
+    <div id="horas"></div>
+  </section>
+
+  <section class="card" id="p-datos" hidden>
+    <h2>Tus datos</h2>
+    <form id="form" novalidate>
+      <div class="resumen" id="resumen"></div>
+      <label for="nombre">Nombre y apellido<input id="nombre" type="text" autocomplete="name" required maxlength="80"></label>
+      <label for="tel">Móvil <small>Te mandamos el recordatorio aquí</small><input id="tel" type="tel" autocomplete="tel" inputmode="tel" required placeholder="600 000 000"></label>
+      <label for="email">Email <small>(opcional)</small><input id="email" type="email" autocomplete="email" inputmode="email"></label>
+      <label class="check" for="wa"><input id="wa" type="checkbox" checked><span>Quiero recibir el recordatorio de la cita por WhatsApp</span></label>
+      <p class="error" id="err" role="alert" hidden></p>
+      <button class="btn" id="enviar" type="submit">Confirmar cita</button>
+      <p class="legal" id="legal"></p>
+    </form>
+  </section>
+
+  <section class="card ok" id="p-ok" hidden>
+    <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></div>
+    <h2 style="margin:0">¡Cita reservada!</h2>
+    <p id="ok-txt" style="margin:0"></p>
+    <p class="legal" id="ok-sub"></p>
+    <div class="ok-btns">
+      <a class="btn-wa" id="ok-wa" href="#" target="_blank" rel="noopener" hidden><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.6a2.8 2.8 0 0 0 1.9-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>Guardar mi cita en WhatsApp</a>
+      <button class="btn-cal" id="ok-cal" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16" rx="3"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4M12 13v5M9.5 15.5h5"/></svg>Añadir al calendario</button>
+    </div>
+    <p class="legal" id="ok-wa-nota" hidden>Se abre el chat de la clínica con tu cita y tu enlace ya escritos: pulsa enviar y lo tendrás siempre a mano. Por ahí también puedes escribirnos para cambiarla.</p>
+    
+  </section>
+  <p class="error" id="err-global" hidden></p>
+</main>
+<script>
+(function(){
+
+var CFG = {url:'demo'};
+var slug = 'invicto';
+var PRO = {jm:'Juan Miguel', jl:'Juan Luis', ja:'Javier', ir:'Irene', ch:'Christian', in:'Inmaculada', al:'Alejandro'};
+var FISIO = ['jm','jl','ja'];
+var DEMO = {nombre:'Fisioterapia Invicto', color:'#335947', telefono:'614 11 66 98', whatsapp:null,
+  direccion:'Pl. Albert Einstein 2, local 7 · Granada', dias_reserva:21, zona_horaria:'Europe/Madrid', acepta_reservas:true,
+  profesionales:Object.keys(PRO).map(function(k){ return {id:k, nombre:PRO[k]} }),
+  servicios:[
+    {id:'val', nombre:'Primera valoración de fisioterapia', sub:'Conversación, exploración y objetivos', duracion:60, profesionales:FISIO},
+    {id:'ses', nombre:'Sesión de fisioterapia', sub:'Seguimiento de tu tratamiento', duracion:45, profesionales:FISIO},
+    {id:'eco', nombre:'Fisioterapia con ecografía', sub:'Valoración ecoguiada', duracion:45, profesionales:FISIO},
+    {id:'reh', nombre:'Rehabilitación tras cirugía', sub:'Readaptación con ejercicio', duracion:45, profesionales:FISIO},
+    {id:'sp', nombre:'Suelo pélvico', sub:'Mujeres y hombres · embarazo y posparto', duracion:45, profesionales:['ir']},
+    {id:'nut', nombre:'Nutrición', sub:'Hábitos, composición corporal y deporte', duracion:45, profesionales:['ch']},
+    {id:'dia', nombre:'Educación en diabetes', sub:'Diabetes tipo 1 en adultos', duracion:45, profesionales:['in']},
+    {id:'psi', nombre:'Psicología', sub:'Atención individual a adultos', duracion:50, profesionales:['al']}
+  ]};
+function semilla(t){ var x = Math.sin(t) * 10000; return x - Math.floor(x) }
+function huecosDemo(a){
+  var s = DEMO.servicios.filter(function(x){ return x.id === a.p_servicio })[0];
+  var pros = a.p_profesional ? [a.p_profesional] : s.profesionales, out = [], ahora = Date.now() + 2*36e5;
+  for(var i=0;i<a.p_dias;i++){
+    var d = new Date(Date.parse(a.p_desde + 'T12:00:00Z') + i*864e5), dow = d.getUTCDay();
+    if(dow === 0 || dow === 6) continue;
+    var cierre = dow === 5 ? 20 : 21;
+    for(var h=8; h + s.duracion/60 <= cierre; h++){
+      if(h === 14 || h === 15) continue;
+      pros.forEach(function(p, j){
+        if(semilla(i*97 + h*13 + j*7 + p.length) < .55) return;
+        var off = new Date(Date.parse(a.p_desde + 'T00:00:00Z') + i*864e5).toISOString().slice(0,10);
+        var t = new Date(off + 'T' + String(h).padStart(2,'0') + ':00:00' + (off >= '2026-10-25' ? '+01:00' : '+02:00'));
+        if(t.getTime() > ahora) out.push({inicio:t.toISOString(), profesional_id:p});
+      });
+    }
+  }
+  return out.sort(function(x,y){ return x.inicio < y.inicio ? -1 : 1 });
+}
+function rpc(fn, a){
+  return new Promise(function(ok){ setTimeout(function(){
+    if(fn === 'clinica_publica') return ok(DEMO);
+    if(fn === 'huecos') return ok(huecosDemo(a));
+    var s = DEMO.servicios.filter(function(x){ return x.id === a.p_servicio })[0], ini = new Date(a.p_inicio);
+    var p = a.p_profesional || a._prof || FISIO[0];
+    ok({id:'demo', token:'demo', inicio:ini.toISOString(), fin:new Date(ini.getTime() + s.duracion*6e4).toISOString(), servicio:s.nombre, profesional:PRO[p]});
+  }, fn === 'reservar' ? 700 : 250) });
+}
+var origen = new URLSearchParams(location.search).get('o') === 'google' ? 'google' : 'web';
+var $ = function(id){ return document.getElementById(id) };
+var C = null, sel = {servicio:null, profesional:null, dia:null, hora:null, huecos:[]};
+var ERR = {
+  HUECO_OCUPADO:'Alguien acaba de coger esa hora. Elige otra, por favor.',
+  TELEFONO_NO_VALIDO:'Revisa el móvil: tiene que tener 9 cifras (o empezar por +).',
+  NOMBRE_NO_VALIDO:'Escribe tu nombre.',
+  DEMASIADAS_CITAS:'Ya tienes varias citas pedidas. Si necesitas otra, llámanos.',
+  RESERVAS_CERRADAS:'Ahora mismo no se pueden pedir citas online. Llámanos, por favor.',
+  CLINICA_NO_EXISTE:'Este enlace de citas no existe.',
+  SERVICIO_NO_EXISTE:'Ese servicio ya no se puede reservar online.'
+};
+function msg(e){ return ERR[e.message] || 'No se ha podido completar. Inténtalo de nuevo o llámanos' + (C && C.telefono ? ' al ' + C.telefono : '') + '.' }
+function tz(){ return (C && C.zona_horaria) || 'Europe/Madrid' }
+function fmt(d, o){ return new Intl.DateTimeFormat('es-ES', Object.assign({timeZone:tz()}, o)).format(d) }
+function claveDia(d){ return fmt(d, {year:'numeric', month:'2-digit', day:'2-digit'}) }
+function hora(d){ return fmt(d, {hour:'2-digit', minute:'2-digit', hour12:false}) }
+function paso(n){ document.querySelectorAll('.pasos i').forEach(function(x,i){ x.classList.toggle('on', i < n) }) }
+function ver(id){ var el = $(id); el.hidden = false; setTimeout(function(){ el.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'start'}) }, 30) }
+function op(texto, sub, precio, pulsar){
+  var b = document.createElement('button'); b.type = 'button'; b.className = 'op'; b.setAttribute('aria-pressed','false');
+  b.innerHTML = '<span><b></b><small></small></span><span class="p"></span>';
+  b.querySelector('b').textContent = texto; b.querySelector('small').textContent = sub || ''; b.querySelector('.p').textContent = precio || '';
+  b.onclick = function(){ b.parentNode.querySelectorAll('.op').forEach(function(x){ x.setAttribute('aria-pressed', x===b ? 'true':'false') }); pulsar() };
+  return b;
+}
+function color(hex){
+  if(!/^#[0-9a-f]{6}$/i.test(hex||'')) return;
+  var r=parseInt(hex.substr(1,2),16), g=parseInt(hex.substr(3,2),16), b=parseInt(hex.substr(5,2),16);
+  var L=function(c){c/=255;return c<=.03928?c/12.92:Math.pow((c+.055)/1.055,2.4)};
+  var lum=.2126*L(r)+.7152*L(g)+.0722*L(b);
+  document.documentElement.style.setProperty('--ac', hex);
+  document.documentElement.style.setProperty('--ac-txt', lum > .4 ? '#16211F' : '#fff');
+  document.documentElement.style.setProperty('--soft', 'rgba('+r+','+g+','+b+',.1)');
+}
+
+function iniciar(){
+  if(!slug || !CFG.url){ return fatal('Este enlace de citas no está completo.') }
+  rpc('clinica_publica', {p_slug:slug}).then(function(c){
+    if(!c) return fatal('Este enlace de citas no existe.');
+    C = c; color(c.color);
+    document.title = 'Asistente 24/7 de ' + c.nombre;
+    $('cab-nombre').textContent = 'Asistente 24/7 de ' + c.nombre; $('cab-sub').textContent = 'Pide tu cita a cualquier hora' + (c.direccion ? ' · ' + c.direccion : '');
+    $('legal').textContent = 'Tus datos solo se usan para gestionar la cita y recordártela. Los trata ' + c.nombre + '.';
+    if(c.acepta_reservas === false) return fatal(ERR.RESERVAS_CERRADAS);
+    var box = $('servicios'); box.innerHTML = '';
+    if(!c.servicios.length){ box.innerHTML = '<p class="vacio">Ahora mismo no hay servicios para reservar online. Llámanos y te damos cita.</p>'; return }
+    c.servicios.forEach(function(s){
+      box.appendChild(op(s.nombre, s.sub || '', '', function(){ elegirServicio(s) }));
+    });
+    if(c.servicios.length === 1) box.firstChild.click();
+  }).catch(function(e){ fatal(msg(e)) });
+}
+function fatal(t){ $('cab-nombre').textContent = 'Pedir cita'; $('p-servicio').hidden = true; var e = $('err-global'); e.textContent = t; e.hidden = false }
+
+function elegirServicio(s){
+  sel.servicio = s; sel.profesional = null; sel.hora = null;
+  ['p-profesional','p-hora','p-datos'].forEach(function(id){ $(id).hidden = true });
+  var pros = C.profesionales.filter(function(p){ return s.profesionales.indexOf(p.id) > -1 });
+  if(pros.length > 1){
+    var box = $('profesionales'); box.innerHTML = '';
+    box.appendChild(op('Me da igual', 'La primera hora libre', '', function(){ elegirProfesional(null) }));
+    pros.forEach(function(p){ box.appendChild(op(p.nombre, '', '', function(){ elegirProfesional(p) })) });
+    paso(2); ver('p-profesional');
+  } else { elegirProfesional(pros[0] || null) }
+}
+function elegirProfesional(p){
+  sel.profesional = p; sel.hora = null; $('p-datos').hidden = true;
+  $('dias').innerHTML = ''; $('horas').innerHTML = '<div class="carga"></div>';
+  paso(3); ver('p-hora');
+  var hoy = claveIso(new Date());
+  rpc('huecos', {p_slug:slug, p_servicio:sel.servicio.id, p_desde:hoy, p_dias:Math.min(C.dias_reserva || 30, 31), p_profesional: p ? p.id : null})
+    .then(function(h){ pintarDias(h) }).catch(function(e){ $('horas').innerHTML = ''; var x=document.createElement('p'); x.className='error'; x.textContent=msg(e); $('horas').appendChild(x) });
+}
+function claveIso(d){ var p = new Intl.DateTimeFormat('en-CA',{timeZone:tz(),year:'numeric',month:'2-digit',day:'2-digit'}).format(d); return p }
+function pintarDias(h){
+  // Un hueco por hora (si hay varios profesionales libres, el primero)
+  var vistos = {}, porDia = {};
+  h.forEach(function(x){ if(vistos[x.inicio]) return; vistos[x.inicio] = 1; var d = new Date(x.inicio), k = claveIso(d); (porDia[k] = porDia[k] || []).push({d:d, prof:x.profesional_id}) });
+  sel.huecos = porDia;
+  var box = $('dias'); box.innerHTML = ''; var primero = null, n = Math.min(C.dias_reserva || 30, 31);
+  var base = new Date(claveIso(new Date()) + 'T12:00:00Z');
+  for(var i=0;i<n;i++){
+    var d = new Date(base.getTime() + i*864e5), k = d.toISOString().slice(0,10), lista = porDia[k] || [];
+    var b = document.createElement('button'); b.type='button'; b.className='dia'; b.setAttribute('aria-pressed','false'); b.dataset.k = k;
+    b.innerHTML = '<span></span><b></b><em></em>';
+    b.querySelector('span').textContent = i===0 ? 'Hoy' : i===1 ? 'Mañana' : new Intl.DateTimeFormat('es-ES',{weekday:'short',timeZone:'UTC'}).format(d).replace('.','');
+    b.querySelector('b').textContent = d.getUTCDate();
+    b.querySelector('em').textContent = lista.length ? new Intl.DateTimeFormat('es-ES',{month:'short',timeZone:'UTC'}).format(d).replace('.','') : 'completo';
+    b.setAttribute('aria-label', new Intl.DateTimeFormat('es-ES',{weekday:'long',day:'numeric',month:'long',timeZone:'UTC'}).format(d) + (lista.length ? '' : ', sin horas libres'));
+    if(!lista.length) b.disabled = true; else if(!primero) primero = b;
+    b.onclick = (function(b,k){ return function(){ box.querySelectorAll('.dia').forEach(function(x){ x.setAttribute('aria-pressed', x===b?'true':'false') }); pintarHoras(k) } })(b,k);
+    box.appendChild(b);
+  }
+  if(primero){ primero.click(); }
+  else { $('horas').innerHTML = '<p class="vacio">No quedan horas libres online en estos días. Llámanos' + (C.telefono ? ' al ' + C.telefono : '') + ' y te buscamos hueco.</p>' }
+}
+function pintarHoras(k){
+  sel.dia = k; sel.hora = null; $('p-datos').hidden = true;
+  var box = $('horas'); box.innerHTML = '';
+  var grupos = [['Mañana',0,14],['Tarde',14,24]];
+  grupos.forEach(function(g){
+    var l = sel.huecos[k].filter(function(x){ var hh = +hora(x.d).slice(0,2); return hh >= g[1] && hh < g[2] });
+    if(!l.length) return;
+    var t = document.createElement('p'); t.className='franja'; t.textContent = g[0]; box.appendChild(t);
+    var grid = document.createElement('div'); grid.className='horas'; box.appendChild(grid);
+    l.forEach(function(x){
+      var b = document.createElement('button'); b.type='button'; b.className='hora'; b.textContent = hora(x.d); b.setAttribute('aria-pressed','false');
+      b.onclick = function(){ box.querySelectorAll('.hora').forEach(function(y){ y.setAttribute('aria-pressed', y===b?'true':'false') }); elegirHora(x) };
+      grid.appendChild(b);
+    });
+  });
+}
+function elegirHora(x){
+  sel.hora = x;
+  var prof = sel.profesional ? sel.profesional.nombre : (C.profesionales.find(function(p){ return p.id === x.prof }) || {}).nombre;
+  $('resumen').innerHTML = '<b></b><span></span>';
+  $('resumen').querySelector('b').textContent = sel.servicio.nombre;
+  $('resumen').querySelector('span').textContent = fmt(x.d,{weekday:'long',day:'numeric',month:'long'}) + ' a las ' + hora(x.d) + (prof ? ' · con ' + prof : '');
+  $('err').hidden = true; paso(4); ver('p-datos');
+  try{ var g = JSON.parse(localStorage.getItem('citas-datos')||'{}'); if(g.n && !$('nombre').value) $('nombre').value = g.n; if(g.t && !$('tel').value) $('tel').value = g.t; if(g.e && !$('email').value) $('email').value = g.e }catch(e){}
+}
+$('form').addEventListener('submit', function(ev){
+  ev.preventDefault();
+  var n = $('nombre').value.trim(), t = $('tel').value.trim(), e = $('email').value.trim(), err = $('err');
+  err.hidden = true;
+  if(n.length < 2){ err.textContent = ERR.NOMBRE_NO_VALIDO; err.hidden = false; $('nombre').focus(); return }
+  if(t.replace(/\D/g,'').length < 9){ err.textContent = ERR.TELEFONO_NO_VALIDO; err.hidden = false; $('tel').focus(); return }
+  var btn = $('enviar'); btn.disabled = true; btn.textContent = 'Reservando…';
+  rpc('reservar', {p_slug:slug, p_servicio:sel.servicio.id, p_inicio:sel.hora.d.toISOString(), p_nombre:n, p_telefono:t, p_email:e || null,
+                   p_acepta_whatsapp:$('wa').checked, p_profesional: sel.profesional ? sel.profesional.id : null, p_origen: origen, _prof: sel.hora.prof})
+  .then(function(r){
+    try{ localStorage.setItem('citas-datos', JSON.stringify({n:n,t:t,e:e})) }catch(x){}
+    var d = new Date(r.inicio);
+    $('ok-txt').textContent = r.servicio + ', el ' + fmt(d,{weekday:'long',day:'numeric',month:'long'}) + ' a las ' + hora(d) + (r.profesional ? ' con ' + r.profesional : '') + '.';
+    $('ok-sub').textContent = ($('wa').checked ? 'Te mandaremos un recordatorio por WhatsApp el día antes. ' : '') + (C.direccion ? 'Te esperamos en ' + C.direccion + '.' : '');
+    
+    var enlace = '';
+    var cuando = fmt(d,{weekday:'long',day:'numeric',month:'long'}) + ' a las ' + hora(d);
+    var waNum = String(C.whatsapp || '').replace(/\D/g,'');
+    if(waNum.length >= 9){
+      var txt = 'Hola, acabo de reservar cita:\n' + r.servicio + ', el ' + cuando + (r.profesional ? ' con ' + r.profesional : '') + '.\nA nombre de ' + n + '.\n\nMi enlace para confirmar o anular: ' + enlace;
+      $('ok-wa').href = 'https://wa.me/' + waNum + '?text=' + encodeURIComponent(txt); $('ok-wa').hidden = false; $('ok-wa-nota').hidden = false;
+    }
+    $('ok-cal').onclick = function(){
+      var f = function(x){ return x.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'') };
+      var e = function(s){ return String(s || '').replace(/[\\;,]/g, function(c){ return '\\' + c }).replace(/\n/g,'\\n') };
+      var ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Citas//ES','METHOD:PUBLISH','BEGIN:VEVENT','UID:' + r.id + '@citas',
+        'DTSTAMP:' + f(new Date()), 'DTSTART:' + f(d), 'DTEND:' + f(new Date(r.fin)),
+        'SUMMARY:' + e(r.servicio + ' · ' + C.nombre), 'LOCATION:' + e(C.direccion || ''),
+        'DESCRIPTION:' + e(C.telefono ? 'Para cambiarla: ' + C.telefono : ''),
+        'BEGIN:VALARM','TRIGGER:-PT2H','ACTION:DISPLAY','DESCRIPTION:' + e(r.servicio),'END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
+      var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([ics], {type:'text/calendar;charset=utf-8'})); a.download = 'cita.ics';
+      document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove() }, 1500);
+    };
+    ['p-servicio','p-profesional','p-hora','p-datos'].forEach(function(id){ $(id).hidden = true });
+    document.querySelector('.pasos').hidden = true; $('p-ok').hidden = false; scrollTo(0,0);
+  })
+  .catch(function(x){
+    err.textContent = msg(x); err.hidden = false; btn.disabled = false; btn.textContent = 'Confirmar cita';
+    if(x.message === 'HUECO_OCUPADO'){ elegirProfesional(sel.profesional); var a = document.createElement('p'); a.className='error'; a.style.marginBottom='12px'; a.textContent = ERR.HUECO_OCUPADO; $('p-hora').insertBefore(a, $('dias')); setTimeout(function(){ a.remove() }, 8000) }
+  });
+});
+iniciar();
+})();
+</script>
+</body>
+</html>

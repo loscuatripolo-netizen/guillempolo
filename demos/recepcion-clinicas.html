@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex">
-<title>Recepción automática para clínicas</title>
+<title>Quenda · Recepción para clínicas</title>
 <meta name="description" content="Reservas, recordatorios, lista de espera, asistente 24 h y reseñas de Google para clínicas. Demo con datos de ejemplo.">
 <style>
 @font-face{font-family:"Archivo";src:url("/fuentes/archivo.woff2") format("woff2");font-weight:100 900;font-display:swap}
@@ -462,12 +462,172 @@ body.solo .seg,body.solo #plan-top{display:none}
 .bv-acts{display:flex;gap:8px;flex-wrap:wrap}
 .bv-acts .btn{flex:1;justify-content:center;padding:12px 14px}
 .bv-pie{font-size:12px;color:var(--muted);margin:14px 0 0;text-align:center}
+
+/* ===== QUENDA · capa de marca ===== */
+@font-face{font-family:"Bricolage Grotesque";src:url("/fuentes/bricolage-grotesque.woff2") format("woff2");font-weight:200 800;font-display:swap}
+@font-face{font-family:"Instrument Serif";src:url("/fuentes/instrument-serif.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Instrument Serif";src:url("/fuentes/instrument-serif-italic.woff2") format("woff2");font-weight:400;font-style:italic;font-display:swap}
+:root{
+  --noche:#2B1A33; --noche-2:#3A2644; --vela:#4FC3B5; --vela-ink:#1C7A70; --vela-soft:#DDF3F0;
+  --lino:#F3F1F5; --papel:#FFFFFF; --niebla:#E3DEE8;
+  --bg:var(--lino); --panel:var(--papel); --ink:var(--noche); --muted:#6C6474; --line:var(--niebla); --soft:#EEEAF2;
+  --ok:#2E7D57; --ok-soft:#E1EFE5; --warn:#A0620A; --warn-soft:#FDF0DC; --bad:#C24A26; --bad-soft:#F8E3DA; --star:#F2A516;
+  --f-d:"Bricolage Grotesque","Archivo",system-ui,sans-serif; --f-s:"Instrument Serif",Georgia,serif;
+  --r:8px; --r-s:6px; --sh:0 1px 0 rgba(23,26,43,.06),0 18px 40px -22px rgba(23,26,43,.35);
+}
+body{background:var(--lino)}
+::selection{background:var(--vela);color:var(--noche)}
+
+/* barra de marca */
+.top{background:var(--noche);color:#F3F1F5;border-bottom:0;backdrop-filter:none}
+.top .in{max-width:none;padding:12px 24px;gap:16px}
+.vx{display:flex;align-items:center;gap:8px;color:#F3F1F5;text-decoration:none;flex:none}
+.vx svg{width:24px;height:24px}
+.vx b{font:700 19px/1 var(--f-d);letter-spacing:-.035em}
+.vx-sep{width:1px;height:26px;background:rgba(243,241,245,.18);flex:none}
+.marca b{color:#fff;font:600 15.5px var(--f-d)}
+.marca small{color:rgba(243,241,245,.6)}
+.logo{width:34px;height:34px;border-radius:8px;font:700 15px var(--f-d)}
+.plan{background:transparent;color:var(--vela);border:1px solid rgba(79,195,181,.45);border-radius:4px;text-transform:uppercase;font-size:10.5px;letter-spacing:.08em}
+.demo{background:transparent;color:rgba(243,241,245,.55);padding:0;font-weight:500}
+.seg{background:rgba(243,241,245,.07);border:1px solid rgba(243,241,245,.12);border-radius:8px}
+.seg button{color:rgba(243,241,245,.7);border-radius:6px}
+.seg button[aria-pressed="true"]{background:var(--vela);color:var(--noche);box-shadow:none}
+.tour{max-width:none;padding:0 24px 12px}
+.tour .lab{color:rgba(243,241,245,.5);font:600 11px var(--f-d);letter-spacing:.12em;text-transform:uppercase}
+.tour button{background:transparent;color:#F3F1F5;border:1px dashed rgba(243,241,245,.28);border-radius:6px;font-weight:500}
+.tour button i{background:var(--vela);border-radius:1px;transform:rotate(45deg);width:6px;height:6px}
+.tour button:hover{background:rgba(79,195,181,.12);border-color:var(--vela);border-style:solid}
+
+/* panel: la marca manda (los colores de la clínica quedan para lo que ve el paciente) */
+.clin{--acc:var(--noche);--acc-ink:var(--noche);--acc-soft:var(--vela-soft);--acc-line:#A9E0D9;max-width:none;min-height:calc(100vh - 104px)}
+.side{background:var(--noche);color:#F3F1F5;align-self:stretch;position:relative;top:0;padding:22px 12px;gap:2px}
+.side button{color:rgba(243,241,245,.62);border-radius:6px;font-weight:500;position:relative}
+.side button:hover{color:#fff;background:rgba(243,241,245,.05)}
+.side button[aria-current="page"]{background:rgba(79,195,181,.1);color:#fff;box-shadow:none}
+.side button[aria-current="page"]:before{content:"";position:absolute;left:-12px;top:8px;bottom:8px;width:3px;border-radius:0 3px 3px 0;background:var(--vela)}
+.side button[aria-current="page"] svg{color:var(--vela)}
+.side .badge{background:var(--vela);color:var(--noche);border-radius:4px}
+.side .pie{border:1px solid rgba(243,241,245,.12);border-radius:8px;color:rgba(243,241,245,.6);background:rgba(243,241,245,.03)}
+.side .pie b{color:#F3F1F5;display:flex;align-items:center;gap:7px}
+.side .pie b:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--vela);box-shadow:0 0 0 0 rgba(79,195,181,.6);animation:latido 2.4s infinite}
+.side .pie a{color:var(--vela)}
+@keyframes latido{0%{box-shadow:0 0 0 0 rgba(79,195,181,.55)}70%{box-shadow:0 0 0 8px rgba(79,195,181,0)}100%{box-shadow:0 0 0 0 rgba(79,195,181,0)}}
+main{padding-top:30px;max-width:1200px}
+
+.eyebrow{color:var(--vela-ink);font:700 11.5px var(--f-d);letter-spacing:.14em}
+.h h1,.esc-h h1{font:400 clamp(34px,4.2vw,50px)/1 var(--f-s);letter-spacing:-.01em;margin-top:6px}
+.h p,.esc-h p{color:var(--muted)}
+.h p b{font-weight:600;color:var(--ink)}
+
+/* cifras como en un periódico, no tarjetas */
+.kpis{gap:0;border-top:2px solid var(--noche);border-bottom:1px solid var(--niebla);margin-bottom:26px}
+.kpi{background:none;border:0;border-radius:0;border-right:1px solid var(--niebla);padding:16px 22px 18px}
+.kpi:first-child{padding-left:2px}
+.kpi:last-child{border-right:0}
+.kpi b{font:400 50px/1 var(--f-s);letter-spacing:-.01em}
+.kpi b small{font:500 15px var(--f-b);color:var(--muted)}
+.kpi span{font-size:13px;margin-top:4px}
+.kpi em{font-size:12px;font-weight:600;margin-top:2px}
+
+.card{background:var(--papel);border:1px solid var(--niebla);border-radius:var(--r);box-shadow:none;padding:20px}
+.card>h2{font:600 16px var(--f-d);letter-spacing:-.01em;padding-bottom:12px;border-bottom:1px solid var(--niebla);margin-bottom:6px}
+.card>h2 small{font-family:var(--f-b)}
+.grid2,.col{gap:18px}
+
+.btn{border-radius:6px;border-color:var(--niebla);background:var(--papel);font-weight:600}
+.btn:hover{border-color:var(--noche)}
+.btn.p{background:var(--noche);border-color:var(--noche);color:#F3F1F5}
+.btn.p:hover{background:#000}
+.btn.s{border-radius:5px}
+
+.pill{border-radius:4px;font:700 10.5px var(--f-d);letter-spacing:.07em;text-transform:uppercase;padding:4px 8px}
+.pill.ac{background:var(--vela-soft);color:var(--vela-ink)}
+.row{border-bottom-color:var(--niebla);padding:12px 0}
+.row .t{font:400 23px/1 var(--f-s);width:58px;letter-spacing:-.01em}
+.av{border-radius:8px}
+.feed{gap:0;position:relative}
+.feed:before{content:"";position:absolute;left:62px;top:8px;bottom:8px;width:1px;background:var(--niebla)}
+.ev{grid-template-columns:44px 22px 1fr;gap:9px;padding:7px 0;position:relative}
+.ev .ic{border-radius:50%;width:22px;height:22px;font-size:11px;box-shadow:0 0 0 3px var(--papel);position:relative}
+.ev i{font:400 15px var(--f-s)}
+.st span,.st i.v{color:#DAD4E0}
+.aviso{border-radius:var(--r);border-color:#F0D7A8}
+.ag-w{border-radius:var(--r);background:var(--papel)}
+.ag .hd{background:var(--soft);font-family:var(--f-d)}
+.slot{border-radius:5px}
+.dias button,.chips button{border-radius:6px}
+.dias button[aria-pressed="true"],.chips button[aria-pressed="true"]{background:var(--noche);border-color:var(--noche)}
+.fld input,.fld select,.fld textarea,.rs textarea{border-radius:6px;background:#fff}
+.rs{border-radius:var(--r);background:#fff;border-color:var(--niebla)}
+.rs .resp{border-radius:6px;border-left:3px solid var(--vela)}
+.opt{border-radius:6px}
+th{font-family:var(--f-d);letter-spacing:.1em}
+.bar,.bar i{border-radius:2px}
+
+/* bienvenida */
+.bienv{background:rgba(23,26,43,.55)}
+.bv-in{border-radius:12px;background:var(--papel);border-top:5px solid var(--vela);position:relative}
+.bv-in h2{font:400 clamp(30px,4vw,38px)/1.02 var(--f-s);letter-spacing:-.01em}
+.bv-in h2 em{font-style:italic;color:var(--vela-ink)}
+.bv-in li:before{border-radius:6px;background:var(--noche);color:var(--vela);font:400 17px var(--f-s)}
+.bv-marca{display:flex;align-items:center;gap:7px;margin-bottom:14px}
+.bv-marca svg{width:22px;height:22px}
+.bv-marca b{font:700 17px var(--f-d);letter-spacing:-.035em}
+.bv-acts .btn{border-radius:6px}
+
+/* lo que ve el paciente */
+.esc{max-width:1280px}
+.mov{background:var(--noche);box-shadow:0 30px 60px -30px rgba(23,26,43,.55)}
+.cap span{background:var(--vela);color:var(--noche);border-radius:6px}
+.movtabs button{border-radius:6px}
+.movtabs button[aria-pressed="true"]{background:var(--noche);border-color:var(--noche)}
+
+/* reservar: con los colores de la clínica, pero con carácter */
+.hoja .in{border-radius:18px 18px 0 0}
+.hoja .in:after{content:"reservas con quenda";display:block;text-align:center;font:600 10.5px var(--f-d);letter-spacing:.06em;color:#9C94A4;padding:8px 0 10px;border-top:1px solid var(--niebla)}
+.hoja .hd b{font:400 21px var(--f-s)}
+.step{font:700 10.5px var(--f-d);letter-spacing:.12em;color:var(--muted)}
+.svc{border:0;border-bottom:1px solid var(--niebla);border-radius:0;padding:12px 2px;background:none}
+.svc:hover{background:linear-gradient(90deg,var(--acc-soft),transparent)}
+.svc[aria-pressed="true"]{background:linear-gradient(90deg,var(--acc-soft),transparent);border-color:var(--acc)}
+.svc>b{font:400 19px var(--f-s)}
+.qk button{border-radius:6px}
+.day{border-radius:6px;width:54px;padding:6px 2px 7px;background:#fff}
+.day b{font:400 26px/1.05 var(--f-s)}
+.day[aria-pressed="true"]{background:var(--noche);border-color:var(--noche)}
+.hora{border-radius:6px;font:400 18px var(--f-s);padding:7px 2px}
+.hora:hover{border-color:var(--acc)}
+.resumen{border-radius:6px;border-left:3px solid var(--acc)}
+.okb b{font:400 26px/1.1 var(--f-s)!important}
+.prog i{border-radius:1px;height:2px}
+.fab .cita{border-radius:10px}
+.bub{border-radius:12px 12px 12px 3px}
+.bub.yo{border-radius:12px 12px 3px 12px}
+#toast{border-radius:8px}
+@media (max-width:860px){
+  .side{position:fixed;top:auto;align-self:auto;background:var(--noche);border-top:0;padding:6px 4px;min-height:0}
+  .side button[aria-current="page"]{background:rgba(79,195,181,.12)}
+  .side button[aria-current="page"]:before{display:none}
+  .vx b{display:none}
+  .vx-sep{display:none}
+  .kpis{grid-template-columns:1fr 1fr}
+  .kpi{border-bottom:1px solid var(--niebla)}
+  .kpi:nth-child(2n){border-right:0}
+  .kpi:first-child{padding-left:16px}
+  .clin{min-height:0}
+}
+.side .ind{background:rgba(79,195,181,.1)!important;box-shadow:none!important;border-radius:6px!important}
+.side button[aria-current="page"]{background:transparent}
+.seg-ind{background:var(--vela)!important;border-radius:6px!important;box-shadow:none!important}
+.bv-in .btn.p:focus-visible,.top :focus-visible{outline-color:var(--vela)}
+@media (max-width:860px){.side .ind{background:rgba(79,195,181,.14)!important}}
 </style>
 </head>
 <body>
 <header class="top">
   <div class="in">
-    <div class="marca"><div class="logo" id="logo">F</div><div><b id="nom-top">Clínica</b><small id="sub-top">Recepción automática</small></div></div>
+    <span class="vx"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="15" cy="15" r="11" fill="none" stroke="#4FC3B5" stroke-width="4.2"/><path d="M15 8.8V15l3.6 2.2" fill="none" stroke="#4FC3B5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 20 26.8 26.8" stroke="#4FC3B5" stroke-width="4.2" stroke-linecap="round"/></svg><b>quenda</b></span><span class="vx-sep"></span><div class="marca"><div class="logo" id="logo">F</div><div><b id="nom-top">Clínica</b><small id="sub-top">Recepción automática</small></div></div>
     <span class="plan" id="plan-top">Plan completo</span>
     <span class="demo">Demo · pacientes de ejemplo</span>
     <div class="seg" role="group" aria-label="Vista">
@@ -820,9 +980,9 @@ function render(){
   var ent=sellar();
   $('#nom-top').textContent=CFG.nombre;
   $('#logo').textContent=(CFG.nombre.replace(/^(cl[ií]nica|fisioterapia|centro|fisio|est[eé]tica|podolog[ií]a|podol[oó]gica)\s+(de\s+)?((est[eé]tica|podolog[ií]a)\s+)?/i,'')[0]||'F').toUpperCase();
-  $('#sub-top').textContent='Recepción automática'+(CFG.ciudad!=='tu ciudad'?' · '+CFG.ciudad:'');
+  $('#sub-top').textContent=(CFG.ciudad!=='tu ciudad'?CFG.ciudad+' · ':'')+'vuestra recepción';
   $('#plan-top').textContent=LIG?'Plan ligero':'Plan completo';
-  document.title=CFG.nombre+' · Recepción automática';
+  document.title=CFG.nombre+' · Quenda';
   $('#v-clin').setAttribute('aria-pressed',S.modo==='clin');$('#v-pac').setAttribute('aria-pressed',S.modo==='pac');
   $('#tour').innerHTML='<span class="lab">Pruébalo</span>'+TOURS.map(function(t){return '<button data-tour="'+t[0]+'"><i></i>'+t[1]+'</button>'}).join('');
   $('#app').innerHTML=S.modo==='clin'?vClin():vPac();
@@ -836,7 +996,7 @@ function vClin(){
   var tabs=LIG?[['hoy','Hoy',I.hoy],['resenas','Reseñas',I.res,okN],['asistente','Asistente',I.asis],['informe','Informe',I.inf],['ajustes','Ajustes',I.aj]]
     :[['hoy','Hoy',I.hoy],['resenas','Reseñas',I.res,okN],['agenda','Agenda',I.agenda],['recordatorios','Avisos',I.rec,porEnv],['pacientes','Pacientes',I.pac],['informe','Informe',I.inf],['ajustes','Ajustes',I.aj]];
   var pie=LIG?'<div class="pie"><b>Plan ligero</b><br>Vuestras citas siguen en '+esc(CFG.sistema)+'. Nosotros llevamos Google, reseñas y asistente.<br><a href="'+esc(urlPlan('completo'))+'">Ver el plan completo</a></div>'
-    :'<div class="pie"><b>Recepción activa</b><br>WhatsApp conectado · '+CFG.pros.length+' '+SEC.profs+'<br><a href="'+esc(urlPlan('ligero'))+'">Ver el plan ligero</a></div>';
+    :'<div class="pie"><b>Quenda activa</b><br>WhatsApp conectado · '+CFG.pros.length+' '+SEC.profs+'<br><a href="'+esc(urlPlan('ligero'))+'">Ver el plan ligero</a></div>';
   var nav='<nav class="side" aria-label="Secciones">'+tabs.map(function(t){return '<button data-tab="'+t[0]+'"'+(S.tab===t[0]?' aria-current="page"':'')+'>'+t[2]+'<span>'+t[1]+'</span>'+(t[3]?'<span class="badge num">'+t[3]+'</span>':'')+'</button>'}).join('')+pie+'</nav>';
   var V={hoy:LIG?vHoyL:vHoy,agenda:vAgenda,recordatorios:vRec,pacientes:vPacientes,resenas:vResenas,informe:LIG?vInformeL:vInforme,ajustes:vAjustes,asistente:vAsistente};
   if(!V[S.tab]||(LIG&&!tabs.some(function(t){return t[0]===S.tab})))S.tab='hoy';
@@ -869,7 +1029,7 @@ function vHoy(){
     kpi(CFG.nota+' <span style="color:var(--star)">★</span>','en Google · '+CFG.nresenas+' reseñas',sinRes()?sinRes()+' respuestas por publicar':'todas contestadas',sinRes()?'w':'')+
   '</div>'+
   '<div class="grid2"><section class="card"><h2>Próximas citas <small>· '+vivas.length+' hoy</small></h2><div class="list">'+(filas||'<div class="empty">No quedan citas hoy</div>')+'</div>'+(proximas.length>8?'<button class="btn s" style="margin-top:10px" data-tab="agenda">Ver las '+vivas.length+' en la agenda</button>':'')+'</section>'+
-  '<div class="col"><section class="card"><h2>Lo que ha hecho solo</h2><div class="feed">'+feed+'</div></section>'+
+  '<div class="col"><section class="card"><h2>Lo que ha hecho Quenda</h2><div class="feed">'+feed+'</div></section>'+
   '<section class="card"><h2>Reseñas <small>· últimas</small></h2><div class="list">'+res+'</div><button class="btn s" style="margin-top:10px" data-tab="resenas">Ver todas</button></section></div></div>';
 }
 /* ---------- Hoy (ligero) ---------- */
@@ -885,7 +1045,7 @@ function vHoyL(){
     kpi(S.clicsRes,'clics en «Reservar»','van directos a '+esc(CFG.sistema))+
   '</div>'+
   '<div class="grid2"><div class="col"><section class="card"><h2>Reseñas <small>· últimas</small></h2><div class="list">'+res+'</div><button class="btn s" style="margin-top:10px" data-tab="resenas">Ver y contestar</button></section>'+
-  '<section class="card"><h2>Lo que ha hecho solo</h2><div class="feed">'+(S.log.slice(0,6).map(evHtml).join('')||'<div class="empty">Sin novedades</div>')+'</div></section></div>'+
+  '<section class="card"><h2>Lo que ha hecho Quenda</h2><div class="feed">'+(S.log.slice(0,6).map(evHtml).join('')||'<div class="empty">Sin novedades</div>')+'</div></section></div>'+
   '<section class="card" style="align-self:start"><h2>Preguntas al asistente</h2><div class="list">'+preg+'</div><button class="btn s" style="margin-top:10px" data-tab="asistente">Ver todas</button></section></div>';
 }
 function pregRow(q){var t={cita:['ac','Reserva'],wa:['wa','A tu WhatsApp'],ok:['ok','Contestada']}[q.tipo]||['n',''];
@@ -1535,7 +1695,7 @@ function tour(k){
 }
 function alPrincipio(){var m=S.modo==='pac'&&innerWidth<=1080&&$('.movtabs');if(m)window.scrollTo(0,m.getBoundingClientRect().top+scrollY-12);else window.scrollTo(0,0)}
 
-log('Recepción automática activada','info');
+log('Quenda activada','info');
 if(!LIG){enviarRecs()}
 else{log('Ficha de Google revisada: horario y botón «Reservar» al día','ok');log('Pregunta de anoche (23:12) pasada a tu WhatsApp','acc')}
 render();
@@ -1550,12 +1710,12 @@ render();
     ['Más reseñas en Google, y todas contestadas',nr?'Ya hemos escrito la respuesta a vuestras '+nr+' últimas reseñas: miradlas en el panel.':'Con vuestro tono; las malas no salen sin vuestro OK.'],
     ['Sin cambiar cómo trabajáis','Vuestra agenda sigue en '+CFG.sistema+'. Lo instalamos nosotros en unos días.']
   ]:[
-    ['Da citas solo, también de noche','Desde Google, desde vuestra web y por WhatsApp. Directo a vuestra agenda.'],
+    ['Da citas solo, a cualquier hora','Desde Google, desde vuestra web y por WhatsApp. Directo a vuestra agenda.'],
     ['Menos pacientes que no vienen','Recordatorio por WhatsApp la víspera; si alguien anula, el hueco se ofrece a la lista de espera.'],
     ['Reseñas de Google contestadas',nr?'Ya hemos escrito la respuesta a vuestras '+nr+' últimas reseñas: miradlas en el panel.':'Con vuestro tono; las malas no salen sin vuestro OK.']
   ];
   var d=document.createElement('div');d.className='bienv';d.setAttribute('role','dialog');d.setAttribute('aria-modal','true');d.setAttribute('aria-labelledby','bv-t');
-  d.innerHTML='<div class="bv-in"><span class="eyebrow">Preparado para '+esc(CFG.nombre)+'</span><h2 id="bv-t">Así sería vuestra recepción automática</h2>'+
+  d.innerHTML='<div class="bv-in"><div class="bv-marca"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="15" cy="15" r="11" fill="none" stroke="#4FC3B5" stroke-width="4.2"/><path d="M15 8.8V15l3.6 2.2" fill="none" stroke="#4FC3B5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 20 26.8 26.8" stroke="#4FC3B5" stroke-width="4.2" stroke-linecap="round"/></svg><b>quenda</b></div><span class="eyebrow">Preparado para '+esc(CFG.nombre)+'</span><h2 id="bv-t">Así sería vuestra recepción <em>con Quenda</em></h2>'+
     '<ol>'+L.map(function(x){return '<li><b>'+esc(x[0])+'</b><span>'+esc(x[1])+'</span></li>'}).join('')+'</ol>'+
     '<div class="bv-acts"><button class="btn p" data-bv="pac">Probarlo como paciente</button><button class="btn" data-bv="clin">Ver vuestro panel</button></div>'+
     '<p class="bv-pie">Demo con pacientes de ejemplo'+(nr?'; las reseñas son las vuestras de Google':'')+'. No se envía ni se publica nada.</p></div>';

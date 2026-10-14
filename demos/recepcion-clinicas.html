@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex">
-<title>Quenda · Recepción para clínicas</title>
+<title>Citela · Recepción para clínicas</title>
 <meta name="description" content="Reservas, recordatorios, lista de espera, asistente 24 h y reseñas de Google para clínicas. Demo con datos de ejemplo.">
 <style>
 @font-face{font-family:"Archivo";src:url("/fuentes/archivo.woff2") format("woff2");font-weight:100 900;font-display:swap}
@@ -463,9 +463,9 @@ body.solo .seg,body.solo #plan-top{display:none}
 .bv-acts .btn{flex:1;justify-content:center;padding:12px 14px}
 .bv-pie{font-size:12px;color:var(--muted);margin:14px 0 0;text-align:center}
 
-/* ===== QUENDA · capa de marca ===== */
+/* ===== CITELA · capa de marca ===== */
 :root{
-  --noche:#2B1A33; --noche-2:#3A2644; --vela:#4FC3B5; --vela-ink:#1C7A70; --vela-soft:#DDF3F0;
+  --noche:#47325A; --noche-2:#584270; --vela:#4FC3B5; --vela-ink:#1C7A70; --vela-soft:#DDF3F0;
   --lino:#F3F1F5; --papel:#FFFFFF; --niebla:#E3DEE8;
   --bg:var(--lino); --panel:var(--papel); --ink:var(--noche); --muted:#6C6474; --line:var(--niebla); --soft:#EEEAF2;
   --ok:#2E7D57; --ok-soft:#E1EFE5; --warn:#A0620A; --warn-soft:#FDF0DC; --bad:#C24A26; --bad-soft:#F8E3DA; --star:#F2A516;
@@ -582,7 +582,7 @@ th{font-family:var(--f-d);letter-spacing:.1em}
 
 /* reservar: con los colores de la clínica, pero con carácter */
 .hoja .in{border-radius:18px 18px 0 0}
-.hoja .in:after{content:"reservas con quenda";display:block;text-align:center;font:600 10.5px var(--f-d);letter-spacing:.06em;color:#9C94A4;padding:8px 0 10px;border-top:1px solid var(--niebla)}
+.hoja .in:after{content:"reservas con citela";display:block;text-align:center;font:600 10.5px var(--f-d);letter-spacing:.06em;color:#9C94A4;padding:8px 0 10px;border-top:1px solid var(--niebla)}
 .hoja .hd b{font:650 15.5px var(--f-d)}
 .step{font:700 10.5px var(--f-d);letter-spacing:.12em;color:var(--muted)}
 .svc{border:0;border-bottom:1px solid var(--niebla);border-radius:0;padding:12px 2px;background:none}
@@ -624,7 +624,7 @@ th{font-family:var(--f-d);letter-spacing:.1em}
 <body>
 <header class="top">
   <div class="in">
-    <span class="vx"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="15" cy="15" r="11" fill="none" stroke="#4FC3B5" stroke-width="4.2"/><path d="M15 8.8V15l3.6 2.2" fill="none" stroke="#4FC3B5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 20 26.8 26.8" stroke="#4FC3B5" stroke-width="4.2" stroke-linecap="round"/></svg><b>quenda</b></span><span class="vx-sep"></span><div class="marca"><div class="logo" id="logo">F</div><div><b id="nom-top">Clínica</b><small id="sub-top">Recepción automática</small></div></div>
+    <span class="vx"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M25.2 9.8A11 11 0 1 0 25.2 22.2" fill="none" stroke="#4FC3B5" stroke-width="4.2" stroke-linecap="round"/><path d="M16 10.2V16l3.6 2.2" fill="none" stroke="#4FC3B5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><b>citela</b></span><span class="vx-sep"></span><div class="marca"><div class="logo" id="logo">F</div><div><b id="nom-top">Clínica</b><small id="sub-top">Recepción automática</small></div></div>
     <span class="plan" id="plan-top">Plan completo</span>
     <span class="demo">Demo · pacientes de ejemplo</span>
     <div class="seg" role="group" aria-label="Vista">
@@ -979,7 +979,7 @@ function render(){
   $('#logo').textContent=(CFG.nombre.replace(/^(cl[ií]nica|fisioterapia|centro|fisio|est[eé]tica|podolog[ií]a|podol[oó]gica)\s+(de\s+)?((est[eé]tica|podolog[ií]a)\s+)?/i,'')[0]||'F').toUpperCase();
   $('#sub-top').textContent=(CFG.ciudad!=='tu ciudad'?CFG.ciudad+' · ':'')+'vuestra recepción';
   $('#plan-top').textContent=LIG?'Plan ligero':'Plan completo';
-  document.title=CFG.nombre+' · Quenda';
+  document.title=CFG.nombre+' · Citela';
   $('#v-clin').setAttribute('aria-pressed',S.modo==='clin');$('#v-pac').setAttribute('aria-pressed',S.modo==='pac');
   $('#tour').innerHTML='<span class="lab">Pruébalo</span>'+TOURS.map(function(t){return '<button data-tour="'+t[0]+'"><i></i>'+t[1]+'</button>'}).join('');
   $('#app').innerHTML=S.modo==='clin'?vClin():vPac();
@@ -993,7 +993,7 @@ function vClin(){
   var tabs=LIG?[['hoy','Hoy',I.hoy],['resenas','Reseñas',I.res,okN],['asistente','Asistente',I.asis],['informe','Informe',I.inf],['ajustes','Ajustes',I.aj]]
     :[['hoy','Hoy',I.hoy],['resenas','Reseñas',I.res,okN],['agenda','Agenda',I.agenda],['recordatorios','Avisos',I.rec,porEnv],['pacientes','Pacientes',I.pac],['informe','Informe',I.inf],['ajustes','Ajustes',I.aj]];
   var pie=LIG?'<div class="pie"><b>Plan ligero</b><br>Vuestras citas siguen en '+esc(CFG.sistema)+'. Nosotros llevamos Google, reseñas y asistente.<br><a href="'+esc(urlPlan('completo'))+'">Ver el plan completo</a></div>'
-    :'<div class="pie"><b>Quenda activa</b><br>WhatsApp conectado · '+CFG.pros.length+' '+SEC.profs+'<br><a href="'+esc(urlPlan('ligero'))+'">Ver el plan ligero</a></div>';
+    :'<div class="pie"><b>Citela activa</b><br>WhatsApp conectado · '+CFG.pros.length+' '+SEC.profs+'<br><a href="'+esc(urlPlan('ligero'))+'">Ver el plan ligero</a></div>';
   var nav='<nav class="side" aria-label="Secciones">'+tabs.map(function(t){return '<button data-tab="'+t[0]+'"'+(S.tab===t[0]?' aria-current="page"':'')+'>'+t[2]+'<span>'+t[1]+'</span>'+(t[3]?'<span class="badge num">'+t[3]+'</span>':'')+'</button>'}).join('')+pie+'</nav>';
   var V={hoy:LIG?vHoyL:vHoy,agenda:vAgenda,recordatorios:vRec,pacientes:vPacientes,resenas:vResenas,informe:LIG?vInformeL:vInforme,ajustes:vAjustes,asistente:vAsistente};
   if(!V[S.tab]||(LIG&&!tabs.some(function(t){return t[0]===S.tab})))S.tab='hoy';
@@ -1026,7 +1026,7 @@ function vHoy(){
     kpi(CFG.nota+' <span style="color:var(--star)">★</span>','en Google · '+CFG.nresenas+' reseñas',sinRes()?sinRes()+' respuestas por publicar':'todas contestadas',sinRes()?'w':'')+
   '</div>'+
   '<div class="grid2"><section class="card"><h2>Próximas citas <small>· '+vivas.length+' hoy</small></h2><div class="list">'+(filas||'<div class="empty">No quedan citas hoy</div>')+'</div>'+(proximas.length>8?'<button class="btn s" style="margin-top:10px" data-tab="agenda">Ver las '+vivas.length+' en la agenda</button>':'')+'</section>'+
-  '<div class="col"><section class="card"><h2>Lo que ha hecho Quenda</h2><div class="feed">'+feed+'</div></section>'+
+  '<div class="col"><section class="card"><h2>Lo que ha hecho Citela</h2><div class="feed">'+feed+'</div></section>'+
   '<section class="card"><h2>Reseñas <small>· últimas</small></h2><div class="list">'+res+'</div><button class="btn s" style="margin-top:10px" data-tab="resenas">Ver todas</button></section></div></div>';
 }
 /* ---------- Hoy (ligero) ---------- */
@@ -1042,7 +1042,7 @@ function vHoyL(){
     kpi(S.clicsRes,'clics en «Reservar»','van directos a '+esc(CFG.sistema))+
   '</div>'+
   '<div class="grid2"><div class="col"><section class="card"><h2>Reseñas <small>· últimas</small></h2><div class="list">'+res+'</div><button class="btn s" style="margin-top:10px" data-tab="resenas">Ver y contestar</button></section>'+
-  '<section class="card"><h2>Lo que ha hecho Quenda</h2><div class="feed">'+(S.log.slice(0,6).map(evHtml).join('')||'<div class="empty">Sin novedades</div>')+'</div></section></div>'+
+  '<section class="card"><h2>Lo que ha hecho Citela</h2><div class="feed">'+(S.log.slice(0,6).map(evHtml).join('')||'<div class="empty">Sin novedades</div>')+'</div></section></div>'+
   '<section class="card" style="align-self:start"><h2>Preguntas al asistente</h2><div class="list">'+preg+'</div><button class="btn s" style="margin-top:10px" data-tab="asistente">Ver todas</button></section></div>';
 }
 function pregRow(q){var t={cita:['ac','Reserva'],wa:['wa','A tu WhatsApp'],ok:['ok','Contestada']}[q.tipo]||['n',''];
@@ -1693,7 +1693,7 @@ function tour(k){
 function alPrincipio(){var m=S.modo==='pac'&&innerWidth<=1080&&$('.movtabs');if(m)window.scrollTo(0,m.getBoundingClientRect().top+scrollY-12);else window.scrollTo(0,0)}
 
 var VER=(location.search.match(/[?&]ver=(panel|reservas)/)||[])[1]||'';
-log('Quenda activada','info');
+log('Citela activada','info');
 if(!LIG){enviarRecs()}
 else{log('Ficha de Google revisada: horario y botón «Reservar» al día','ok');log('Pregunta de anoche (23:12) pasada a tu WhatsApp','acc')}
 if(VER==='panel'){S.modo='clin';S.tab='hoy'}
@@ -1716,7 +1716,7 @@ render();
     ['Reseñas de Google contestadas',nr?'Ya hemos escrito la respuesta a vuestras '+nr+' últimas reseñas: miradlas en el panel.':'Con vuestro tono; las malas no salen sin vuestro OK.']
   ];
   var d=document.createElement('div');d.className='bienv';d.setAttribute('role','dialog');d.setAttribute('aria-modal','true');d.setAttribute('aria-labelledby','bv-t');
-  d.innerHTML='<div class="bv-in"><div class="bv-marca"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="15" cy="15" r="11" fill="none" stroke="#4FC3B5" stroke-width="4.2"/><path d="M15 8.8V15l3.6 2.2" fill="none" stroke="#4FC3B5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 20 26.8 26.8" stroke="#4FC3B5" stroke-width="4.2" stroke-linecap="round"/></svg><b>quenda</b></div><span class="eyebrow">Preparado para '+esc(CFG.nombre)+'</span><h2 id="bv-t">Así sería vuestra recepción <em>con Quenda</em></h2>'+
+  d.innerHTML='<div class="bv-in"><div class="bv-marca"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M25.2 9.8A11 11 0 1 0 25.2 22.2" fill="none" stroke="#4FC3B5" stroke-width="4.2" stroke-linecap="round"/><path d="M16 10.2V16l3.6 2.2" fill="none" stroke="#4FC3B5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><b>citela</b></div><span class="eyebrow">Preparado para '+esc(CFG.nombre)+'</span><h2 id="bv-t">Así sería vuestra recepción <em>con Citela</em></h2>'+
     '<ol>'+L.map(function(x){return '<li><b>'+esc(x[0])+'</b><span>'+esc(x[1])+'</span></li>'}).join('')+'</ol>'+
     '<div class="bv-acts"><button class="btn p" data-bv="pac">Probarlo como paciente</button><button class="btn" data-bv="clin">Ver vuestro panel</button></div>'+
     '<p class="bv-pie">Demo con pacientes de ejemplo'+(nr?'; las reseñas son las vuestras de Google':'')+'. No se envía ni se publica nada.</p></div>';

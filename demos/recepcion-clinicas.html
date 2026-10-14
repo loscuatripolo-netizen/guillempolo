@@ -619,12 +619,15 @@ th{font-family:var(--f-d);letter-spacing:.1em}
 .seg-ind{background:var(--vela)!important;border-radius:6px!important;box-shadow:none!important}
 .bv-in .btn.p:focus-visible,.top :focus-visible{outline-color:var(--vela)}
 @media (max-width:860px){.side .ind{background:rgba(79,195,181,.14)!important}}
+.wm{display:inline-flex;align-items:baseline;white-space:nowrap}
+.wm svg{width:.76em!important;height:.76em!important;align-self:baseline;transform:translateY(.08em);margin-right:-.05em;flex:none}
+@media (max-width:860px){.vx b.wm{display:inline-flex!important}}
 </style>
 </head>
 <body>
 <header class="top">
   <div class="in">
-    <span class="vx"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M25.2 9.8A11 11 0 1 0 25.2 22.2" fill="none" stroke="#4FC3B5" stroke-width="4.2" stroke-linecap="round"/><path d="M16 10.2V16l3.6 2.2" fill="none" stroke="#4FC3B5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><b>citela</b></span><span class="vx-sep"></span><div class="marca"><div class="logo" id="logo">F</div><div><b id="nom-top">Clínica</b><small id="sub-top">Recepción automática</small></div></div>
+    <span class="vx"><b class="wm"><svg viewBox="2.8 2.8 26.6 26.4" aria-hidden="true"><path d="M25.2 9.8A11 11 0 1 0 25.2 22.2" fill="none" stroke="#4FC3B5" stroke-width="4.2" stroke-linecap="round"/><path d="M16 10.2V16l3.6 2.2" fill="none" stroke="#4FC3B5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>itela</b></span><span class="vx-sep"></span><div class="marca"><div class="logo" id="logo">F</div><div><b id="nom-top">Clínica</b><small id="sub-top">Recepción automática</small></div></div>
     <span class="plan" id="plan-top">Plan completo</span>
     <span class="demo">Demo · pacientes de ejemplo</span>
     <div class="seg" role="group" aria-label="Vista">
@@ -1716,7 +1719,7 @@ render();
     ['Reseñas de Google contestadas',nr?'Ya hemos escrito la respuesta a vuestras '+nr+' últimas reseñas: miradlas en el panel.':'Con vuestro tono; las malas no salen sin vuestro OK.']
   ];
   var d=document.createElement('div');d.className='bienv';d.setAttribute('role','dialog');d.setAttribute('aria-modal','true');d.setAttribute('aria-labelledby','bv-t');
-  d.innerHTML='<div class="bv-in"><div class="bv-marca"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M25.2 9.8A11 11 0 1 0 25.2 22.2" fill="none" stroke="#4FC3B5" stroke-width="4.2" stroke-linecap="round"/><path d="M16 10.2V16l3.6 2.2" fill="none" stroke="#4FC3B5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><b>citela</b></div><span class="eyebrow">Preparado para '+esc(CFG.nombre)+'</span><h2 id="bv-t">Así sería vuestra recepción <em>con Citela</em></h2>'+
+  d.innerHTML='<div class="bv-in"><div class="bv-marca"><b class="wm"><svg viewBox="2.8 2.8 26.6 26.4" aria-hidden="true"><path d="M25.2 9.8A11 11 0 1 0 25.2 22.2" fill="none" stroke="#4FC3B5" stroke-width="4.2" stroke-linecap="round"/><path d="M16 10.2V16l3.6 2.2" fill="none" stroke="#4FC3B5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>itela</b></div><span class="eyebrow">Preparado para '+esc(CFG.nombre)+'</span><h2 id="bv-t">Así sería vuestra recepción <em>con Citela</em></h2>'+
     '<ol>'+L.map(function(x){return '<li><b>'+esc(x[0])+'</b><span>'+esc(x[1])+'</span></li>'}).join('')+'</ol>'+
     '<div class="bv-acts"><button class="btn p" data-bv="pac">Probarlo como paciente</button><button class="btn" data-bv="clin">Ver vuestro panel</button></div>'+
     '<p class="bv-pie">Demo con pacientes de ejemplo'+(nr?'; las reseñas son las vuestras de Google':'')+'. No se envía ni se publica nada.</p></div>';

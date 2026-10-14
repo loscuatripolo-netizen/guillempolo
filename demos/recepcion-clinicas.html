@@ -464,15 +464,12 @@ body.solo .seg,body.solo #plan-top{display:none}
 .bv-pie{font-size:12px;color:var(--muted);margin:14px 0 0;text-align:center}
 
 /* ===== QUENDA · capa de marca ===== */
-@font-face{font-family:"Bricolage Grotesque";src:url("/fuentes/bricolage-grotesque.woff2") format("woff2");font-weight:200 800;font-display:swap}
-@font-face{font-family:"Instrument Serif";src:url("/fuentes/instrument-serif.woff2") format("woff2");font-weight:400;font-display:swap}
-@font-face{font-family:"Instrument Serif";src:url("/fuentes/instrument-serif-italic.woff2") format("woff2");font-weight:400;font-style:italic;font-display:swap}
 :root{
   --noche:#2B1A33; --noche-2:#3A2644; --vela:#4FC3B5; --vela-ink:#1C7A70; --vela-soft:#DDF3F0;
   --lino:#F3F1F5; --papel:#FFFFFF; --niebla:#E3DEE8;
   --bg:var(--lino); --panel:var(--papel); --ink:var(--noche); --muted:#6C6474; --line:var(--niebla); --soft:#EEEAF2;
   --ok:#2E7D57; --ok-soft:#E1EFE5; --warn:#A0620A; --warn-soft:#FDF0DC; --bad:#C24A26; --bad-soft:#F8E3DA; --star:#F2A516;
-  --f-d:"Bricolage Grotesque","Archivo",system-ui,sans-serif; --f-s:"Instrument Serif",Georgia,serif;
+  
   --r:8px; --r-s:6px; --sh:0 1px 0 rgba(23,26,43,.06),0 18px 40px -22px rgba(23,26,43,.35);
 }
 body{background:var(--lino)}
@@ -485,7 +482,7 @@ body{background:var(--lino)}
 .vx svg{width:24px;height:24px}
 .vx b{font:700 19px/1 var(--f-d);letter-spacing:-.035em}
 .vx-sep{width:1px;height:26px;background:rgba(243,241,245,.18);flex:none}
-.marca b{color:#fff;font:600 15.5px var(--f-d)}
+.marca b{color:#fff;font:650 16px var(--f-d)}
 .marca small{color:rgba(243,241,245,.6)}
 .logo{width:34px;height:34px;border-radius:8px;font:700 15px var(--f-d)}
 .plan{background:transparent;color:var(--vela);border:1px solid rgba(79,195,181,.45);border-radius:4px;text-transform:uppercase;font-size:10.5px;letter-spacing:.08em}
@@ -516,7 +513,7 @@ body{background:var(--lino)}
 main{padding-top:30px;max-width:1200px}
 
 .eyebrow{color:var(--vela-ink);font:700 11.5px var(--f-d);letter-spacing:.14em}
-.h h1,.esc-h h1{font:400 clamp(34px,4.2vw,50px)/1 var(--f-s);letter-spacing:-.01em;margin-top:6px}
+.h h1,.esc-h h1{font:650 clamp(24px,2.8vw,31px)/1.15 var(--f-d);letter-spacing:-.015em;margin-top:6px}
 .h p,.esc-h p{color:var(--muted)}
 .h p b{font-weight:600;color:var(--ink)}
 
@@ -525,13 +522,13 @@ main{padding-top:30px;max-width:1200px}
 .kpi{background:none;border:0;border-radius:0;border-right:1px solid var(--niebla);padding:16px 22px 18px}
 .kpi:first-child{padding-left:2px}
 .kpi:last-child{border-right:0}
-.kpi b{font:400 50px/1 var(--f-s);letter-spacing:-.01em}
+.kpi b{font:650 34px/1.05 var(--f-d);letter-spacing:-.02em}
 .kpi b small{font:500 15px var(--f-b);color:var(--muted)}
 .kpi span{font-size:13px;margin-top:4px}
 .kpi em{font-size:12px;font-weight:600;margin-top:2px}
 
 .card{background:var(--papel);border:1px solid var(--niebla);border-radius:var(--r);box-shadow:none;padding:20px}
-.card>h2{font:600 16px var(--f-d);letter-spacing:-.01em;padding-bottom:12px;border-bottom:1px solid var(--niebla);margin-bottom:6px}
+.card>h2{font:650 16.5px var(--f-d);letter-spacing:-.01em;padding-bottom:12px;border-bottom:1px solid var(--niebla);margin-bottom:6px}
 .card>h2 small{font-family:var(--f-b)}
 .grid2,.col{gap:18px}
 
@@ -544,13 +541,13 @@ main{padding-top:30px;max-width:1200px}
 .pill{border-radius:4px;font:700 10.5px var(--f-d);letter-spacing:.07em;text-transform:uppercase;padding:4px 8px}
 .pill.ac{background:var(--vela-soft);color:var(--vela-ink)}
 .row{border-bottom-color:var(--niebla);padding:12px 0}
-.row .t{font:400 23px/1 var(--f-s);width:58px;letter-spacing:-.01em}
+.row .t{font:650 15px/1 var(--f-d);width:50px}
 .av{border-radius:8px}
 .feed{gap:0;position:relative}
 .feed:before{content:"";position:absolute;left:62px;top:8px;bottom:8px;width:1px;background:var(--niebla)}
 .ev{grid-template-columns:44px 22px 1fr;gap:9px;padding:7px 0;position:relative}
 .ev .ic{border-radius:50%;width:22px;height:22px;font-size:11px;box-shadow:0 0 0 3px var(--papel);position:relative}
-.ev i{font:400 15px var(--f-s)}
+.ev i{font:500 12px var(--f-b);color:var(--muted)}
 .st span,.st i.v{color:#DAD4E0}
 .aviso{border-radius:var(--r);border-color:#F0D7A8}
 .ag-w{border-radius:var(--r);background:var(--papel)}
@@ -568,9 +565,9 @@ th{font-family:var(--f-d);letter-spacing:.1em}
 /* bienvenida */
 .bienv{background:rgba(23,26,43,.55)}
 .bv-in{border-radius:12px;background:var(--papel);border-top:5px solid var(--vela);position:relative}
-.bv-in h2{font:400 clamp(30px,4vw,38px)/1.02 var(--f-s);letter-spacing:-.01em}
-.bv-in h2 em{font-style:italic;color:var(--vela-ink)}
-.bv-in li:before{border-radius:6px;background:var(--noche);color:var(--vela);font:400 17px var(--f-s)}
+.bv-in h2{font:650 clamp(22px,3vw,27px)/1.15 var(--f-d)}
+.bv-in h2 em{font-style:normal;color:var(--vela-ink)}
+.bv-in li:before{border-radius:6px;background:var(--noche);color:var(--vela);font:650 14px var(--f-d)}
 .bv-marca{display:flex;align-items:center;gap:7px;margin-bottom:14px}
 .bv-marca svg{width:22px;height:22px}
 .bv-marca b{font:700 17px var(--f-d);letter-spacing:-.035em}
@@ -586,20 +583,20 @@ th{font-family:var(--f-d);letter-spacing:.1em}
 /* reservar: con los colores de la clínica, pero con carácter */
 .hoja .in{border-radius:18px 18px 0 0}
 .hoja .in:after{content:"reservas con quenda";display:block;text-align:center;font:600 10.5px var(--f-d);letter-spacing:.06em;color:#9C94A4;padding:8px 0 10px;border-top:1px solid var(--niebla)}
-.hoja .hd b{font:400 21px var(--f-s)}
+.hoja .hd b{font:650 15.5px var(--f-d)}
 .step{font:700 10.5px var(--f-d);letter-spacing:.12em;color:var(--muted)}
 .svc{border:0;border-bottom:1px solid var(--niebla);border-radius:0;padding:12px 2px;background:none}
 .svc:hover{background:linear-gradient(90deg,var(--acc-soft),transparent)}
 .svc[aria-pressed="true"]{background:linear-gradient(90deg,var(--acc-soft),transparent);border-color:var(--acc)}
-.svc>b{font:400 19px var(--f-s)}
+.svc>b{font:650 15px var(--f-d)}
 .qk button{border-radius:6px}
 .day{border-radius:6px;width:54px;padding:6px 2px 7px;background:#fff}
-.day b{font:400 26px/1.05 var(--f-s)}
+.day b{font:650 17px var(--f-d)}
 .day[aria-pressed="true"]{background:var(--noche);border-color:var(--noche)}
-.hora{border-radius:6px;font:400 18px var(--f-s);padding:7px 2px}
+.hora{border-radius:6px;font-weight:600;font-size:13px;padding:8px 2px}
 .hora:hover{border-color:var(--acc)}
 .resumen{border-radius:6px;border-left:3px solid var(--acc)}
-.okb b{font:400 26px/1.1 var(--f-s)!important}
+.okb b{font:650 18px var(--f-d)!important}
 .prog i{border-radius:1px;height:2px}
 .fab .cita{border-radius:10px}
 .bub{border-radius:12px 12px 12px 3px}
@@ -1695,13 +1692,17 @@ function tour(k){
 }
 function alPrincipio(){var m=S.modo==='pac'&&innerWidth<=1080&&$('.movtabs');if(m)window.scrollTo(0,m.getBoundingClientRect().top+scrollY-12);else window.scrollTo(0,0)}
 
+var VER=(location.search.match(/[?&]ver=(panel|reservas)/)||[])[1]||'';
 log('Quenda activada','info');
 if(!LIG){enviarRecs()}
 else{log('Ficha de Google revisada: horario y botón «Reservar» al día','ok');log('Pregunta de anoche (23:12) pasada a tu WhatsApp','acc')}
+if(VER==='panel'){S.modo='clin';S.tab='hoy'}
+if(VER==='reservas'){S.modo='pac';abrirReserva(1)}
 render();
 
 /* ---------- bienvenida: el cliente entiende la demo sin que nadie se la explique ---------- */
 (function(){
+  if(VER)return;
   if(SOLO||!(REAL||/[?&]bienvenida=1/.test(location.search)))return;
   try{if(sessionStorage.getItem('gp_bienv'))return}catch(e){}
   var nr=S.resenas.filter(function(r){return r.real}).length;

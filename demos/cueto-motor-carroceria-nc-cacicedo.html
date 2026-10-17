@@ -566,4 +566,10 @@ var vx=dt>0?(m[0]-ox)/dt:0,vy=dt>0?(m[1]-oy)/dt:0;mv[0]+=(vx*.35-mv[0])*.08;mv[1
 gl.useProgram(pr);gl.uniform2f(pr.u.u_res,c.width,c.height);gl.uniform1f(pr.u.u_t,t+K.t0);gl.uniform2f(pr.u.u_m,m[0],m[1]);gl.uniform2f(pr.u.u_mv,mv[0],mv[1]);gl.uniform1f(pr.u.u_mi,mi);
 for(var i=0;i<4;i++)gl.uniform3fv(pr.u['u_c'+i],K.c[i]);GP.quad(gl);listo=true;if(!el.classList.contains('gl-on'))el.classList.add('gl-on')}
 B=GP.bucle(el,pintar);A.vida(c,el,ini,function(){return B});
-if('ResizeObserver' in window)new ResizeObserver(function(){if(GP.R)B.forzar()}).observe(el)})();</script></body></html>
+if('ResizeObserver' in window)new ResizeObserver(function(){if(GP.R)B.forzar()}).observe(el)})();</script><script>(function(){try{if(navigator.webdriver||!/^https?:$/.test(location.protocol)||/^(localhost|127\.)/.test(location.hostname))return;
+var s=location.pathname.split('/').pop().replace(/\.html$/,'');if(!s||s.indexOf('panel-')===0)return;
+var ls=window.localStorage;if(/[?&]yo=1/.test(location.search))ls.setItem('gp_yo','1');if(ls.getItem('gp_yo'))return;
+var k='gp_v_'+s,t=Date.now();if(t-(+ls.getItem(k)||0)<18e5)return;ls.setItem(k,String(t));
+var d=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid'}).format(new Date()).replace(/-/g,'').slice(2);
+var b='https://abacus.jasoncameron.dev/hit/gpbocetos-k7q2/',c=s.slice(0,57);
+fetch(b+c,{mode:'no-cors',keepalive:true});fetch(b+c+'-'+d,{mode:'no-cors',keepalive:true});}catch(e){}})();</script></body></html>
